@@ -20,5 +20,6 @@ close: #
 
 > PR 등록 전 확인한 것
 
+- [ ] 최신화된 dev branch로부터 생성한 branch인가
 - [ ] PR 제목은 포맷과 내용 둘 다 알맞게 작성되었는가 (e.g., `feat: add login page`)
 - [ ] Description에 PR을 구체적으로 설명했는가

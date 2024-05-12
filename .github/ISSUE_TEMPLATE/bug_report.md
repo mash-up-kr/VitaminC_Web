@@ -8,8 +8,10 @@ assignees: ''
 
 ## Test Environment
 
-- 사용 OS :
+- OS :
+- 브라우저 :
 - 해상도 :
+- 재현율 :
 
 ## Description
 
@@ -26,6 +28,12 @@ assignees: ''
 ## Screenshot
 
 버그 현상이 일어난 스크린샷을 첨부해주세요.
+
+## Severity/Priority
+
+1. High/Critical: Anything that impacts the normal user flow or blocks app usage
+2. Medium: Anything that negatively affects the user experience
+3. Minor: ALL else (e.g., typos, missing icons, layout issues, etc.)
 
 ## ETC
 
