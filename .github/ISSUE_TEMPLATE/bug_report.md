@@ -11,7 +11,7 @@ assignees: ''
 - OS :
 - 브라우저 :
 - 해상도 :
-- 재현율 :
+- 재현율 : <!-- e.g. 10번 시도 중 5번 -->
 
 ## Description
 
@@ -19,7 +19,9 @@ assignees: ''
 
 ## Where
 
-버그가 어디서 발생했는지 알려주세요.
+버그가 어디에서 발생했는지 알려주세요.
+
+<!-- 페이지 url 또는 컴포넌트 이름을 작성해주세요. -->
 
 ## When
 
@@ -31,9 +33,9 @@ assignees: ''
 
 ## Severity/Priority
 
-1. High/Critical: Anything that impacts the normal user flow or blocks app usage
-2. Medium: Anything that negatively affects the user experience
-3. Minor: ALL else (e.g., typos, missing icons, layout issues, etc.)
+1. High/Critical: 일반적인 사용자 흐름에 영향을 미치거나 앱 사용을 차단하는 모든 것
+2. Medium: 사용자 경험에 부정적인 영향을 미치는 모든 것
+3. Minor: 기타 모든 항목 (e.g. 오타, 아이콘 누락, 레이아웃 문제 등)
 
 ## ETC
 
