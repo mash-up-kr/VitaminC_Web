@@ -2,7 +2,7 @@ name: auto assign author to assignees
 
 on:
   pull_request:
-    types: [opened]
+    types: [synchronize]
 
 jobs:
   add-assignees:
