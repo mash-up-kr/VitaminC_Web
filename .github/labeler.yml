@@ -17,3 +17,6 @@ bug:
 
 config:
   - head-branch: ['^config', 'config']
+
+test:
+  - head-branch: ['^test', 'test']
