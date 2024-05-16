@@ -1,0 +1,22 @@
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['**/*.md', '**/*.pdf']
+  - head-branch: ['!docs', 'docs', '!documentation', 'documentation']
+
+feature:
+  - head-branch: ['^feat', 'feat', '^feature', 'feature']
+
+refactor:
+  - head-branch: ['^refactor', 'refactor']
+
+fix:
+  - head-branch: ['^fix', 'fix']
+
+bug:
+  - head-branch: ['^bug', 'bug']
+
+config:
+  - head-branch: ['^config', 'config']
+
+test:
+  - head-branch: ['^test', 'test']
