@@ -15,6 +15,9 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ["../public"],
+  features: {
+    experimentalRSC: true,
+  },
   webpackFinal: async (config) => {
     if (config.resolve) {
       config.resolve.alias = {
