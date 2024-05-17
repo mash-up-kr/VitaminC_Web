@@ -1,8 +1,8 @@
-name: 'auto assign label to pull request'
+name: "auto assign label to pull request"
 
 on:
   pull_request:
-    types: [synchronize]
+    types: [opened]
 
 jobs:
   labeler:
