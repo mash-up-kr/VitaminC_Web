@@ -9,7 +9,7 @@ export default defineConfig({
     environment: "jsdom",
     exclude: ["**/node_modules/**", "**/dist/**"],
     coverage: {
-      include: ["src/app/**/*.tsx", "src/app/**/*.ts", "src/utils/**"],
+      include: ["src/app/**/*.tsx", "src/utils/**"],
       provider: "v8",
     },
   },
