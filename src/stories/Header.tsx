@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Button } from "./Button";
-import "./header.css";
 
 type User = {
   name: string;
@@ -21,9 +20,10 @@ export const Header = ({
   onCreateAccount,
 }: HeaderProps) => (
   <header>
-    <div className="storybook-header">
+    <div className="border-b-[1px] border-solid border-[rgba(0, 0, 0, 0.1)] py-[15px] px-[20px] flex items-center justify-between">
       <div>
         <svg
+          className="inline-block align-top"
           width="32"
           height="32"
           viewBox="0 0 32 32"
@@ -44,12 +44,14 @@ export const Header = ({
             />
           </g>
         </svg>
-        <h1>Acme</h1>
+        <h1 className="font-[700] text-[20px] leading-normal my-[6px] ml-[10px] inline align-top">
+          Acme
+        </h1>
       </div>
       <div>
         {user ? (
           <>
-            <span className="welcome">
+            <span className="text-[#333] text-[14px] mr-[10px]">
               Welcome, <b>{user.name}</b>!
             </span>
             <Button size="small" onClick={onLogout} label="Log out" />
@@ -58,6 +60,7 @@ export const Header = ({
           <>
             <Button size="small" onClick={onLogin} label="Log in" />
             <Button
+              className="ml-[10px]"
               primary
               size="small"
               onClick={onCreateAccount}

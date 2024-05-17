@@ -1,5 +1,4 @@
 import React from "react";
-import "./button.css";
 
 interface ButtonProps {
   /**
@@ -19,6 +18,10 @@ interface ButtonProps {
    */
   label: string;
   /**
+   * Additional styling using tailwind
+   */
+  className?: string;
+  /**
    * Optional click handler
    */
   onClick?: () => void;
@@ -32,25 +35,27 @@ export const Button = ({
   size = "medium",
   backgroundColor,
   label,
+  className,
   ...props
 }: ButtonProps) => {
   const mode = primary
-    ? "storybook-button--primary"
-    : "storybook-button--secondary";
+    ? "text-white bg-[#1ea7fd]"
+    : "text-[#333] bg-transparent shadow-md";
   return (
     <button
       type="button"
-      className={["storybook-button", `storybook-button--${size}`, mode].join(
-        " ",
-      )}
+      style={{ backgroundColor }}
+      className={[
+        "font-[700] border-0 rounded-[3em] cursor-pointer inline-block leading-normal",
+        size === "small" && "text-[12px] py-[10px] px-[16px]",
+        size === "medium" && "text-[14px] py-[11px] px-[20px]",
+        size === "large" && "text-[16px] py-[12px] px-[24px]",
+        mode,
+        className,
+      ].join(" ")}
       {...props}
     >
       {label}
-      <style jsx>{`
-        button {
-          background-color: ${backgroundColor};
-        }
-      `}</style>
     </button>
   );
 };
