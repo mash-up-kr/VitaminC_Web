@@ -1,6 +1,6 @@
 ## Issue Number
 
-close: #
+#
 
 ## Description
 
