@@ -1,4 +1,4 @@
-import { CombineSuspenseDelays, SingleSuspenseDelays } from './Components';
+import { CombineSuspenseDelays, SingleSuspenseDelays } from './Components'
 
 const QueryTestPage = () => {
   return (
@@ -6,7 +6,7 @@ const QueryTestPage = () => {
       <SingleSuspenseDelays />
       <CombineSuspenseDelays />
     </main>
-  );
-};
+  )
+}
 
-export default QueryTestPage;
+export default QueryTestPage
