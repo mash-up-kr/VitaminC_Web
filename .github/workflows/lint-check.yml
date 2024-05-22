@@ -1,0 +1,39 @@
+name: PR lint test
+
+on: [push]
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.13.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: lint test
+        run: npm run lint
+
+        #   - name: build test
+        #     run: yarn build
+
+        env:
+          CI: true
