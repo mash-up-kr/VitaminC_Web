@@ -26,9 +26,10 @@
       "ignorePackages",
       { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" }
     ],
+    "no-console": "off",
     "arrow-body-style": "off",
-    "no-promise-executor-return": "off",
     "import/no-extraneous-dependencies": "off",
+    "no-promise-executor-return": "off",
     "import/prefer-default-export": "off"
   }
 }
