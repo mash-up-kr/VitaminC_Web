@@ -11,16 +11,12 @@ jobs:
   test-job:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.13.x]
-
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: .nvmrc
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
