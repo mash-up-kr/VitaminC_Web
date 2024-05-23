@@ -7,7 +7,7 @@
   "extends": [
     "next",
     "next/core-web-vitals",
-    "airbnb-base",
+    "airbnb-typescript",
     "prettier",
     "plugin:@tanstack/eslint-plugin-query/recommended",
     "plugin:storybook/recommended"
