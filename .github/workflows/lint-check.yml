@@ -29,11 +29,11 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: lint test
+      - name: lint
         run: npm run lint
 
-        #   - name: build test
-        #     run: yarn build
+      - name: build
+        run: npm run build
 
         env:
           CI: true
