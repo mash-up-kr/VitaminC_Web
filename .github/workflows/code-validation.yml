@@ -1,4 +1,4 @@
-name: PR code validation
+name: code validation
 
 on:
   push:
