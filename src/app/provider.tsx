@@ -1,13 +1,17 @@
-'use client';
+'use client'
 
-import type { ReactNode } from 'react';
-import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
+import type { ReactNode } from 'react'
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental'
 
-import { APIError } from './api/error';
+import { APIError } from './api/error'
 
 interface ProvidersProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 function queryClientFactory() {
@@ -25,34 +29,33 @@ function queryClientFactory() {
       onError: (error) => {
         // TODO. error 에 따른 처리
         if (error instanceof APIError) {
-          console.error('API Error', error.message);
+          // console.error('API Error', error.message)
         } else {
-          console.error('UnExpected Error', error.message);
+          // console.error('UnExpected Error', error.message)
         }
       },
     }),
-  });
+  })
 }
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient: QueryClient | undefined
 
 function getQueryClient() {
   if (typeof window === 'undefined') {
-    return queryClientFactory();
-  } else {
-    if (!browserQueryClient) browserQueryClient = queryClientFactory();
-    return browserQueryClient;
+    return queryClientFactory()
   }
+  if (!browserQueryClient) browserQueryClient = queryClientFactory()
+  return browserQueryClient
 }
 
 const Providers = ({ children }: ProvidersProps) => {
-  const queryClient = getQueryClient();
+  const queryClient = getQueryClient()
 
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
     </QueryClientProvider>
-  );
-};
+  )
+}
 
-export default Providers;
+export default Providers
