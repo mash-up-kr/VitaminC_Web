@@ -9,7 +9,6 @@
     "next/core-web-vitals",
     "airbnb-typescript",
     "prettier",
-    "plugin:@tanstack/eslint-plugin-query/recommended",
     "plugin:storybook/recommended"
   ],
   "parserOptions": {
