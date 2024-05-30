@@ -3,6 +3,8 @@ import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { ApolloServer } from '@apollo/server'
 import { gql } from 'graphql-tag'
 
+export const dynamic = 'force-static'
+
 const typeDefs = gql`
   type User {
     id: String!
