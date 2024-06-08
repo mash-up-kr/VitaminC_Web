@@ -13,7 +13,6 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.36.0",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18"
@@ -31,8 +30,6 @@
     "@storybook/react": "^8.1.1",
     "@storybook/test": "^8.1.1",
     "@svgr/webpack": "^8.1.0",
-    "@tanstack/eslint-plugin-query": "^5.35.6",
-    "@tanstack/react-query-next-experimental": "^5.36.0",
     "@testing-library/react": "^15.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
