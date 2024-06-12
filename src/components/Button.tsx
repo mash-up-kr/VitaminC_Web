@@ -29,10 +29,6 @@ interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof ButtonVariants> {
   /**
-   * What background color to use
-   */
-  bgColor?: string
-  /**
    * Button contents
    */
   label: string
@@ -52,7 +48,6 @@ interface ButtonProps
 export const Button = ({
   size,
   variant,
-  bgColor,
   label,
   className,
   ...props
@@ -60,7 +55,6 @@ export const Button = ({
   return (
     <button
       type="button"
-      style={{ backgroundColor: bgColor }}
       className={cn(ButtonVariants({ size, variant }), className)}
       {...props}
     >

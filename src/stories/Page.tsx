@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react'
 
-import { Header } from "./Header";
+import { Header } from '@/components/Header'
 
 type User = {
-  name: string;
-};
+  name: string
+}
 
 export const Page: React.FC = () => {
-  const [user, setUser] = React.useState<User>();
+  const [user, setUser] = React.useState<User>()
 
   return (
     <article>
       <Header
         user={user}
-        onLogin={() => setUser({ name: "Jane Doe" })}
+        onLogin={() => setUser({ name: 'Jane Doe' })}
         onLogout={() => setUser(undefined)}
-        onCreateAccount={() => setUser({ name: "Jane Doe" })}
+        onCreateAccount={() => setUser({ name: 'Jane Doe' })}
       />
 
       <section className="text-[14px] leading-[24px] py-[48px] px-[20px] my-0 mx-[auto] max-w-[600px] text-[#333]">
@@ -23,7 +23,7 @@ export const Page: React.FC = () => {
           Pages in Storybook
         </h2>
         <p className="my-[1em] mx-0">
-          We recommend building UIs with a{" "}
+          We recommend building UIs with a{' '}
           <a
             className="no-underline text-[#1ea7fd]"
             href="https://componentdriven.org"
@@ -31,7 +31,7 @@ export const Page: React.FC = () => {
             rel="noopener noreferrer"
           >
             <strong>component-driven</strong>
-          </a>{" "}
+          </a>{' '}
           process starting with atomic components and ending with pages.
         </p>
         <p className="my-[1em] mx-0">
@@ -50,7 +50,7 @@ export const Page: React.FC = () => {
           </li>
         </ul>
         <p className="my-[1em] mx-0">
-          Get a guided tutorial on component-driven development at{" "}
+          Get a guided tutorial on component-driven development at{' '}
           <a
             className="no-underline text-[#1ea7fd]"
             href="https://storybook.js.org/tutorials/"
@@ -59,7 +59,7 @@ export const Page: React.FC = () => {
           >
             Storybook tutorials
           </a>
-          . Read more in the{" "}
+          . Read more in the{' '}
           <a
             className="no-underline text-[#1ea7fd]"
             href="https://storybook.js.org/docs"
@@ -73,8 +73,8 @@ export const Page: React.FC = () => {
         <div className="text-[13px] leading-[20px] mt-[40px] mb-[40px]">
           <span className="inline-block rounded-[1em] text-[11px] leading-[12px] font-[700] bg-[#e7fdd8] text-[#66bf3c] py-[4px] px-[12px] mr-[10px] align-top">
             Tip
-          </span>{" "}
-          Adjust the width of the canvas with the{" "}
+          </span>{' '}
+          Adjust the width of the canvas with the{' '}
           <svg
             className="inline-block h-[12px] w-[12px] mr-[4px] align-top mt-[3px]"
             width="10"
@@ -94,5 +94,5 @@ export const Page: React.FC = () => {
         </div>
       </section>
     </article>
-  );
-};
+  )
+}
