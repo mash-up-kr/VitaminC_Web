@@ -3,7 +3,7 @@
 import React, { Suspense, use } from 'react'
 
 import { fetchData } from '@/app/data'
-import { Button } from '@/components/Button'
+import { Button } from '@/components/button'
 import LoadingIndicator from '@/components/loading-indicator'
 import { ResponseOk } from '@/models/interface'
 
