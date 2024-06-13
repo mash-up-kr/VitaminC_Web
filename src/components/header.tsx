@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react'
 
-import { Button } from "./Button";
+import { Button } from './button'
 
 type User = {
-  name: string;
-};
+  name: string
+}
 
 interface HeaderProps {
-  user?: User;
-  onLogin?: () => void;
-  onLogout?: () => void;
-  onCreateAccount?: () => void;
+  user?: User
+  onLogin?: () => void
+  onLogout?: () => void
+  onCreateAccount?: () => void
 }
 
 export const Header = ({
@@ -54,15 +54,24 @@ export const Header = ({
             <span className="text-[#333] text-[14px] mr-[10px]">
               Welcome, <b>{user.name}</b>!
             </span>
-            <Button size="small" onClick={onLogout} label="Log out" />
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={onLogout}
+              label="Log out"
+            />
           </>
         ) : (
           <>
-            <Button size="small" onClick={onLogin} label="Log in" />
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={onLogin}
+              label="Log in"
+            />
             <Button
               className="ml-[10px]"
-              primary
-              size="small"
+              size="sm"
               onClick={onCreateAccount}
               label="Sign up"
             />
@@ -71,4 +80,4 @@ export const Header = ({
       </div>
     </div>
   </header>
-);
+)
