@@ -1,14 +1,16 @@
 'use client'
 
 import React, { Suspense, use } from 'react'
-import { fetchData } from '@/app/actions'
+
+import { fetchData } from '@/app/data'
 import { Button } from '@/components/Button'
 import LoadingIndicator from '@/components/loading-indicator'
+import { ResponseOk } from '@/models/interface'
 
 const Message = () => {
-  const message: string = use(fetchData('/api/delay'))
+  const data: ResponseOk = use(fetchData('/api/delay'))
 
-  return <div>{message}</div>
+  return <div>{data?.message}</div>
 }
 
 const Page = () => {
