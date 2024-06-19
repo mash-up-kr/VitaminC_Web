@@ -45,7 +45,7 @@ export const Header = ({
           </g>
         </svg>
         <h1 className="font-[700] text-[20px] leading-normal my-[6px] ml-[10px] inline align-top">
-          Acme
+          Acmee
         </h1>
       </div>
       <div>
