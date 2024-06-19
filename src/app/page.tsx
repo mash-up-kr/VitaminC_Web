@@ -6,12 +6,12 @@ const Home = () => {
       <ul className="list-disc text-xl text-black space-y-4">
         <li>
           <Link href="/cc" className="underline hover:text-sky-400">
-            Client Components Example
+            Client Components Example !
           </Link>
         </li>
         <li>
           <Link href="/rsc" className="underline hover:text-sky-400">
-            React Server Components Example
+            React Server Components Example !
           </Link>
         </li>
       </ul>
