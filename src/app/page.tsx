@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+import KakaoMap from '@/components/KakaoMap'
+
 const Home = () => {
   return (
     <main className="w-full min-h-screen flex flex-col justify-center items-center">
@@ -15,6 +17,7 @@ const Home = () => {
           </Link>
         </li>
       </ul>
+      <KakaoMap />
     </main>
   )
 }
