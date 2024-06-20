@@ -5,6 +5,12 @@ import { Inter } from 'next/font/google'
 
 import './globals.css'
 
+declare global {
+  interface Window {
+    kakao: any
+  }
+}
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
