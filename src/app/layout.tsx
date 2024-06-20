@@ -27,6 +27,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={inter.className}>
         <script
+          async
           type="text/javascript"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&autoload=false`}
         ></script>
