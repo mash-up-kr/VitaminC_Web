@@ -12,7 +12,7 @@ const KakaoMap = ({ initialLevel = 3 }: KakaoMapProps) => {
       var container = document.getElementById('map')
       var options = {
         center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
+        level: initialLevel,
       }
 
       var map = new window.kakao.maps.Map(container, options)
@@ -31,10 +31,8 @@ const KakaoMap = ({ initialLevel = 3 }: KakaoMapProps) => {
             getLng: () => number
           }
         }) {
-          // 클릭한 위도, 경도 정보를 가져옵니다
           var latlng = mouseEvent.latLng
 
-          // 마커 위치를 클릭한 위치로 옮깁니다
           marker.setPosition(latlng)
         },
       )
