@@ -43,9 +43,7 @@ const KakaoMap = ({ initialLevel = 3 }: KakaoMapProps) => {
   //
   //
 
-  return (
-    <section id="map" style={{ width: '400px', height: '400px' }}></section>
-  )
+  return <section id="map" style={{ width: '400px', height: '400px' }} />
 }
 
 export default KakaoMap
