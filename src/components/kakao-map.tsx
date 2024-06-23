@@ -39,6 +39,7 @@ const KakaoMap = ({ initialLevel = 3 }: KakaoMapProps) => {
         },
       )
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
