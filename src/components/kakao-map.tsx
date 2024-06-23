@@ -2,7 +2,11 @@
 
 import { useEffect } from 'react'
 
-const KakaoMap = () => {
+interface KakaoMapProps {
+  initialLevel?: number
+}
+
+const KakaoMap = ({ initialLevel = 3 }: KakaoMapProps) => {
   useEffect(() => {
     window.kakao.maps.load(() => {
       var container = document.getElementById('map')
