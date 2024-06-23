@@ -41,10 +41,6 @@ const KakaoMap = ({ initialLevel = 3 }: KakaoMapProps) => {
     })
   }, [])
 
-  //
-  //
-  //
-
   return (
     <section ref={mapContainer} style={{ width: '400px', height: '400px' }} />
   )
