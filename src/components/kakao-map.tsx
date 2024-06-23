@@ -1,23 +1,25 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 interface KakaoMapProps {
   initialLevel?: number
 }
 
 const KakaoMap = ({ initialLevel = 3 }: KakaoMapProps) => {
+  const mapContainer = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     window.kakao.maps.load(() => {
-      var container = document.getElementById('map')
-      var options = {
+      const container = mapContainer.current
+      const options = {
         center: new window.kakao.maps.LatLng(33.450701, 126.570667),
         level: initialLevel,
       }
 
-      var map = new window.kakao.maps.Map(container, options)
+      const map = new window.kakao.maps.Map(container, options)
 
-      var marker = new window.kakao.maps.Marker({
+      const marker = new window.kakao.maps.Marker({
         position: map.getCenter(),
       })
       marker.setMap(map)
@@ -25,12 +27,12 @@ const KakaoMap = ({ initialLevel = 3 }: KakaoMapProps) => {
       window.kakao.maps.event.addListener(
         map,
         'click',
-        function (mouseEvent: {
+        (mouseEvent: {
           latLng: {
             getLat: () => number
             getLng: () => number
           }
-        }) {
+        }) => {
           var latlng = mouseEvent.latLng
 
           marker.setPosition(latlng)
@@ -43,7 +45,9 @@ const KakaoMap = ({ initialLevel = 3 }: KakaoMapProps) => {
   //
   //
 
-  return <section id="map" style={{ width: '400px', height: '400px' }} />
+  return (
+    <section ref={mapContainer} style={{ width: '400px', height: '400px' }} />
+  )
 }
 
 export default KakaoMap
