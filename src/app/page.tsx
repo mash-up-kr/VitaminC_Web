@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import KakaoMap from '@/components/KakaoMap'
+import KakaoMap from '@/components/kakao-map'
 
 const Home = () => {
   return (
