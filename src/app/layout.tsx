@@ -2,14 +2,9 @@ import React from 'react'
 
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 
 import './globals.css'
-
-declare global {
-  interface Window {
-    kakao: any
-  }
-}
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,7 +25,7 @@ export default function RootLayout({
           async
           type="text/javascript"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&autoload=false`}
-        ></script>
+        />
         {children}
       </body>
     </html>
