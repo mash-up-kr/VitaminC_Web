@@ -1,4 +1,4 @@
-import { useState, type RefObject, useEffect } from 'react'
+import { useState, type RefObject, useEffect, useCallback } from 'react'
 
 type LocationType = {
   latitude: number
@@ -20,15 +20,18 @@ const useMap = <T>(
 ) => {
   const [map, setMap] = useState<kakao.maps.Map | null>(null)
 
-  const setCurrentLocation = ({ latitude, longitude }: LocationType) => {
-    window.kakao.maps.load(() => {
-      const options = {
-        center: new window.kakao.maps.LatLng(latitude, longitude),
-        level: initialLevel,
-      }
-      setMap(new window.kakao.maps.Map(containerRef.current, options))
-    })
-  }
+  const setCurrentLocation = useCallback(
+    ({ latitude, longitude }: LocationType) => {
+      window.kakao.maps.load(() => {
+        const options = {
+          center: new window.kakao.maps.LatLng(latitude, longitude),
+          level: initialLevel,
+        }
+        setMap(new window.kakao.maps.Map(containerRef.current, options))
+      })
+    },
+    [containerRef, initialLevel],
+  )
 
   /**
    * 지도의 위치를 재설정할 때 사용
@@ -68,7 +71,7 @@ const useMap = <T>(
   }
 
   useEffect(() => {
-    if (containerRef.current) return
+    if (!containerRef.current) return
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -80,9 +83,7 @@ const useMap = <T>(
     } else {
       setCurrentLocation(INITIAL_LATITUDE_LONGITUDE)
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [containerRef])
+  }, [containerRef, setCurrentLocation])
 
   return { map, setLocation, addMarker }
 }
