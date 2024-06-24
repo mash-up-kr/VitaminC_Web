@@ -9,7 +9,7 @@ type LocationType = {
  * navigator.geolocation를 사용할 수 없거나 위치 정보 공유를 거절하는 경우
  * 사용하는 위도, 경도값 서울 중구로 설정함
  */
-const INITIAL_LAT_LNG = {
+const INITIAL_LATITUDE_LONGITUDE = {
   latitude: 37.561,
   longitude: 126.9996,
 }
@@ -74,10 +74,10 @@ const useMap = <T>(
           ({ coords: { latitude, longitude } }) => {
             setCurrentLocation({ latitude, longitude })
           },
-          () => setCurrentLocation(INITIAL_LAT_LNG),
+          () => setCurrentLocation(INITIAL_LATITUDE_LONGITUDE),
         )
       } else {
-        setCurrentLocation(INITIAL_LAT_LNG)
+        setCurrentLocation(INITIAL_LATITUDE_LONGITUDE)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
