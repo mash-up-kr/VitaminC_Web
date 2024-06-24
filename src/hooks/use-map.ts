@@ -68,18 +68,19 @@ const useMap = <T>(
   }
 
   useEffect(() => {
-    if (containerRef.current) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          ({ coords: { latitude, longitude } }) => {
-            setCurrentLocation({ latitude, longitude })
-          },
-          () => setCurrentLocation(INITIAL_LATITUDE_LONGITUDE),
-        )
-      } else {
-        setCurrentLocation(INITIAL_LATITUDE_LONGITUDE)
-      }
+    if (containerRef.current) return
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords: { latitude, longitude } }) => {
+          setCurrentLocation({ latitude, longitude })
+        },
+        () => setCurrentLocation(INITIAL_LATITUDE_LONGITUDE),
+      )
+    } else {
+      setCurrentLocation(INITIAL_LATITUDE_LONGITUDE)
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [containerRef])
 
