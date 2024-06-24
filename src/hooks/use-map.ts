@@ -38,13 +38,13 @@ const useMap = <T>(
    * @param location 재설정할 위치
    */
   const setLocation = (location: LocationType) => {
-    if (map) {
-      const nextLocation = new kakao.maps.LatLng(
-        location.latitude,
-        location.longitude,
-      )
-      map.setCenter(nextLocation)
-    }
+    if (!map) return
+
+    const nextLocation = new kakao.maps.LatLng(
+      location.latitude,
+      location.longitude,
+    )
+    map.setCenter(nextLocation)
   }
 
   /**
@@ -58,15 +58,15 @@ const useMap = <T>(
     eventType?: string,
     eventHandler?: () => void,
   ) => {
-    if (map) {
-      //TODO: 마커 이미지 확정 시 설정
-      const marker = new kakao.maps.Marker({
-        map: map,
-        position: new kakao.maps.LatLng(location.latitude, location.longitude),
-      })
-      if (eventType && eventHandler) {
-        kakao.maps.event.addListener(marker, eventType, eventHandler)
-      }
+    if (!map) return
+
+    //TODO: 마커 이미지 확정 시 설정
+    const marker = new kakao.maps.Marker({
+      map: map,
+      position: new kakao.maps.LatLng(location.latitude, location.longitude),
+    })
+    if (eventType && eventHandler) {
+      kakao.maps.event.addListener(marker, eventType, eventHandler)
     }
   }
 
