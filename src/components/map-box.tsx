@@ -5,4 +5,6 @@ const MapBox = React.forwardRef((_, ref: React.ForwardedRef<HTMLElement>) => {
   return <section ref={ref} className="w-full h-96" />
 })
 
+MapBox.displayName = 'MapBox'
+
 export default MapBox
