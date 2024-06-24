@@ -7,6 +7,7 @@ import { Button } from '@/components/button'
 import LoadingIndicator from '@/components/loading-indicator'
 import useMap from '@/hooks/use-map'
 import { ResponseOk } from '@/models/interface'
+import MapBox from '@/components/map-box'
 
 const Message = () => {
   const data: ResponseOk = use(fetchData('/api/delay'))
@@ -41,13 +42,7 @@ const Page = () => {
           setLocation({ latitude: 37.5664, longitude: 126.97782 })
         }}
       />
-      <section
-        ref={mapContainer}
-        style={{
-          width: '400px',
-          height: '400px',
-        }}
-      />
+      <MapBox ref={mapContainer} />
     </>
   )
 }
