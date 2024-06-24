@@ -36,11 +36,11 @@ const useMap = <T>(
    */
   const setLocation = (location: LocationType) => {
     if (map) {
-      const moveLatLon = new kakao.maps.LatLng(
+      const nextLocation = new kakao.maps.LatLng(
         location.latitude,
         location.longitude,
       )
-      map.setCenter(moveLatLon)
+      map.setCenter(nextLocation)
     }
   }
 
