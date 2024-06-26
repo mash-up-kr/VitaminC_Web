@@ -156,7 +156,7 @@ const useMeasure = (
   useEffect(() => {
     removeListeners()
     addListeners()
-  }, [scroll, handleChange, handleChange, removeListeners, addListeners])
+  }, [scroll, handleChange, removeListeners, addListeners])
 
   useEffect(() => {
     return () => {
