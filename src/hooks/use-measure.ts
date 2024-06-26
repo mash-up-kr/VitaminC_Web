@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import useMount from './use-mount'
 
-export interface RectReadOnly {
+interface RectReadOnly {
   readonly x: number
   readonly y: number
   readonly width: number
@@ -10,16 +10,9 @@ export interface RectReadOnly {
   readonly right: number
   readonly bottom: number
   readonly left: number
-  [key: string]: number
 }
 
 type HTMLOrSVGElement = HTMLElement | SVGElement
-
-type Result = [
-  (element: HTMLOrSVGElement | null) => void,
-  RectReadOnly,
-  () => void,
-]
 
 type State = {
   element: HTMLOrSVGElement | null
@@ -28,12 +21,11 @@ type State = {
   lastBounds: RectReadOnly
 }
 
-export type Options = {
+type Options = {
   scroll?: boolean
   offsetSize?: boolean
 }
 
-// Adds native resize listener to window
 const useOnWindowResize = (onWindowResize: (event: Event) => void) => {
   useEffect(() => {
     const cb = onWindowResize
@@ -51,7 +43,7 @@ const useOnWindowScroll = (onScroll: () => void, enabled: boolean) => {
   }, [onScroll, enabled])
 }
 
-// Returns a list of scroll offsets
+// 스크롤 offset을 담은 배열 생성
 const findScrollContainers = (
   element: HTMLOrSVGElement | null,
 ): HTMLOrSVGElement[] => {
@@ -67,13 +59,26 @@ const findScrollContainers = (
   return [...result, ...findScrollContainers(element.parentElement)]
 }
 
+const keys: (keyof RectReadOnly)[] = [
+  'x',
+  'y',
+  'top',
+  'bottom',
+  'left',
+  'right',
+  'width',
+  'height',
+]
+const areBoundsEqual = (a: RectReadOnly, b: RectReadOnly): boolean =>
+  keys.every((key) => a[key] === b[key])
+
 const useMeasure = (
   { scroll, offsetSize }: Options = {
     scroll: false,
     offsetSize: false,
   },
-): Result => {
-  const [bounds, set] = useState<RectReadOnly>({
+): [(element: HTMLOrSVGElement | null) => void, RectReadOnly, () => void] => {
+  const [bounds, setBounds] = useState<RectReadOnly>({
     left: 0,
     top: 0,
     width: 0,
@@ -84,7 +89,6 @@ const useMeasure = (
     y: 0,
   })
 
-  // keep all state in a ref
   const state = useRef<State>({
     element: null,
     scrollContainers: null,
@@ -93,12 +97,10 @@ const useMeasure = (
   })
 
   const mounted = useMount()
-
-  // memoize handlers, so event-listeners know when they should update
   const handleChange = useCallback(() => {
     if (!state.current.element) return
     const { left, top, width, height, bottom, right, x, y } =
-      state.current.element.getBoundingClientRect() as unknown as RectReadOnly
+      state.current.element.getBoundingClientRect()
 
     const size = {
       left,
@@ -116,13 +118,11 @@ const useMeasure = (
       size.width = state.current.element.offsetWidth
     }
 
-    Object.freeze(size)
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    if (mounted.current && !areBoundsEqual(state.current.lastBounds, size))
-      set((state.current.lastBounds = size))
-  }, [offsetSize, mounted])
+    if (mounted.current && !areBoundsEqual(state.current.lastBounds, size)) {
+      setBounds((state.current.lastBounds = size))
+    }
+  }, [setBounds, offsetSize, mounted])
 
-  // cleanup current scroll-listeners / observers
   const removeListeners = useCallback(() => {
     if (state.current.scrollContainers) {
       state.current.scrollContainers.forEach((element) =>
@@ -137,11 +137,12 @@ const useMeasure = (
     }
   }, [handleChange])
 
-  // add scroll-listeners / observers
   const addListeners = useCallback(() => {
     if (!state.current.element) return
+
     state.current.resizeObserver = new ResizeObserver(handleChange)
     state.current.resizeObserver!.observe(state.current.element)
+
     if (scroll && state.current.scrollContainers) {
       state.current.scrollContainers.forEach((scrollContainer) =>
         scrollContainer.addEventListener('scroll', handleChange, {
@@ -152,7 +153,7 @@ const useMeasure = (
     }
   }, [scroll, handleChange])
 
-  // the ref we expose to the user
+  // 크기를 측정할 DOM에 접근하기 위한 ref
   const ref = (node: HTMLOrSVGElement | null) => {
     if (!node || node === state.current.element) return
     removeListeners()
@@ -161,33 +162,22 @@ const useMeasure = (
     addListeners()
   }
 
-  // add general event listeners
+  // 이벤트 리스너 추가
   useOnWindowScroll(handleChange, Boolean(scroll))
   useOnWindowResize(handleChange)
 
-  // respond to changes that are relevant for the listeners
   useEffect(() => {
     removeListeners()
     addListeners()
   }, [scroll, handleChange, handleChange, removeListeners, addListeners])
 
-  // remove all listeners when the components unmounts
-  useEffect(() => removeListeners, [removeListeners])
+  useEffect(() => {
+    return () => {
+      removeListeners()
+    }
+  }, [removeListeners])
+
   return [ref, bounds, handleChange]
 }
-
-// Checks if element boundaries are equal
-const keys: (keyof RectReadOnly)[] = [
-  'x',
-  'y',
-  'top',
-  'bottom',
-  'left',
-  'right',
-  'width',
-  'height',
-]
-const areBoundsEqual = (a: RectReadOnly, b: RectReadOnly): boolean =>
-  keys.every((key) => a[key] === b[key])
 
 export default useMeasure
