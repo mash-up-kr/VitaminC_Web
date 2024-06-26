@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import useMount from './use-mount'
+import useEventListener from './use-event-listener'
 
 interface RectReadOnly {
   readonly x: number
@@ -24,23 +25,6 @@ type State = {
 type Options = {
   scroll?: boolean
   offsetSize?: boolean
-}
-
-const useOnWindowResize = (onWindowResize: (event: Event) => void) => {
-  useEffect(() => {
-    const cb = onWindowResize
-    window.addEventListener('resize', cb)
-    return () => void window.removeEventListener('resize', cb)
-  }, [onWindowResize])
-}
-const useOnWindowScroll = (onScroll: () => void, enabled: boolean) => {
-  useEffect(() => {
-    if (enabled) {
-      const cb = onScroll
-      window.addEventListener('scroll', cb, { capture: true, passive: true })
-      return () => void window.removeEventListener('scroll', cb, true)
-    }
-  }, [onScroll, enabled])
 }
 
 // 스크롤 offset을 담은 배열 생성
@@ -163,8 +147,11 @@ const useMeasure = (
   }
 
   // 이벤트 리스너 추가
-  useOnWindowScroll(handleChange, Boolean(scroll))
-  useOnWindowResize(handleChange)
+  useEventListener(Boolean(scroll) ? 'scroll' : null, handleChange, {
+    capture: true,
+    passive: true,
+  })
+  useEventListener('resize', handleChange)
 
   useEffect(() => {
     removeListeners()
