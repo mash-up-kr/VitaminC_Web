@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
+import useMount from './use-mount'
 
 export interface RectReadOnly {
   readonly x: number
@@ -91,12 +92,7 @@ const useMeasure = (
     lastBounds: bounds,
   })
 
-  // make sure to update state only as long as the component is truly mounted
-  const mounted = useRef(false)
-  useEffect(() => {
-    mounted.current = true
-    return () => void (mounted.current = false)
-  })
+  const mounted = useMount()
 
   // memoize handlers, so event-listeners know when they should update
   const handleChange = useCallback(() => {
@@ -124,7 +120,7 @@ const useMeasure = (
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     if (mounted.current && !areBoundsEqual(state.current.lastBounds, size))
       set((state.current.lastBounds = size))
-  }, [set, offsetSize])
+  }, [offsetSize, mounted])
 
   // cleanup current scroll-listeners / observers
   const removeListeners = useCallback(() => {
