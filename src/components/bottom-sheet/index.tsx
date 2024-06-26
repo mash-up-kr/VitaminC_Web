@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { motion, useDragControls } from 'framer-motion'
 
 import useMeasure from '@/hooks/use-measure'
@@ -17,11 +17,7 @@ const BottomSheet = ({ header, body, expanded = false }: BottomSheetProps) => {
   const size = useWindowSize()
 
   const animateState = isOpen ? 'opened' : 'closed'
-
-  const expandedHeight = useMemo(
-    () => Math.min(contentBounds.height + 50, size?.height),
-    [contentBounds.height, size?.height],
-  )
+  const expandedHeight = Math.min(contentBounds.height + 50, size.height)
 
   return (
     <>
@@ -83,7 +79,7 @@ const BottomSheet = ({ header, body, expanded = false }: BottomSheetProps) => {
         {/* body */}
         <div
           className="p-[20px] transition-all"
-          style={{ height: size?.height / 2 }}
+          style={{ height: size.height / 2 }}
           ref={contentRef}
         >
           {/* content */}
