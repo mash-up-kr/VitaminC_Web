@@ -1,11 +1,14 @@
 import React from 'react'
 
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const pretendard = localFont({
+  src: '../styles/pretendard-variable.ttf',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={inter.className}>{children}</body>
+      <body className={pretendard.className}>{children}</body>
     </html>
   )
 }
