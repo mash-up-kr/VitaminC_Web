@@ -55,7 +55,7 @@ const useMap = <T>(
    */
   const addMarker = (
     location: LocationType,
-    eventType?: string,
+    eventType?: keyof WindowEventMap,
     eventHandler?: () => void,
   ) => {
     if (!map) return
