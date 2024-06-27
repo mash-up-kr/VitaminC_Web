@@ -65,6 +65,9 @@ const useMap = <T>(
   ) => {
     if (!map) return
 
+    //TODO: markerId가 이미 존재하는 경우 처리
+    if (markers[markerId]) return
+
     //TODO: 마커 이미지 확정 시 설정
     const marker = new kakao.maps.Marker({
       map: map,

@@ -18,7 +18,7 @@ const Message = () => {
 const Page = () => {
   const mapContainer = useRef<HTMLDivElement>(null)
 
-  const { addMarker, setLocation } = useMap(mapContainer)
+  const { addMarker, setLocation, deleteMarker } = useMap(mapContainer)
   return (
     <>
       <h1 className="text-lg font-semibold">Data received during SSR</h1>
@@ -33,7 +33,14 @@ const Page = () => {
       <Button
         label="서울 시청에 마커 추가"
         className="bg-sky-400"
-        onClick={() => addMarker({ latitude: 37.5664, longitude: 126.97782 })}
+        onClick={() =>
+          addMarker('test', { latitude: 37.5664, longitude: 126.97782 })
+        }
+      />
+      <Button
+        label="서울 시청 마커 삭제"
+        className="bg-sky-400"
+        onClick={() => deleteMarker('test')}
       />
       <Button
         label="서울 시청으로 위치 조정"
