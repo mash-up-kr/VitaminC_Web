@@ -51,7 +51,7 @@ const Page = () => {
         }}
       />
       <MapBox ref={mapContainer} />
-      <BottomSheet header={<div>header</div>} body={<div>body content</div>} />
+      <BottomSheet body={<div>body content</div>} />
     </>
   )
 }

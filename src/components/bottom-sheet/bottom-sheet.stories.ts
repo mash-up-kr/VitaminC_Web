@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
+
 import BottomSheet from '@/components/bottom-sheet/index'
+import { STATE } from '@/types/bottom-sheet'
 
 const meta = {
   title: 'DesignSystem/BottomSheet',
@@ -24,17 +26,22 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Collapsed: Story = {
+export const Default: Story = {
   args: {
-    header: 'header',
     body: 'content',
   },
 }
 
 export const Expanded: Story = {
   args: {
-    header: 'header',
+    body: 'very very long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long body content',
+    initialState: STATE.Expanded,
+  },
+}
+
+export const Collapsed: Story = {
+  args: {
     body: 'content',
-    expanded: true,
+    initialState: STATE.Collapsed,
   },
 }

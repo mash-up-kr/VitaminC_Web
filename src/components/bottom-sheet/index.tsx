@@ -1,23 +1,75 @@
 import React, { ReactNode, useState } from 'react'
 import { motion, useDragControls } from 'framer-motion'
+import type { PanInfo } from 'framer-motion'
 
 import useMeasure from '@/hooks/use-measure'
 import useWindowSize from '@/hooks/use-window-size'
+import { STATE, State } from '@/types/bottom-sheet'
 
 interface BottomSheetProps {
-  header?: ReactNode
   body: ReactNode
-  expanded?: boolean
+  initialState?: State
 }
 
-const BottomSheet = ({ header, body, expanded = false }: BottomSheetProps) => {
-  const [isOpen, setIsOpen] = useState(expanded)
+const BottomSheet = ({
+  body,
+  initialState = STATE.Default,
+}: BottomSheetProps) => {
+  const [state, setState] = useState<State>(initialState)
   const [contentRef, contentBounds] = useMeasure()
   const dragControls = useDragControls()
   const size = useWindowSize()
 
-  const animateState = isOpen ? 'opened' : 'closed'
-  const expandedHeight = Math.min(contentBounds.height + 50, size.height)
+  const headerHeight = 38
+  const defaultHeight = Math.min(
+    contentBounds.height + headerHeight,
+    size.height / 2,
+  )
+  const expandedHeight = Math.min(
+    contentBounds.height + headerHeight,
+    size.height - headerHeight,
+  )
+
+  const handleDragEnd = (info: PanInfo) => {
+    const offsetThreshold = 50
+    const deltaThreshold = 5
+
+    const isOverOffsetThreshold = Math.abs(info.offset.y) > offsetThreshold
+    const isOverDeltaThreshold = Math.abs(info.delta.y) > deltaThreshold
+
+    const isOverThreshold = isOverOffsetThreshold || isOverDeltaThreshold
+
+    if (!isOverThreshold) return
+
+    const offsetY = info.offset.y
+    const largeEnoughValue = 200
+    const skipOneStep = Math.abs(offsetY) - largeEnoughValue > 0
+    switch (state) {
+      case STATE.Default:
+        if (offsetY < 0) {
+          setState(STATE.Expanded)
+        } else {
+          setState(STATE.Collapsed)
+        }
+        break
+      case STATE.Expanded:
+        if (offsetY <= 0) break
+        if (skipOneStep) {
+          setState(STATE.Collapsed)
+        } else {
+          setState(STATE.Default)
+        }
+        break
+      case STATE.Collapsed:
+        if (offsetY >= 0) break
+        if (skipOneStep) {
+          setState(STATE.Expanded)
+        } else {
+          setState(STATE.Default)
+        }
+        break
+    }
+  }
 
   return (
     <>
@@ -25,7 +77,7 @@ const BottomSheet = ({ header, body, expanded = false }: BottomSheetProps) => {
       <motion.div
         className="absolute top-0 left-0 w-screen h-[100vh]"
         initial={false}
-        animate={animateState}
+        animate={state}
         variants={{
           opened: {
             pointerEvents: 'all',
@@ -34,16 +86,18 @@ const BottomSheet = ({ header, body, expanded = false }: BottomSheetProps) => {
             pointerEvents: 'none',
           },
         }}
-        onTap={() => setIsOpen(false)}
+        onTap={() => setState(STATE.Collapsed)}
       />
       {/* container */}
       <motion.div
         className="fixed top-0 left-0 z-10 w-screen bg-[#212124] rounded-t-[14px] pb-[24px] will-change-transform text-white"
-        initial="closed"
-        animate={animateState}
+        onPointerDown={(e) => dragControls.start(e)}
+        initial="default"
+        animate={state}
         variants={{
-          opened: { top: `calc(100vh - ${expandedHeight}px)` },
-          closed: { top: `calc(100vh - 80px)` },
+          default: { top: `calc(100vh - ${defaultHeight}px)` },
+          expanded: { top: `calc(100vh - ${expandedHeight}px)` },
+          collapsed: { top: `calc(100vh - ${headerHeight}px)` },
         }}
         transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
         drag="y"
@@ -51,35 +105,16 @@ const BottomSheet = ({ header, body, expanded = false }: BottomSheetProps) => {
         dragListener={false}
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={0}
-        onDragEnd={(event, info) => {
-          const offsetThreshold = 150
-          const deltaThreshold = 5
-
-          const isOverOffsetThreshold =
-            Math.abs(info.offset.y) > offsetThreshold
-          const isOverDeltaThreshold = Math.abs(info.delta.y) > deltaThreshold
-
-          const isOverThreshold = isOverOffsetThreshold || isOverDeltaThreshold
-
-          if (!isOverThreshold) return
-
-          setIsOpen(info.offset.y < 0)
-        }}
+        onDragEnd={(event, info) => handleDragEnd(info)}
       >
         {/* header */}
-        <div
-          className="h-[80px] pt-[12px] cursor-grab select-none"
-          onPointerDown={(e) => dragControls.start(e)}
-        >
+        <div className="pt-[16px] px-[20px] cursor-grab">
           {/* bar */}
-          <div className="w-[53px] h-[6px] bg-[#6D717A] my-0 mx-auto rounded-[999px]" />
-          {/* content */}
-          <div className="m-[20px] text-[14px]">{header}</div>
+          <div className="w-[53px] h-[6px] bg-[#6D717A] my-0 mx-auto rounded-full" />
         </div>
         {/* body */}
         <div
-          className="p-[20px] transition-all"
-          style={{ height: size.height / 2 }}
+          className="px-[20px] pt-[24px] transition-all select-none"
           ref={contentRef}
         >
           {/* content */}
