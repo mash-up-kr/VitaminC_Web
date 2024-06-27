@@ -4,7 +4,7 @@ import type { PanInfo } from 'framer-motion'
 
 import useMeasure from '@/hooks/use-measure'
 import useWindowSize from '@/hooks/use-window-size'
-import { STATE, State } from '@/types/bottom-sheet'
+import { STATE, State } from '@/models/interface'
 
 interface BottomSheetProps {
   body: ReactNode
