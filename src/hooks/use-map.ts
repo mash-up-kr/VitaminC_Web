@@ -83,8 +83,8 @@ const useMap = <T>(
     markers[placeId].setMap(null)
 
     setMarkers((prev) => {
-      delete prev[placeId]
-      return prev
+      const { [placeId]: removeMarker, ...otherMarker } = prev
+      return otherMarker
     })
   }
 
