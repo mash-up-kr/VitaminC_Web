@@ -1,4 +1,4 @@
-const OauthLayout = ({ children }: React.PropsWithChildren) => {
+const OAuthLayout = ({ children }: React.PropsWithChildren) => {
   return <>oauth{children}</>
 }
 
