@@ -1,7 +1,3 @@
-const OauthLayout = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) => {
+const OauthLayout = ({ children }: React.PropsWithChildren) => {
   return <>oauth{children}</>
 }
