@@ -19,9 +19,7 @@ const useMap = <T>(
   initialLevel = 3,
 ) => {
   const [map, setMap] = useState<kakao.maps.Map | null>(null)
-  const [markers, setMarkers] = useState<{
-    [markerId in string]: kakao.maps.Marker
-  }>({})
+  const [markers, setMarkers] = useState<Record<string, kakao.maps.Marker>>({})
 
   const setCurrentLocation = useCallback(
     ({ latitude, longitude }: LocationType) => {
