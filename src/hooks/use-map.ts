@@ -52,21 +52,20 @@ const useMap = <T>(
 
   /**
    * 지도에 마커를 추가할 떄 사용함 현재 디자인 상 오버레이는 표시하지 않기 때문에 마커 추가만 표시함
-   * @param markerId 생성한 맛집에 대한 id
+   * @param placeId 생성한 맛집에 대한 id
    * @param location 마커 위치
    * @param eventType 이벤트 종류 ex) 'click'
    * @param eventHandler 이벤트 핸들러
    */
   const addMarker = (
-    markerId: string,
+    placeId: string,
     location: LocationType,
     eventType?: keyof WindowEventMap,
     eventHandler?: () => void,
   ) => {
     if (!map) return
 
-    //TODO: markerId가 이미 존재하는 경우 처리
-    if (markers[markerId]) return
+    if (markers[placeId]) return
 
     //TODO: 마커 이미지 확정 시 설정
     const marker = new kakao.maps.Marker({
@@ -77,17 +76,16 @@ const useMap = <T>(
       kakao.maps.event.addListener(marker, eventType, eventHandler)
     }
 
-    setMarkers((prev) => ({ ...prev, [markerId]: marker }))
+    setMarkers((prev) => ({ ...prev, [placeId]: marker }))
   }
 
-  const deleteMarker = (markerId: string) => {
-    //TODO 저장되지 않은 마커의 경우 에러메시지가 나타나야 함
-    if (!markers[markerId]) return
+  const deleteMarker = (placeId: string) => {
+    if (!markers[placeId]) return
 
-    markers[markerId].setMap(null)
+    markers[placeId].setMap(null)
 
     setMarkers((prev) => {
-      delete prev[markerId]
+      delete prev[placeId]
       return prev
     })
   }
