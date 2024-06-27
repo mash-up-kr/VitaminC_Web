@@ -146,12 +146,16 @@ const useMeasure = (
     addListeners()
   }
 
-  // 이벤트 리스너 추가
-  useEventListener(Boolean(scroll) ? 'scroll' : null, handleChange, {
-    capture: true,
-    passive: true,
+  useEventListener({
+    type: 'scroll',
+    listener: handleChange,
+    options: {
+      capture: true,
+      passive: true,
+    },
+    enabled: Boolean(scroll),
   })
-  useEventListener('resize', handleChange)
+  useEventListener({ type: 'resize', listener: handleChange })
 
   useEffect(() => {
     removeListeners()

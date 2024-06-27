@@ -1,5 +1,12 @@
 import { useEffect } from 'react'
 
+interface Props {
+  type: keyof WindowEventMap
+  listener: (event?: Event) => void
+  options?: Options
+  enabled?: boolean
+}
+
 interface Options {
   capture?: boolean
   once?: boolean
@@ -7,17 +14,18 @@ interface Options {
   signal?: AbortSignal
 }
 
-const useEventListener = (
-  type: string | null,
-  listener: (event?: Event) => void,
-  options?: Options,
-) => {
+const useEventListener = ({
+  type,
+  listener,
+  options,
+  enabled = true,
+}: Props) => {
   useEffect(() => {
-    if (type) {
+    if (enabled) {
       window.addEventListener(type, listener, options)
       return () => void window.removeEventListener(type, listener, true)
     }
-  }, [listener, options, type])
+  }, [enabled, listener, options, type])
 }
 
 export default useEventListener
