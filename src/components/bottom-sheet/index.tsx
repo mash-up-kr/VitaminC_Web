@@ -4,18 +4,18 @@ import type { PanInfo } from 'framer-motion'
 
 import useMeasure from '@/hooks/use-measure'
 import useWindowSize from '@/hooks/use-window-size'
-import { STATE, State } from '@/models/interface'
+import { BOTTOM_SHEET_STATE, BottomSheetState } from '@/models/interface'
 
 interface BottomSheetProps {
   body: ReactNode
-  initialState?: State
+  initialState?: BottomSheetState
 }
 
 const BottomSheet = ({
   body,
-  initialState = STATE.Default,
+  initialState = BOTTOM_SHEET_STATE.Default,
 }: BottomSheetProps) => {
-  const [state, setState] = useState<State>(initialState)
+  const [state, setState] = useState<BottomSheetState>(initialState)
   const [contentRef, contentBounds] = useMeasure()
   const dragControls = useDragControls()
   const size = useWindowSize()
@@ -32,9 +32,9 @@ const BottomSheet = ({
 
   const bodyHeight = useMemo(() => {
     switch (state) {
-      case STATE.Collapsed:
+      case BOTTOM_SHEET_STATE.Collapsed:
         return 0
-      case STATE.Expanded:
+      case BOTTOM_SHEET_STATE.Expanded:
         return expandedHeight - headerHeight
       default:
         return defaultHeight - headerHeight
@@ -56,27 +56,27 @@ const BottomSheet = ({
     const largeEnoughValue = 200
     const skipOneStep = Math.abs(offsetY) - largeEnoughValue > 0
     switch (state) {
-      case STATE.Default:
+      case BOTTOM_SHEET_STATE.Default:
         if (offsetY < 0) {
-          setState(STATE.Expanded)
+          setState(BOTTOM_SHEET_STATE.Expanded)
         } else {
-          setState(STATE.Collapsed)
+          setState(BOTTOM_SHEET_STATE.Collapsed)
         }
         break
-      case STATE.Expanded:
+      case BOTTOM_SHEET_STATE.Expanded:
         if (offsetY <= 0) break
         if (skipOneStep) {
-          setState(STATE.Collapsed)
+          setState(BOTTOM_SHEET_STATE.Collapsed)
         } else {
-          setState(STATE.Default)
+          setState(BOTTOM_SHEET_STATE.Default)
         }
         break
-      case STATE.Collapsed:
+      case BOTTOM_SHEET_STATE.Collapsed:
         if (offsetY >= 0) break
         if (skipOneStep) {
-          setState(STATE.Expanded)
+          setState(BOTTOM_SHEET_STATE.Expanded)
         } else {
-          setState(STATE.Default)
+          setState(BOTTOM_SHEET_STATE.Default)
         }
         break
     }
@@ -97,7 +97,7 @@ const BottomSheet = ({
             pointerEvents: 'none',
           },
         }}
-        onTap={() => setState(STATE.Collapsed)}
+        onTap={() => setState(BOTTOM_SHEET_STATE.Collapsed)}
       />
       {/* container */}
       <motion.div
@@ -117,7 +117,7 @@ const BottomSheet = ({
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={0}
         onDragEnd={(event, info) => handleDragEnd(info)}
-        aria-expanded={state !== STATE.Collapsed}
+        aria-expanded={state !== BOTTOM_SHEET_STATE.Collapsed}
       >
         {/* header */}
         <div className="pt-[16px] px-[20px] cursor-grab">
@@ -128,7 +128,7 @@ const BottomSheet = ({
         <div
           className="transition-all select-none overflow-y-scroll overscroll-contain no-scrollbar"
           style={{ height: bodyHeight }}
-          aria-hidden={state === STATE.Collapsed}
+          aria-hidden={state === BOTTOM_SHEET_STATE.Collapsed}
         >
           {/* content */}
           <div className="px-[20px] pt-[24px]" ref={contentRef}>
