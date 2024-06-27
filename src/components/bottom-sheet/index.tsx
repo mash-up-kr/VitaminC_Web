@@ -117,6 +117,7 @@ const BottomSheet = ({
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={0}
         onDragEnd={(event, info) => handleDragEnd(info)}
+        aria-expanded={state !== STATE.Collapsed}
       >
         {/* header */}
         <div className="pt-[16px] px-[20px] cursor-grab">
@@ -127,6 +128,7 @@ const BottomSheet = ({
         <div
           className="transition-all select-none overflow-y-scroll overscroll-contain no-scrollbar"
           style={{ height: bodyHeight }}
+          aria-hidden={state === STATE.Collapsed}
         >
           {/* content */}
           <div className="px-[20px] pt-[24px]" ref={contentRef}>
