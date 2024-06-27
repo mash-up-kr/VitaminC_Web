@@ -1,14 +1,9 @@
 import React from 'react'
 
 import type { Metadata } from 'next'
-import localFont from 'next/font/local'
 
 import './globals.css'
-
-const pretendard = localFont({
-  src: '../styles/pretendard-variable.ttf',
-  display: 'swap',
-})
+import { pretendard } from '@/styles/fonts'
 
 export const metadata: Metadata = {
   title: '꼬르륵',
@@ -22,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={pretendard.className}>{children}</body>
+      <body className={`${pretendard.className} ${pretendard.variable}`}>
+        {children}
+      </body>
     </html>
   )
 }
