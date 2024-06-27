@@ -1,12 +1,32 @@
 import { AccessibleIconButton, Chip, Icon } from '@/components'
 import ChipButton from '@/components/common/chip-button'
+
+import { api } from '@/utils/api'
 import Link from 'next/link'
+import { useEffect } from 'react'
 
 const Home = () => {
+  useEffect(() => {
+    ;(async function testAPI() {
+      const res = await api.test.testGETPublicAPI()
+      console.log(res)
+    })()
+  }, [])
+
   return (
     <main className="w-full min-h-screen flex flex-col justify-center items-center">
       <p className="text-black">인트로 화면</p>
       <ul className="list-disc text-xl space-y-4 text-black">
+        <button
+          type="button"
+          className="text-black"
+          onClick={async () => {
+            const res = await api.test.testPOSTSecureAPI()
+            console.log(res)
+          }}
+        >
+          CLICK
+        </button>
         <li>
           <Link href="/cc" className="underline hover:text-sky-400">
             Client Components Example
