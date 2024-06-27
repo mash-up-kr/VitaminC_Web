@@ -19,6 +19,9 @@ const useMap = <T>(
   initialLevel = 3,
 ) => {
   const [map, setMap] = useState<kakao.maps.Map | null>(null)
+  const [markers, setMarkers] = useState<{
+    [markerId in string]: kakao.maps.Marker
+  }>({})
 
   const setCurrentLocation = useCallback(
     ({ latitude, longitude }: LocationType) => {
@@ -49,11 +52,13 @@ const useMap = <T>(
 
   /**
    * 지도에 마커를 추가할 떄 사용함 현재 디자인 상 오버레이는 표시하지 않기 때문에 마커 추가만 표시함
+   * @param markerId 생성한 맛집에 대한 id
    * @param location 마커 위치
    * @param eventType 이벤트 종류 ex) 'click'
    * @param eventHandler 이벤트 핸들러
    */
   const addMarker = (
+    markerId: string,
     location: LocationType,
     eventType?: keyof WindowEventMap,
     eventHandler?: () => void,
@@ -68,6 +73,27 @@ const useMap = <T>(
     if (eventType && eventHandler) {
       kakao.maps.event.addListener(marker, eventType, eventHandler)
     }
+
+    setMarkers((prev) => ({ ...prev, [markerId]: marker }))
+  }
+
+  const deleteMarker = (markerId: string) => {
+    //TODO 저장되지 않은 마커의 경우 에러메시지가 나타나야 함
+    if (!markers[markerId]) return
+
+    markers[markerId].setMap(null)
+
+    setMarkers((prev) => {
+      delete prev[markerId]
+      return prev
+    })
+  }
+
+  const resetMarker = () => {
+    Object.entries(markers).forEach(([_, marker]) => {
+      marker.setMap(null)
+    })
+    setMarkers({})
   }
 
   useEffect(() => {
@@ -85,7 +111,7 @@ const useMap = <T>(
     }
   }, [containerRef, setCurrentLocation])
 
-  return { map, setLocation, addMarker }
+  return { map, setLocation, addMarker, deleteMarker, resetMarker }
 }
 
 export default useMap
