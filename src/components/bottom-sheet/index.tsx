@@ -114,11 +114,18 @@ const BottomSheet = ({
         </div>
         {/* body */}
         <div
-          className="px-[20px] pt-[24px] transition-all select-none"
-          ref={contentRef}
+          className="px-[20px] pt-[24px] transition-all select-none overflow-y-scroll overscroll-contain no-scrollbar"
+          style={{
+            height:
+              state === STATE.Collapsed
+                ? headerHeight
+                : state === STATE.Expanded
+                  ? expandedHeight
+                  : defaultHeight,
+          }}
         >
           {/* content */}
-          <div>{body}</div>
+          <div ref={contentRef}>{body}</div>
         </div>
       </motion.div>
     </>
