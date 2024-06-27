@@ -2,6 +2,7 @@ import React from 'react'
 
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 
 import './globals.css'
 
@@ -19,7 +20,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Script
+          async
+          strategy="beforeInteractive"
+          type="text/javascript"
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&autoload=false`}
+        />
+        {children}
+      </body>
     </html>
   )
 }
