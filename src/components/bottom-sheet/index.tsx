@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useMemo, useState } from 'react'
 import { motion, useDragControls } from 'framer-motion'
 import type { PanInfo } from 'framer-motion'
 
@@ -29,6 +29,17 @@ const BottomSheet = ({
     contentBounds.height + headerHeight,
     size.height - headerHeight,
   )
+
+  const bodyHeight = useMemo(() => {
+    switch (state) {
+      case STATE.Collapsed:
+        return 0
+      case STATE.Expanded:
+        return expandedHeight - headerHeight
+      default:
+        return defaultHeight - headerHeight
+    }
+  }, [defaultHeight, expandedHeight, state])
 
   const handleDragEnd = (info: PanInfo) => {
     const offsetThreshold = 50
@@ -114,18 +125,13 @@ const BottomSheet = ({
         </div>
         {/* body */}
         <div
-          className="px-[20px] pt-[24px] transition-all select-none overflow-y-scroll overscroll-contain no-scrollbar"
-          style={{
-            height:
-              state === STATE.Collapsed
-                ? headerHeight
-                : state === STATE.Expanded
-                  ? expandedHeight
-                  : defaultHeight,
-          }}
+          className="transition-all select-none overflow-y-scroll overscroll-contain no-scrollbar"
+          style={{ height: bodyHeight }}
         >
           {/* content */}
-          <div ref={contentRef}>{body}</div>
+          <div className="px-[20px] pt-[24px]" ref={contentRef}>
+            {body}
+          </div>
         </div>
       </motion.div>
     </>
