@@ -38,7 +38,7 @@ const BottomSheet = ({ header, body, expanded = false }: BottomSheetProps) => {
       />
       {/* container */}
       <motion.div
-        className="fixed top-0 left-0 w-screen bg-[#212124] rounded-t-[14px] pb-[24px] will-change-transform text-white"
+        className="fixed top-0 left-0 z-10 w-screen bg-[#212124] rounded-t-[14px] pb-[24px] will-change-transform text-white"
         initial="closed"
         animate={animateState}
         variants={{
