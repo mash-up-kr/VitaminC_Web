@@ -91,7 +91,7 @@ const useMap = <T>(
   }
 
   const resetMarker = () => {
-    Object.entries(markers).forEach(([, marker]) => {
+    Object.values(markers).forEach((marker) => {
       marker.setMap(null)
     })
     setMarkers({})
