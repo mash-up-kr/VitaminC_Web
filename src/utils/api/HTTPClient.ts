@@ -111,7 +111,7 @@ class HTTPClient {
     }
 
     throw new APIError({
-      name: 'Unexpected Error',
+      name: 'API Error',
       message: 'Unexpected Error',
     })
   }
@@ -140,8 +140,8 @@ class HTTPClient {
       return data
     } catch (error) {
       throw new APIError({
-        name: 'api-error',
-        message: '서버에 문제가 생겼습니다.',
+        name: 'API Error',
+        message: 'Error on fetching api. please check your api',
       })
     }
   }
