@@ -1,5 +1,3 @@
-// Button.stories.tsx
-
 import Button from '@/components/common/button'
 import { Meta, StoryObj } from '@storybook/react'
 
