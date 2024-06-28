@@ -3,6 +3,7 @@
 import React, { Suspense, use, useRef } from 'react'
 
 import { fetchData } from '@/app/data'
+import BottomSheet from '@/components/bottom-sheet/index'
 import { Button } from '@/components/button'
 import LoadingIndicator from '@/components/loading-indicator'
 import useMap from '@/hooks/use-map'
@@ -50,6 +51,7 @@ const Page = () => {
         }}
       />
       <MapBox ref={mapContainer} />
+      <BottomSheet body={<div>body content</div>} />
     </>
   )
 }
