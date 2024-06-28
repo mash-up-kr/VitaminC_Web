@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const Intro = () => {
+const Home = () => {
   return (
     <main className="w-full min-h-screen flex flex-col justify-center items-center">
       <p className="text-black">인트로 화면</p>
@@ -20,4 +20,4 @@ const Intro = () => {
   )
 }
 
-export default Intro
+export default Home
