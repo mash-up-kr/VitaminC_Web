@@ -1,6 +1,7 @@
 import React from 'react'
 
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 import './globals.css'
 import { pretendard } from '@/styles/fonts'
@@ -18,6 +19,12 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className} ${pretendard.variable}`}>
+        <Script
+          async
+          strategy="beforeInteractive"
+          type="text/javascript"
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&autoload=false`}
+        />
         {children}
       </body>
     </html>
