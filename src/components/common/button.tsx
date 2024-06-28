@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from 'react'
+import { forwardRef, type ButtonHTMLAttributes } from 'react'
 import { cva } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
@@ -44,17 +44,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: 'sm' | 'md' | 'lg' | 'full' | 'fit'
 }
 
-function Button({
-  className,
-  children,
-  disabled,
-  padding,
-  width,
-  colorScheme,
-  ...props
-}: ButtonProps) {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  { className, children, disabled, padding, width, colorScheme, ...props },
+  ref,
+) {
   return (
     <button
+      ref={ref}
       type="button"
       disabled={disabled}
       aria-disabled={disabled}
@@ -72,6 +68,6 @@ function Button({
       {children}
     </button>
   )
-}
+})
 
 export default Button

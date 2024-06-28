@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import type { HTMLAttributes, ReactNode } from 'react'
 import { cva } from 'class-variance-authority'
 
@@ -21,14 +22,13 @@ interface ChipProps extends HTMLAttributes<HTMLSpanElement> {
   children: ReactNode
 }
 
-function Chip({
-  className,
-  children,
-  colorScheme = 'neutral',
-  ...props
-}: ChipProps) {
+const Chip = forwardRef<HTMLSpanElement, ChipProps>(function Chip(
+  { className, children, colorScheme = 'neutral', ...props },
+  ref,
+) {
   return (
     <span
+      ref={ref}
       className={cn(
         ChipVariants({
           colorScheme,
@@ -40,6 +40,6 @@ function Chip({
       {children}
     </span>
   )
-}
+})
 
 export default Chip
