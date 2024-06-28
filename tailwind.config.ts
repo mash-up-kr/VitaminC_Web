@@ -26,6 +26,11 @@ const config: Config = {
         },
         main: {
           orange: '#E5684C',
+          blue: '#3177FF',
+          purple: '#5D5FEF',
+          yellow: '#FFEA2F',
+          pink: '#EFA5AE',
+          green: '#00B57C',
         },
       },
       borderRadius: {
