@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { Button } from '@/components/button'
+import { Button } from '@/components/common'
 
 const Error = ({
   error,
@@ -19,12 +19,13 @@ const Error = ({
     <div>
       <h2>Something went wrong!</h2>
       <Button
-        label="Try again"
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()
         }
-      />
+      >
+        Try Again
+      </Button>
     </div>
   )
 }
