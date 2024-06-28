@@ -1,4 +1,4 @@
-import HTTPClient from './HTTPClient'
+import HTTPClient from './http-client'
 import type { Interceptors, RequestConfig } from './types'
 import { authTokenStorage } from '../storage'
 

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { LocalStorageManager } from '@/utils/storage/localStorage'
+import { LocalStorageManager } from '@/utils/storage/local-storage'
 
 describe('LocalStorageManager', () => {
   const TEST_KEY = '@@testKey'

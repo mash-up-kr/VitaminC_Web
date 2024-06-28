@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 
-import { parseJSON } from '@/utils/api/parseJson'
+import { parseJSON } from '@/utils/api/parse-json'
 import { ParseJSONError } from '@/models/interface'
 
 describe('parseJSON', () => {

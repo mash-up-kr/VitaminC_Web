@@ -1,5 +1,5 @@
 import { APIError } from '@/models/interface'
-import { parseJSON } from './parseJson'
+import { parseJSON } from './parse-json'
 import type {
   HTTPMethod,
   Interceptor,

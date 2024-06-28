@@ -1,4 +1,4 @@
-import { apiClientFactory } from './apiClientFactory'
+import { apiClientFactory } from './api-client-factory'
 
 const client = {
   public: apiClientFactory({ secure: false }),
