@@ -1,4 +1,4 @@
-export type IntroStep = 'nickname' | 'complete' | 'map' | 'invite'
+import { IntroStep } from '@/models/interface'
 
 const Intro = ({
   searchParams,
