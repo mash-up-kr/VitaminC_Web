@@ -153,12 +153,16 @@ class HTTPClient {
   public post<T>(
     url: string,
     body?: any,
-    options?: RequestOptions,
+    options?: Omit<RequestOptions, 'body'>,
   ): Promise<T> {
     return this.request<T>(url, 'POST', { ...options, body })
   }
 
-  public put<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
+  public put<T>(
+    url: string,
+    body?: any,
+    options?: Omit<RequestOptions, 'body'>,
+  ): Promise<T> {
     return this.request<T>(url, 'PUT', { ...options, body })
   }
 
