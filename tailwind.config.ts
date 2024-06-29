@@ -9,6 +9,120 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        h0: [
+          '32px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.5%',
+            fontWeight: 600,
+          },
+        ],
+        h1: [
+          '28px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.5%',
+            fontWeight: 600,
+          },
+        ],
+        h2: [
+          '24px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.5%',
+            fontWeight: 600,
+          },
+        ],
+        h3: [
+          '20px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.5%',
+            fontWeight: 600,
+          },
+        ],
+        h4: [
+          '18px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.5%',
+            fontWeight: 600,
+          },
+        ],
+        h5: [
+          '16px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.5%',
+            fontWeight: 600,
+          },
+        ],
+        'h5-2': [
+          '15px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.5%',
+            fontWeight: 600,
+          },
+        ],
+        h6: [
+          '14px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.5%',
+            fontWeight: 600,
+          },
+        ],
+        h7: [
+          '13px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.5%',
+            fontWeight: 600,
+          },
+        ],
+        body0: [
+          '18px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-2%',
+            fontWeight: 400,
+          },
+        ],
+        body1: [
+          '16px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-2%',
+            fontWeight: 400,
+          },
+        ],
+        body2: [
+          '15px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-2%',
+            fontWeight: 400,
+          },
+        ],
+        body3: [
+          '14px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-2%',
+            fontWeight: 400,
+          },
+        ],
+        body4: [
+          '13px',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-2%',
+            fontWeight: 400,
+          },
+        ],
+      },
       fontFamily: {
         pretendard: ['var(--font-pretendard)'],
       },
