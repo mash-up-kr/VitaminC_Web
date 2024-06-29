@@ -2,8 +2,7 @@ import { InputHTMLAttributes, forwardRef } from 'react'
 
 import cn from '@/utils/cn'
 import { VariantProps, cva } from 'class-variance-authority'
-import { AccessibleIconButton } from '..'
-import Icon from '../common/icon'
+import AccessibleIconButton from '../accessible-icon-button'
 
 const SearchInputVariants = cva<{
   variant: Record<'outlined' | 'filled', string>
@@ -33,8 +32,8 @@ const SearchInputVariants = cva<{
 interface SearchInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof SearchInputVariants> {
-  rightIcon: Parameters<typeof Icon>[0]
-  leftIcon?: Parameters<typeof Icon>[0]
+  rightIcon: Parameters<typeof AccessibleIconButton>[0]
+  leftIcon?: Parameters<typeof AccessibleIconButton>[0]
   variant?: 'outlined' | 'filled'
   size?: 'sm' | 'md' | 'lg'
 }
@@ -55,17 +54,15 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ref,
   ) => {
     const isShowIcon =
-      rightIcon.type !== 'delete' ||
-      (rightIcon.type === 'delete' && props.value)
+      rightIcon.icon.type !== 'delete' ||
+      (rightIcon.icon.type === 'delete' && props.value)
 
     return (
       <div className="w-full relative">
-        {leftIcon?.type && leftIcon.onClick && (
+        {leftIcon && (
           <AccessibleIconButton
-            label={leftIcon['aria-label'] ?? ''}
             className="absolute top-1/2 -translate-y-1/2 left-4"
-            onClick={leftIcon.onClick}
-            icon={{ ...leftIcon }}
+            {...leftIcon}
           />
         )}
         <input
@@ -81,9 +78,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         {isShowIcon && (
           <AccessibleIconButton
             className="absolute top-1/2 -translate-y-1/2 right-4"
-            label={rightIcon['aria-label'] ?? ''}
-            onClick={rightIcon.onClick}
-            icon={{ ...rightIcon }}
+            {...rightIcon}
           />
         )}
       </div>

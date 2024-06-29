@@ -5,10 +5,6 @@ export default {
   title: 'Components/SearchInput',
   component: SearchInput,
   argTypes: {
-    prevButton: {
-      control: { type: 'radio' },
-      options: ['on', 'off'],
-    },
     variant: {
       control: { type: 'radio' },
       options: ['outlined', 'filled'],
@@ -24,29 +20,51 @@ type Story = StoryObj<typeof SearchInput>
 
 export const Default: Story = {
   args: {
-    iconLabel: '지우기',
-    iconType: 'delete',
-    value: '123',
-    onClickIcon: () => null,
+    rightIcon: {
+      icon: {
+        type: 'search',
+        'aria-hidden': true,
+      },
+      onClick: () => null,
+      label: '검색',
+    },
   },
 }
 
 export const Outlined: Story = {
   args: {
-    iconLabel: '검색',
-    iconType: 'search',
     value: '123',
-    onClickIcon: () => null,
+    variant: 'outlined',
+    rightIcon: {
+      icon: {
+        type: 'delete',
+        'aria-hidden': true,
+      },
+      onClick: () => null,
+      label: '삭제',
+    },
   },
 }
 
 export const Prev: Story = {
   args: {
-    iconLabel: '지우기',
-    iconType: 'delete',
-    prevButton: 'on',
     value: '123',
-    onClickPrev: () => null,
-    onClickIcon: () => null,
+    variant: 'outlined',
+    leftIcon: {
+      icon: {
+        type: 'caretLeft',
+        'aria-hidden': true,
+      },
+      label: '이전 화면',
+      onClick: () => null,
+    },
+    rightIcon: {
+      icon: {
+        type: 'delete',
+        'aria-hidden': true,
+      },
+      onClick: () => null,
+      label: '삭제',
+    },
   },
 }
