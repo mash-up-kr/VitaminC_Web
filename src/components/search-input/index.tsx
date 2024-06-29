@@ -3,7 +3,7 @@ import { InputHTMLAttributes, forwardRef } from 'react'
 import cn from '@/utils/cn'
 import { VariantProps, cva } from 'class-variance-authority'
 import { AccessibleIconButton } from '..'
-import { IconKey } from '../common/icon'
+import Icon from '../common/icon'
 
 const SearchInputVariants = cva<{
   variant: Record<'outlined' | 'filled', string>
@@ -33,12 +33,8 @@ const SearchInputVariants = cva<{
 interface SearchInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof SearchInputVariants> {
-  rightIconLabel: string
-  rightIconType: IconKey
-  leftIconLabel?: string
-  leftIconType?: IconKey
-  onClickRightIcon: () => void
-  onClickLeftIcon?: () => void
+  rightIcon: Parameters<typeof Icon>[0]
+  leftIcon?: Parameters<typeof Icon>[0]
   variant?: 'outlined' | 'filled'
   size?: 'sm' | 'md' | 'lg'
 }
@@ -50,29 +46,26 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     {
       variant,
       size,
+      rightIcon,
+      leftIcon,
       className,
-      rightIconLabel,
-      rightIconType,
-      leftIconLabel,
-      leftIconType,
-      onClickRightIcon,
-      onClickLeftIcon,
       placeholder = INITIAL_PLACEHOLDER,
       ...props
     },
     ref,
   ) => {
     const isShowIcon =
-      rightIconType !== 'delete' || (rightIconType === 'delete' && props.value)
+      rightIcon.type !== 'delete' ||
+      (rightIcon.type === 'delete' && props.value)
 
     return (
       <div className="w-full relative">
-        {leftIconType && onClickLeftIcon && (
+        {leftIcon?.type && leftIcon.onClick && (
           <AccessibleIconButton
-            label={leftIconLabel ?? ''}
+            label={leftIcon['aria-label'] ?? ''}
             className="absolute top-1/2 -translate-y-1/2 left-4"
-            onClick={onClickLeftIcon}
-            icon={{ type: 'caretLeft', size: 'lg', 'aria-hidden': true }}
+            onClick={leftIcon.onClick}
+            icon={{ ...leftIcon }}
           />
         )}
         <input
@@ -80,7 +73,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           className={cn(
             SearchInputVariants({ variant, size }),
             className,
-            leftIconType ? 'pl-[50px]' : '',
+            leftIcon?.type ? 'pl-[50px]' : '',
           )}
           ref={ref}
           placeholder={placeholder}
@@ -88,13 +81,9 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         {isShowIcon && (
           <AccessibleIconButton
             className="absolute top-1/2 -translate-y-1/2 right-4"
-            label={rightIconLabel}
-            onClick={onClickRightIcon}
-            icon={{
-              type: rightIconType,
-              size: 'lg',
-              'aria-hidden': 'true',
-            }}
+            label={rightIcon['aria-label'] ?? ''}
+            onClick={rightIcon.onClick}
+            icon={{ ...rightIcon }}
           />
         )}
       </div>
