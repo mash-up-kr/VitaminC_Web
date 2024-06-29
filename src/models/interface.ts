@@ -1,13 +1,15 @@
 /* API */
 export interface APIErrorType {}
 
-export class APIError extends Error {
+class ErrorNameMessage extends Error {
   constructor({ name, message }: { name: string; message: string }) {
     super(message)
     this.name = name
     this.message = message
   }
 }
+export class APIError extends ErrorNameMessage {}
+export class ParseJSONError extends ErrorNameMessage {}
 
 export interface ResponseOk {
   ok: boolean
