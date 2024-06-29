@@ -6,20 +6,13 @@ import Tooltip from '@/components/tooltip/index'
 const meta = {
   title: 'DesignSystem/Tooltip',
   component: Tooltip,
-  parameters: {
-    viewport: {
-      viewports: INITIAL_VIEWPORTS,
-      defaultViewport: 'iphone6',
-    },
-    docs: {
-      story: {
-        inline: false,
-        iframeHeight: 200,
-      },
+  tags: ['autodocs'],
+  argTypes: {
+    color: {
+      control: 'select',
+      options: ['neutral', 'orange'],
     },
   },
-  tags: ['autodocs'],
-  argTypes: {},
 } satisfies Meta<typeof Tooltip>
 
 export default meta
@@ -27,20 +20,21 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    label: '안녕하세요요요요요요',
+    label: 'tooltip Orange example',
     onClose: () => {
-      alert('닫기!')
+      alert('close')
     },
-    children: 'ddd',
+    children: 'tooltip Children',
   },
 }
 
 export const Gray: Story = {
   args: {
-    label: '안녕하세요요요요요요',
+    color: 'neutral',
+    label: 'tooltip Grey example',
     onClose: () => {
-      alert('닫기!')
+      alert('close')
     },
-    children: 'ddd',
+    children: 'tooltip Children',
   },
 }
