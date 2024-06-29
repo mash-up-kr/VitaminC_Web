@@ -17,11 +17,11 @@ const ConfirmCancelButton = ({
   onConfirm,
 }: ConfirmCancelButtonProps) => {
   return (
-    <div className={cn('flex gap-3', className)}>
-      <Button colorScheme="neutral" width="sm" onClick={onCancel}>
+    <div className={cn('flex gap-2', className)}>
+      <Button colorScheme="neutral" onClick={onCancel} className="flex-1">
         {cancelLabel}
       </Button>
-      <Button colorScheme="orange" onClick={onConfirm}>
+      <Button colorScheme="orange" onClick={onConfirm} className="flex-[2]">
         {confirmLabel}
       </Button>
     </div>
