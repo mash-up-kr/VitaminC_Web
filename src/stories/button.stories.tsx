@@ -29,8 +29,6 @@ type Story = StoryObj<typeof Button>
 export const Default: Story = {
   args: {
     colorScheme: 'neutral',
-    padding: 'md',
-    width: 'md',
     disabled: false,
     children: 'Default',
     onClick: () => console.log('default'),
@@ -40,8 +38,6 @@ export const Default: Story = {
 export const Orange: Story = {
   args: {
     colorScheme: 'orange',
-    padding: 'md',
-    width: 'md',
     disabled: false,
     children: 'Orange',
     onClick: () => console.log('orange'),
@@ -51,8 +47,6 @@ export const Orange: Story = {
 export const Disabled: Story = {
   args: {
     colorScheme: 'neutral',
-    padding: 'md',
-    width: 'md',
     disabled: true,
     children: 'Disabled',
     onClick: () => console.log('disabled'),
