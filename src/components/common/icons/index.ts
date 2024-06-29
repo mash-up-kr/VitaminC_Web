@@ -12,7 +12,6 @@ import Plus from './Plus.svg'
 import Search from './Search.svg'
 import ShareNetwork from './ShareNetwork.svg'
 import SignOut from './SignOut.svg'
-import ToastPopup from './ToastPopup.svg'
 import UploadSimple from './UploadSimple.svg'
 
 export const icons = {
@@ -30,6 +29,5 @@ export const icons = {
   search: Search,
   shareNetwork: ShareNetwork,
   signOut: SignOut,
-  toastPopup: ToastPopup,
   uploadSimple: UploadSimple,
 }
