@@ -17,7 +17,7 @@ export function apiClientFactory({
   secure,
   interceptors,
 }: {
-  secure: boolean
+  secure?: boolean
   interceptors?: {
     beforeRequestHeader?: Interceptors['beforeRequestHeader']
     afterResponse?: Interceptors['afterResponse']

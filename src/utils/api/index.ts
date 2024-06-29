@@ -1,7 +1,7 @@
 import { apiClientFactory } from './api-client-factory'
 
 const client = {
-  public: apiClientFactory({ secure: false }),
+  public: apiClientFactory({}),
   secure: apiClientFactory({ secure: true }),
 }
 
