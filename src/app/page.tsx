@@ -1,10 +1,18 @@
+'use client'
+
 import { Button, Chip, ChipButton, QRCode, Typography } from '@/components'
+import { notify } from '@/components/common/custom-toast'
 
 const Home = () => {
   return (
     <main className="w-full min-h-screen flex flex-col justify-center items-center bg-neutral-600">
       <QRCode url="http://localhost:3000" />
-      <Button colorScheme="orange">HI</Button>
+      <Button colorScheme="orange" onClick={() => notify.success('success!')}>
+        click success
+      </Button>
+      <Button colorScheme="neutral" onClick={() => notify.error('error!')}>
+        click error
+      </Button>
       <Typography size="h0" color="yellow-100">
         Typography
       </Typography>
