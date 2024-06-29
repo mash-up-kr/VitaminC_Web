@@ -1,2 +1,5 @@
 export { default as Button } from './button'
-export { default as VisuallyHidden } from './VisuallyHidden'
+export { default as ChipButton } from './chip-button'
+export { default as Chip } from './chip'
+export { default as Icon } from './icon'
+export { default as VisuallyHidden } from './visually-hidden'
