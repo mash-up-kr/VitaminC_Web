@@ -14,7 +14,7 @@ const ChipVariants = cva<{
       orange: 'bg-neutral-800 text-main-orange',
     },
     size: {
-      sm: 'px-[6px] py-[2px]',
+      sm: 'px-[6px] py-[8px]',
       md: 'px-2 py-1',
       lg: 'px-[10px] py-[6px]',
     },

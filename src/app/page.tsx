@@ -1,4 +1,4 @@
-import { Icon } from '@/components'
+import { AccessibleIconButton, Chip, Icon } from '@/components'
 import ChipButton from '@/components/common/chip-button'
 import Link from 'next/link'
 
@@ -26,6 +26,11 @@ const Home = () => {
         >
           한우갈비
         </ChipButton>
+        <AccessibleIconButton
+          icon={{ type: 'heartStraight', fill: 'green' }}
+          label="어떤걸 클릭"
+        />
+        <Chip>Chip</Chip>
         <Icon type="heartStraight" size="md" fill="green" stroke="orange" />
       </ul>
     </main>
