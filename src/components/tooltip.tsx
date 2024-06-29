@@ -4,9 +4,7 @@ import cn from '@/utils/cn'
 import { VariantProps, cva } from 'class-variance-authority'
 import AccessibleIconButton from './accessible-icon-button'
 import Typography from './common/typography'
-import { Icon } from '.'
-
-/* Polygon 3 */
+import Icon from './common/icon'
 
 const TooltipVariants = cva<{
   color: Record<'orange' | 'neutral', string>
