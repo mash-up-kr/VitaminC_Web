@@ -19,9 +19,9 @@ const TooltipVariants = cva<{
         orange: `bg-orange-400`,
       },
       size: {
-        lg: 'px-7 py-5 ',
-        md: 'px-5 py-3 ',
-        sm: 'px-3 py-2 ',
+        lg: 'px-7 py-5',
+        md: 'px-5 py-3',
+        sm: 'px-3 py-2',
       },
     },
     defaultVariants: {
@@ -43,7 +43,7 @@ interface TooltipProps
 const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
   ({ size, color, className, label, children, onClose, ...props }, ref) => {
     return (
-      <div className="relative ">
+      <div className="relative">
         {children}
         <div
           role="tooltip"
