@@ -2,6 +2,8 @@ import { InputHTMLAttributes, forwardRef } from 'react'
 
 import cn from '@/utils/cn'
 import { VariantProps, cva } from 'class-variance-authority'
+import { AccessibleIconButton } from '..'
+import { IconKey } from '../common/icon'
 
 const SearchInputVariants = cva<{
   variant: Record<'outlined' | 'filled', string>
@@ -31,10 +33,11 @@ const SearchInputVariants = cva<{
 interface SearchInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof SearchInputVariants> {
-  iconType?: 'reset' | 'search'
+  iconLabel: string
+  onClickIcon: () => void
+  iconType: IconKey
   variant?: 'outlined' | 'filled'
   size?: 'sm' | 'md' | 'lg'
-  onReset?: () => void
 }
 
 const INITIAL_PLACEHOLDER = '원하는 장소를 검색해 주세요.'
@@ -45,13 +48,17 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       variant,
       size,
       className,
-      onReset,
-      iconType = 'reset',
+      iconLabel,
+      onClickIcon,
+      iconType,
       placeholder = INITIAL_PLACEHOLDER,
       ...props
     },
     ref,
   ) => {
+    const isShowIcon =
+      iconType !== 'delete' || (iconType === 'delete' && props.value)
+
     return (
       <div className="w-full relative">
         <input
@@ -60,13 +67,17 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           ref={ref}
           placeholder={placeholder}
         />
-        {/* TODO: ClearIcon */}
-        {iconType === 'reset' && onReset && props.value ? (
-          <span className="absolute top=1/2 translate-y-1/2 right-4">X</span>
-        ) : null}
-        {/* TODO: SearchIcon */}
-        {iconType === 'search' ? (
-          <span className="absolute top=1/2 translate-y-1/2 right-4">?</span>
+        {isShowIcon ? (
+          <AccessibleIconButton
+            className="absolute top-1/2 -translate-y-1/2 right-4"
+            label={iconLabel}
+            icon={{
+              type: iconType,
+              size: 'lg',
+              onClick: onClickIcon,
+              'aria-hidden': 'true',
+            }}
+          />
         ) : null}
       </div>
     )
