@@ -17,7 +17,7 @@ const ButtonVariants = cva<{
       },
       size: {
         sm: 'py-[12px]',
-        md: 'py-[17px]',
+        md: 'py-[15px]',
         lg: 'py-[18px]',
       },
       rounded: {
