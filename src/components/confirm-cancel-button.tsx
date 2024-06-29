@@ -9,7 +9,7 @@ interface ConfirmCancelButtonProps {
   onConfirm: VoidFunction
 }
 
-export const ConfirmCancelButton = ({
+const ConfirmCancelButton = ({
   className,
   cancelLabel,
   confirmLabel,
@@ -27,3 +27,5 @@ export const ConfirmCancelButton = ({
     </div>
   )
 }
+
+export default ConfirmCancelButton

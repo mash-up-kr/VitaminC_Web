@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { ConfirmCancelButton } from '@/components/confirm-cancel-button'
+import ConfirmCancelButton from '@/components/confirm-cancel-button'
 
 const meta: Meta<typeof ConfirmCancelButton> = {
   title: 'Components/ConfirmCancelButton',
