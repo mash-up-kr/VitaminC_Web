@@ -9,7 +9,7 @@ const SearchInputVariants = cva<{
   variant: Record<'outlined' | 'filled', string>
   size: Record<'sm' | 'md' | 'lg', string>
 }>(
-  `w-full leading-none caret-main-orange rounded-md placeholder:text-neutral-400`,
+  `w-full leading-none caret-orange-400 rounded-md placeholder:text-neutral-400`,
   {
     variants: {
       variant: {
