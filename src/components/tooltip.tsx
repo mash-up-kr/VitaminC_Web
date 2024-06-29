@@ -4,7 +4,6 @@ import cn from '@/utils/cn'
 import { VariantProps, cva } from 'class-variance-authority'
 import AccessibleIconButton from './accessible-icon-button'
 import Typography from './common/typography'
-import RoundedTriangle from './common/icons/RoundedTriangle.svg'
 import { Icon } from '.'
 
 /* Polygon 3 */
