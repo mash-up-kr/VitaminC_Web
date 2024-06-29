@@ -12,7 +12,7 @@ const ButtonVariants = cva<{
   {
     variants: {
       colorScheme: {
-        orange: 'bg-main-orange',
+        orange: 'bg-orange-400',
         neutral: 'bg-neutral-500',
       },
       size: {

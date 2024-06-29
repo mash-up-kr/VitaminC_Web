@@ -11,7 +11,7 @@ const ChipButtonVariants = cva(
     variants: {
       colorScheme: {
         neutral: 'bg-neutral-500 text-neutral-100',
-        orange: 'bg-main-orange text-neutral-000',
+        orange: 'bg-orange-400 text-neutral-000',
       },
     },
     defaultVariants: {
