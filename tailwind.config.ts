@@ -175,19 +175,19 @@ const config: Config = {
         '3xl': '20px',
       },
       keyframes: {
-        fadein: {
-          from: { bottom: '0', opacity: '0' },
-          to: { bottom: '20px', opacity: '1' },
+        enter: {
+          from: { bottom: '0' },
+          to: { bottom: '20px' },
         },
-        fadeout: {
-          from: { bottom: '20px', opacity: '1' },
-          to: { bottom: '0', opacity: '0' },
+        leave: {
+          from: { bottom: '20px' },
+          to: { bottom: '0' },
         },
       },
       animation: {
-        'fade-in': 'fadein 0.3s ease-in-out',
-        'fade-out': 'fadeout 3s ease-in-out',
-      }
+        enter: 'enter 0.3s ease-in-out',
+        leave: 'leave 3s ease-in-out',
+      },
     },
   },
   plugins: [],
