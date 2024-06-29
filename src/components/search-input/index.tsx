@@ -6,7 +6,6 @@ import { AccessibleIconButton } from '..'
 import { IconKey } from '../common/icon'
 
 const SearchInputVariants = cva<{
-  prevButton: Record<'on' | 'off', string>
   variant: Record<'outlined' | 'filled', string>
   size: Record<'sm' | 'md' | 'lg', string>
 }>(
@@ -23,10 +22,6 @@ const SearchInputVariants = cva<{
         md: 'p-4 pr-[50px]',
         lg: 'p-5 pr-[50px]',
       },
-      prevButton: {
-        on: 'pl-[50px]',
-        off: '',
-      },
     },
     defaultVariants: {
       variant: 'filled',
@@ -38,13 +33,14 @@ const SearchInputVariants = cva<{
 interface SearchInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof SearchInputVariants> {
-  iconLabel: string
-  iconType: IconKey
-  onClickIcon: () => void
-  prevButton?: 'on' | 'off'
+  rightIconLabel: string
+  rightIconType: IconKey
+  leftIconLabel?: string
+  leftIconType?: IconKey
+  onClickRightIcon: () => void
+  onClickLeftIcon?: () => void
   variant?: 'outlined' | 'filled'
   size?: 'sm' | 'md' | 'lg'
-  onClickPrev?: () => null
 }
 
 const INITIAL_PLACEHOLDER = '원하는 장소를 검색해 주세요.'
@@ -55,34 +51,36 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       variant,
       size,
       className,
-      iconLabel,
-      iconType,
-      onClickIcon,
-      onClickPrev,
-      prevButton = 'off',
+      rightIconLabel,
+      rightIconType,
+      leftIconLabel,
+      leftIconType,
+      onClickRightIcon,
+      onClickLeftIcon,
       placeholder = INITIAL_PLACEHOLDER,
       ...props
     },
     ref,
   ) => {
     const isShowIcon =
-      iconType !== 'delete' || (iconType === 'delete' && props.value)
+      rightIconType !== 'delete' || (rightIconType === 'delete' && props.value)
 
     return (
       <div className="w-full relative">
-        {prevButton === 'on' && onClickPrev && (
+        {leftIconType && onClickLeftIcon && (
           <AccessibleIconButton
-            label="뒤로 가기"
+            label={leftIconLabel ?? ''}
             className="absolute top-1/2 -translate-y-1/2 left-4"
-            onClick={onClickPrev}
+            onClick={onClickLeftIcon}
             icon={{ type: 'caretLeft', size: 'lg', 'aria-hidden': true }}
           />
         )}
         <input
           {...props}
           className={cn(
-            SearchInputVariants({ prevButton, variant, size }),
+            SearchInputVariants({ variant, size }),
             className,
+            leftIconType ? 'pl-[50px]' : '',
           )}
           ref={ref}
           placeholder={placeholder}
@@ -90,10 +88,10 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         {isShowIcon && (
           <AccessibleIconButton
             className="absolute top-1/2 -translate-y-1/2 right-4"
-            label={iconLabel}
-            onClick={onClickIcon}
+            label={rightIconLabel}
+            onClick={onClickRightIcon}
             icon={{
-              type: iconType,
+              type: rightIconType,
               size: 'lg',
               'aria-hidden': 'true',
             }}
