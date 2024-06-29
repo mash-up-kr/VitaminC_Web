@@ -7,10 +7,6 @@ const MapMain = ({
     search?: string
   }
 }) => {
-  if (!searchParams?.userId || !searchParams?.mapName) {
-    return <>지도 미선택</>
-  }
-
   if (searchParams?.search) {
     return <>검색 화면</>
   }
