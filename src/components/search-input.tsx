@@ -2,7 +2,7 @@ import { InputHTMLAttributes, forwardRef } from 'react'
 
 import cn from '@/utils/cn'
 import { VariantProps, cva } from 'class-variance-authority'
-import AccessibleIconButton from '../accessible-icon-button'
+import AccessibleIconButton from './accessible-icon-button'
 
 const SearchInputVariants = cva<{
   variant: Record<'outlined' | 'filled', string>
