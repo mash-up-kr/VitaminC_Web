@@ -22,3 +22,5 @@ export const BOTTOM_SHEET_STATE = {
 } as const
 export type BottomSheetState =
   (typeof BOTTOM_SHEET_STATE)[keyof typeof BOTTOM_SHEET_STATE]
+
+export type IntroStep = 'nickname' | 'complete' | 'map' | 'invite'
