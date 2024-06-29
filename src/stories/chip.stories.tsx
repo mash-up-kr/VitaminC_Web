@@ -21,7 +21,7 @@ type Story = StoryObj<typeof Chip>
 
 export const Default: Story = {
   args: {
-    colorScheme: 'neutral',
+    colorScheme: 'neutral-400',
     children: '#혼밥',
   },
 }

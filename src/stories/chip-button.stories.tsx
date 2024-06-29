@@ -47,7 +47,6 @@ export const WithIcon: Story = {
     isActive: false,
     rightIcon: {
       type: 'infoCircle',
-      fill: 'blue',
       stroke: 'neutral-500',
       size: 'md',
     },
