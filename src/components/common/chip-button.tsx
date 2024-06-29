@@ -4,14 +4,15 @@ import { cva, VariantProps } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
 import Icon from './icon'
+import Typography from './typography'
 
 const ChipButtonVariants = cva(
-  'rounded-[20px] flex justify-center items-center px-[10px] py-2 leading-tight tracking-[-0.02em]',
+  'rounded-3xl flex justify-center items-center px-[10px] py-2',
   {
     variants: {
       colorScheme: {
-        neutral: 'bg-neutral-500 text-neutral-100',
-        orange: 'bg-orange-400 text-neutral-000',
+        neutral: 'bg-neutral-500',
+        orange: 'bg-orange-4000',
       },
     },
     defaultVariants: {
@@ -42,7 +43,9 @@ const ChipButton = forwardRef<HTMLButtonElement, ChipButtonProps>(
         )}
         {...props}
       >
-        {children}
+        <Typography size="h6" color="neutral-100">
+          {children}
+        </Typography>
         {rightIcon && <Icon {...rightIcon} aria-hidden />}
       </button>
     )

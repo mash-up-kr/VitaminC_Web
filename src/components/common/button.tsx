@@ -2,39 +2,38 @@ import { forwardRef, type ButtonHTMLAttributes } from 'react'
 import { cva } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
+import Typography from './typography'
+import type { ColorKey } from '@/types/color'
 
 const ButtonVariants = cva<{
   colorScheme: Record<'orange' | 'neutral', string>
   size: Record<'sm' | 'md' | 'lg', string>
   rounded: Record<'xl' | 'full', string>
-}>(
-  'flex justify-center items-center cursor-pointer text-neutral-000 text-[18px] font-semibold leading-tight',
-  {
-    variants: {
-      colorScheme: {
-        orange: 'bg-orange-400',
-        neutral: 'bg-neutral-500',
-      },
-      size: {
-        sm: 'py-[12px]',
-        md: 'py-[15px]',
-        lg: 'py-[18px]',
-      },
-      rounded: {
-        xl: 'rounded-xl',
-        full: 'rounded-full',
-      },
+}>('flex justify-center items-center cursor-pointer', {
+  variants: {
+    colorScheme: {
+      orange: 'bg-orange-400',
+      neutral: 'bg-neutral-500',
     },
-    defaultVariants: {
-      colorScheme: 'orange',
-      size: 'md',
-      rounded: 'full',
+    size: {
+      sm: 'py-[12px]',
+      md: 'py-[15px]',
+      lg: 'py-[18px]',
+    },
+    rounded: {
+      xl: 'rounded-xl',
+      full: 'rounded-full',
     },
   },
-)
+  defaultVariants: {
+    colorScheme: 'orange',
+    size: 'md',
+    rounded: 'full',
+  },
+})
 
-const darkDisableClass = 'bg-neutral-600 text-neutral-400 cursor-not-allowed'
-const lightDisableClass = 'bg-neutral-100 text-neutral-200 cursor-not-allowed'
+const darkDisableClass = 'bg-neutral-600 cursor-not-allowed'
+const lightDisableClass = 'bg-neutral-100 cursor-not-allowed'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   colorScheme?: 'orange' | 'neutral'
@@ -47,11 +46,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const getDisabledClassName = (
   disabled: boolean,
   disabledColor: 'dark' | 'light',
-) => {
+): { disabledClassName: string; disabledTextColor: ColorKey } => {
   if (!disabled) {
-    return ''
+    return { disabledClassName: '', disabledTextColor: 'neutral-000' }
   }
-  return disabledColor === 'dark' ? darkDisableClass : lightDisableClass
+  return disabledColor === 'dark'
+    ? { disabledClassName: darkDisableClass, disabledTextColor: 'neutral-400' }
+    : { disabledClassName: lightDisableClass, disabledTextColor: 'neutral-200' }
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -69,7 +70,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const disabledClassName = getDisabledClassName(disabled, disabledColor)
+    const { disabledClassName, disabledTextColor } = getDisabledClassName(
+      disabled,
+      disabledColor,
+    )
 
     return (
       <button
@@ -89,7 +93,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...props}
       >
-        {children}
+        <Typography
+          size="h4"
+          color={disabled ? disabledTextColor : 'neutral-000'}
+        >
+          {children}
+        </Typography>
       </button>
     )
   },
