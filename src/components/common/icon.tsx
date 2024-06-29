@@ -8,8 +8,8 @@ import type { ColorKey } from '@/types/color'
 
 const IconVariants = cva<{
   size: Record<'sm' | 'md' | 'lg', string>
-  stroke: Record<ColorKey, string>
-  fill: Record<ColorKey, string>
+  stroke: Record<ColorKey | '', string>
+  fill: Record<ColorKey | '', string>
 }>('flex justify-content items-center', {
   variants: {
     size: {
@@ -18,6 +18,7 @@ const IconVariants = cva<{
       lg: 'w-6 h-6',
     },
     stroke: {
+      '': '',
       'neutral-000': '[&_path]:stroke-neutral-000',
       'neutral-100': '[&_path]:stroke-neutral-100',
       'neutral-200': '[&_path]:stroke-neutral-200',
@@ -35,6 +36,7 @@ const IconVariants = cva<{
       green: '[&_path]:stroke-main-green',
     },
     fill: {
+      '': '',
       'neutral-000': '[&_path]:fill-neutral-000',
       'neutral-100': '[&_path]:fill-neutral-100',
       'neutral-200': '[&_path]:fill-neutral-200',
@@ -54,8 +56,8 @@ const IconVariants = cva<{
   },
   defaultVariants: {
     size: 'md',
-    stroke: 'neutral-600',
-    fill: 'orange',
+    stroke: '',
+    fill: '',
   },
 })
 
