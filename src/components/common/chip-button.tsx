@@ -6,7 +6,7 @@ import cn from '@/utils/cn'
 import Icon from './icon'
 
 const ChipButtonVariants = cva(
-  'rounded-[20px] flex justify-center items-center px-[10px] py-2 leading-normal tracking-[-0.02em]',
+  'rounded-[20px] flex justify-center items-center px-[10px] py-2 leading-tight tracking-[-0.02em]',
   {
     variants: {
       colorScheme: {

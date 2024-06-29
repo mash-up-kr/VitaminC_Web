@@ -5,48 +5,58 @@ import cn from '@/utils/cn'
 
 const ButtonVariants = cva<{
   colorScheme: Record<'orange' | 'neutral', string>
-  padding: Record<'sm' | 'md' | 'lg', string>
-  width: Record<'sm' | 'md' | 'lg' | 'full' | 'fit', string>
+  size: Record<'sm' | 'md' | 'lg', string>
+  rounded: Record<'xl' | 'full', string>
 }>(
-  'flex justify-center items-center rounded-xl cursor-pointer text-neutral-000 text-[18px] font-semibold leading-normal',
+  'flex justify-center items-center cursor-pointer text-neutral-000 text-[18px] font-semibold leading-tight',
   {
     variants: {
       colorScheme: {
         orange: 'bg-main-orange',
         neutral: 'bg-neutral-500',
       },
-      padding: {
-        sm: 'p-[12px]',
-        md: 'p-[15px]',
-        lg: 'p-[18px]',
+      size: {
+        sm: 'py-[12px]',
+        md: 'py-[17px]',
+        lg: 'py-[18px]',
       },
-      width: {
-        sm: 'w-[126px]',
-        md: 'w-[197px]',
-        lg: 'w-[265px]',
-        fit: 'w-fit',
-        full: 'w-full flex-1',
+      rounded: {
+        xl: 'rounded-xl',
+        full: 'rounded-full',
       },
     },
     defaultVariants: {
       colorScheme: 'orange',
-      padding: 'md',
-      width: 'full',
+      size: 'md',
+      rounded: 'xl',
     },
   },
 )
 
-const disabledClass = 'bg-neutral-600 text-neutral-400 cursor-not-allowed'
+const darkDisableClass = 'bg-neutral-600 text-neutral-400 cursor-not-allowed'
+const lightDisableClass = 'bg-neutral-100 text-neutral-200 cursor-not-allowed'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   colorScheme?: 'orange' | 'neutral'
-  padding?: 'sm' | 'md' | 'lg'
-  width?: 'sm' | 'md' | 'lg' | 'full' | 'fit'
+  size?: 'sm' | 'md' | 'lg'
+  rounded?: 'xl' | 'full'
+  disabledColor?: 'dark' | 'light'
+  fullWidth?: boolean
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, children, disabled, padding, width, colorScheme, ...props },
+    {
+      className,
+      children,
+      disabled,
+      size,
+      colorScheme,
+      rounded,
+      fullWidth,
+      disabledColor = 'dark',
+      ...props
+    },
     ref,
   ) => {
     return (
@@ -58,11 +68,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           ButtonVariants({
             colorScheme,
-            padding,
-            width,
+            size,
+            rounded,
           }),
           className,
-          disabled && disabledClass,
+          disabled && disabledColor === 'dark'
+            ? darkDisableClass
+            : lightDisableClass,
+          fullWidth && 'w-full',
         )}
         {...props}
       >

@@ -7,7 +7,7 @@ import cn from '@/utils/cn'
 const ChipVariants = cva<{
   colorScheme: Record<'neutral' | 'orange', string>
   size: Record<'sm' | 'md' | 'lg', string>
-}>('rounded px-2 py-1 text-[13px] font-medium leading-normal', {
+}>('rounded px-2 py-1 text-[13px] font-medium leading-tight', {
   variants: {
     colorScheme: {
       neutral: 'bg-neutral-600 text-neutral-300',
