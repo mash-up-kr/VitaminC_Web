@@ -10,10 +10,10 @@ import HeartStraightOutlined from './HeartStraightOutlined.svg'
 import Info from './Info.svg'
 import InfoCircle from './InfoCircle.svg'
 import Plus from './Plus.svg'
+import RoundedTriangle from './RoundedTriangle.svg'
 import Search from './Search.svg'
 import ShareNetwork from './ShareNetwork.svg'
 import SignOut from './SignOut.svg'
-import ToastPopup from './ToastPopup.svg'
 import UploadSimple from './UploadSimple.svg'
 
 export const icons = {
@@ -29,9 +29,9 @@ export const icons = {
   info: Info,
   infoCircle: InfoCircle,
   plus: Plus,
+  roundedTriangle: RoundedTriangle,
   search: Search,
   shareNetwork: ShareNetwork,
   signOut: SignOut,
-  toastPopup: ToastPopup,
   uploadSimple: UploadSimple,
 }
