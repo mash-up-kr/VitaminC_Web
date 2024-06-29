@@ -26,7 +26,7 @@ const ChipVariants = cva<{
 })
 
 interface ChipProps extends HTMLAttributes<HTMLSpanElement> {
-  colorScheme?: 'neutral'
+  colorScheme?: 'neutral' | 'orange'
   size?: 'sm' | 'md' | 'lg'
   children: ReactNode
 }
