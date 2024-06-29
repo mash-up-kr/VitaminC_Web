@@ -67,18 +67,18 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           ref={ref}
           placeholder={placeholder}
         />
-        {isShowIcon ? (
+        {isShowIcon && (
           <AccessibleIconButton
             className="absolute top-1/2 -translate-y-1/2 right-4"
             label={iconLabel}
+            onClick={onClickIcon}
             icon={{
               type: iconType,
               size: 'lg',
-              onClick: onClickIcon,
               'aria-hidden': 'true',
             }}
           />
-        ) : null}
+        )}
       </div>
     )
   },
