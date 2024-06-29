@@ -1,4 +1,4 @@
-import SearchInput from '@/components/search-input/index'
+import SearchInput from '@/components/search-input'
 import { Meta, StoryObj } from '@storybook/react'
 
 export default {
