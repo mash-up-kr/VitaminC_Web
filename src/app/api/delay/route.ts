@@ -13,5 +13,11 @@ export async function GET(request: Request) {
 
   await new Promise((resolve) => setTimeout(resolve, delay))
 
-  return NextResponse.json({ ok: true, message: `delay ${delay}ms` })
+  return NextResponse.json({ ok: true, message: `[GET] delay ${delay}ms` })
+}
+
+export async function POST() {
+  await new Promise((resolve) => setTimeout(resolve, 3000))
+
+  return NextResponse.json({ ok: true, message: `[POST] delay ${3000}ms` })
 }
