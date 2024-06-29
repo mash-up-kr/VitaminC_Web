@@ -44,30 +44,34 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: 'sm' | 'md' | 'lg' | 'full' | 'fit'
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { className, children, disabled, padding, width, colorScheme, ...props },
-  ref,
-) {
-  return (
-    <button
-      ref={ref}
-      type="button"
-      disabled={disabled}
-      aria-disabled={disabled}
-      className={cn(
-        ButtonVariants({
-          colorScheme,
-          padding,
-          width,
-        }),
-        className,
-        disabled && disabledClass,
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  )
-})
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    { className, children, disabled, padding, width, colorScheme, ...props },
+    ref,
+  ) => {
+    return (
+      <button
+        ref={ref}
+        type="button"
+        disabled={disabled}
+        aria-disabled={disabled}
+        className={cn(
+          ButtonVariants({
+            colorScheme,
+            padding,
+            width,
+          }),
+          className,
+          disabled && disabledClass,
+        )}
+        {...props}
+      >
+        {children}
+      </button>
+    )
+  },
+)
+
+Button.displayName = 'Button'
 
 export default Button

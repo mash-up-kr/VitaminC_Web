@@ -31,25 +31,26 @@ interface ChipProps extends HTMLAttributes<HTMLSpanElement> {
   children: ReactNode
 }
 
-const Chip = forwardRef<HTMLSpanElement, ChipProps>(function Chip(
-  { className, children, colorScheme, size, ...props },
-  ref,
-) {
-  return (
-    <span
-      ref={ref}
-      className={cn(
-        ChipVariants({
-          colorScheme,
-          size,
-        }),
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </span>
-  )
-})
+const Chip = forwardRef<HTMLSpanElement, ChipProps>(
+  ({ className, children, colorScheme, size, ...props }, ref) => {
+    return (
+      <span
+        ref={ref}
+        className={cn(
+          ChipVariants({
+            colorScheme,
+            size,
+          }),
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </span>
+    )
+  },
+)
+
+Chip.displayName = 'chip'
 
 export default Chip

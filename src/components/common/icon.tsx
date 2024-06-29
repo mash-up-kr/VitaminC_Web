@@ -67,16 +67,17 @@ export interface IconProps extends HTMLAttributes<HTMLElement> {
   size?: 'sm' | 'md' | 'lg'
 }
 
-const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
-  { type, className, stroke, fill, size, ...props },
-  ref,
-) {
-  const TargetIcon = icons[type]
+const Icon = forwardRef<SVGSVGElement, IconProps>(
+  ({ type, className, stroke, fill, size, ...props }, ref) => {
+    const TargetIcon = icons[type]
 
-  return cloneElement(<TargetIcon ref={ref} />, {
-    className: cn(IconVariants({ size, fill, stroke }), className),
-    ...props,
-  })
-})
+    return cloneElement(<TargetIcon ref={ref} />, {
+      className: cn(IconVariants({ size, fill, stroke }), className),
+      ...props,
+    })
+  },
+)
+
+Icon.displayName = 'icon'
 
 export default Icon

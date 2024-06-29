@@ -28,10 +28,7 @@ interface ChipButtonProps
 }
 
 const ChipButton = forwardRef<HTMLButtonElement, ChipButtonProps>(
-  function ChipButton(
-    { className, children, rightIcon, isActive = false, ...props },
-    ref,
-  ) {
+  ({ className, children, rightIcon, isActive = false, ...props }, ref) => {
     return (
       <button
         ref={ref}
@@ -51,5 +48,7 @@ const ChipButton = forwardRef<HTMLButtonElement, ChipButtonProps>(
     )
   },
 )
+
+ChipButton.displayName = 'chip-button'
 
 export default ChipButton
