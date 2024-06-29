@@ -9,6 +9,7 @@ import HeartStraightOutlined from './HeartStraightOutlined.svg'
 import Info from './Info.svg'
 import InfoCircle from './InfoCircle.svg'
 import Plus from './Plus.svg'
+import RoundedTriangle from './RoundedTriangle.svg'
 import Search from './Search.svg'
 import ShareNetwork from './ShareNetwork.svg'
 import SignOut from './SignOut.svg'
@@ -26,6 +27,7 @@ export const icons = {
   info: Info,
   infoCircle: InfoCircle,
   plus: Plus,
+  roundedTriangle: RoundedTriangle,
   search: Search,
   shareNetwork: ShareNetwork,
   signOut: SignOut,

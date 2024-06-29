@@ -1,4 +1,7 @@
+'use client'
+
 import { Button, Chip, ChipButton, QRCode, Typography } from '@/components'
+import Tooltip from '@/components/tooltip'
 
 const Home = () => {
   return (
@@ -23,19 +26,10 @@ const Home = () => {
       <Typography size="body2">Typography</Typography>
       <Typography size="body3">Typography</Typography>
       <Typography size="body4">Typography</Typography>
-      <Chip size="sm" fontSize="h7" colorScheme="orange">
-        진영 Pick
-      </Chip>
-      <Chip size="md" fontSize="body3" colorScheme="neutral-400">
-        🍝 태그설명
-      </Chip>
-      <Chip size="md" fontSize="body3" colorScheme="orange">
-        🍝 태그설명
-      </Chip>
-      <Chip size="lg" fontSize="body0" colorScheme="neutral-500">
-        도라방스
-      </Chip>
-      <ChipButton rightIcon={{ type: 'close' }}>한우갈비</ChipButton>
+
+      <Tooltip label="아아아아아아아" onClose={() => null}>
+        테스트 테스트
+      </Tooltip>
     </main>
   )
 }
