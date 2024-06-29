@@ -1,41 +1,57 @@
 import { forwardRef } from 'react'
-import type { HTMLAttributes, ReactNode } from 'react'
+import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
 import { cva } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
+import Typography, { type FontKey } from './typography'
 
 const ChipVariants = cva<{
-  colorScheme: Record<'neutral' | 'orange', string>
+  colorScheme: Record<'neutral-400' | 'neutral-500' | 'orange', string>
   size: Record<'sm' | 'md' | 'lg', string>
-}>('rounded px-2 py-1 text-[13px] font-medium leading-tight', {
+}>('rounded-full', {
   variants: {
     colorScheme: {
-      neutral: 'bg-neutral-600 text-neutral-300',
-      orange: 'bg-neutral-800 text-main-orange',
+      'neutral-400': 'bg-neutral-400 text-neutral-000',
+      'neutral-500': 'bg-neutral-500 text-neutral-400',
+      orange: 'bg-orange-400 text-neutral-000',
     },
     size: {
-      sm: 'px-[6px] py-[8px]',
-      md: 'px-2 py-1',
-      lg: 'px-[10px] py-[6px]',
+      sm: 'px-2 py-1',
+      md: 'px-[10px] py-2',
+      lg: 'px-5 py-2',
     },
   },
   defaultVariants: {
-    colorScheme: 'neutral',
+    colorScheme: 'neutral-400',
     size: 'md',
   },
 })
 
 interface ChipProps extends HTMLAttributes<HTMLSpanElement> {
-  colorScheme?: 'neutral' | 'orange'
+  colorScheme?: 'neutral-400' | 'neutral-500' | 'orange'
   size?: 'sm' | 'md' | 'lg'
+  fontSize?: FontKey
   children: ReactNode
 }
 
 const Chip = forwardRef<HTMLSpanElement, ChipProps>(
-  ({ className, children, colorScheme, size, ...props }, ref) => {
+  (
+    {
+      className,
+      children,
+      colorScheme,
+      size,
+      fontSize = 'h7',
+      color,
+      ...props
+    },
+    ref,
+  ) => {
     return (
-      <span
-        ref={ref}
+      <Typography
+        as="span"
+        size={fontSize}
+        ref={ref as ForwardedRef<HTMLDivElement>}
         className={cn(
           ChipVariants({
             colorScheme,
@@ -46,7 +62,7 @@ const Chip = forwardRef<HTMLSpanElement, ChipProps>(
         {...props}
       >
         {children}
-      </span>
+      </Typography>
     )
   },
 )

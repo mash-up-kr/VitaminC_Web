@@ -24,8 +24,8 @@ export const Default: Story = {
   args: {
     icon: {
       type: 'infoCircle',
-      fill: 'blue',
-      stroke: 'yellow',
+      fill: 'orange-400',
+      stroke: 'yellow-100',
     },
     label: 'Heart Icon',
   },
