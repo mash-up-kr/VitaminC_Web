@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 
 import './globals.css'
+import { CustomToaster } from '@/components/common/custom-toast'
 import { pretendard } from '@/styles/fonts'
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default function RootLayout({
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&autoload=false`}
         />
         {children}
+        <CustomToaster />
       </body>
     </html>
   )

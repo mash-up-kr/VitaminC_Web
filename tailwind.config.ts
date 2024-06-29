@@ -174,6 +174,20 @@ const config: Config = {
       borderRadius: {
         '3xl': '20px',
       },
+      keyframes: {
+        enter: {
+          from: { bottom: '0' },
+          to: { bottom: '20px' },
+        },
+        leave: {
+          from: { bottom: '20px' },
+          to: { bottom: '0' },
+        },
+      },
+      animation: {
+        enter: 'enter 0.3s ease-in-out',
+        leave: 'leave 3s ease-in-out',
+      },
     },
   },
   plugins: [],
