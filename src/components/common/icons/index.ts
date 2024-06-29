@@ -1,4 +1,5 @@
 import CaretDown from './CaretDown.svg'
+import CaretLeft from './CaretLeft.svg'
 import CaretUp from './CaretUp.svg'
 import Check from './Check.svg'
 import Clock from './Clock.svg'
@@ -17,6 +18,7 @@ import UploadSimple from './UploadSimple.svg'
 
 export const icons = {
   caretDown: CaretDown,
+  caretLeft: CaretLeft,
   caretUp: CaretUp,
   check: Check,
   clock: Clock,
