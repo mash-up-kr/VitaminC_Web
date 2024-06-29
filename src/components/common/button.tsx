@@ -28,7 +28,7 @@ const ButtonVariants = cva<{
     defaultVariants: {
       colorScheme: 'orange',
       size: 'md',
-      rounded: 'xl',
+      rounded: 'full',
     },
   },
 )
@@ -44,21 +44,33 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean
 }
 
+const getDisabledClassName = (
+  disabled: boolean,
+  disabledColor: 'dark' | 'light',
+) => {
+  if (!disabled) {
+    return ''
+  }
+  return disabledColor === 'dark' ? darkDisableClass : lightDisableClass
+}
+
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className,
       children,
-      disabled,
       size,
       colorScheme,
       rounded,
-      fullWidth,
+      disabled = false,
+      fullWidth = true,
       disabledColor = 'dark',
       ...props
     },
     ref,
   ) => {
+    const disabledClassName = getDisabledClassName(disabled, disabledColor)
+
     return (
       <button
         ref={ref}
@@ -72,9 +84,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             rounded,
           }),
           className,
-          disabled && disabledColor === 'dark'
-            ? darkDisableClass
-            : lightDisableClass,
+          disabledClassName,
           fullWidth && 'w-full',
         )}
         {...props}
