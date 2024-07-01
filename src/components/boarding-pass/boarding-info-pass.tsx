@@ -59,7 +59,7 @@ const BoardingInfoPass = ({
       <div className="pt-5 flex flex-col gap-1 justify-content items-center bg-neutral-600 rounded-t-3xl">
         <img src="/ship.png" aria-hidden className="w-[31px] h-[35px]" />
         <Typography size="h5" color="neutral-300">
-          {day}일째 항해중
+          {day.toLocaleString()}일째 항해중
         </Typography>
       </div>
 
@@ -69,7 +69,7 @@ const BoardingInfoPass = ({
             Crew
           </Typography>
           <Typography size="h4" color="neutral-000" className="text-left">
-            {numOfCrew}명
+            {numOfCrew.toLocaleString()}명
           </Typography>
         </div>
         <div className="flex flex-col gap-1 flex-1 bg-neutral-600">

@@ -52,7 +52,9 @@ const InvitedBoardingPass = ({
             Crew
           </Typography>
           <Typography size="h4" color="neutral-000" className="text-left">
-            {numOfCrew === SINGLE ? owner : `${owner} 외 ${numOfCrew - 1}명`}
+            {numOfCrew === SINGLE
+              ? owner
+              : `${owner} 외 ${(numOfCrew - 1).toLocaleString()}명`}
           </Typography>
         </div>
       </div>
