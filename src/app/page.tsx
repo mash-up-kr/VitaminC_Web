@@ -1,41 +1,23 @@
 import { Button, Chip, ChipButton, QRCode, Typography } from '@/components'
+import PlaceMapPopup from '@/components/place-map-popup'
 
 const Home = () => {
   return (
     <main className="w-full min-h-screen flex flex-col justify-center items-center bg-neutral-600">
-      <QRCode url="http://localhost:3000" />
-      <Button colorScheme="orange">HI</Button>
-      <Typography size="h0" color="yellow-100">
-        Typography
-      </Typography>
-      <Typography size="h1" color="orange-400">
-        Typography
-      </Typography>
-      <Typography size="h2">Typography</Typography>
-      <Typography size="h3">Typography</Typography>
-      <Typography size="h4">Typography</Typography>
-      <Typography size="h5">Typography</Typography>
-      <Typography size="h5-2">Typography</Typography>
-      <Typography size="h6">Typography</Typography>
-      <Typography size="h7">Typography</Typography>
-      <Typography size="body0">Typography</Typography>
-      <Typography size="body1">Typography</Typography>
-      <Typography size="body2">Typography</Typography>
-      <Typography size="body3">Typography</Typography>
-      <Typography size="body4">Typography</Typography>
-      <Chip size="sm" fontSize="h7" colorScheme="orange">
-        진영 Pick
-      </Chip>
-      <Chip size="md" fontSize="body3" colorScheme="neutral-400">
-        🍝 태그설명
-      </Chip>
-      <Chip size="md" fontSize="body3" colorScheme="orange">
-        🍝 태그설명
-      </Chip>
-      <Chip size="lg" fontSize="body0" colorScheme="neutral-500">
-        도라방스
-      </Chip>
-      <ChipButton rightIcon={{ type: 'close' }}>한우갈비</ChipButton>
+      <PlaceMapPopup
+        name="맛집이름식당명"
+        distance="123m"
+        address="서울시 성동구 장터5길"
+        category="일본식 라멘"
+        image="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
+        pick={{
+          hashtags: ['존맛', '존맛탱', '존맛탱구리', '핵존맛', '쏘 딜리셔스'],
+          isLiked: false,
+          isMyPick: true,
+          like: 23,
+          onClickLike: () => null,
+        }}
+      />
     </main>
   )
 }

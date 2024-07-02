@@ -1,6 +1,3 @@
-'use client'
-
-import { useRef } from 'react'
 import { Chip } from '@/components'
 
 interface HashtagListProps {
