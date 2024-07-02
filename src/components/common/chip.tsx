@@ -6,7 +6,10 @@ import cn from '@/utils/cn'
 import Typography, { type FontKey } from './typography'
 
 const ChipVariants = cva<{
-  colorScheme: Record<'neutral-400' | 'neutral-500' | 'orange', string>
+  colorScheme: Record<
+    'neutral-400' | 'neutral-500' | 'orange' | 'purple',
+    string
+  >
   size: Record<'sm' | 'md' | 'lg', string>
 }>('rounded-full', {
   variants: {
@@ -14,6 +17,7 @@ const ChipVariants = cva<{
       'neutral-400': 'bg-neutral-400 text-neutral-000',
       'neutral-500': 'bg-neutral-500 text-neutral-400',
       orange: 'bg-orange-400 text-neutral-000',
+      purple: 'bg-purple-300 text-neutral-000',
     },
     size: {
       sm: 'px-2 py-1',
@@ -28,7 +32,7 @@ const ChipVariants = cva<{
 })
 
 interface ChipProps extends HTMLAttributes<HTMLSpanElement> {
-  colorScheme?: 'neutral-400' | 'neutral-500' | 'orange'
+  colorScheme?: 'neutral-400' | 'neutral-500' | 'orange' | 'purple'
   size?: 'sm' | 'md' | 'lg'
   fontSize?: FontKey
   children: ReactNode
