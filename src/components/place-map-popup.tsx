@@ -1,9 +1,9 @@
 import { forwardRef } from 'react'
-import { AccessibleIconButton, Chip, Typography } from '@/components'
+import { AccessibleIconButton, Typography } from '@/components'
 import PickChip from './pick-chip'
 import HashtagList from './hashtag-list'
 
-interface PlaceMapPopup {
+interface PlaceMapPopupProps {
   name: string
   image: string
   distance: string
@@ -18,7 +18,7 @@ interface PlaceMapPopup {
   }
 }
 
-const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopup>(
+const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
   ({ name, image, distance, address, category, pick }, ref) => {
     return (
       <section
