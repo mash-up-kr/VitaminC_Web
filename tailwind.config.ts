@@ -13,7 +13,7 @@ const config: Config = {
         h0: [
           '32px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.005em',
             fontWeight: 600,
           },
@@ -21,7 +21,7 @@ const config: Config = {
         h1: [
           '28px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.005em',
             fontWeight: 600,
           },
@@ -29,7 +29,7 @@ const config: Config = {
         h2: [
           '24px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.005em',
             fontWeight: 600,
           },
@@ -37,7 +37,7 @@ const config: Config = {
         h3: [
           '20px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.005em',
             fontWeight: 600,
           },
@@ -45,7 +45,7 @@ const config: Config = {
         h4: [
           '18px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.005em',
             fontWeight: 600,
           },
@@ -53,7 +53,7 @@ const config: Config = {
         h5: [
           '16px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.005em',
             fontWeight: 600,
           },
@@ -61,7 +61,7 @@ const config: Config = {
         'h5-2': [
           '15px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.005em',
             fontWeight: 600,
           },
@@ -69,7 +69,7 @@ const config: Config = {
         h6: [
           '14px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.005em',
             fontWeight: 600,
           },
@@ -77,7 +77,7 @@ const config: Config = {
         h7: [
           '13px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.005em',
             fontWeight: 600,
           },
@@ -85,7 +85,7 @@ const config: Config = {
         body0: [
           '18px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.02em',
             fontWeight: 400,
           },
@@ -93,7 +93,7 @@ const config: Config = {
         body1: [
           '16px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.02em',
             fontWeight: 400,
           },
@@ -101,7 +101,7 @@ const config: Config = {
         body2: [
           '15px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.02em',
             fontWeight: 400,
           },
@@ -109,7 +109,7 @@ const config: Config = {
         body3: [
           '14px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.02em',
             fontWeight: 400,
           },
@@ -117,7 +117,7 @@ const config: Config = {
         body4: [
           '13px',
           {
-            lineHeight: '1.25',
+            lineHeight: '1.35',
             letterSpacing: '-0.02em',
             fontWeight: 400,
           },

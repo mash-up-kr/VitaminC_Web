@@ -32,7 +32,7 @@ const ButtonVariants = cva<{
   },
 })
 
-const darkDisableClass = 'bg-neutral-600 cursor-not-allowed'
+const darkDisableClass = 'bg-neutral-500 text-neutral-400 cursor-not-allowed'
 const lightDisableClass = 'bg-neutral-100 cursor-not-allowed'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

@@ -5,17 +5,20 @@ import { QRCode } from 'react-qrcode-logo'
 
 interface QRCodeBoxProps {
   url: string
+  size: number
 }
 
 const QRColor = '#EAEBEE'
 const BGColor = '#2B2E33'
 
-const QRCodeBox = forwardRef<QRCode, QRCodeBoxProps>(({ url }, ref) => {
+const SIZE_PADDING = 20 // 실제로 20px 줄여야 원하는 사이즈가 됨
+
+const QRCodeBox = forwardRef<QRCode, QRCodeBoxProps>(({ url, size }, ref) => {
   return (
     <QRCode
       ref={ref}
       value={url}
-      size={160}
+      size={size - SIZE_PADDING}
       removeQrCodeBehindLogo
       eyeRadius={6}
       logoImage="/chunsik.png"

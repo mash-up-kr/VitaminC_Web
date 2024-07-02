@@ -29,6 +29,8 @@
     "arrow-body-style": "off",
     "import/no-extraneous-dependencies": "off",
     "no-promise-executor-return": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "@next/next/no-img-element": "off",
+    "jsx-a11y/alt-text": "off"
   }
 }

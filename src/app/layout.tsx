@@ -18,14 +18,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.className} ${pretendard.variable}`}>
+      <body
+        className={`${pretendard.className} ${pretendard.variable} flex justify-center items-start bg-neutral-800`}
+      >
         <Script
           async
           strategy="beforeInteractive"
           type="text/javascript"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&autoload=false`}
         />
-        {children}
+        <main className="relative w-full max-w-[420px] min-h-dvh">
+          {children}
+        </main>
       </body>
     </html>
   )
