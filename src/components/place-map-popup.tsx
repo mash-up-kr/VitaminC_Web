@@ -1,7 +1,5 @@
 import { forwardRef } from 'react'
-import { AccessibleIconButton, Typography } from '@/components'
-import PickChip from './pick-chip'
-import HashtagList from './hashtag-list'
+import { Typography, PickChip, HashtagList, LikeButton } from '@/components'
 
 interface PlaceMapPopupProps {
   name: string
@@ -48,25 +46,11 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
             {pick && (
               <div className="flex gap-3 items-center">
                 <PickChip isMyPick={pick.isMyPick} />
-                <div className="flex items-center gap-0.5">
-                  <AccessibleIconButton
-                    label={pick.isLiked ? '좋아요 취소' : '좋아요'}
-                    icon={{
-                      type: 'heartStraightOutlined',
-                      stroke: pick.isLiked ? 'orange-400' : 'neutral-200',
-                      fill: pick.isLiked ? 'orange-400' : undefined,
-                      'aria-hidden': true,
-                      className: 'w-4 h-4',
-                    }}
-                  />
-                  <Typography
-                    size="body1"
-                    color="neutral-200"
-                    className="font-medium"
-                  >
-                    {pick.like}
-                  </Typography>
-                </div>
+                <LikeButton
+                  like={pick.like}
+                  isLiked={pick.isLiked}
+                  onClickLike={pick.onClickLike}
+                />
               </div>
             )}
           </div>
