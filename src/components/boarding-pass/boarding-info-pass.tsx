@@ -6,15 +6,7 @@ import { Icon, Typography } from '../common'
 import BoardingDivider from './boarding-divider'
 import BoardingBottom from './boarding-bottom'
 import BoardingMembers from './boarding-members'
-
-interface BoardingInfoPassProps {
-  className?: string
-  day: number
-  pins: number
-  numOfCrew: number
-  members: string[]
-  owner: string
-}
+import { BoardingInfoPassProps } from './types'
 
 const ShareButton = ({ isInvited }: { isInvited: boolean }) => {
   return (
@@ -46,8 +38,8 @@ const ExitButton = () => {
 const BoardingInfoPass = ({
   className,
   day,
-  pins,
-  numOfCrew,
+  numOfPins,
+  numOfCrews,
   members,
   owner,
 }: BoardingInfoPassProps) => {
@@ -69,7 +61,7 @@ const BoardingInfoPass = ({
             Crew
           </Typography>
           <Typography size="h4" color="neutral-000" className="text-left">
-            {numOfCrew.toLocaleString()}명
+            {numOfCrews.toLocaleString()}명
           </Typography>
         </div>
         <div className="flex flex-col gap-1 flex-1 bg-neutral-600">
@@ -77,7 +69,7 @@ const BoardingInfoPass = ({
             Pins
           </Typography>
           <Typography size="h4" color="neutral-000" className="text-left">
-            {pins.toLocaleString()}개
+            {numOfPins.toLocaleString()}개
           </Typography>
         </div>
       </div>

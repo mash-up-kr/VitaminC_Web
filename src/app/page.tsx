@@ -7,7 +7,7 @@ const Home = () => {
     <main className="w-full min-h-dvh flex flex-col justify-center items-center bg-neutral-700 px-5">
       <BoardingInfoPass
         owner="주병호"
-        numOfCrew={1330}
+        numOfCrews={1330}
         day={19933}
         members={[
           '주병호',
@@ -18,7 +18,7 @@ const Home = () => {
           '고병호',
           '양병호',
         ]}
-        pins={19339}
+        numOfPins={19339}
       />
     </main>
   )
