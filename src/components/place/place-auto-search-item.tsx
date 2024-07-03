@@ -18,7 +18,7 @@ const PlaceAutoSearchItem = forwardRef<
       ref={ref}
       className="bg-neutral-700 p-5 pb-3 border-b-[1px] border-b-neutral-600 flex gap-2.5"
     >
-      <Icon type="subtract" />
+      <Icon type="subtract" size="lg" />
       <div className="flex gap-3.5">
         <div className="flex flex-col gap-1.5 w-[230px]">
           <div className="flex flex-col gap-[3px] ">
@@ -29,6 +29,7 @@ const PlaceAutoSearchItem = forwardRef<
               {address}
             </Typography>
           </div>
+
           <p className="flex items-center gap-1">
             <Typography as="span" size="body4" color="neutral-500">
               리뷰
@@ -38,6 +39,7 @@ const PlaceAutoSearchItem = forwardRef<
             </Typography>
           </p>
         </div>
+
         <div className="flex flex-col gap-1.5">
           <Typography as="span" size="body4" color="neutral-400">
             {category}

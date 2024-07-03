@@ -21,15 +21,16 @@ interface PlaceListItemProps {
   }
 }
 
+// TODO: 클릭 시 식당 상세로 이동 로직
 const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
   ({ name, address, rate, images, pick }, ref) => {
     return (
       <section
         ref={ref}
-        className="bg-neutral-700 py-4 px-5 w-[375px] flex flex-col gap-3.5 "
+        className="bg-neutral-700 py-4 px-5 flex flex-col gap-3.5 "
       >
         {images && (
-          <div className="flex gap-2 items-center justify-center">
+          <div className="flex box-border gap-2 w-[335px] items-center justify-center">
             {images.map((image, idx) => (
               <img
                 key={image}
@@ -40,9 +41,10 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
             ))}
           </div>
         )}
+
         <div className="flex flex-col gap-2 ">
           <div className="flex items-center justify-between">
-            <Typography as="h2" size="h4">
+            <Typography as="h2" size="h4" className="w-[194px]">
               {name}
             </Typography>
             {pick && (
@@ -56,6 +58,7 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
               </div>
             )}
           </div>
+
           <div className="flex items-center gap-[7px]">
             <div className="flex gap-0.5 items-center">
               <Icon type="star" size="sm" fill="yellow-100" />
@@ -68,6 +71,7 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
             </Typography>
           </div>
         </div>
+
         {pick?.hashtags && <HashtagList hashtags={pick.hashtags} />}
       </section>
     )
