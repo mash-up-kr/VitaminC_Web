@@ -16,6 +16,11 @@ export interface ResponseOk {
   message: string
 }
 
+/* ClassName */
+export interface ClassName {
+  className?: string
+}
+
 /* Bottom Sheet */
 export const BOTTOM_SHEET_STATE = {
   Default: 'default',
@@ -25,4 +30,5 @@ export const BOTTOM_SHEET_STATE = {
 export type BottomSheetState =
   (typeof BOTTOM_SHEET_STATE)[keyof typeof BOTTOM_SHEET_STATE]
 
+/* Intro Page */
 export type IntroStep = 'nickname' | 'complete' | 'map' | 'invite'
