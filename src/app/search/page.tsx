@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { Suspense, useCallback, useState } from 'react'
 
 import { recentSearchStorage } from '@/utils/storage'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -60,21 +60,23 @@ const Search = () => {
   }
 
   return (
-    <div className="w-full min-h-dvh bg-neutral-700 px-5 pt-2">
-      <SearchForm
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onResetValue={() => setQuery('')}
-        onSubmit={searchByKeyword}
-      />
-
-      {isShowRecentKeywords && (
-        <RecentKeywords
-          recentKeywords={recentKeywords}
-          onDeleteKeyword={deleteRecentKeyword}
+    <Suspense>
+      <div className="w-full min-h-dvh bg-neutral-700 px-5 pt-2">
+        <SearchForm
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onResetValue={() => setQuery('')}
+          onSubmit={searchByKeyword}
         />
-      )}
-    </div>
+
+        {isShowRecentKeywords && (
+          <RecentKeywords
+            recentKeywords={recentKeywords}
+            onDeleteKeyword={deleteRecentKeyword}
+          />
+        )}
+      </div>
+    </Suspense>
   )
 }
 
