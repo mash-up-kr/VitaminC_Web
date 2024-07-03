@@ -16,7 +16,7 @@ const MenuList = ({
   menuList,
 }: MenuListProps) => {
   return (
-    <div className={cn('px-5 bg-neutral-700', className)}>
+    <div className={cn('bg-neutral-700', className)}>
       <div className="flex gap-[3px]">
         <Typography size="h5" className="text-[#D5D5D5]">
           메뉴
