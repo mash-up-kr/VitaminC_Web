@@ -7,7 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import RecentKeywords from './recent-keywords'
 import SearchForm from './search-form'
 
-const Search = () => {
+const SearchBox = () => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -58,24 +58,29 @@ const Search = () => {
       setRecentKeywords(existRecentKeywords)
     }
   }
+  return (
+    <div className="w-full min-h-dvh bg-neutral-700 px-5 pt-2">
+      <SearchForm
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onResetValue={() => setQuery('')}
+        onSubmit={searchByKeyword}
+      />
 
+      {isShowRecentKeywords && (
+        <RecentKeywords
+          recentKeywords={recentKeywords}
+          onDeleteKeyword={deleteRecentKeyword}
+        />
+      )}
+    </div>
+  )
+}
+
+const Search = () => {
   return (
     <Suspense>
-      <div className="w-full min-h-dvh bg-neutral-700 px-5 pt-2">
-        <SearchForm
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onResetValue={() => setQuery('')}
-          onSubmit={searchByKeyword}
-        />
-
-        {isShowRecentKeywords && (
-          <RecentKeywords
-            recentKeywords={recentKeywords}
-            onDeleteKeyword={deleteRecentKeyword}
-          />
-        )}
-      </div>
+      <SearchBox />
     </Suspense>
   )
 }
