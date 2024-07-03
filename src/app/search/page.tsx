@@ -2,10 +2,10 @@
 
 import { useCallback, useState } from 'react'
 
-import SearchInput from '@/components/search-input'
-import { ChipButton, Typography } from '@/components'
 import { recentSearchStorage } from '@/utils/storage'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import RecentKeywords from './recent-keywords'
+import SearchForm from './search-form'
 
 const Search = () => {
   const router = useRouter()
@@ -38,7 +38,7 @@ const Search = () => {
     }
   }
 
-  const searchByKeyword = async (formData: FormData) => {
+  const searchByKeyword = (formData: FormData) => {
     const searchKeyword = formData.get('query') as string | null
     if (searchKeyword) {
       createQueryString('search', searchKeyword)
@@ -61,44 +61,18 @@ const Search = () => {
 
   return (
     <div className="w-full min-h-dvh bg-neutral-700 px-5 pt-2">
-      <form action={searchByKeyword}>
-        <SearchInput
-          name="query"
-          value={query}
-          leftIcon={{
-            icon: {
-              type: 'caretLeft',
-              size: 'xl',
-            },
-            label: '뒤로 가기',
-            onClick: () => router.back(),
-          }}
-          rightIcon={{
-            icon: { type: 'delete', size: 'xl', onClick: () => setQuery('') },
-            label: '인풋 지우기',
-          }}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </form>
+      <SearchForm
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onResetValue={() => setQuery('')}
+        onSubmit={searchByKeyword}
+      />
 
       {isShowRecentKeywords && (
-        <div className="mt-3 flex flex-col gap-3">
-          <Typography size="h6" color="neutral-300">
-            최근 검색어
-          </Typography>
-
-          <ul className="flex flex-wrap gap-x-[10px] gap-y-5">
-            {recentKeywords.map((keyword, index) => (
-              <ChipButton
-                key={keyword}
-                rightIcon={{ type: 'close' }}
-                onClick={() => deleteRecentKeyword(index)}
-              >
-                {keyword}
-              </ChipButton>
-            ))}
-          </ul>
-        </div>
+        <RecentKeywords
+          recentKeywords={recentKeywords}
+          onDeleteKeyword={deleteRecentKeyword}
+        />
       )}
     </div>
   )
