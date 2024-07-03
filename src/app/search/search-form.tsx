@@ -1,5 +1,5 @@
 import { type ChangeEvent, Suspense } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import SearchInput from '@/components/search-input'
 
