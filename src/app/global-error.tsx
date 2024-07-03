@@ -21,16 +21,13 @@ const parseError = (error: Error): string => {
   `
 }
 
-export default function GlobalError({
-  error,
-}: {
-  error: Error & { digest?: string }
-}) {
+const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
   useEffect(() => {
     Sentry.captureException(error)
+
     const errorMessage = parseError(error)
 
-    fetch('http://localhost:3000/api/error-alert', {
+    fetch(`${window.location.origin}/api/error-alert`, {
       method: 'POST',
       body: JSON.stringify({ errorMessage }),
     })
@@ -48,3 +45,5 @@ export default function GlobalError({
     </html>
   )
 }
+
+export default GlobalError
