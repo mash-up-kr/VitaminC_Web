@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useCallback, useState } from 'react'
+import { Suspense, useState } from 'react'
 
 import { recentSearchStorage } from '@/utils/storage'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -20,15 +20,12 @@ const SearchBox = () => {
   const isShowRecentKeywords =
     query === '' && !!recentKeywords.length && !!search
 
-  const createQueryString = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set(key, value)
+  const createQueryString = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set(key, value)
 
-      return params.toString()
-    },
-    [searchParams],
-  )
+    return params.toString()
+  }
 
   const addUniqueKeyword = (keyword: string) => {
     const existRecentKeywords = [...(recentKeywords || [])]
