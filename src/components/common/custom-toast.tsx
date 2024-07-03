@@ -16,7 +16,7 @@ const toastCustom = ({
   toast.custom(
     (t) => (
       <div
-        className={`${t.visible ? 'animate-enter' : 'animate-leave'} bg-opacity-70 bg-[#212124] w-full flex items-center justify-center gap-2 px-6 py-[14px] rounded-full leading-tight`}
+        className={`${t.visible ? 'animate-enter' : 'animate-leave'} bg-opacity-70 bg-[#212124] w-full flex items-center justify-center gap-2 px-6 py-[14px] rounded-full leading-tight mx-[25px]`}
       >
         {type === 'success' ? (
           <Icon type="info" fill="profile-sky-blue" aria-hidden />
@@ -56,9 +56,10 @@ const CustomToaster = () => {
       }}
       containerStyle={{
         top: 20,
-        left: 24,
+        left: 25,
         bottom: 20,
-        right: 24,
+        right: 25,
+        position: 'sticky',
       }}
     />
   )
