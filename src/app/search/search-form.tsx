@@ -34,7 +34,7 @@ const SearchForm = ({
           }}
           rightIcon={{
             icon: { type: 'delete', size: 'xl', onClick: onResetValue },
-            label: '인풋 지우기',
+            label: '입력 내용 지우기',
           }}
           onChange={onChange}
         />
