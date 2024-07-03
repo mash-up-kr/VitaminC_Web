@@ -28,7 +28,7 @@ const MenuList = ({
 
       <img
         src={mainPhotoUrl}
-        alt="음식 메인 사진"
+        alt="메인 음식"
         className="max-w-full rounded-[6px] mt-[10px] object-fill"
       />
 
