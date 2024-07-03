@@ -2,6 +2,7 @@ import { forwardRef } from 'react'
 import { Icon, Typography } from '@/components'
 
 interface PlaceAutoSearchItemProps {
+  placeId: string
   name: string
   address: string
   review: number

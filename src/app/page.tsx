@@ -24,6 +24,7 @@ const Home = () => {
         numOfPins={19339}
       />
       <PlaceAutoSearchItem
+        placeId="dasdas"
         query="존라"
         address="서울시 성동구 장터5길"
         name="존라멘"
@@ -32,6 +33,7 @@ const Home = () => {
         distance="234m"
       />
       <PlaceListItem
+        placeId="sdfsgasf"
         name="존라멘"
         address="서울시 성동구 장터5길"
         rate={0.5}
@@ -55,6 +57,7 @@ const Home = () => {
         }}
       />
       <PlaceListItem
+        placeId="fasfasfas"
         name="존라멘"
         address="서울시 성동구 장터5길"
         rate={0.5}
@@ -73,6 +76,7 @@ const Home = () => {
         }}
       />
       <PlaceMapPopup
+        placeId="dsd3egg"
         name="존라멘"
         address="서울시 성동구 장터5길"
         distance="3km"

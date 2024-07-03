@@ -2,6 +2,7 @@ import { forwardRef } from 'react'
 import { Typography, PickChip, HashtagList, LikeButton } from '@/components'
 
 interface PlaceMapPopupProps {
+  placeId: string
   name: string
   image: string
   distance: string
@@ -18,7 +19,7 @@ interface PlaceMapPopupProps {
 
 // TODO: 클릭 시 식당 상세로 이동 로직
 const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
-  ({ name, image, distance, address, category, pick }, ref) => {
+  ({ placeId, name, image, distance, address, category, pick }, ref) => {
     return (
       <div role="presentation" className="flex justify-center pb-5">
         <section
@@ -62,7 +63,7 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
             <img className="rounded-md w-20 h-20" src={image} alt="식당" />
           </div>
           {pick?.hashtags.length ? (
-            <HashtagList hashtags={pick.hashtags} />
+            <HashtagList placeId={placeId} hashtags={pick.hashtags} />
           ) : null}
         </section>
       </div>

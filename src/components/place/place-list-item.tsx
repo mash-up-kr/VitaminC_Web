@@ -8,6 +8,7 @@ import {
 } from '@/components'
 
 interface PlaceListItemProps {
+  placeId: string
   name: string
   address: string
   rate: number
@@ -23,7 +24,7 @@ interface PlaceListItemProps {
 
 // TODO: 클릭 시 식당 상세로 이동 로직
 const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
-  ({ name, address, rate, images, pick }, ref) => {
+  ({ placeId, name, address, rate, images, pick }, ref) => {
     return (
       <section
         ref={ref}
@@ -72,7 +73,9 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
           </div>
         </div>
 
-        {pick?.hashtags && <HashtagList hashtags={pick.hashtags} />}
+        {pick?.hashtags && (
+          <HashtagList placeId={placeId} hashtags={pick.hashtags} />
+        )}
       </section>
     )
   },
