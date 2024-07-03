@@ -41,7 +41,13 @@ const Home = () => {
           'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format',
         ]}
         pick={{
-          hashtags: ['존', '존맛', '존맛탱', '존맛탱구', '존맛탱구리'],
+          hashtags: [
+            '존맛탱구리',
+            '존존맛탱구리',
+            '존맛존맛탱구리',
+            '존맛탱존맛탱구리',
+            '존맛탱구리',
+          ],
           isLiked: false,
           isMyPick: false,
           like: 122,
@@ -53,7 +59,13 @@ const Home = () => {
         address="서울시 성동구 장터5길"
         rate={0.5}
         pick={{
-          hashtags: ['존', '존맛', '존맛탱', '존맛탱구', '존맛탱구리'],
+          hashtags: [
+            '존존맛탱구리',
+            '존맛',
+            '존맛탱',
+            '존맛탱구',
+            '존맛탱구리',
+          ],
           isLiked: false,
           isMyPick: false,
           like: 122,
@@ -65,6 +77,19 @@ const Home = () => {
         address="서울시 성동구 장터5길"
         distance="3km"
         image="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format"
+        pick={{
+          hashtags: [
+            '존맛탱구리',
+            '존존맛탱구리',
+            '존맛존맛탱구리',
+            '존맛탱존맛탱구리',
+            '존맛탱구리',
+          ],
+          isLiked: false,
+          isMyPick: false,
+          like: 122,
+          onClickLike: () => null,
+        }}
       />
     </main>
   )

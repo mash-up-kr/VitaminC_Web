@@ -10,7 +10,7 @@ const HashtagList = ({ hashtags, className }: HashtagListProps) => {
   return (
     <div
       className={cn(
-        'flex items-center gap-2 overflow-x-scroll no-scrollbar',
+        'w-full max-w-[380px] flex items-center gap-2 overflow-x-scroll no-scrollbar',
         className,
       )}
     >

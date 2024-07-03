@@ -27,10 +27,10 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
     return (
       <section
         ref={ref}
-        className="bg-neutral-700 py-4 px-5 flex flex-col gap-3.5 "
+        className="bg-neutral-700 w-full py-4 px-5 flex flex-col gap-3.5 "
       >
         {images && (
-          <div className="flex box-border gap-2 w-[335px] items-center justify-center">
+          <div className="flex box-border gap-2 max-x-[335px] items-center justify-center overflow-x-scroll no-scrollbar">
             {images.map((image, idx) => (
               <img
                 key={image}
