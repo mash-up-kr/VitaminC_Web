@@ -15,7 +15,7 @@ const IconVariants = cva<{
     size: {
       sm: 'w-[14px] h-[14px]',
       md: 'w-4 h-4',
-      lg: 'w-5 h-5',
+      lg: 'w-[20px] h-[20px]',
       xl: 'w-6 h-6',
     },
     stroke: {
