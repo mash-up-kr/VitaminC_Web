@@ -28,14 +28,10 @@ export default function RootLayout({
           type="text/javascript"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&autoload=false`}
         />
-<<<<<<< feature/component-toast
-        {children}
-        <CustomToaster />
-=======
         <main className="relative w-full max-w-[420px] min-h-dvh">
           {children}
+          <CustomToaster />
         </main>
->>>>>>> main
       </body>
     </html>
   )
