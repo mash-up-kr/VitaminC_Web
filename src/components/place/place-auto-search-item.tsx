@@ -1,14 +1,10 @@
 import { forwardRef } from 'react'
 import { Icon, Typography } from '@/components'
+import { PlaceProps } from './types'
 
-interface PlaceAutoSearchItemProps {
-  placeId: string
-  name: string
-  address: string
+interface PlaceAutoSearchItemProps extends PlaceProps {
   review: number
   query: string
-  category?: string
-  distance?: string
 }
 
 const PlaceAutoSearchItem = forwardRef<

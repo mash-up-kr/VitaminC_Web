@@ -1,20 +1,9 @@
 import { forwardRef } from 'react'
 import { Typography, PickChip, HashtagList, LikeButton } from '@/components'
+import { PlaceProps } from './types'
 
-interface PlaceMapPopupProps {
-  placeId: string
-  name: string
+interface PlaceMapPopupProps extends PlaceProps {
   image: string
-  distance: string
-  address: string
-  category?: string
-  pick?: {
-    isMyPick: boolean
-    like: number
-    isLiked: boolean
-    hashtags: string[]
-    onClickLike: () => void
-  }
 }
 
 // TODO: 클릭 시 식당 상세로 이동 로직

@@ -6,20 +6,11 @@ import {
   HashtagList,
   Icon,
 } from '@/components'
+import { PlaceProps } from './types'
 
-interface PlaceListItemProps {
-  placeId: string
-  name: string
-  address: string
+interface PlaceListItemProps extends PlaceProps {
   rate: number
   images?: string[]
-  pick?: {
-    isMyPick: boolean
-    like: number
-    isLiked: boolean
-    hashtags: string[]
-    onClickLike: () => void
-  }
 }
 
 // TODO: 클릭 시 식당 상세로 이동 로직
