@@ -2,8 +2,7 @@ import { InputHTMLAttributes, forwardRef } from 'react'
 
 import cn from '@/utils/cn'
 import { VariantProps, cva } from 'class-variance-authority'
-import { AccessibleIconButton } from '..'
-import { IconKey } from '../common/icon'
+import AccessibleIconButton from './accessible-icon-button'
 
 const SearchInputVariants = cva<{
   variant: Record<'outlined' | 'filled', string>
@@ -33,9 +32,8 @@ const SearchInputVariants = cva<{
 interface SearchInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof SearchInputVariants> {
-  iconLabel: string
-  onClickIcon: () => void
-  iconType: IconKey
+  rightIcon: Parameters<typeof AccessibleIconButton>[0]
+  leftIcon?: Parameters<typeof AccessibleIconButton>[0]
   variant?: 'outlined' | 'filled'
   size?: 'sm' | 'md' | 'lg'
 }
@@ -47,36 +45,40 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     {
       variant,
       size,
+      rightIcon,
+      leftIcon,
       className,
-      iconLabel,
-      onClickIcon,
-      iconType,
       placeholder = INITIAL_PLACEHOLDER,
       ...props
     },
     ref,
   ) => {
     const isShowIcon =
-      iconType !== 'delete' || (iconType === 'delete' && props.value)
+      rightIcon.icon.type !== 'delete' ||
+      (rightIcon.icon.type === 'delete' && props.value)
 
     return (
       <div className="w-full relative">
+        {leftIcon && (
+          <AccessibleIconButton
+            className="absolute top-1/2 -translate-y-1/2 left-4"
+            {...leftIcon}
+          />
+        )}
         <input
           {...props}
-          className={cn(SearchInputVariants({ variant, size }), className)}
+          className={cn(
+            SearchInputVariants({ variant, size }),
+            className,
+            leftIcon?.type ? 'pl-[50px]' : '',
+          )}
           ref={ref}
           placeholder={placeholder}
         />
         {isShowIcon && (
           <AccessibleIconButton
             className="absolute top-1/2 -translate-y-1/2 right-4"
-            label={iconLabel}
-            onClick={onClickIcon}
-            icon={{
-              type: iconType,
-              size: 'lg',
-              'aria-hidden': 'true',
-            }}
+            {...rightIcon}
           />
         )}
       </div>
