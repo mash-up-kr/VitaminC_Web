@@ -1,5 +1,3 @@
-'use client'
-
 import toast, { Toaster, type ToastOptions } from 'react-hot-toast'
 import Icon from './icon'
 import Typography from './typography'

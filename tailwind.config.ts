@@ -176,17 +176,26 @@ const config: Config = {
       },
       keyframes: {
         enter: {
-          from: { bottom: '0' },
-          to: { bottom: '20px' },
+          '0%': {
+            transform: 'translateY(20px)',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+          },
         },
         leave: {
-          from: { bottom: '20px' },
-          to: { bottom: '0' },
+          '0%': {
+            transform: 'translateY(0)',
+          },
+          '100%': {
+            transform: 'translateY(20px)',
+            opacity: '0',
+          },
         },
       },
       animation: {
-        enter: 'enter 0.3s ease-in-out',
-        leave: 'leave 3s ease-in-out',
+        enter: 'enter 300ms ease-out',
+        leave: 'leave 300ms ease-in forwards',
       },
     },
   },
