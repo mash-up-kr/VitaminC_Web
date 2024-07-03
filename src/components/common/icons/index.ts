@@ -15,6 +15,7 @@ import Search from './Search.svg'
 import ShareNetwork from './ShareNetwork.svg'
 import SignOut from './SignOut.svg'
 import Star from './Star.svg'
+import Subtract from './Subtract.svg'
 import UploadSimple from './UploadSimple.svg'
 
 export const icons = {
@@ -35,5 +36,6 @@ export const icons = {
   shareNetwork: ShareNetwork,
   signOut: SignOut,
   star: Star,
+  subtract: Subtract,
   uploadSimple: UploadSimple,
 }
