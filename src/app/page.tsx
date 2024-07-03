@@ -24,6 +24,7 @@ const Home = () => {
         numOfPins={19339}
       />
       <PlaceAutoSearchItem
+        query="존라"
         address="서울시 성동구 장터5길"
         name="존라멘"
         review={324}

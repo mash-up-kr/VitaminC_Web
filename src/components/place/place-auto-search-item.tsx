@@ -5,6 +5,7 @@ interface PlaceAutoSearchItemProps {
   name: string
   address: string
   review: number
+  query: string
   category?: string
   distance?: string
 }
@@ -12,7 +13,9 @@ interface PlaceAutoSearchItemProps {
 const PlaceAutoSearchItem = forwardRef<
   HTMLDivElement,
   PlaceAutoSearchItemProps
->(({ name, address, review, category, distance }, ref) => {
+>(({ name, address, review, query, category, distance }, ref) => {
+  const nameParts = name.split(new RegExp(`(${query})`, 'gi'))
+
   return (
     <section
       ref={ref}
@@ -23,7 +26,13 @@ const PlaceAutoSearchItem = forwardRef<
         <div className="flex flex-col gap-1.5 w-[230px]">
           <div className="flex flex-col gap-[3px] ">
             <Typography as="h2" size="h5">
-              {name}
+              {nameParts.map((text) => {
+                return text === query ? (
+                  <span>{text}</span>
+                ) : (
+                  <span className="text-neutral-300">{text}</span>
+                )
+              })}
             </Typography>
             <Typography size="body3" color="neutral-300">
               {address}
