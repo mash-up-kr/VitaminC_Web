@@ -1,3 +1,4 @@
+export { default as Avatar } from './avatar'
 export { default as Button } from './button'
 export { default as ChipButton } from './chip-button'
 export { default as Chip } from './chip'
