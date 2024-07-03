@@ -7,7 +7,7 @@ import { icons } from './icons'
 import type { ColorKey } from '@/types/color'
 
 const IconVariants = cva<{
-  size: Record<'sm' | 'md' | 'lg' | 'xlg', string>
+  size: Record<'sm' | 'md' | 'lg' | 'xl', string>
   stroke: Record<ColorKey | '', string>
   fill: Record<ColorKey | '', string>
 }>('flex justify-content items-center', {
@@ -16,7 +16,7 @@ const IconVariants = cva<{
       sm: 'w-[14px] h-[14px]',
       md: 'w-4 h-4',
       lg: 'w-5 h-5',
-      xlg: 'w-6 h-6',
+      xl: 'w-6 h-6',
     },
     stroke: {
       '': '',
@@ -103,7 +103,7 @@ export interface IconProps extends HTMLAttributes<HTMLElement> {
   type: IconKey
   stroke?: ColorKey
   fill?: ColorKey
-  size?: 'sm' | 'md' | 'lg' | 'xlg'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
 }
 
 const Icon = forwardRef<SVGSVGElement, IconProps>(
