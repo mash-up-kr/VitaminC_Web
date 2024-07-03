@@ -19,7 +19,7 @@ const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
 
       const containerWidth = containerRef.current.offsetWidth
       let totalWidth = 0
-      const newVisibleHashtags = hashtags.filter((tag, idx) => {
+      const newVisibleHashtags = hashtags.filter((tag) => {
         const chip = document.querySelector<HTMLElement>(
           `#${placeId}-hashtag-${tag}`,
         )
