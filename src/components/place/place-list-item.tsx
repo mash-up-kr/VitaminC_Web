@@ -34,7 +34,7 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
           <div className="flex box-border gap-2 max-x-[335px] items-center justify-center overflow-x-scroll no-scrollbar">
             {images.map((image, idx) => (
               <img
-                key={image}
+                key={`${placeId}-${image}`}
                 src={image}
                 className="w-[106px] h-[106px] rounded-md"
                 alt={`${name}${idx}`}
