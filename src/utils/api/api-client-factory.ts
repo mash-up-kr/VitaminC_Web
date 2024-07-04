@@ -14,16 +14,18 @@ const injectAuthTokenToConfig = (config: RequestConfig) => {
 }
 
 export function apiClientFactory({
+  baseUrl,
   secure,
   interceptors,
 }: {
+  baseUrl?: string
   secure?: boolean
   interceptors?: {
     beforeRequestHeader?: Interceptors['beforeRequestHeader']
     afterResponse?: Interceptors['afterResponse']
   }
 }): HTTPClient {
-  const BASE_URL = process.env.NEXT_PUBLIC_API_HOST || ''
+  const BASE_URL = baseUrl || process.env.NEXT_PUBLIC_API_HOST || ''
   const client = new HTTPClient(BASE_URL, interceptors)
 
   if (secure) {

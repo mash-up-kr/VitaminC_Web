@@ -1,8 +1,19 @@
+import type { QueryParams } from '@/types/api/search'
 import { apiClientFactory } from './api-client-factory'
+import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 
 const client = {
   public: apiClientFactory({}),
   secure: apiClientFactory({ secure: true }),
+}
+
+const search = {
+  suggestKeyword: (q: string) =>
+    client.public.get<{ message: 'success'; data: string[] }>(
+      `/search/suggest?q=${q}`,
+    ),
+  searchPlaces: ({ q, rect }: QueryParams): Promise<KakaoPlaceItem[]> =>
+    client.public.get(`/search/places?q=${q}&rect=${rect}`),
 }
 
 const test = {
@@ -43,4 +54,5 @@ const user = {
 export const api = {
   test,
   user,
+  search,
 } as const

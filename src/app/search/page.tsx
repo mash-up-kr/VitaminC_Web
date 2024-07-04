@@ -1,12 +1,15 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
+import { api } from '@/utils/api'
 import SearchForm from './search-form'
+import { debounce } from '@/utils/debounce'
 import RecentKeywords from './recent-keywords'
 import { recentSearchStorage } from '@/utils/storage'
 import { useIsServer } from '@/hooks/use-is-server'
+import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 
 const SearchBox = () => {
   const router = useRouter()
@@ -66,10 +69,29 @@ const SearchBox = () => {
     router.push(`${pathname}?${createQueryString('search', '')}`)
   }
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     // search와 query 동기화 (삭제, 브라우저 뒤로가기/앞으로가기 등 대응)
     setQuery(search)
   }, [search])
+
+  useIsomorphicLayoutEffect(() => {
+    const getSuggestPlaces = async () => {
+      try {
+        if (query) {
+          const res = await api.search.searchPlaces({
+            q: query,
+            rect: '37.566826, 126.9786567,37.566826, 126.9786567',
+          })
+          console.log(res)
+        }
+      } catch (err) {
+        // TODO: Error 처리
+      }
+    }
+
+    const debounceGetSuggestPlaces = debounce(1000, getSuggestPlaces)
+    debounceGetSuggestPlaces()
+  }, [query])
 
   return (
     <div className="w-full min-h-dvh bg-neutral-700 px-5 pt-2">
