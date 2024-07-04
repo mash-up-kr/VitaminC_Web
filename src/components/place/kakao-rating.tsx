@@ -1,19 +1,36 @@
 import cn from '@/utils/cn'
+import { roundToNthDecimal } from '@/utils/number'
 import type { ClassName } from '@/models/interface'
 import { ExternalLink, Icon, Typography } from '../common'
-import { roundToNthDecimal } from '@/utils/number'
 
 interface KakaoRatingProps extends ClassName {
   rating: number
   url: string
 }
 
-const KakaoRating = ({ className, rating, url }: KakaoRatingProps) => {
-  const roundedRating = roundToNthDecimal(rating, 3)
+const MAX_STAR = 5
 
-  const fullIcons = Math.floor(roundedRating)
-  const halfIcon = roundedRating % 1 >= 0.5 ? 1 : 0
+const getNumberOfStarIcons = (rating: number) => {
+  if (rating > MAX_STAR) {
+    return {
+      roundedRating: MAX_STAR,
+      fullIcons: MAX_STAR,
+      halfIcon: 0,
+      emptyIcons: 0,
+    }
+  }
+
+  const roundedRating = roundToNthDecimal(rating, 3)
+  const fullIcons =
+    Math.floor(roundedRating) + (roundedRating % 1 >= 0.95 ? 1 : 0)
+  const halfIcon = roundedRating % 1 >= 0.45 && roundedRating % 1 < 0.95 ? 1 : 0
   const emptyIcons = 5 - fullIcons - halfIcon
+  return { roundedRating, fullIcons, halfIcon, emptyIcons }
+}
+
+const KakaoRating = ({ className, rating, url }: KakaoRatingProps) => {
+  const { roundedRating, fullIcons, halfIcon, emptyIcons } =
+    getNumberOfStarIcons(rating)
 
   return (
     <div
@@ -39,11 +56,9 @@ const KakaoRating = ({ className, rating, url }: KakaoRatingProps) => {
                 {roundedRating.toFixed(1)}
               </Typography>
               <div className="w-full flex flex-1 gap-[2px]">
-                {Array(Math.floor(roundedRating)).fill(
-                  <Icon type="starFilled" />,
-                )}
+                {Array(Math.floor(fullIcons)).fill(<Icon type="starFilled" />)}
                 {halfIcon === 1 && <Icon type="starHalfFilled" />}
-                {Array(emptyIcons).fill(<Icon type="starGrey" />)}
+                {Array(Math.floor(emptyIcons)).fill(<Icon type="starGrey" />)}
               </div>
             </div>
           </div>
