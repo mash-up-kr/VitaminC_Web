@@ -43,7 +43,7 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
               <div className="flex items-center gap-3">
                 <PickChip isMyPick={pick.isMyPick} />
                 <LikeButton
-                  like={pick.like}
+                  like={pick.numOfLike}
                   isLiked={pick.isLiked}
                   onClickLike={pick.onClickLike}
                 />
