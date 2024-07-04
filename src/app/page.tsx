@@ -1,15 +1,13 @@
 'use client'
 
 import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
-import { notify } from '@/components/common/custom-toast'
-import { Button } from '@/components'
+import PlaceAutoSearchItem from '@/components/place/place-auto-search-item'
+import PlaceListItem from '@/components/place/place-list-item'
+import PlaceMapPopup from '@/components/place/place-map-popup'
 
 const Home = () => {
   return (
     <main className="w-full min-h-dvh flex flex-col justify-center items-center bg-neutral-700 px-5">
-      <Button colorScheme="orange" onClick={() => notify.success('success!')}>
-        click success
-      </Button>
       <BoardingInfoPass
         owner="주병호"
         numOfCrews={1330}
@@ -24,6 +22,78 @@ const Home = () => {
           '양병호',
         ]}
         numOfPins={19339}
+      />
+      <PlaceAutoSearchItem
+        placeId="dasdas"
+        query="존라"
+        address="서울시 성동구 장터5길"
+        name="존라멘"
+        numOfReviews={324}
+        category="일본식 라멘"
+        distance="234m"
+      />
+      <PlaceListItem
+        placeId="sdfsgasf"
+        name="존라멘"
+        address="서울시 성동구 장터5길"
+        rating={0.5}
+        images={[
+          'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format',
+          'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format',
+          'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format',
+        ]}
+        pick={{
+          hashtags: [
+            '존맛탱구리',
+            '존존맛탱구리',
+            '존맛존맛탱구리',
+            '존맛탱존맛탱구리',
+            '존맛탱구리',
+          ],
+          isLiked: false,
+          isMyPick: false,
+          numOfLikes: 122,
+          onClickLike: () => null,
+        }}
+      />
+      <PlaceListItem
+        placeId="fasfasfas"
+        name="존라멘"
+        address="서울시 성동구 장터5길"
+        rating={0.5}
+        pick={{
+          hashtags: [
+            '존존맛탱구리',
+            '존맛',
+            '존맛탱',
+            '존맛탱구',
+            '존맛탱구리',
+          ],
+          isLiked: false,
+          isMyPick: false,
+          numOfLikes: 122,
+          onClickLike: () => null,
+        }}
+      />
+      <PlaceMapPopup
+        placeId="dsd3egg"
+        name="존라멘"
+        address="서울시 성동구 장터5길"
+        distance="3km"
+        image="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format"
+        pick={{
+          hashtags: [
+            '존맛탱구리',
+            '존존맛탱구리',
+            '존맛존맛탱구리',
+            '존맛탱존맛탱구리',
+            '존맛탱구리',
+          ],
+          isLiked: false,
+          isMyPick: false,
+          numOfLikes: 122,
+          onClickLike: () => null,
+        }}
       />
     </main>
   )
