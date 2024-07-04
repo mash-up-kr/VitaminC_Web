@@ -28,7 +28,7 @@ const Home = () => {
         query="존라"
         address="서울시 성동구 장터5길"
         name="존라멘"
-        review={324}
+        numOfReviews={324}
         category="일본식 라멘"
         distance="234m"
       />
@@ -36,7 +36,7 @@ const Home = () => {
         placeId="sdfsgasf"
         name="존라멘"
         address="서울시 성동구 장터5길"
-        rate={0.5}
+        rating={0.5}
         images={[
           'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format',
           'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format',
@@ -52,7 +52,7 @@ const Home = () => {
           ],
           isLiked: false,
           isMyPick: false,
-          like: 122,
+          numOfLikes: 122,
           onClickLike: () => null,
         }}
       />
@@ -60,7 +60,7 @@ const Home = () => {
         placeId="fasfasfas"
         name="존라멘"
         address="서울시 성동구 장터5길"
-        rate={0.5}
+        rating={0.5}
         pick={{
           hashtags: [
             '존존맛탱구리',
@@ -71,7 +71,7 @@ const Home = () => {
           ],
           isLiked: false,
           isMyPick: false,
-          like: 122,
+          numOfLikes: 122,
           onClickLike: () => null,
         }}
       />
@@ -91,7 +91,7 @@ const Home = () => {
           ],
           isLiked: false,
           isMyPick: false,
-          like: 122,
+          numOfLikes: 122,
           onClickLike: () => null,
         }}
       />
