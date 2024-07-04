@@ -1,14 +1,23 @@
+import type { MouseEvent } from 'react'
+
 import { ChipButton, Typography } from '@/components'
 
 interface RecentKeywordsProps {
   recentKeywords: string[]
+  onSearchKeyword: (keyword: string) => void
   onDeleteKeyword: (index: number) => void
 }
 
 const RecentKeywords = ({
   recentKeywords,
+  onSearchKeyword,
   onDeleteKeyword,
 }: RecentKeywordsProps) => {
+  const handleClickResetIcon = (e: MouseEvent<HTMLElement>, index: number) => {
+    e.stopPropagation()
+    onDeleteKeyword(index)
+  }
+
   return (
     <div className="mt-3 flex flex-col gap-3">
       <Typography size="h6" color="neutral-300">
@@ -19,8 +28,12 @@ const RecentKeywords = ({
         {recentKeywords.map((keyword, index) => (
           <ChipButton
             key={keyword}
-            rightIcon={{ type: 'close' }}
-            onClick={() => onDeleteKeyword(index)}
+            rightIcon={{
+              type: 'close',
+              onClick: (e) => handleClickResetIcon(e, index),
+              'aria-label': `${keyword} 기록 제거`,
+            }}
+            onClick={() => onSearchKeyword(keyword)}
           >
             {keyword}
           </ChipButton>

@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
 import { recentSearchStorage } from '@/utils/storage'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -18,7 +18,7 @@ const SearchBox = () => {
   )
   const [query, setQuery] = useState(search)
   const isShowRecentKeywords =
-    query === '' && !!recentKeywords.length && !!search
+    query === '' && !!recentKeywords.length && search === ''
 
   const createQueryString = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -31,17 +31,20 @@ const SearchBox = () => {
     const existRecentKeywords = [...(recentKeywords || [])]
     if (!existRecentKeywords.includes(keyword)) {
       recentSearchStorage.set([...existRecentKeywords, keyword])
-      setRecentKeywords([...existRecentKeywords, keyword])
+      setRecentKeywords([keyword, ...existRecentKeywords])
     }
   }
 
-  const searchByKeyword = (formData: FormData) => {
-    const searchKeyword = formData.get('query') as string | null
+  const searchByKeyword = (formDataOrKeyword: FormData | string) => {
+    const searchKeyword =
+      typeof formDataOrKeyword === 'string'
+        ? formDataOrKeyword
+        : (formDataOrKeyword.get('query') as string | null)
     if (searchKeyword) {
       createQueryString('search', searchKeyword)
       addUniqueKeyword(searchKeyword)
-      setQuery('')
       // TODO: API 연동 및 결과 컴포넌트 로드
+      setQuery(searchKeyword)
       router.push(`${pathname}?${createQueryString('search', searchKeyword)}`)
     }
   }
@@ -55,18 +58,31 @@ const SearchBox = () => {
       setRecentKeywords(existRecentKeywords)
     }
   }
+
+  const handleResetQuery = () => {
+    setQuery('')
+    createQueryString('search', '')
+    router.push(`${pathname}?${createQueryString('search', '')}`)
+  }
+
+  useEffect(() => {
+    // search와 query 동기화 (삭제, 브라우저 뒤로가기/앞으로가기 등 대응)
+    setQuery(search)
+  }, [search])
+
   return (
     <div className="w-full min-h-dvh bg-neutral-700 px-5 pt-2">
       <SearchForm
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onResetValue={() => setQuery('')}
+        onResetValue={handleResetQuery}
         onSubmit={searchByKeyword}
       />
 
       {isShowRecentKeywords && (
         <RecentKeywords
           recentKeywords={recentKeywords}
+          onSearchKeyword={searchByKeyword}
           onDeleteKeyword={deleteRecentKeyword}
         />
       )}
