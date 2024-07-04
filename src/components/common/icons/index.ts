@@ -17,6 +17,7 @@ import SignOut from './SignOut.svg'
 import StarFilled from './StarFilled.svg'
 import StarGrey from './StarGrey.svg'
 import StarHalfFilled from './StarHalfFilled.svg'
+import Subtract from './Subtract.svg'
 import UploadSimple from './UploadSimple.svg'
 
 export const icons = {
@@ -39,5 +40,6 @@ export const icons = {
   starFilled: StarFilled,
   starGrey: StarGrey,
   starHalfFilled: StarHalfFilled,
+  subtract: Subtract,
   uploadSimple: UploadSimple,
 }
