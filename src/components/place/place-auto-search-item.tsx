@@ -3,14 +3,14 @@ import { Icon, Typography } from '@/components'
 import { PlaceProps } from './types'
 
 interface PlaceAutoSearchItemProps extends PlaceProps {
-  review: number
+  numOfreview: number
   query: string
 }
 
 const PlaceAutoSearchItem = forwardRef<
   HTMLDivElement,
   PlaceAutoSearchItemProps
->(({ placeId, name, address, review, query, category, distance }, ref) => {
+>(({ placeId, name, address, numOfreview, query, category, distance }, ref) => {
   const nameParts = name.split(new RegExp(`(${query})`, 'gi'))
 
   return (
@@ -43,7 +43,7 @@ const PlaceAutoSearchItem = forwardRef<
               리뷰
             </Typography>
             <Typography as="span" size="body4" color="neutral-200">
-              {review}
+              {numOfreview}
             </Typography>
           </p>
         </div>
