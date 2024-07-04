@@ -41,9 +41,9 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
                 <div className="flex gap-3 items-center">
                   <PickChip isMyPick={pick.isMyPick} />
                   <LikeButton
-                    like={pick.numOfLike}
+                    numOfLike={pick.numOfLike}
                     isLiked={pick.isLiked}
-                    onClickLike={pick.onClickLike}
+                    onClick={pick.onClickLike}
                   />
                 </div>
               )}

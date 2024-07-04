@@ -4,18 +4,18 @@ import { forwardRef } from 'react'
 import { AccessibleIconButton, Typography } from '@/components'
 
 interface LikeButtonProps {
-  like: number
+  numOfLike: number
   isLiked: boolean
-  onClickLike: () => void
+  onClick: () => void
 }
 
 const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
-  ({ isLiked, like, onClickLike }, ref) => {
+  ({ isLiked, numOfLike, onClick }, ref) => {
     return (
       <div ref={ref} className="flex items-center gap-0.5">
         <AccessibleIconButton
           label={isLiked ? '좋아요 취소' : '좋아요'}
-          onClick={onClickLike}
+          onClick={onClick}
           icon={{
             type: 'heartStraightOutlined',
             stroke: isLiked ? 'orange-400' : 'neutral-200',
@@ -25,7 +25,7 @@ const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
           }}
         />
         <Typography size="body1" color="neutral-200" className="font-medium">
-          {like}
+          {numOfLike}
         </Typography>
       </div>
     )
