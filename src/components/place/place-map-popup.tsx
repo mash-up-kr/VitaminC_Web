@@ -51,9 +51,9 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
 
             <img className="rounded-md w-20 h-20" src={image} alt="식당" />
           </div>
-          {pick?.hashtags.length ? (
+          {pick?.hashtags?.length && (
             <HashtagList placeId={placeId} hashtags={pick.hashtags} />
-          ) : null}
+          )}
         </section>
       </div>
     )
