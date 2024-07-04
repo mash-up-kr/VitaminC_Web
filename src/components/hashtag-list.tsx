@@ -17,11 +17,11 @@ const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
     typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
   const getFitContainerWidthHashtag = (
-    hashtags: string[],
+    currentHashtags: string[],
     containerWidth: number,
   ) => {
     let totalWidth = 0
-    const filteredVisibleHashtags = hashtags.filter((tag) => {
+    const filteredVisibleHashtags = currentHashtags.filter((tag) => {
       const chip = document.querySelector<HTMLElement>(
         `#${placeId}-hashtag-${tag}`,
       )
