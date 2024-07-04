@@ -1,4 +1,4 @@
-import { type ChangeEvent, Suspense } from 'react'
+import type { ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
 
 import SearchInput from '@/components/search-input'
@@ -19,27 +19,25 @@ const SearchForm = ({
   const router = useRouter()
 
   return (
-    <Suspense>
-      <form action={onSubmit}>
-        <SearchInput
-          name="query"
-          value={value}
-          leftIcon={{
-            icon: {
-              type: 'caretLeft',
-              size: 'xl',
-            },
-            label: '뒤로 가기',
-            onClick: () => router.back(),
-          }}
-          rightIcon={{
-            icon: { type: 'delete', size: 'xl', onClick: onResetValue },
-            label: '입력 내용 지우기',
-          }}
-          onChange={onChange}
-        />
-      </form>
-    </Suspense>
+    <form action={onSubmit}>
+      <SearchInput
+        name="query"
+        value={value}
+        leftIcon={{
+          icon: {
+            type: 'caretLeft',
+            size: 'xl',
+          },
+          label: '뒤로 가기',
+          onClick: () => router.back(),
+        }}
+        rightIcon={{
+          icon: { type: 'delete', size: 'xl', onClick: onResetValue },
+          label: '입력 내용 지우기',
+        }}
+        onChange={onChange}
+      />
+    </form>
   )
 }
 

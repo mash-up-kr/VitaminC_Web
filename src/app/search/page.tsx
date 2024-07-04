@@ -1,11 +1,12 @@
 'use client'
 
 import { Suspense, useEffect, useState } from 'react'
-
-import { recentSearchStorage } from '@/utils/storage'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import RecentKeywords from './recent-keywords'
+
 import SearchForm from './search-form'
+import RecentKeywords from './recent-keywords'
+import { recentSearchStorage } from '@/utils/storage'
+import { useIsServer } from '@/hooks/use-is-server'
 
 const SearchBox = () => {
   const router = useRouter()
@@ -91,6 +92,10 @@ const SearchBox = () => {
 }
 
 const Search = () => {
+  const isServer = useIsServer()
+
+  if (isServer) return <div>검색 페이지 로딩 중...</div>
+
   return (
     <Suspense>
       <SearchBox />
