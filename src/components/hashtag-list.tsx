@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { Chip } from '@/components'
 import cn from '@/utils/cn'
@@ -13,7 +13,10 @@ const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
   const [visibleHashtags, setVisibleHashtags] = useState(hashtags)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  const useIsomorphicLayoutEffect =
+    typeof window !== 'undefined' ? useLayoutEffect : useEffect
+
+  useIsomorphicLayoutEffect(() => {
     const editHashtag = () => {
       if (!containerRef.current) return
 
