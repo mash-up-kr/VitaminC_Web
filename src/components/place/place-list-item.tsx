@@ -9,13 +9,13 @@ import {
 import { PlaceProps } from './types'
 
 interface PlaceListItemProps extends PlaceProps {
-  rate: number
+  rating: number
   images?: string[]
 }
 
 // TODO: 클릭 시 식당 상세로 이동 로직
 const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
-  ({ placeId, name, address, rate, images, pick }, ref) => {
+  ({ placeId, name, address, rating, images, pick }, ref) => {
     return (
       <section
         ref={ref}
@@ -55,7 +55,7 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
             <div className="flex gap-0.5 items-center">
               <Icon type="star" size="sm" fill="yellow-100" />
               <Typography as="span" size="body3" color="neutral-300">
-                {rate}
+                {rating}
               </Typography>
             </div>
             <Typography as="span" size="body3" color="neutral-300">
