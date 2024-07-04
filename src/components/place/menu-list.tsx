@@ -49,7 +49,7 @@ const MenuList = ({
 
             <img
               src={photoList[index] ?? ''}
-              alt={`${menu.menu} 사진`}
+              alt={`${menu.menu}`}
               className="w-[60px] h-[60px] rounded max-w-[60px] object-cover"
             />
           </li>
