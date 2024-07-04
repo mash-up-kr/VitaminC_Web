@@ -53,7 +53,7 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
 
           <div className="flex items-center gap-[7px]">
             <div className="flex gap-0.5 items-center">
-              <Icon type="star" size="sm" fill="yellow-100" />
+              <Icon type="starFilled" size="sm" fill="yellow-100" />
               <Typography as="span" size="body3" color="neutral-300">
                 {rating}
               </Typography>
