@@ -6,10 +6,7 @@ interface PlaceDividerProps extends ClassName {}
 const PlaceDivider = ({ className }: PlaceDividerProps) => {
   return (
     <div
-      className={cn(
-        'w-[calc(100%+40px)] h-[18px] content=[""] bg-neutral-600',
-        className,
-      )}
+      className={cn('w-[calc(100%+40px)] h-[18px] bg-neutral-600', className)}
       aria-hidden
     />
   )
