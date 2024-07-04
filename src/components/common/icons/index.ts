@@ -21,6 +21,7 @@ import StarGrey from './StarGrey.svg'
 import StarHalfFilled from './StarHalfFilled.svg'
 import Subtract from './Subtract.svg'
 import UploadSimple from './UploadSimple.svg'
+import KakaoLogo from './KakaoLogo.svg'
 
 export const icons = {
   caretDown: CaretDown,
@@ -46,4 +47,5 @@ export const icons = {
   starHalfFilled: StarHalfFilled,
   subtract: Subtract,
   uploadSimple: UploadSimple,
+  kakaoLogo: KakaoLogo,
 }

@@ -1,26 +1,46 @@
-import { IntroStep } from '@/models/interface'
+import Login from '@/components/intro/steps/login'
+import Nickname from '@/components/intro/steps/nickname'
+import SuccessJoin from '@/components/intro/steps/success-join'
+import Mapname from '@/components/intro/steps/mapname'
+import Invite from '@/components/intro/steps/invite'
+import Header from '@/components/intro/header'
 
-const Intro = ({
-  searchParams,
-}: {
-  searchParams?: {
-    step?: IntroStep
-  }
-}) => {
-  const step = searchParams?.step ?? 'nickname'
+const INTRO_STEP = {
+  Login: 'login',
+  Nickname: 'nickname',
+  Complete: 'complete',
+  Mapname: 'mapname',
+  Invite: 'invite',
+} as const
+type IntroStep = (typeof INTRO_STEP)[keyof typeof INTRO_STEP]
 
+const Step = ({ step }: { step: IntroStep }) => {
   switch (step) {
-    case 'nickname':
-      return <>닉네임 입력</>
-    case 'complete':
-      return <>회원가입 완료 및 지도 생성 안내</>
-    case 'map':
-      return <>지도 생성</>
-    case 'invite':
-      return <>초대장 생성</>
+    case INTRO_STEP.Login:
+      return <Login />
+    case INTRO_STEP.Nickname:
+      return <Nickname />
+    case INTRO_STEP.Complete:
+      return <SuccessJoin />
+    case INTRO_STEP.Mapname:
+      return <Mapname />
+    case INTRO_STEP.Invite:
+      return <Invite />
     default:
       return <>잘못된 접근</>
   }
+}
+
+const Intro = () => {
+  // TODO: state management
+  const step = 'login'
+
+  return (
+    <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
+      <Header />
+      <Step step={step} />
+    </div>
+  )
 }
 
 export default Intro
