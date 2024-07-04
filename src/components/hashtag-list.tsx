@@ -3,6 +3,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Chip } from '@/components'
 import cn from '@/utils/cn'
 import { ClassName } from '@/models/interface'
+import { getFitContainerWidthHashtag } from '@/utils/hashtag'
 
 interface HashtagListProps extends ClassName {
   placeId: string
@@ -16,37 +17,15 @@ const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
   const useIsomorphicLayoutEffect =
     typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
-  const getFitContainerWidthHashtag = (
-    currentHashtags: string[],
-    containerWidth: number,
-  ) => {
-    let totalWidth = 0
-    const filteredVisibleHashtags = currentHashtags.filter((tag) => {
-      const chip = document.querySelector<HTMLElement>(
-        `#${placeId}-hashtag-${tag}`,
-      )
-
-      if (chip === null) return false
-
-      const chipWidth = chip.offsetWidth + 4
-      totalWidth += chipWidth
-
-      if (totalWidth < containerWidth) {
-        return true
-      }
-      return false
-    })
-
-    return filteredVisibleHashtags
-  }
-
   useIsomorphicLayoutEffect(() => {
     const editHashtag = () => {
       if (!containerRef.current) return
 
       const containerWidth = containerRef.current.offsetWidth
 
-      setVisibleHashtags(getFitContainerWidthHashtag(hashtags, containerWidth))
+      setVisibleHashtags(
+        getFitContainerWidthHashtag(placeId, hashtags, containerWidth),
+      )
     }
     editHashtag()
   }, [hashtags])
