@@ -10,6 +10,9 @@ import { pretendard } from '@/styles/fonts'
 export const metadata: Metadata = {
   title: '꼬르륵',
   description: '전설의 보물섬으로 가는 맛집 지도',
+  other: {
+    'naver-site-verification': 'ae22710d3780384fb5665b6fed172612b84e5e39',
+  },
 }
 
 const gaId = 'G-J03LXYNV9K'
