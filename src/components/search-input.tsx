@@ -8,7 +8,7 @@ const SearchInputVariants = cva<{
   variant: Record<'outlined' | 'filled', string>
   size: Record<'sm' | 'md' | 'lg', string>
 }>(
-  `w-full leading-none caret-orange-400 rounded-md placeholder:text-neutral-400`,
+  `w-full leading-none text-neutral-100 caret-orange-400 rounded-md placeholder:text-neutral-400`,
   {
     variants: {
       variant: {
@@ -58,7 +58,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       (rightIcon.icon.type === 'delete' && props.value)
 
     return (
-      <div className="w-full relative">
+      <div className="w-full relative flex items-center">
         {leftIcon && (
           <AccessibleIconButton
             className="absolute top-1/2 -translate-y-1/2 left-4"
@@ -70,7 +70,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           className={cn(
             SearchInputVariants({ variant, size }),
             className,
-            leftIcon?.type ? 'pl-[50px]' : '',
+            leftIcon?.icon.type && 'pl-[50px]',
           )}
           ref={ref}
           placeholder={placeholder}
