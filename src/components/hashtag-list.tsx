@@ -16,28 +16,37 @@ const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
   const useIsomorphicLayoutEffect =
     typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
+  const getFitContainerWidthHashtag = (
+    hashtags: string[],
+    containerWidth: number,
+  ) => {
+    let totalWidth = 0
+    const filteredVisibleHashtags = hashtags.filter((tag) => {
+      const chip = document.querySelector<HTMLElement>(
+        `#${placeId}-hashtag-${tag}`,
+      )
+
+      if (chip === null) return false
+
+      const chipWidth = chip.offsetWidth + 4
+      totalWidth += chipWidth
+
+      if (totalWidth < containerWidth) {
+        return true
+      }
+      return false
+    })
+
+    return filteredVisibleHashtags
+  }
+
   useIsomorphicLayoutEffect(() => {
     const editHashtag = () => {
       if (!containerRef.current) return
 
       const containerWidth = containerRef.current.offsetWidth
-      let totalWidth = 0
-      const newVisibleHashtags = hashtags.filter((tag) => {
-        const chip = document.querySelector<HTMLElement>(
-          `#${placeId}-hashtag-${tag}`,
-        )
 
-        if (chip === null) return false
-
-        const chipWidth = chip.offsetWidth + 4
-        totalWidth += chipWidth
-
-        if (totalWidth < containerWidth) {
-          return true
-        }
-        return false
-      })
-      setVisibleHashtags(newVisibleHashtags)
+      setVisibleHashtags(getFitContainerWidthHashtag(hashtags, containerWidth))
     }
     editHashtag()
   }, [hashtags])
