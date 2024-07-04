@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 
 import './globals.css'
+import { CustomToaster } from '@/components/common/custom-toast'
 import { pretendard } from '@/styles/fonts'
 
 export const metadata: Metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({
         />
         <main className="relative w-full max-w-[420px] min-h-dvh">
           {children}
+          <CustomToaster />
         </main>
       </body>
     </html>

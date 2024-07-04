@@ -174,6 +174,29 @@ const config: Config = {
       borderRadius: {
         '3xl': '20px',
       },
+      keyframes: {
+        enter: {
+          '0%': {
+            transform: 'translateY(20px)',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+          },
+        },
+        leave: {
+          '0%': {
+            transform: 'translateY(0)',
+          },
+          '100%': {
+            transform: 'translateY(20px)',
+            opacity: '0',
+          },
+        },
+      },
+      animation: {
+        enter: 'enter 300ms ease-out',
+        leave: 'leave 300ms ease-in forwards',
+      },
     },
   },
   plugins: [],
