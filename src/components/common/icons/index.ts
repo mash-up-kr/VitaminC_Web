@@ -5,6 +5,8 @@ import Check from './Check.svg'
 import Clock from './Clock.svg'
 import Close from './Close.svg'
 import Delete from './Delete.svg'
+import DeleteOrange300 from './DeleteOrange300.svg'
+import DeleteOrange400 from './DeleteOrange400.svg'
 import HeartStraightFilled from './HeartStraightFilled.svg'
 import HeartStraightOutlined from './HeartStraightOutlined.svg'
 import Info from './Info.svg'
@@ -28,6 +30,8 @@ export const icons = {
   clock: Clock,
   close: Close,
   delete: Delete,
+  deleteOrange300: DeleteOrange300,
+  deleteOrange400: DeleteOrange400,
   heartStraightFilled: HeartStraightFilled,
   heartStraightOutlined: HeartStraightOutlined,
   info: Info,
