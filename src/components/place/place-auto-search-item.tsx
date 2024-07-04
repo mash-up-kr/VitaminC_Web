@@ -10,7 +10,7 @@ interface PlaceAutoSearchItemProps extends PlaceProps {
 const PlaceAutoSearchItem = forwardRef<
   HTMLDivElement,
   PlaceAutoSearchItemProps
->(({ name, address, review, query, category, distance }, ref) => {
+>(({ placeId, name, address, review, query, category, distance }, ref) => {
   const nameParts = name.split(new RegExp(`(${query})`, 'gi'))
 
   return (
@@ -25,9 +25,11 @@ const PlaceAutoSearchItem = forwardRef<
             <Typography as="h2" size="h5">
               {nameParts.map((text) => {
                 return text === query ? (
-                  <span>{text}</span>
+                  <span key={`${placeId}-${text}`}>{text}</span>
                 ) : (
-                  <span className="text-neutral-300">{text}</span>
+                  <span key={`${placeId}-${text}`} className="text-neutral-300">
+                    {text}
+                  </span>
                 )
               })}
             </Typography>
