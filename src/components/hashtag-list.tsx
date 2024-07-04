@@ -2,11 +2,11 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { Chip } from '@/components'
 import cn from '@/utils/cn'
+import { ClassName } from '@/models/interface'
 
-interface HashtagListProps {
+interface HashtagListProps extends ClassName {
   placeId: string
   hashtags: string[]
-  className?: string
 }
 
 const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
