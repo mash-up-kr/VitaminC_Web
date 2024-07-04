@@ -4,13 +4,13 @@ import { forwardRef } from 'react'
 import { AccessibleIconButton, Typography } from '@/components'
 
 interface LikeButtonProps {
-  numOfLike: number
+  numOfLikes: number
   isLiked: boolean
   onClick: () => void
 }
 
 const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
-  ({ isLiked, numOfLike, onClick }, ref) => {
+  ({ isLiked, numOfLikes, onClick }, ref) => {
     return (
       <div ref={ref} className="flex items-center gap-0.5">
         <AccessibleIconButton
@@ -25,7 +25,7 @@ const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
           }}
         />
         <Typography size="body1" color="neutral-200" className="font-medium">
-          {numOfLike}
+          {numOfLikes}
         </Typography>
       </div>
     )
