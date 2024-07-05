@@ -21,6 +21,9 @@ const SearchForm = ({
   return (
     <form action={onSubmit}>
       <SearchInput
+        ref={(node) => {
+          node?.focus()
+        }}
         name="query"
         value={value}
         leftIcon={{
