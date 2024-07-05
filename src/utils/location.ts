@@ -1,5 +1,3 @@
-import { RectCoordinates } from '@/types/api/search'
-
 export const formatBoundToRect = (
   bound: {
     x1: number
@@ -7,13 +5,13 @@ export const formatBoundToRect = (
     x2: number
     y2: number
   } | null,
-  defaultRect?: RectCoordinates,
-): RectCoordinates => {
+  defaultRect?: string,
+): string => {
   if (!bound) {
-    return defaultRect ?? '37.5664,126.97782,37.5664,126.97782'
+    return defaultRect ?? '127.02598800275543,37.50079626026492'
   }
 
-  return `${bound.x1},${bound.y1},${bound.x2},${bound.y2}`
+  return `${bound.y1},${bound.x1},${bound.y2},${bound.x2}`
 }
 
 export const deg2rad = (deg: number): number => deg * (Math.PI / 180)
