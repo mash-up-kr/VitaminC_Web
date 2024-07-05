@@ -1,7 +1,7 @@
 import type { QueryParams } from '@/types/api/search'
 import { apiClientFactory } from './api-client-factory'
 import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
-import type { ResponseWithMessage } from '@/types/api/api'
+import type { ResponseWithMessage } from '@/types/api'
 
 const client = {
   public: apiClientFactory({}),
