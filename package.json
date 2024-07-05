@@ -17,7 +17,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.11",
-    "haversine-distance": "^1.2.3",
     "lodash.debounce": "^4.0.8",
     "next": "14.2.3",
     "react": "^18",
