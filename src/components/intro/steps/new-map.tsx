@@ -1,6 +1,11 @@
 import { Button, Typography } from '@/components/common'
+import { IntroActionDispatch } from '@/app/intro/page'
 
-const SuccessJoin = () => {
+const NewMap = ({ goNextStep }: IntroActionDispatch) => {
+  const handleClick = () => {
+    goNextStep()
+  }
+
   return (
     <>
       <div className="flex-1">
@@ -24,10 +29,12 @@ const SuccessJoin = () => {
       </div>
 
       <div className="p-5 w-full">
-        <Button colorScheme="orange">지도 만들기</Button>
+        <Button colorScheme="orange" onClick={handleClick}>
+          지도 만들기
+        </Button>
       </div>
     </>
   )
 }
 
-export default SuccessJoin
+export default NewMap

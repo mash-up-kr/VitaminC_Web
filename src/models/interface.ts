@@ -29,3 +29,13 @@ export const BOTTOM_SHEET_STATE = {
 } as const
 export type BottomSheetState =
   (typeof BOTTOM_SHEET_STATE)[keyof typeof BOTTOM_SHEET_STATE]
+
+/* Intro */
+export enum IntroStep {
+  LOADING = -1,
+  LOGIN,
+  NICKNAME,
+  NEW_MAP,
+  MAPNAME,
+  INVITE,
+}

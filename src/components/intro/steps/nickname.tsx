@@ -1,14 +1,40 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+
 import { Button, Input, Typography } from '@/components/common'
+import type { IntroActionDispatch } from '@/app/intro/page'
+import { invitationLinkStorage, nicknameStorage } from '@/utils/storage'
+import { setCookie } from '@/app/actions'
+import { RECENT_MAP_ID } from '@/utils/storage/cookie'
 
 const MIN_LENGTH = 0
 
-const Nickname = () => {
+const Nickname = ({ goNextStep }: IntroActionDispatch) => {
+  const router = useRouter()
+
   const [nickname, setNickname] = useState('')
   const handleChange = (value: string) => {
     setNickname(value)
+  }
+
+  const handleClick = () => {
+    // TODO: API - POST
+    // request: nickname
+    nicknameStorage.set(nickname)
+
+    const invitationLink = invitationLinkStorage.getValueOrNull()
+    if (invitationLink) {
+      // TODO: API - POST
+      // request: invitationLink
+      // response: mapId
+      const mapId = 'mapId'
+      setCookie(RECENT_MAP_ID, mapId)
+      router.push(`/map/${mapId}`)
+    } else {
+      goNextStep()
+    }
   }
 
   return (
@@ -34,7 +60,11 @@ const Nickname = () => {
       </div>
 
       <div className="p-5 w-full">
-        <Button colorScheme="orange" disabled={nickname.length < MIN_LENGTH}>
+        <Button
+          colorScheme="orange"
+          disabled={nickname.length < MIN_LENGTH}
+          onClick={handleClick}
+        >
           가입완료
         </Button>
       </div>

@@ -1,15 +1,25 @@
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
 import { Typography } from '@/components/common'
 import ConfirmCancelButton from '@/components/confirm-cancel-button'
+import { newMapIdStorage } from '@/utils/storage'
+import { setCookie } from '@/app/actions'
+import { RECENT_MAP_ID } from '@/utils/storage/cookie'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 
 const Invite = () => {
+  const router = useRouter()
   const [showInvitation, setShowInvitation] = useState(false)
 
   const goHome = () => {
-    // TODO: api 호출 후 mapId 받아서 router 이동
+    const mapId = newMapIdStorage.getValueOrNull() || ''
+
+    newMapIdStorage.remove()
+    setCookie(RECENT_MAP_ID, mapId)
+
+    router.push(`/map/${mapId}`)
   }
 
   const handleShowInvitation = () => {

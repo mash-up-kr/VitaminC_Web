@@ -1,14 +1,26 @@
 'use client'
 
 import { useState } from 'react'
+
 import { Button, Input, Typography } from '@/components/common'
+import { newMapIdStorage } from '@/utils/storage'
+import { IntroActionDispatch } from '@/app/intro/page'
 
 const MIN_LENGTH = 0
 
-const Mapname = () => {
+const Mapname = ({ goNextStep }: IntroActionDispatch) => {
   const [mapname, setMapname] = useState('')
   const handleChange = (value: string) => {
     setMapname(value)
+  }
+
+  const handleClick = () => {
+    // TODO: API - POST
+    // request: mapname
+    // response: mapId
+    const newMapId = 'newMapId'
+    newMapIdStorage.set(newMapId)
+    goNextStep()
   }
 
   return (
@@ -34,7 +46,11 @@ const Mapname = () => {
       </div>
 
       <div className="p-5 w-full">
-        <Button colorScheme="orange" disabled={mapname.length < MIN_LENGTH}>
+        <Button
+          colorScheme="orange"
+          disabled={mapname.length < MIN_LENGTH}
+          onClick={handleClick}
+        >
           지도 만들기 완료
         </Button>
       </div>

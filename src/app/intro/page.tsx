@@ -1,44 +1,102 @@
+'use client'
+
+import { useEffect, useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
+
 import Login from '@/components/intro/steps/login'
 import Nickname from '@/components/intro/steps/nickname'
-import SuccessJoin from '@/components/intro/steps/success-join'
+import NewMap from '@/components/intro/steps/new-map'
 import Mapname from '@/components/intro/steps/mapname'
 import Invite from '@/components/intro/steps/invite'
 import Header from '@/components/intro/header'
+import LoadingIndicator from '@/components/loading-indicator'
+import { IntroStep } from '@/models/interface'
+import {
+  newMapIdStorage,
+  nicknameStorage,
+  invitationLinkStorage,
+} from '@/utils/storage'
+import useCookie from '@/hooks/use-cookie'
+import { useIsServer } from '@/hooks/use-is-server'
 
-const INTRO_STEP = {
-  Login: 'login',
-  Nickname: 'nickname',
-  Complete: 'complete',
-  Mapname: 'mapname',
-  Invite: 'invite',
-} as const
-type IntroStep = (typeof INTRO_STEP)[keyof typeof INTRO_STEP]
+export interface IntroActionDispatch {
+  goNextStep: VoidFunction
+}
 
-const Step = ({ step }: { step: IntroStep }) => {
+interface StepProps extends IntroActionDispatch {
+  step: IntroStep
+}
+
+const Step = ({ step, goNextStep }: StepProps) => {
   switch (step) {
-    case INTRO_STEP.Login:
+    case IntroStep.LOGIN:
       return <Login />
-    case INTRO_STEP.Nickname:
-      return <Nickname />
-    case INTRO_STEP.Complete:
-      return <SuccessJoin />
-    case INTRO_STEP.Mapname:
-      return <Mapname />
-    case INTRO_STEP.Invite:
+    case IntroStep.NICKNAME:
+      return <Nickname goNextStep={goNextStep} />
+    case IntroStep.NEW_MAP:
+      return <NewMap goNextStep={goNextStep} />
+    case IntroStep.MAPNAME:
+      return <Mapname goNextStep={goNextStep} />
+    case IntroStep.INVITE:
       return <Invite />
     default:
-      return <>잘못된 접근</>
+      return (
+        <div className="text-white flex-1 flex items-center justify-center">
+          <LoadingIndicator />
+        </div>
+      )
   }
 }
 
 const Intro = () => {
-  // TODO: state management
-  const step = 'login'
+  const isServer = useIsServer()
+  const router = useRouter()
+
+  const recentMapId = useCookie('recent_map_id')
+  useEffect(() => {
+    if (recentMapId) {
+      router.push(`/map/${recentMapId}`)
+    }
+  }, [router, recentMapId])
+
+  const authorization = useCookie('Authorization')
+  const nickname = nicknameStorage.getValueOrNull()
+  const newMapId = newMapIdStorage.getValueOrNull()
+  const getInitialStep = useMemo(() => {
+    if (!authorization) {
+      return IntroStep.LOGIN
+    } else if (!nickname) {
+      return IntroStep.NICKNAME
+    } else if (!newMapId) {
+      return IntroStep.NEW_MAP
+    } else {
+      return IntroStep.INVITE
+    }
+  }, [authorization, newMapId, nickname])
+
+  const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
+
+  useEffect(() => {
+    setStep(getInitialStep)
+  }, [getInitialStep])
+
+  const goNextStep = () => {
+    const hasInvitationLink = !!invitationLinkStorage.getValueOrNull()
+    const lastStep = hasInvitationLink ? IntroStep.NICKNAME : IntroStep.INVITE
+    const nextStep: IntroStep = Math.min(step + 1, lastStep)
+    setStep(nextStep)
+  }
 
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
       <Header />
-      <Step step={step} />
+      {isServer ? (
+        <div className="text-white flex-1 flex items-center justify-center">
+          <LoadingIndicator />
+        </div>
+      ) : (
+        <Step step={step} goNextStep={goNextStep} />
+      )}
     </div>
   )
 }
