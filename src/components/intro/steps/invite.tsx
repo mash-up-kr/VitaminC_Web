@@ -1,16 +1,45 @@
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+
 import { Typography } from '@/components/common'
 import ConfirmCancelButton from '@/components/confirm-cancel-button'
+import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 
 const Invite = () => {
+  const [showInvitation, setShowInvitation] = useState(false)
+
   const goHome = () => {
     // TODO: api 호출 후 mapId 받아서 router 이동
   }
+
+  const handleShowInvitation = () => {
+    setShowInvitation(!showInvitation)
+  }
+
   const sendInvitation = () => {
-    // TODO: 초대장 모달로 띄워주기
+    // TODO: API - GET 지도 정보 => InvitingBoardingPass props
+    handleShowInvitation()
   }
 
   return (
     <>
+      {showInvitation && (
+        <>
+          <motion.div
+            className="absolute top-0 left-0 w-full h-[100dvh] flex items-center px-5 bg-black bg-opacity-85"
+            onTap={handleShowInvitation}
+          >
+            <InvitingBoardingPass
+              mapName="비타민C"
+              owner="주병호"
+              numOfCrews={9}
+              time={new Date()}
+              url=""
+            />
+          </motion.div>
+        </>
+      )}
+
       <div className="flex-1">
         <div className="pt-12 px-5 mb-12">
           <Typography
