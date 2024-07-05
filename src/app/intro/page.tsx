@@ -90,7 +90,7 @@ const Intro = () => {
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
       <Header />
-      {isServer ? (
+      {isServer || recentMapId ? (
         <div className="text-white flex-1 flex items-center justify-center">
           <LoadingIndicator />
         </div>
