@@ -18,6 +18,7 @@ const Indicator = ({ activeIndex, numOfSlides, onClick }: IndicatorProps) => {
                 i !== activeIndex && 'bg-opacity-30',
               )}
               aria-pressed={i === activeIndex}
+              aria-label={`${i + 1} 번째 사진으로 이동`}
               onClick={() => onClick(i)}
             />
           </li>

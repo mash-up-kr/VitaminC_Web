@@ -69,6 +69,7 @@ const Slide = ({
           drag="x"
           dragElastic={1}
           onDragEnd={handleDragEnd}
+          aria-hidden={activeIndex !== i}
         >
           <img
             draggable={false}
