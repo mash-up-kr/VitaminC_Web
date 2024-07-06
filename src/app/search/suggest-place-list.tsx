@@ -28,7 +28,7 @@ const SuggestPlaceList = ({ places, query }: SuggestPlaceListProps) => {
             className="px-5"
             query={query}
             distance={formatDistance(diffDistance)}
-            numOfReview={312}
+            numOfReviews={312}
           />
         )
       })}

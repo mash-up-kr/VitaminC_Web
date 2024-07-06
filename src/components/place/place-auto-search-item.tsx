@@ -8,7 +8,7 @@ import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import { recentSearchStorage } from '@/utils/storage'
 
 interface PlaceAutoSearchItemProps extends KakaoPlaceItem, ClassName {
-  numOfReview: number
+  numOfReviews: number
   query: string
 }
 
@@ -21,7 +21,7 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
       className,
       road_address_name,
       category_name,
-      numOfReview,
+      numOfReviews,
       query,
     },
     ref,
@@ -74,7 +74,7 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
                   리뷰
                 </Typography>
                 <Typography as="span" size="body4" color="neutral-200">
-                  {numOfReview?.toLocaleString()}
+                  {numOfReviews?.toLocaleString()}
                 </Typography>
               </p>
             </div>
