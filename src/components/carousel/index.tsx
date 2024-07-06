@@ -9,6 +9,8 @@ interface CarouselProps {
   srcList: string[]
 }
 
+const AUTO_PLAY_SPEED = 5000
+
 const Carousel = ({ srcList }: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0)
 
@@ -19,7 +21,7 @@ const Carousel = ({ srcList }: CarouselProps) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setActiveIndex((index) => (index + 1) % srcList.length)
-    }, 5000)
+    }, AUTO_PLAY_SPEED)
     return () => clearInterval(intervalId)
   })
 
