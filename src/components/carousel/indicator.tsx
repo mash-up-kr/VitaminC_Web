@@ -10,7 +10,7 @@ const Indicator = ({ activeIndex, numOfSlides, onClick }: IndicatorProps) => {
   return (
     <div className="w-full h-[44px] flex justify-center items-center">
       <ul className="px-3 py-2 rounded-[50px] bg-[#BFBFBF] bg-opacity-[0.44] flex gap-2">
-        {Array.from({ length: numOfSlides }, () => 0).map((x, i) => (
+        {[...Array(numOfSlides)].map((_, i) => (
           <li key={i} className="h-2 w-2 flex">
             <button
               className={cn(
