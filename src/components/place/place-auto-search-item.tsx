@@ -34,6 +34,11 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
       const existRecentKeywords = [
         ...(recentSearchStorage.getValueOrNull() || []),
       ]
+
+      const keywordIndex = existRecentKeywords.indexOf(place_name)
+      if (keywordIndex !== -1) {
+        existRecentKeywords.splice(keywordIndex, 1)
+      }
       recentSearchStorage.set([place_name, ...existRecentKeywords])
     }
 
