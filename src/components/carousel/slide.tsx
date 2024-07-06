@@ -56,7 +56,7 @@ const Slide = ({
       ref={containerRef}
       className="relative w-full flex overflow-x-auto no-scrollbar"
     >
-      {srcList.map((src, i) => (
+      {srcList.map((src, index) => (
         <motion.div
           style={{
             x,
@@ -69,11 +69,11 @@ const Slide = ({
           drag="x"
           dragElastic={1}
           onDragEnd={handleDragEnd}
-          aria-hidden={activeIndex !== i}
+          aria-hidden={activeIndex !== index}
         >
           <img
             draggable={false}
-            alt={`슬라이드 ${i + 1}`}
+            alt={`슬라이드 ${index + 1}`}
             className="h-[220px] object-contain"
             src={src}
           />
