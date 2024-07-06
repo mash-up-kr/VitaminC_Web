@@ -27,7 +27,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             {...props}
             className={cn(
-              'w-full h-[54px] leading-none text-h1 placeholder:text-[20px] placeholder:font-normal text-orange-300 placeholder-neutral-400 caret-orange-300 border-2 border-solid border-orange-300 rounded-full outline-none outline-offset-0 px-5 bg-transparent',
+              'w-full h-[54px] leading-none placeholder:text-[20px] placeholder:font-normal placeholder-neutral-400 text-h1 text-orange-300 caret-orange-300 border-2 border-solid border-orange-300 rounded-full outline-none outline-offset-0 px-5 bg-transparent',
               error && 'text-orange-400 border-orange-400',
             )}
             ref={ref}
