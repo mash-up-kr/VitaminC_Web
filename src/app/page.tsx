@@ -1,7 +1,6 @@
 'use client'
 
 import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
-import PlaceAutoSearchItem from '@/components/place/place-auto-search-item'
 import PlaceListItem from '@/components/place/place-list-item'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 
@@ -22,15 +21,6 @@ const Home = () => {
           '양병호',
         ]}
         numOfPins={19339}
-      />
-      <PlaceAutoSearchItem
-        placeId="dasdas"
-        query="존라"
-        address="서울시 성동구 장터5길"
-        name="존라멘"
-        numOfReviews={324}
-        category="일본식 라멘"
-        distance="234m"
       />
       <PlaceListItem
         placeId="sdfsgasf"
