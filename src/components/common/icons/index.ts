@@ -1,3 +1,5 @@
+import Bar from './Bar.svg'
+import Cafe from './Cafe.svg'
 import CaretDown from './CaretDown.svg'
 import CaretLeft from './CaretLeft.svg'
 import CaretUp from './CaretUp.svg'
@@ -9,9 +11,14 @@ import HeartStraightFilled from './HeartStraightFilled.svg'
 import HeartStraightOutlined from './HeartStraightOutlined.svg'
 import Info from './Info.svg'
 import InfoCircle from './InfoCircle.svg'
+import PickFlag from './PickFlag.svg'
 import Plus from './Plus.svg'
+import Restaurant from './Restaurant.svg'
 import RoundedTriangle from './RoundedTriangle.svg'
 import Search from './Search.svg'
+import SelectedBar from './SelectedBar.svg'
+import SelectedCafe from './SelectedCafe.svg'
+import SelectedRestaurant from './SelectedRestaurant.svg'
 import ShareNetwork from './ShareNetwork.svg'
 import SignOut from './SignOut.svg'
 import StarFilled from './StarFilled.svg'
@@ -21,6 +28,8 @@ import Subtract from './Subtract.svg'
 import UploadSimple from './UploadSimple.svg'
 
 export const icons = {
+  bar: Bar,
+  cafe: Cafe,
   caretDown: CaretDown,
   caretLeft: CaretLeft,
   caretUp: CaretUp,
@@ -32,9 +41,14 @@ export const icons = {
   heartStraightOutlined: HeartStraightOutlined,
   info: Info,
   infoCircle: InfoCircle,
+  pickFlag: PickFlag,
   plus: Plus,
+  restaurant: Restaurant,
   roundedTriangle: RoundedTriangle,
   search: Search,
+  selectedBar: SelectedBar,
+  selectedCafe: SelectedCafe,
+  selectedRestaurant: SelectedRestaurant,
   shareNetwork: ShareNetwork,
   signOut: SignOut,
   starFilled: StarFilled,
