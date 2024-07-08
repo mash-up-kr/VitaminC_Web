@@ -1,91 +1,59 @@
 'use client'
 
-import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
-import PlaceListItem from '@/components/place/place-list-item'
+import { useState } from 'react'
+import KakaoMap from '@/components/kakao-map/kakao-map'
+import Marker from '@/components/kakao-map/marker'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 
 const Home = () => {
+  const [temp, setTemp] = useState(false)
+
   return (
-    <main className="w-full min-h-dvh flex flex-col justify-center items-center bg-neutral-700 px-5">
-      <BoardingInfoPass
-        owner="주병호"
-        numOfCrews={1330}
-        day={19933}
-        members={[
-          '주병호',
-          '손병호',
-          '김병호',
-          '이병호',
-          '상병호',
-          '고병호',
-          '양병호',
-        ]}
-        numOfPins={19339}
-      />
-      <PlaceListItem
-        placeId="sdfsgasf"
-        name="존라멘"
-        address="서울시 성동구 장터5길"
-        rating={0.5}
-        images={[
-          'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format',
-          'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format',
-          'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format',
-        ]}
-        pick={{
-          hashtags: [
-            '존맛탱구리',
-            '존존맛탱구리',
-            '존맛존맛탱구리',
-            '존맛탱존맛탱구리',
-            '존맛탱구리',
-          ],
-          isLiked: false,
-          isMyPick: false,
-          numOfLikes: 122,
-          onClickLike: () => null,
-        }}
-      />
-      <PlaceListItem
-        placeId="fasfasfas"
-        name="존라멘"
-        address="서울시 성동구 장터5길"
-        rating={0.5}
-        pick={{
-          hashtags: [
-            '존존맛탱구리',
-            '존맛',
-            '존맛탱',
-            '존맛탱구',
-            '존맛탱구리',
-          ],
-          isLiked: false,
-          isMyPick: false,
-          numOfLikes: 122,
-          onClickLike: () => null,
-        }}
-      />
-      <PlaceMapPopup
-        placeId="dsd3egg"
-        name="존라멘"
-        address="서울시 성동구 장터5길"
-        distance="3km"
-        image="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format"
-        pick={{
-          hashtags: [
-            '존맛탱구리',
-            '존존맛탱구리',
-            '존맛존맛탱구리',
-            '존맛탱존맛탱구리',
-            '존맛탱구리',
-          ],
-          isLiked: false,
-          isMyPick: false,
-          numOfLikes: 122,
-          onClickLike: () => null,
-        }}
-      />
-    </main>
+    <div className="w-full min-h-dvh flex flex-col justify-center items-center bg-neutral-700 px-5">
+      <KakaoMap
+        className="w-[calc(100%+40px)] h-screen"
+        center={{ lat: 37.5665, lng: 126.978 }}
+        level={3}
+        onClick={(event) => console.log('Map clicked', event)}
+        onDoubleClick={(event) => console.log('Map double-clicked', event)}
+        onDragStart={(event) => console.log('Drag started', event)}
+        onDrag={(event) => console.log('Dragging', event)}
+        onDragEnd={(event) => console.log('Drag ended', event)}
+      >
+        <Marker
+          latitude={37.5665}
+          longitude={126.978}
+          type={temp ? 'selectedCafe' : 'cafe'}
+          isSaved={true}
+          onClick={() => setTemp((prev) => !prev)}
+        />
+      </KakaoMap>
+
+      {temp && (
+        <PlaceMapPopup
+          className="absolute bottom-5 px-5"
+          placeId="dsd3egg"
+          name="존라멘"
+          category="일식"
+          address="서울시 성동구 장터5길"
+          distance="3km"
+          image="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=164&h=164&fit=crop&auto=format"
+          pick={{
+            hashtags: [
+              '존맛탱구리',
+              '존존맛탱구리',
+              '존맛존맛탱구리',
+              '존맛탱존맛탱구리',
+              '존맛탱구리',
+            ],
+            isLiked: false,
+            isMyPick: false,
+            numOfLikes: 122,
+            onClickLike: () => null,
+          }}
+        />
+      )}
+    </div>
   )
 }
 

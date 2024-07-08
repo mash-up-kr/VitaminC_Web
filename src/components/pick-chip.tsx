@@ -11,6 +11,7 @@ const PickChip = forwardRef<HTMLSpanElement, PickChipProps>(
       <Chip
         ref={ref}
         fontSize="h7"
+        size="sm"
         colorScheme={isMyPick ? 'purple' : 'orange'}
       >{`${isMyPick ? '나의 ' : ''}Pick`}</Chip>
     )

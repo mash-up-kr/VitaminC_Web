@@ -33,7 +33,7 @@ const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
   return (
     <div
       ref={containerRef}
-      className={cn('w-full max-w-[380px] flex items-center gap-2', className)}
+      className={cn('w-full max-w-full flex items-center gap-2', className)}
     >
       {visibleHashtags.map((hashtag) => (
         <Chip
