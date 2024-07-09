@@ -1,9 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { Chip } from '@/components'
 import cn from '@/utils/cn'
 import { ClassName } from '@/models/interface'
 import { getFitContainerWidthHashtag } from '@/utils/hashtag'
+import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 
 interface HashtagListProps extends ClassName {
   placeId: string
@@ -13,9 +14,6 @@ interface HashtagListProps extends ClassName {
 const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
   const [visibleHashtags, setVisibleHashtags] = useState(hashtags)
   const containerRef = useRef<HTMLDivElement>(null)
-
-  const useIsomorphicLayoutEffect =
-    typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
   useIsomorphicLayoutEffect(() => {
     const editHashtag = () => {
