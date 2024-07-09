@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, useCallback } from 'react'
 
 import cn from '@/utils/cn'
 import { KakaoMapProvider } from './context'
@@ -7,6 +7,7 @@ import { mergeRefs } from '@/utils/merge-refs'
 import useKakaoMapInstance from './use-kakao-map-instance'
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
+import { mapBoundSessionStorage } from '@/utils/storage'
 
 interface KakaoMapProps {
   className?: string
@@ -17,16 +18,37 @@ interface KakaoMapProps {
   level?: number
   maxLevel?: number
   minLevel?: number
+  saveBoundInSession?: boolean
   onCenterChanged?: (target: kakao.maps.Map) => void
   onClick?: (mouseEvent: kakao.maps.event.MouseEvent) => void
   onDoubleClick?: (mouseEvent: kakao.maps.event.MouseEvent) => void
-  onDragStart?: (mouseEvent: kakao.maps.event.MouseEvent) => void
-  onDrag?: (mouseEvent: kakao.maps.event.MouseEvent) => void
-  onDragEnd?: (mouseEvent: kakao.maps.event.MouseEvent) => void
+  onDragStart?: VoidFunction
+  onDrag?: VoidFunction
+  onDragEnd?: VoidFunction
   children?: React.ReactNode
 }
 
 const DEFAULT_ZOOM = 3
+
+const getCorners = (bounds: kakao.maps.LatLngBounds) => {
+  const northEast = bounds.getNorthEast()
+  const southWest = bounds.getSouthWest()
+
+  const northWest = {
+    latitude: northEast.getLat(),
+    longitude: southWest.getLng(),
+  }
+
+  const southEast = {
+    latitude: southWest.getLat(),
+    longitude: northEast.getLng(),
+  }
+
+  return {
+    northWest,
+    southEast,
+  }
+}
 
 const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
   (
@@ -36,6 +58,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       level = DEFAULT_ZOOM,
       maxLevel,
       minLevel,
+      saveBoundInSession = true,
       onCenterChanged,
       onClick,
       onDoubleClick,
@@ -65,11 +88,24 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       })
     }, [])
 
+    const saveMapBoundWithOnDrag = useCallback(() => {
+      if (saveBoundInSession && map?.getBounds()) {
+        const { southEast, northWest } = getCorners(map.getBounds())
+        mapBoundSessionStorage.set({
+          latitude1: northWest.latitude,
+          longitude1: northWest.longitude,
+          latitude2: southEast.latitude,
+          longitude2: southEast.longitude,
+        })
+      }
+      onDragEnd?.()
+    }, [map, onDragEnd, saveBoundInSession])
+
     useKakaoEvent(map, 'click', onClick)
     useKakaoEvent(map, 'dblclick', onDoubleClick)
     useKakaoEvent(map, 'dragstart', onDragStart)
     useKakaoEvent(map, 'drag', onDrag)
-    useKakaoEvent(map, 'dragend', onDragEnd)
+    useKakaoEvent(map, 'dragend', saveMapBoundWithOnDrag)
 
     return (
       <>

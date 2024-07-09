@@ -16,9 +16,6 @@ const Home = () => {
         level={3}
         onClick={(event) => console.log('Map clicked', event)}
         onDoubleClick={(event) => console.log('Map double-clicked', event)}
-        onDragStart={(event) => console.log('Drag started', event)}
-        onDrag={(event) => console.log('Dragging', event)}
-        onDragEnd={(event) => console.log('Drag ended', event)}
       >
         <Marker
           latitude={37.5665}
