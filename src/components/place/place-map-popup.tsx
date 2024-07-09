@@ -1,19 +1,27 @@
 import { forwardRef } from 'react'
 import { Typography, PickChip, HashtagList, LikeButton } from '@/components'
-import { PlaceProps } from './types'
+import type { PlaceProps } from './types'
+import type { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
 
-interface PlaceMapPopupProps extends PlaceProps {
+interface PlaceMapPopupProps extends PlaceProps, ClassName {
   image: string
 }
 
 // TODO: 클릭 시 식당 상세로 이동 로직
 const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
-  ({ placeId, name, image, distance, address, category, pick }, ref) => {
+  (
+    { placeId, name, image, distance, address, category, pick, className },
+    ref,
+  ) => {
     return (
-      <div role="presentation" className="flex justify-center pb-5">
+      <div
+        role="presentation"
+        className={cn('flex justify-center w-full', className)}
+      >
         <section
           ref={ref}
-          className="w-[335px] rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4"
+          className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4"
         >
           <div className="flex gap-2 justify-between h-[83px]">
             <div className="flex flex-col justify-between">

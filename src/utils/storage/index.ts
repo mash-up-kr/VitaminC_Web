@@ -23,8 +23,8 @@ export const nicknameStorage = new LocalStorageManager<string>(NICKNAME)
 
 export const MAP_BOUND = '@@map-bound'
 export const mapBoundSessionStorage = new SessionStorageManager<{
-  x1: number
-  y1: number
-  x2: number
-  y2: number
+  latitude1: number
+  longitude1: number
+  latitude2: number
+  longitude2: number
 }>(MAP_BOUND)

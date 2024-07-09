@@ -1,9 +1,9 @@
 export const formatBoundToRect = (
   bound: {
-    x1: number
-    y1: number
-    x2: number
-    y2: number
+    latitude1: number
+    longitude1: number
+    latitude2: number
+    longitude2: number
   } | null,
   defaultRect?: string,
 ): string => {
@@ -11,24 +11,24 @@ export const formatBoundToRect = (
     return defaultRect ?? '127.02598800275543,37.50079626026492'
   }
 
-  return `${bound.y1},${bound.x1},${bound.y2},${bound.x2}`
+  return `${bound.longitude1},${bound.latitude1},${bound.longitude2},${bound.latitude1}`
 }
 
 export const deg2rad = (deg: number): number => deg * (Math.PI / 180)
 
 export const getDistance = (
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number,
+  latitude1: number,
+  longitude1: number,
+  latitude2: number,
+  longitude2: number,
 ): number => {
   const R = 6371 // 지구 반지름 (단위: km)
-  const dLat = deg2rad(lat2 - lat1)
-  const dLon = deg2rad(lon2 - lon1)
+  const dLat = deg2rad(latitude2 - latitude1)
+  const dLon = deg2rad(longitude2 - longitude1)
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
+    Math.cos(deg2rad(latitude1)) *
+      Math.cos(deg2rad(latitude2)) *
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2)
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
