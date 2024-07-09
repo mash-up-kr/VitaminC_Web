@@ -19,12 +19,11 @@ const useKakaoMapInstance = ({
   minLevel,
 }: UseKakaoMapInstanceProps) => {
   const container = useRef<HTMLElement>(null)
-  const mapInstance = useRef<kakao.maps.Map | null>(null)
   const [map, setMap] = useState<kakao.maps.Map | null>(null)
   const isLoaded = typeof window !== 'undefined' && typeof kakao !== 'undefined'
 
   useIsomorphicLayoutEffect(() => {
-    if (!isLoaded || !container.current || mapInstance.current) return
+    if (!isLoaded || !container.current || map) return
 
     kakao.maps.load(() => {
       const options = {
@@ -33,8 +32,7 @@ const useKakaoMapInstance = ({
         maxLevel,
         minLevel,
       }
-      mapInstance.current = new kakao.maps.Map(container.current, options)
-      setMap(mapInstance.current)
+      setMap(() => new kakao.maps.Map(container.current, options))
     })
   }, [isLoaded, center, level, maxLevel, minLevel])
 
