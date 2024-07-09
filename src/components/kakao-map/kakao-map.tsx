@@ -1,4 +1,4 @@
-import { forwardRef, useCallback } from 'react'
+import { forwardRef, useCallback, useState } from 'react'
 
 import cn from '@/utils/cn'
 import { KakaoMapProvider } from './context'
@@ -15,11 +15,12 @@ interface KakaoMapProps {
     lat: number
     lng: number
   }
-  level?: number
+  defaultLevel?: number
   maxLevel?: number
   minLevel?: number
   saveBoundInSession?: boolean
   onCenterChanged?: (target: kakao.maps.Map) => void
+  onZoomChanged?: (target: kakao.maps.Map) => void
   onClick?: (mouseEvent: kakao.maps.event.MouseEvent) => void
   onDoubleClick?: (mouseEvent: kakao.maps.event.MouseEvent) => void
   onDragStart?: VoidFunction
@@ -55,7 +56,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
     {
       className,
       center,
-      level = DEFAULT_ZOOM,
+      defaultLevel = DEFAULT_ZOOM,
       maxLevel,
       minLevel,
       saveBoundInSession = true,
@@ -65,10 +66,13 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       onDragStart,
       onDrag,
       onDragEnd,
+      onZoomChanged,
       children,
     },
     ref,
   ) => {
+    const [level, setLevel] = useState(defaultLevel)
+
     const userLocation = useUserGeoLocation()
     const { map, container } = useKakaoMapInstance({
       center: center || {
@@ -80,15 +84,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       minLevel,
     })
 
-    useIsomorphicLayoutEffect(() => {
-      if (!map || !onCenterChanged) return
-
-      kakao.maps.event.addListener(map, 'center_changed', () => {
-        onCenterChanged(map)
-      })
-    }, [])
-
-    const saveMapBoundWithOnDrag = useCallback(() => {
+    const saveMapBound = useCallback(() => {
       if (saveBoundInSession && map?.getBounds()) {
         const { southEast, northWest } = getCorners(map.getBounds())
         mapBoundSessionStorage.set({
@@ -98,8 +94,30 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
           longitude2: southEast.longitude,
         })
       }
+    }, [map, saveBoundInSession])
+
+    useIsomorphicLayoutEffect(() => {
+      if (!map) return
+
+      if (onCenterChanged) {
+        kakao.maps.event.addListener(map, 'center_changed', () => {
+          onCenterChanged(map)
+        })
+      }
+
+      kakao.maps.event.addListener(map, 'zoom_changed', () => {
+        if (onZoomChanged) {
+          onZoomChanged(map)
+        }
+        setLevel(map.getLevel())
+        saveMapBound()
+      })
+    }, [map, onCenterChanged, onZoomChanged, saveMapBound])
+
+    const saveMapBoundWithOnDrag = useCallback(() => {
+      saveMapBound()
       onDragEnd?.()
-    }, [map, onDragEnd, saveBoundInSession])
+    }, [onDragEnd, saveMapBound])
 
     useKakaoEvent(map, 'click', onClick)
     useKakaoEvent(map, 'dblclick', onDoubleClick)

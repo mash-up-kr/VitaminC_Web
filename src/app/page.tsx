@@ -13,7 +13,7 @@ const Home = () => {
       <KakaoMap
         className="w-[calc(100%+40px)] h-screen"
         center={{ lat: 37.5665, lng: 126.978 }}
-        level={3}
+        defaultLevel={3}
         onClick={(event) => console.log('Map clicked', event)}
         onDoubleClick={(event) => console.log('Map double-clicked', event)}
       >
