@@ -9,7 +9,7 @@ import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { mapBoundSessionStorage } from '@/utils/storage'
 
 type TargetEventListener = (target: kakao.maps.Map) => void
-type MouseEventEventListener = (mouseEvent: kakao.maps.event.MouseEvent) => void
+type MouseEventListener = (mouseEvent: kakao.maps.event.MouseEvent) => void
 
 interface KakaoMapProps {
   className?: string
@@ -23,8 +23,8 @@ interface KakaoMapProps {
   saveBoundInSession?: boolean
   onCenterChanged?: TargetEventListener
   onZoomChanged?: TargetEventListener
-  onClick?: MouseEventEventListener
-  onDoubleClick?: MouseEventEventListener
+  onClick?: MouseEventListener
+  onDoubleClick?: MouseEventListener
   onDragStart?: VoidFunction
   onDrag?: VoidFunction
   onDragEnd?: VoidFunction
