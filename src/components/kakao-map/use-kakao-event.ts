@@ -7,6 +7,8 @@ type EventType =
   | 'drag'
   | 'dragend'
   | 'mousemove'
+  | 'center_changed'
+  | 'zoom_changed'
 
 const useKakaoEvent = (
   map: kakao.maps.Map | null,
