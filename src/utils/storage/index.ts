@@ -17,5 +17,3 @@ export const mapBoundSessionStorage = new SessionStorageManager<{
   latitude2: number
   longitude2: number
 }>(MAP_BOUND)
-
-mapBoundSessionStorage.onChange((v, v2) => console.log(v2))
