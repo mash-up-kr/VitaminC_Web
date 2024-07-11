@@ -5,13 +5,7 @@ import KakaoMap from '@/components/kakao-map/kakao-map'
 import Marker from '@/components/kakao-map/marker'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 
-const MapMain = ({
-  params,
-  searchParams,
-}: {
-  params: { mapId: string }
-  searchParams?: { search?: string }
-}) => {
+const MapMain = () => {
   const [temp, setTemp] = useState(false)
 
   return (
