@@ -92,21 +92,6 @@ const BottomSheet = ({
 
   return (
     <>
-      {/* background overlay */}
-      <motion.div
-        className="absolute top-0 left-0 w-screen h-[100vh]"
-        initial={false}
-        animate={state}
-        variants={{
-          opened: {
-            pointerEvents: 'all',
-          },
-          closed: {
-            pointerEvents: 'none',
-          },
-        }}
-        onTap={() => setBottomSheetState(BOTTOM_SHEET_STATE.Collapsed)}
-      />
       {/* container */}
       <motion.div
         className="fixed top-0 left-0 z-10 w-screen bg-[#212124] rounded-t-[14px] pb-[24px] will-change-transform text-white"
