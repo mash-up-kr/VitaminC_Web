@@ -40,8 +40,6 @@ const BottomSheet = ({
 
   const bodyHeight = useMemo(() => {
     switch (bottomSheetState) {
-      case BOTTOM_SHEET_STATE.Collapsed:
-        return 0
       case BOTTOM_SHEET_STATE.Expanded:
         return expandedHeight - headerHeight
       default:
@@ -113,7 +111,7 @@ const BottomSheet = ({
         aria-expanded={bottomSheetState !== BOTTOM_SHEET_STATE.Collapsed}
       >
         {/* header */}
-        <div className="pt-[16px] px-[20px] cursor-grab">
+        <div className="pt-[16px] cursor-grab">
           {/* bar */}
           <div className="w-[53px] h-[6px] bg-[#6D717A] my-0 mx-auto rounded-full" />
         </div>
@@ -124,9 +122,7 @@ const BottomSheet = ({
           aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
         >
           {/* content */}
-          <div className="px-[20px] pt-[24px]" ref={contentRef}>
-            {body}
-          </div>
+          <div ref={contentRef}>{body}</div>
         </div>
       </motion.div>
     </>
