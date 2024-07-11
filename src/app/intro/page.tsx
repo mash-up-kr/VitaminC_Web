@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 import Login from '@/components/intro/steps/login'
 import Nickname from '@/components/intro/steps/nickname'
@@ -19,7 +18,6 @@ import {
 } from '@/utils/storage'
 import useCookie from '@/hooks/use-cookie'
 import { useIsServer } from '@/hooks/use-is-server'
-import { RECENT_MAP_ID } from '@/utils/storage/index'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -52,14 +50,6 @@ const Step = ({ step, goNextStep }: StepProps) => {
 
 const Intro = () => {
   const isServer = useIsServer()
-  const router = useRouter()
-
-  const recentMapId = useCookie(RECENT_MAP_ID)
-  useEffect(() => {
-    if (recentMapId) {
-      router.push(`/map/${recentMapId}`)
-    }
-  }, [router, recentMapId])
 
   const authorization = useCookie(AUTHORIZATION)
   const nickname = nicknameStorage.getValueOrNull()
@@ -92,7 +82,7 @@ const Intro = () => {
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
       <Header />
-      {isServer || recentMapId ? (
+      {isServer ? (
         <div className="text-white flex-1 flex items-center justify-center">
           <LoadingIndicator />
         </div>
