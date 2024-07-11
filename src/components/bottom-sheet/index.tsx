@@ -8,14 +8,22 @@ import { BOTTOM_SHEET_STATE, BottomSheetState } from '@/models/interface'
 
 interface BottomSheetProps {
   body: ReactNode
-  initialState?: BottomSheetState
+  state?: BottomSheetState
 }
 
 const BottomSheet = ({
   body,
-  initialState = BOTTOM_SHEET_STATE.Default,
+  state = BOTTOM_SHEET_STATE.Collapsed,
 }: BottomSheetProps) => {
-  const [state, setState] = useState<BottomSheetState>(initialState)
+  const [prevState, setPrevState] = useState(state)
+  const [bottomSheetState, setBottomSheetState] =
+    useState<BottomSheetState>(state)
+
+  if (prevState !== state) {
+    setPrevState(bottomSheetState)
+    setBottomSheetState(state)
+  }
+
   const [contentRef, contentBounds] = useMeasure()
   const dragControls = useDragControls()
   const size = useWindowSize()
@@ -31,7 +39,7 @@ const BottomSheet = ({
   )
 
   const bodyHeight = useMemo(() => {
-    switch (state) {
+    switch (bottomSheetState) {
       case BOTTOM_SHEET_STATE.Collapsed:
         return 0
       case BOTTOM_SHEET_STATE.Expanded:
@@ -39,7 +47,7 @@ const BottomSheet = ({
       default:
         return defaultHeight - headerHeight
     }
-  }, [defaultHeight, expandedHeight, state])
+  }, [defaultHeight, expandedHeight, bottomSheetState])
 
   const handleDragEnd = (info: PanInfo) => {
     const offsetThreshold = 50
@@ -55,28 +63,28 @@ const BottomSheet = ({
     const offsetY = info.offset.y
     const largeEnoughValue = 200
     const skipOneStep = Math.abs(offsetY) - largeEnoughValue > 0
-    switch (state) {
+    switch (bottomSheetState) {
       case BOTTOM_SHEET_STATE.Default:
         if (offsetY < 0) {
-          setState(BOTTOM_SHEET_STATE.Expanded)
+          setBottomSheetState(BOTTOM_SHEET_STATE.Expanded)
         } else {
-          setState(BOTTOM_SHEET_STATE.Collapsed)
+          setBottomSheetState(BOTTOM_SHEET_STATE.Collapsed)
         }
         break
       case BOTTOM_SHEET_STATE.Expanded:
         if (offsetY <= 0) break
         if (skipOneStep) {
-          setState(BOTTOM_SHEET_STATE.Collapsed)
+          setBottomSheetState(BOTTOM_SHEET_STATE.Collapsed)
         } else {
-          setState(BOTTOM_SHEET_STATE.Default)
+          setBottomSheetState(BOTTOM_SHEET_STATE.Default)
         }
         break
       case BOTTOM_SHEET_STATE.Collapsed:
         if (offsetY >= 0) break
         if (skipOneStep) {
-          setState(BOTTOM_SHEET_STATE.Expanded)
+          setBottomSheetState(BOTTOM_SHEET_STATE.Expanded)
         } else {
-          setState(BOTTOM_SHEET_STATE.Default)
+          setBottomSheetState(BOTTOM_SHEET_STATE.Default)
         }
         break
     }
@@ -97,14 +105,14 @@ const BottomSheet = ({
             pointerEvents: 'none',
           },
         }}
-        onTap={() => setState(BOTTOM_SHEET_STATE.Collapsed)}
+        onTap={() => setBottomSheetState(BOTTOM_SHEET_STATE.Collapsed)}
       />
       {/* container */}
       <motion.div
         className="fixed top-0 left-0 z-10 w-screen bg-[#212124] rounded-t-[14px] pb-[24px] will-change-transform text-white"
         onPointerDown={(e) => dragControls.start(e)}
         initial="default"
-        animate={state}
+        animate={bottomSheetState}
         variants={{
           default: { top: `calc(100vh - ${defaultHeight}px)` },
           expanded: { top: `calc(100vh - ${expandedHeight}px)` },
@@ -117,7 +125,7 @@ const BottomSheet = ({
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={0}
         onDragEnd={(event, info) => handleDragEnd(info)}
-        aria-expanded={state !== BOTTOM_SHEET_STATE.Collapsed}
+        aria-expanded={bottomSheetState !== BOTTOM_SHEET_STATE.Collapsed}
       >
         {/* header */}
         <div className="pt-[16px] px-[20px] cursor-grab">
@@ -128,7 +136,7 @@ const BottomSheet = ({
         <div
           className="transition-all select-none overflow-y-scroll overscroll-contain no-scrollbar"
           style={{ height: bodyHeight }}
-          aria-hidden={state === BOTTOM_SHEET_STATE.Collapsed}
+          aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
         >
           {/* content */}
           <div className="px-[20px] pt-[24px]" ref={contentRef}>
