@@ -1,9 +1,11 @@
 import HTTPClient from './http-client'
 import type { Interceptors, RequestConfig } from './types'
-import { authTokenStorage } from '../storage'
+import { AUTHORIZATION } from '@/constants/cookie'
+import getCookie from '../storage/cookie'
 
 const injectAuthTokenToConfig = (config: RequestConfig) => {
-  const token = authTokenStorage.getValueOrNull()
+  const bearerTokenPrefix = 'Bearer%20'
+  const token = getCookie(AUTHORIZATION)?.slice(bearerTokenPrefix.length)
   config.headers = config.headers || {}
 
   if (token) {

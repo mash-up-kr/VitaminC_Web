@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
-import { RECENT_MAP_ID } from '@/utils/storage/cookie'
+import { RECENT_MAP_ID } from '@/constants/cookie'
 
 const PlaceRegister = ({
   searchParams,

@@ -18,6 +18,7 @@ import {
 } from '@/utils/storage'
 import useCookie from '@/hooks/use-cookie'
 import { useIsServer } from '@/hooks/use-is-server'
+import { AUTHORIZATION, RECENT_MAP_ID } from '@/constants/cookie'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -52,14 +53,14 @@ const Intro = () => {
   const isServer = useIsServer()
   const router = useRouter()
 
-  const recentMapId = useCookie('recent_map_id')
+  const recentMapId = useCookie(RECENT_MAP_ID)
   useEffect(() => {
     if (recentMapId) {
       router.push(`/map/${recentMapId}`)
     }
   }, [router, recentMapId])
 
-  const authorization = useCookie('Authorization')
+  const authorization = useCookie(AUTHORIZATION)
   const nickname = nicknameStorage.getValueOrNull()
   const newMapId = newMapIdStorage.getValueOrNull()
   const getInitialStep = useMemo(() => {

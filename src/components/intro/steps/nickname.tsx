@@ -7,7 +7,7 @@ import { Button, Input, Typography } from '@/components/common'
 import type { IntroActionDispatch } from '@/app/intro/page'
 import { invitationLinkStorage, nicknameStorage } from '@/utils/storage'
 import { setCookie } from '@/app/actions'
-import { RECENT_MAP_ID } from '@/utils/storage/cookie'
+import { RECENT_MAP_ID } from '@/constants/cookie'
 
 const MIN_LENGTH = 0
 
