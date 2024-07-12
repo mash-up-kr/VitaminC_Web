@@ -107,7 +107,7 @@ const BottomSheet = ({
         dragListener={false}
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={0}
-        onDragEnd={(event, info) => handleDragEnd(info)}
+        onDragEnd={(_, info) => handleDragEnd(info)}
         aria-expanded={bottomSheetState !== BOTTOM_SHEET_STATE.Collapsed}
       >
         {/* header */}
