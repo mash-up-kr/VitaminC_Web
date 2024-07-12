@@ -6,7 +6,7 @@ const useMount = () => {
   useEffect(() => {
     mounted.current = true
     return () => void (mounted.current = false)
-  })
+  }, [])
 
   return mounted
 }
