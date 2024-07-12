@@ -4,7 +4,8 @@ import { AUTHORIZATION } from '../storage/index'
 import getCookie from '../storage/cookie'
 
 const injectAuthTokenToConfig = (config: RequestConfig) => {
-  const token = getCookie(AUTHORIZATION)?.slice(9) // remove prefix 'Bearer%20'
+  const bearerTokenPrefix = 'Bearer%20'
+  const token = getCookie(AUTHORIZATION)?.slice(bearerTokenPrefix.length)
   config.headers = config.headers || {}
 
   if (token) {
