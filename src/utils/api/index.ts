@@ -1,8 +1,8 @@
-import type { QueryParams } from '@/types/api/search'
 import { apiClientFactory } from './api-client-factory'
+import type { QueryParams } from '@/types/api/search'
 import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import type { ResponseWithMessage } from '@/types/api'
-import { MapItemForUser } from '@/models/interface'
+import type { MapItemForUser } from '@/models/interface'
 
 const client = {
   public: apiClientFactory({}),
