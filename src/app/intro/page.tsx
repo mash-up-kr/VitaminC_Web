@@ -15,11 +15,10 @@ import {
   newMapIdStorage,
   nicknameStorage,
   invitationLinkStorage,
-  AUTHORIZATION,
 } from '@/utils/storage'
 import useCookie from '@/hooks/use-cookie'
 import { useIsServer } from '@/hooks/use-is-server'
-import { RECENT_MAP_ID } from '@/utils/storage/index'
+import { AUTHORIZATION, RECENT_MAP_ID } from '@/constants/cookie'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction

@@ -28,7 +28,3 @@ export const mapBoundSessionStorage = new SessionStorageManager<{
   latitude2: number
   longitude2: number
 }>(MAP_BOUND)
-
-// Cookie
-export const AUTHORIZATION = 'Authorization'
-export const RECENT_MAP_ID = 'recent_map_id'
