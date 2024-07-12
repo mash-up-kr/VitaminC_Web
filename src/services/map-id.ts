@@ -9,28 +9,23 @@ const getStoredMapId = (): string | undefined => {
   return storedMapId
 }
 
-const fetchLatestMapId = async (): Promise<string | undefined> => {
-  try {
-    const { data: maps } = await api.maps.get()
-    return maps[0]?.id
-  } catch (error) {
-    console.error('Failed to fetch maps:', error)
-    return undefined
-  }
-}
-
 const storeMapId = (mapId: string): void => {
   setCookie(RECENT_MAP_ID, mapId)
 }
 
-const getLatestMapIdAndStore = async (): Promise<string | undefined> => {
-  const latestMapId = await fetchLatestMapId()
-  if (latestMapId) {
-    storeMapId(latestMapId)
+const fetchAndStoreMapId = async (): Promise<string | undefined> => {
+  try {
+    const { data: maps } = await api.maps.get()
+    const mapId = maps[0]?.id
+
+    storeMapId(mapId)
+
+    return mapId
+  } catch {
+    return undefined
   }
-  return latestMapId
 }
 
 export const getMapId = async (): Promise<string | undefined> => {
-  return getStoredMapId() || (await getLatestMapIdAndStore())
+  return getStoredMapId() || (await fetchAndStoreMapId())
 }

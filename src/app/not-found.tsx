@@ -10,11 +10,13 @@ const NotFound = () => {
 
   useEffect(() => {
     ;(async () => {
-      const mapId = await getMapId()
-      if (mapId) {
-        router.replace(`/map/${mapId}`)
-      } else {
-        router.replace('/intro')
+      try {
+        const mapId = await getMapId()
+        if (mapId) {
+          return router.replace(`/map/${mapId}`)
+        }
+      } finally {
+        return router.replace('/intro')
       }
     })()
   }, [router])
