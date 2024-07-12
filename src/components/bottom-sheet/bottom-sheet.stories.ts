@@ -35,13 +35,13 @@ export const Default: Story = {
 export const Expanded: Story = {
   args: {
     body: 'very very long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long body content',
-    initialState: BOTTOM_SHEET_STATE.Expanded,
+    state: BOTTOM_SHEET_STATE.Expanded,
   },
 }
 
 export const Collapsed: Story = {
   args: {
     body: 'content',
-    initialState: BOTTOM_SHEET_STATE.Collapsed,
+    state: BOTTOM_SHEET_STATE.Collapsed,
   },
 }

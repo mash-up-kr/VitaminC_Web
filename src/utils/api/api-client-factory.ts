@@ -1,6 +1,6 @@
 import HTTPClient from './http-client'
 import type { Interceptors, RequestConfig } from './types'
-import { AUTHORIZATION } from '../storage/index'
+import { AUTHORIZATION } from '@/constants/cookie'
 import getCookie from '../storage/cookie'
 
 const injectAuthTokenToConfig = (config: RequestConfig) => {

@@ -6,7 +6,7 @@ import { Typography } from '@/components/common'
 import ConfirmCancelButton from '@/components/confirm-cancel-button'
 import { newMapIdStorage } from '@/utils/storage'
 import { setCookie } from '@/app/actions'
-import { RECENT_MAP_ID } from '@/utils/storage/index'
+import { RECENT_MAP_ID } from '@/constants/cookie'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 
 const Invite = () => {
