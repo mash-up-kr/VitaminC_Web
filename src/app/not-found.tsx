@@ -3,14 +3,14 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Spinner from '@/components/spinner'
-import { checkMapId } from '@/utils/check-value'
+import { getMapId } from '@/services/map-id'
 
 const NotFound = () => {
   const router = useRouter()
 
   useEffect(() => {
     ;(async () => {
-      const mapId = await checkMapId()
+      const mapId = await getMapId()
       if (mapId) {
         router.replace(`/map/${mapId}`)
       } else {
