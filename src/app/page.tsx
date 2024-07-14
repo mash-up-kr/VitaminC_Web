@@ -14,7 +14,7 @@ const Home = () => {
 
   return (
     <div className="w-full min-h-dvh flex flex-col justify-center items-center bg-neutral-700 px-5">
-      {/* <KakaoMap
+      <KakaoMap
         className="w-[calc(100%+40px)] h-screen"
         center={{ lat: 37.5665, lng: 126.978 }}
         level={3}
@@ -53,7 +53,7 @@ const Home = () => {
             }}
           />
         }
-      /> */}
+      />
       <button onClick={() => shareInvite('dd', new Date())}>공유 테스트</button>
     </div>
   )
