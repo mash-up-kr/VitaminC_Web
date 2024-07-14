@@ -31,7 +31,7 @@ export const getDiffDateText = (startDate: Date, endDate: Date): number => {
   return diffDay + 1
 }
 
-export const formatDate = (date: Date) => {
+export const formatDate = (date: Date, locale?: 'ko') => {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
@@ -43,5 +43,8 @@ export const formatDate = (date: Date) => {
   const period = hours >= NOON_HOUR ? 'PM' : 'AM'
   const formattedHours = String(hours % NOON_HOUR || NOON_HOUR).padStart(2, '0')
 
+  if (locale === 'ko') {
+    return `${year}년 ${month}월 ${day}일 ${hours}:${minutes}`
+  }
   return `${year}. ${month}. ${day} ${formattedHours}:${minutes} ${period}`
 }
