@@ -29,6 +29,8 @@ import StarHalfFilled from './StarHalfFilled.svg'
 import Subtract from './Subtract.svg'
 import UploadSimple from './UploadSimple.svg'
 import KakaoLogo from './KakaoLogo.svg'
+import LocationOff from './LocationOff.svg'
+import LocationOn from './LocationOn.svg'
 
 export const icons = {
   bar: Bar,
@@ -62,4 +64,6 @@ export const icons = {
   subtract: Subtract,
   uploadSimple: UploadSimple,
   kakaoLogo: KakaoLogo,
+  locationOff: LocationOff,
+  locationOn: LocationOn,
 }
