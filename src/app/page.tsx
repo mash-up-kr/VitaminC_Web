@@ -6,9 +6,11 @@ import Marker from '@/components/kakao-map/marker'
 import PlaceListItem from '@/components/place/place-list-item'
 import BottomSheet from '@/components/bottom-sheet'
 import { BOTTOM_SHEET_STATE } from '@/models/interface'
+import useKakaoShare from '@/hooks/use-kakao-share'
 
 const Home = () => {
   const [temp, setTemp] = useState(false)
+  const shareInvite = useKakaoShare()
 
   return (
     <div className="w-full min-h-dvh flex flex-col justify-center items-center bg-neutral-700 px-5">
@@ -52,6 +54,7 @@ const Home = () => {
           />
         }
       />
+      <button onClick={() => shareInvite('dd', new Date())}>공유 테스트</button>
     </div>
   )
 }
