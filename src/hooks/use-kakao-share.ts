@@ -13,13 +13,13 @@ const useKakaoShare = () => {
         imageUrl:
           'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FnyKJe%2FbtsIAcoW2Ti%2FgGGexNKpoJnd4BM4CYu1uk%2Fimg.png',
         link: {
-          webUrl: `${window.location.host}/invitation?link=${inviteLinkToken}`,
+          webUrl: `${window.location.protocol}//${window.location.host}/invitation?link=${inviteLinkToken}`,
         },
       },
       buttons: [
         {
           link: {
-            webUrl: `${window.location.host}/invitation?link=${inviteLinkToken}`,
+            webUrl: `${window.location.protocol}//${window.location.host}/invitation?link=${inviteLinkToken}`,
           },
           title: '맛집지도 사용하기',
         },
@@ -28,8 +28,12 @@ const useKakaoShare = () => {
   }
 
   useEffect(() => {
-    if (isServer()) return
-    if (!process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY) return
+    if (
+      isServer() ||
+      window.Kakao.isInitialized() ||
+      !process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
+    )
+      return
 
     window.Kakao.cleanup()
     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY)
