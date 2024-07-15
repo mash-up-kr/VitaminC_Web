@@ -16,7 +16,7 @@ const useModalTransition = (
   useEffect(() => {
     if (isOpen && state === 'unmounted') {
       transition('mounting')
-      setStyles({ ...initial, transition: `all ${delay}` })
+      setStyles({ ...initial, transition: `all ${delay} ease-in` })
 
       setTimeout(() => {
         transition('mounted')
@@ -29,7 +29,7 @@ const useModalTransition = (
       transition('unmounting')
       setStyles({
         ...exit,
-        transition: `all ${delay}`,
+        transition: `all ${delay} ease-out`,
       })
 
       setTimeout(() => {
