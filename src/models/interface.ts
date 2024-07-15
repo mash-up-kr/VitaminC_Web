@@ -21,6 +21,16 @@ export interface ClassName {
   className?: string
 }
 
+/* Map */
+type MapRole = 'ADMIN' | 'READ' | 'WRITE'
+export interface MapItemForUser {
+  id: string
+  name: string
+  role: MapRole
+  createdAt: string
+  updatedAt: string
+}
+
 /* Bottom Sheet */
 export const BOTTOM_SHEET_STATE = {
   Default: 'default',
