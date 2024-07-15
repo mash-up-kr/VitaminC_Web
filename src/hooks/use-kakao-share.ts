@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 
-import { formatDate } from '@/utils/date'
 import isServer from '@/utils/is-server'
 
 const useKakaoShare = () => {
@@ -24,7 +23,7 @@ const useKakaoShare = () => {
         title: '맛집 보물을 찾는 여정에 함께 할래?',
         description: `${formatDate(expiredDate)}까지 참여할 수 있어요`,
         imageUrl:
-          'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FnyKJe%2FbtsIAcoW2Ti%2FgGGexNKpoJnd4BM4CYu1uk%2Fimg.png',
+          'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FGaCK5%2FbtsIAbw5frn%2FshL2EAWf6je0YkqO2SLd20%2Fimg.png',
         link: {
           webUrl: `${window.location.protocol}//${window.location.host}/invitation?link=${inviteLinkToken}`,
         },
