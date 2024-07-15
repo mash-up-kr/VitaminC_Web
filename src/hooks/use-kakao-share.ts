@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { formatDate } from '@/utils/date'
+import isServer from '@/utils/is-server'
 
 const useKakaoShare = () => {
   const shareInvite = (inviteLinkToken: string, expiredDate: Date) => {
@@ -27,7 +28,7 @@ const useKakaoShare = () => {
   }
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (isServer()) return
     if (!process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY) return
 
     window.Kakao.cleanup()
