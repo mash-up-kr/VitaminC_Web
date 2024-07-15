@@ -30,7 +30,12 @@ const BottomModalLayout = ({
         className,
       )}
     >
-      <Typography size="h3" color="neutral-000" className="whitespace-pre-line">
+      <Typography
+        as="h3"
+        size="h3"
+        color="neutral-000"
+        className="whitespace-pre-line"
+      >
         {title}
       </Typography>
       {typeof body === 'string' ? (
