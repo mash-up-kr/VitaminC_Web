@@ -4,12 +4,25 @@ import { formatDate } from '@/utils/date'
 import isServer from '@/utils/is-server'
 
 const useKakaoShare = () => {
+  const formatDate = (dateTime: Date) => {
+    const date = dateTime.toLocaleDateString('ko', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+    const time = dateTime.toLocaleTimeString('it-IT', {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+    return `${date} ${time}`
+  }
+
   const shareInvite = (inviteLinkToken: string, expiredDate: Date) => {
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
         title: '맛집 보물을 찾는 여정에 함께 할래?',
-        description: `${formatDate(expiredDate, 'ko')}까지 참여할 수 있어요`,
+        description: `${formatDate(expiredDate)}까지 참여할 수 있어요`,
         imageUrl:
           'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FnyKJe%2FbtsIAcoW2Ti%2FgGGexNKpoJnd4BM4CYu1uk%2Fimg.png',
         link: {
