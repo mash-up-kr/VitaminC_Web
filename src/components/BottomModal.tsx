@@ -76,10 +76,10 @@ const BottomModal = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      initial={{ bottom: '-50%', opacity: 0 }}
+      initial={{ bottom: '-50%', opacity: 0.2 }}
       animate={{ bottom: 0, opacity: 1 }}
       exit={{ bottom: '-50%', opacity: 0.2 }}
-      delayTiming="0.5s"
+      delayTiming={500}
       className="w-full max-w-[420px] top-auto bottom-0 translate-y-0"
     >
       <BottomModalLayout

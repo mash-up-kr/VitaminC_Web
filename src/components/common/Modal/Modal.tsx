@@ -23,7 +23,7 @@ export interface ModalProps extends ClassName {
   initial?: CSSProperties
   animate?: CSSProperties
   exit?: CSSProperties
-  delayTiming?: string
+  delayTiming?: number
   preventBackgroundScroll?: boolean
   shouldCloseOnEsc?: boolean
   dimClassName?: string
@@ -50,7 +50,7 @@ const Modal = forwardRef(
       mountNode,
       className,
       dimClassName,
-      delayTiming = '0.3s',
+      delayTiming = 500,
       preventBackgroundScroll = true,
       shouldCloseOnDimClick = true,
       shouldCloseOnEsc = true,

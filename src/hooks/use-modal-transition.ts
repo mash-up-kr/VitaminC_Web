@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react'
 
 import useRenderState from './use-render-state'
 
+const DEFAULT_DELAY = 500
+
 const useModalTransition = (
   isOpen: boolean,
   initial?: CSSProperties,
   animate?: CSSProperties,
   exit?: CSSProperties,
-  delay: string = '0.3s',
+  delay: number = DEFAULT_DELAY,
 ) => {
   const [state, transition] = useRenderState('unmounted')
   const [styles, setStyles] = useState(initial)
@@ -16,20 +18,20 @@ const useModalTransition = (
   useEffect(() => {
     if (isOpen && state === 'unmounted') {
       transition('mounting')
-      setStyles({ ...initial, transition: `all ${delay} ease-in` })
+      setStyles({ ...initial, transition: `all ${delay}ms ease-in` })
 
       setTimeout(() => {
         transition('mounted')
         setStyles({
           ...animate,
-          transition: `all ${delay}`,
+          transition: `all ${delay}ms ease-in`,
         })
-      }, 100)
+      }, 0)
     } else if (!isOpen && state === 'mounted') {
       transition('unmounting')
       setStyles({
         ...exit,
-        transition: `all ${delay} ease-out`,
+        transition: `all ${delay}ms ease-out`,
       })
 
       setTimeout(() => {
