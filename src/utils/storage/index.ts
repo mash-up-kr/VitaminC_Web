@@ -29,6 +29,12 @@ export const mapBoundSessionStorage = new SessionStorageManager<{
   longitude2: number
 }>(MAP_BOUND)
 
+export const VISITED_MAP_IDS = '@@visited_map_ids'
+export const visitedMapIdsStorage = new LocalStorageManager<string[]>(
+  VISITED_MAP_IDS,
+  [],
+)
+
 // Cookie
 export const AUTHORIZATION = 'Authorization'
 export const RECENT_MAP_ID = 'recent_map_id'
