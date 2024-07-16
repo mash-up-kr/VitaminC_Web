@@ -1,5 +1,5 @@
 export interface PlaceProps {
-  placeId: string
+  placeId: number
   name: string
   address: string
   distance?: string
