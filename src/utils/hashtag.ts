@@ -6,7 +6,7 @@ const getFitContainerWidthHashtag = (
   let totalWidth = 0
   const filteredVisibleHashtags = currentHashtags.filter((tag) => {
     const chip = document.querySelector<HTMLElement>(
-      `#${placeId}-hashtag-${tag.replace(/ /g, '-')}`,
+      `#hashtag-${placeId}-${tag.replace(/ /g, '-')}`,
     )
 
     if (chip === null) return false

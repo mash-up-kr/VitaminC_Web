@@ -35,7 +35,7 @@ const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
     >
       {visibleHashtags.map((hashtag) => (
         <Chip
-          id={`${placeId}-hashtag-${hashtag.replace(/ /g, '-')}`}
+          id={`hashtag-${placeId}-${hashtag.replace(/ /g, '-')}`}
           className="whitespace-nowrap"
           colorScheme="neutral-600"
           key={`${placeId}-${hashtag}`}
