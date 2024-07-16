@@ -31,6 +31,7 @@ import UploadSimple from './UploadSimple.svg'
 import KakaoLogo from './KakaoLogo.svg'
 import LocationOff from './LocationOff.svg'
 import LocationOn from './LocationOn.svg'
+import Gps from './Gps.svg'
 
 export const icons = {
   bar: Bar,
@@ -66,4 +67,5 @@ export const icons = {
   kakaoLogo: KakaoLogo,
   locationOff: LocationOff,
   locationOn: LocationOn,
+  gps: Gps,
 }
