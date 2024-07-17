@@ -6,4 +6,8 @@ const setCookie = (name: string, value: string) => {
   cookies().set(name, value)
 }
 
-export { setCookie }
+const deleteCookie = (name: string) => {
+  cookies().delete(name)
+}
+
+export { setCookie, deleteCookie }
