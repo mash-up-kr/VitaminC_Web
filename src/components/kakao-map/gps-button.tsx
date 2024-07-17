@@ -58,7 +58,7 @@ const GpsButton = forwardRef<HTMLButtonElement, GpsButtonProps>(
         )}
         <AccessibleIconButton
           ref={ref}
-          className={`absolute right-5 transition-all z-10`}
+          className={`absolute right-5 transition-[bottom] z-10`}
           style={{
             bottom: `${gpsBottomPosition}px`,
           }}
