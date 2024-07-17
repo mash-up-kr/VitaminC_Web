@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 
@@ -20,9 +20,6 @@ const useKakaoMapInstance = ({
 }: UseKakaoMapInstanceProps) => {
   const container = useRef<HTMLElement>(null)
   const [map, setMap] = useState<kakao.maps.Map | null>(null)
-  const [currentMarker, setCurrentMarker] = useState<kakao.maps.Marker | null>(
-    null,
-  )
   const isLoaded = typeof window !== 'undefined' && typeof kakao !== 'undefined'
 
   useIsomorphicLayoutEffect(() => {
