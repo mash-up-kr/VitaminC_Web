@@ -7,7 +7,7 @@ import useWindowSize from '@/hooks/use-window-size'
 interface GpsButtonProps extends ClassName {
   gpsMode: boolean
   bottomRef?: RefObject<HTMLDivElement>
-  onClickGps: () => void
+  onClickGps: VoidFunction
 }
 
 const GpsButton = forwardRef<HTMLButtonElement, GpsButtonProps>(
