@@ -1,7 +1,6 @@
-import { useCallback, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
-import { notify } from '../common/custom-toast'
 
 interface UseKakaoMapInstanceProps {
   center: {
@@ -26,37 +25,6 @@ const useKakaoMapInstance = ({
   )
   const isLoaded = typeof window !== 'undefined' && typeof kakao !== 'undefined'
 
-  const setCurrentLocation = useCallback(() => {
-    if (!map) return
-
-    try {
-      navigator.geolocation.getCurrentPosition(
-        ({ coords: { latitude, longitude } }) => {
-          const location = new window.kakao.maps.LatLng(latitude, longitude)
-          const marker = new kakao.maps.Marker({
-            image: new kakao.maps.MarkerImage(
-              'https://kr.object.ncloudstorage.com/korrk-image/point.png',
-              new kakao.maps.Size(34, 34),
-            ),
-            position: new kakao.maps.LatLng(latitude, longitude),
-          })
-
-          marker.setMap(map)
-          map.setCenter(location)
-          setCurrentMarker(marker)
-        },
-        () => notify.error('위치 정보를 가지고 오지 못했습니다. '),
-      )
-    } catch (err) {
-      notify.error('위치 정보를 가지고 오지 못했습니다. ')
-    }
-  }, [map])
-
-  const removeCurrentMarker = () => {
-    if (!currentMarker) return
-    currentMarker.setMap(null)
-  }
-
   useIsomorphicLayoutEffect(() => {
     if (!isLoaded || !container.current || map) return
 
@@ -71,7 +39,7 @@ const useKakaoMapInstance = ({
     })
   }, [isLoaded, center, level, maxLevel, minLevel])
 
-  return { map, container, setCurrentLocation, removeCurrentMarker }
+  return { map, container }
 }
 
 export default useKakaoMapInstance

@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useState } from 'react'
+import { forwardRef, useCallback, useState } from 'react'
 import { type RefObject } from 'react'
 
 import cn from '@/utils/cn'
@@ -8,8 +8,8 @@ import { mergeRefs } from '@/utils/merge-refs'
 import useKakaoMapInstance from './use-kakao-map-instance'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { mapBoundSessionStorage } from '@/utils/storage'
-import { AccessibleIconButton } from '@/components/index'
-import useWindowSize from '@/hooks/use-window-size'
+import GpsMarker from './gps-marker'
+import GpsButton from './gps-button'
 
 type TargetEventListener = (target: kakao.maps.Map) => void
 type MouseEventListener = (mouseEvent: kakao.maps.event.MouseEvent) => void
@@ -79,19 +79,17 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
     ref,
   ) => {
     const [gpsMode, setGpsMode] = useState(false)
-    const [gpsBottomPosition, setGpsBottomPosition] = useState(16)
     const userLocation = useUserGeoLocation()
-    const { height } = useWindowSize()
-    const { map, container, setCurrentLocation, removeCurrentMarker } =
-      useKakaoMapInstance({
-        center: center || {
-          lat: userLocation.latitude,
-          lng: userLocation.longitude,
-        },
-        level,
-        maxLevel,
-        minLevel,
-      })
+
+    const { map, container } = useKakaoMapInstance({
+      center: center || {
+        lat: userLocation.latitude,
+        lng: userLocation.longitude,
+      },
+      level,
+      maxLevel,
+      minLevel,
+    })
 
     const saveMapBound = useCallback(() => {
       if (saveBoundInSession && map?.getBounds()) {
@@ -113,6 +111,20 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       [saveMapBound],
     )
 
+    const handleClickGps = () => {
+      if (!map) return
+
+      if (!gpsMode) {
+        const location = new window.kakao.maps.LatLng(
+          userLocation.latitude,
+          userLocation.longitude,
+        )
+        map.setCenter(location)
+      }
+
+      setGpsMode((prev) => !prev)
+    }
+
     const saveMapBoundWithTargetEvent = useCallback(
       (callback?: TargetEventListener) => {
         if (!map) return
@@ -122,16 +134,6 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       },
       [map, saveMapBound],
     )
-
-    const handleClickGps = () => {
-      if (gpsMode) {
-        setGpsMode(false)
-        removeCurrentMarker()
-        return
-      }
-      setGpsMode(true)
-      setCurrentLocation()
-    }
 
     useKakaoEvent(map, 'click', onClick)
     useKakaoEvent(map, 'dblclick', onDoubleClick)
@@ -143,39 +145,27 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       saveMapBoundWithTargetEvent(onZoomChanged),
     )
 
-    useEffect(() => {
-      const getGpsButtonPositionY = () => {
-        if (bottomRef?.current) {
-          setGpsBottomPosition(
-            height - bottomRef.current.getBoundingClientRect().top + 16,
-          )
-          return
-        }
-
-        setGpsBottomPosition(16)
-      }
-
-      getGpsButtonPositionY()
-    }, [bottomRef?.current, height])
-
     return (
       <>
         <section
           ref={mergeRefs([ref, container])}
           className={cn('relative hue-rotate-180 invert-[180%]', className)}
         />
-        {map && <KakaoMapProvider map={map}>{children}</KakaoMapProvider>}
-        <AccessibleIconButton
-          className={`absolute right-5 transition-all z-10`}
-          style={{
-            bottom: `${gpsBottomPosition}px`,
-          }}
-          label={gpsMode ? '내 위치로 이동 취소' : '내 위치로 이동'}
-          icon={{
-            className: 'w-11 h-11',
-            type: gpsMode ? 'locationOn' : 'locationOff',
-          }}
-          onClick={handleClickGps}
+        {map && (
+          <KakaoMapProvider map={map}>
+            {children}
+            {gpsMode && (
+              <GpsMarker
+                latitude={userLocation.latitude}
+                longitude={userLocation.longitude}
+              />
+            )}
+          </KakaoMapProvider>
+        )}
+        <GpsButton
+          bottomRef={bottomRef}
+          gpsMode={gpsMode}
+          onClickGps={handleClickGps}
         />
       </>
     )
