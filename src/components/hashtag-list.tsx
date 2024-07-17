@@ -3,7 +3,10 @@ import { useRef, useState } from 'react'
 import { Chip } from '@/components'
 import cn from '@/utils/cn'
 import { ClassName } from '@/models/interface'
-import { getFitContainerWidthHashtag } from '@/utils/hashtag'
+import {
+  changeSpaceToHyphen,
+  getFitContainerWidthHashtag,
+} from '@/utils/hashtag'
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 
 interface HashtagListProps extends ClassName {
@@ -35,7 +38,7 @@ const HashtagList = ({ placeId, hashtags, className }: HashtagListProps) => {
     >
       {visibleHashtags.map((hashtag) => (
         <Chip
-          id={`hashtag-${placeId}-${hashtag.replace(/ /g, '-')}`}
+          id={`hashtag-${placeId}-${changeSpaceToHyphen(hashtag)}`}
           className="whitespace-nowrap"
           colorScheme="neutral-600"
           key={`${placeId}-${hashtag}`}

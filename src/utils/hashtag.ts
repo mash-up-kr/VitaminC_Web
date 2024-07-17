@@ -1,3 +1,7 @@
+const changeSpaceToHyphen = (name: string) => {
+  return name.replace(/ /g, '-')
+}
+
 const getFitContainerWidthHashtag = (
   placeId: number,
   currentHashtags: string[],
@@ -6,7 +10,7 @@ const getFitContainerWidthHashtag = (
   let totalWidth = 0
   const filteredVisibleHashtags = currentHashtags.filter((tag) => {
     const chip = document.querySelector<HTMLElement>(
-      `#hashtag-${placeId}-${tag.replace(/ /g, '-')}`,
+      `#hashtag-${placeId}-${changeSpaceToHyphen(tag)}`,
     )
 
     if (chip === null) return false
@@ -23,4 +27,4 @@ const getFitContainerWidthHashtag = (
   return filteredVisibleHashtags
 }
 
-export { getFitContainerWidthHashtag }
+export { changeSpaceToHyphen, getFitContainerWidthHashtag }
