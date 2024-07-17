@@ -5,7 +5,6 @@ import { PlaceType } from './place/types'
 import Marker from './kakao-map/marker'
 import BottomSheet from './bottom-sheet'
 import PlaceMapPopup from './place/place-map-popup'
-import { Typography } from '@/components'
 
 interface KorrkKakaoMapProps {
   mapMode?: 'search' | 'map'

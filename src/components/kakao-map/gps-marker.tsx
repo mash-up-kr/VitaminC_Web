@@ -32,7 +32,7 @@ const createMarkerContent = (
   size: { width: number; height: number },
   className?: string,
 ): HTMLElement => {
-  const IconComponent = icons['gps']
+  const IconComponent = icons.gps
 
   const container = document.createElement('button')
   container.className = cn('hue-rotate-180 invert-[180%]', className)
