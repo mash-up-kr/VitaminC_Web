@@ -5,6 +5,8 @@ import { PlaceType } from './place/types'
 import Marker from './kakao-map/marker'
 import BottomSheet from './bottom-sheet'
 import PlaceMapPopup from './place/place-map-popup'
+import useUserGeoLocation from '@/hooks/use-user-geo-location'
+import { formatDistance, getDistance } from '@/utils/location'
 
 interface KorrkKakaoMapProps {
   mapMode?: 'search' | 'map'
@@ -19,6 +21,7 @@ const KorrkKakaoMap = ({
 }: KorrkKakaoMapProps) => {
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const userLocation = useUserGeoLocation()
 
   const isOpenBottomSheet = bottomBodyElement && selectedPlace === null
 
@@ -67,7 +70,14 @@ const KorrkKakaoMap = ({
           name={selectedPlace.place.kakaoPlace.name}
           placeId={selectedPlace.place.kakaoPlace.id}
           category={selectedPlace.place.kakaoPlace.category}
-          distance={'2'}
+          distance={formatDistance(
+            getDistance(
+              userLocation.latitude,
+              userLocation.longitude,
+              selectedPlace.place.y,
+              selectedPlace.place.x,
+            ),
+          )}
           pick={{
             isLiked: selectedPlace.likedUserIds.includes(1),
             isMyPick: selectedPlace.createdBy.id === 1,
