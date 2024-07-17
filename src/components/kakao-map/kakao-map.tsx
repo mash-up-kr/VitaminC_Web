@@ -1,5 +1,4 @@
-import { forwardRef, useCallback, useState } from 'react'
-import { type RefObject } from 'react'
+import { forwardRef, useCallback } from 'react'
 
 import cn from '@/utils/cn'
 import { KakaoMapProvider } from './context'
@@ -8,15 +7,12 @@ import { mergeRefs } from '@/utils/merge-refs'
 import useKakaoMapInstance from './use-kakao-map-instance'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { mapBoundSessionStorage } from '@/utils/storage'
-import GpsMarker from './gps-marker'
-import GpsButton from './gps-button'
 
 type TargetEventListener = (target: kakao.maps.Map) => void
 type MouseEventListener = (mouseEvent: kakao.maps.event.MouseEvent) => void
 
 interface KakaoMapProps {
   className?: string
-  bottomRef?: RefObject<HTMLDivElement>
   center?: {
     lat: number
     lng: number
@@ -61,7 +57,6 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
   (
     {
       className,
-      bottomRef,
       center,
       level = DEFAULT_ZOOM,
       maxLevel,
@@ -78,9 +73,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
     },
     ref,
   ) => {
-    const [gpsMode, setGpsMode] = useState(false)
     const userLocation = useUserGeoLocation()
-
     const { map, container } = useKakaoMapInstance({
       center: center || {
         lat: userLocation.latitude,
@@ -111,20 +104,6 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       [saveMapBound],
     )
 
-    const handleClickGps = () => {
-      if (!map) return
-
-      if (!gpsMode) {
-        const location = new window.kakao.maps.LatLng(
-          userLocation.latitude,
-          userLocation.longitude,
-        )
-        map.setCenter(location)
-      }
-
-      setGpsMode((prev) => !prev)
-    }
-
     const saveMapBoundWithTargetEvent = useCallback(
       (callback?: TargetEventListener) => {
         if (!map) return
@@ -151,22 +130,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
           ref={mergeRefs([ref, container])}
           className={cn('relative hue-rotate-180 invert-[180%]', className)}
         />
-        {map && (
-          <KakaoMapProvider map={map}>
-            {children}
-            {gpsMode && (
-              <GpsMarker
-                latitude={userLocation.latitude}
-                longitude={userLocation.longitude}
-              />
-            )}
-          </KakaoMapProvider>
-        )}
-        <GpsButton
-          bottomRef={bottomRef}
-          gpsMode={gpsMode}
-          onClickGps={handleClickGps}
-        />
+        {map && <KakaoMapProvider map={map}>{children}</KakaoMapProvider>}
       </>
     )
   },
