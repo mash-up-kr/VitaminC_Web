@@ -46,7 +46,7 @@ const GpsButton = forwardRef<HTMLButtonElement, GpsButtonProps>(
       }
 
       getGpsButtonPositionY()
-    }, [bottomRef?.current, height])
+    }, [bottomRef, height])
 
     return (
       <>

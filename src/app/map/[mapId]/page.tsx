@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Avatar, Icon, Typography } from '@/components'
 import Tooltip from '@/components/tooltip'
 import Link from 'next/link'
@@ -17,7 +17,10 @@ const MAP_DATA = {
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
-  const visitedMapIds = visitedMapIdsStorage.getValueOrNull() ?? []
+  const visitedMapIds = useMemo(
+    () => visitedMapIdsStorage.getValueOrNull() ?? [],
+    [],
+  )
 
   useEffect(() => {
     if (!visitedMapIds.includes(mapId)) {

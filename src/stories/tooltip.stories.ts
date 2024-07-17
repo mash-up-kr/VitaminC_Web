@@ -19,6 +19,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
+    isOpen: true,
     label: 'tooltip Orange example',
     onClose: () => {
       alert('close')
@@ -29,6 +30,7 @@ export const Default: Story = {
 
 export const Gray: Story = {
   args: {
+    isOpen: true,
     color: 'neutral',
     label: 'tooltip Grey example',
     onClose: () => {
