@@ -36,7 +36,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           <Avatar value="홍길동" />
         </div>
         <Tooltip
-          open={isTooltipOpen}
+          isOpen={isTooltipOpen}
           label="원하는 장소를 등록해서 맛집을 등록해보세요!"
           onClose={() => {
             setIsTooltipOpen(false)

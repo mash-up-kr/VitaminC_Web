@@ -35,7 +35,7 @@ interface TooltipProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof TooltipVariants> {
   label: string
-  open: boolean
+  isOpen: boolean
   onClose: () => void
   color?: 'orange' | 'neutral'
   size?: 'sm' | 'md' | 'lg'
@@ -43,13 +43,13 @@ interface TooltipProps
 
 const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
   (
-    { size, color, className, label, children, open, onClose, ...props },
+    { size, color, className, label, children, isOpen, onClose, ...props },
     ref,
   ) => {
     return (
       <div className="relative">
         {children}
-        {open && (
+        {isOpen && (
           <div
             role="tooltip"
             {...props}
