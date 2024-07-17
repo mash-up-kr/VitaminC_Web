@@ -9,10 +9,14 @@ import Close from './Close.svg'
 import Delete from './Delete.svg'
 import DeleteOrange300 from './DeleteOrange300.svg'
 import DeleteOrange400 from './DeleteOrange400.svg'
+import Gps from './Gps.svg'
 import HeartStraightFilled from './HeartStraightFilled.svg'
 import HeartStraightOutlined from './HeartStraightOutlined.svg'
 import Info from './Info.svg'
 import InfoCircle from './InfoCircle.svg'
+import KakaoLogo from './KakaoLogo.svg'
+import LocationOff from './LocationOff.svg'
+import LocationOn from './LocationOn.svg'
 import PickFlag from './PickFlag.svg'
 import Plus from './Plus.svg'
 import Restaurant from './Restaurant.svg'
@@ -28,11 +32,6 @@ import StarGrey from './StarGrey.svg'
 import StarHalfFilled from './StarHalfFilled.svg'
 import Subtract from './Subtract.svg'
 import UploadSimple from './UploadSimple.svg'
-import KakaoLogo from './KakaoLogo.svg'
-import LocationOff from './LocationOff.svg'
-import LocationOn from './LocationOn.svg'
-import Gps from './Gps.svg'
-
 export const icons = {
   bar: Bar,
   cafe: Cafe,
@@ -45,10 +44,14 @@ export const icons = {
   delete: Delete,
   deleteOrange300: DeleteOrange300,
   deleteOrange400: DeleteOrange400,
+  gps: Gps,
   heartStraightFilled: HeartStraightFilled,
   heartStraightOutlined: HeartStraightOutlined,
   info: Info,
   infoCircle: InfoCircle,
+  kakaoLogo: KakaoLogo,
+  locationOff: LocationOff,
+  locationOn: LocationOn,
   pickFlag: PickFlag,
   plus: Plus,
   restaurant: Restaurant,
@@ -64,8 +67,4 @@ export const icons = {
   starHalfFilled: StarHalfFilled,
   subtract: Subtract,
   uploadSimple: UploadSimple,
-  kakaoLogo: KakaoLogo,
-  locationOff: LocationOff,
-  locationOn: LocationOn,
-  gps: Gps,
 }
