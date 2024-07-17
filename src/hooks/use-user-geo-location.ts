@@ -13,10 +13,9 @@ const INITIAL_LATITUDE_LONGITUDE = {
 }
 
 const useUserGeoLocation = () => {
-  const [location, setLocation] = useState<LocationType>({
-    latitude: 0,
-    longitude: 0,
-  })
+  const [location, setLocation] = useState<LocationType>(
+    INITIAL_LATITUDE_LONGITUDE,
+  )
 
   useIsomorphicLayoutEffect(() => {
     try {

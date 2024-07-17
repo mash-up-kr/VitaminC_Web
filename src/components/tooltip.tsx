@@ -35,40 +35,46 @@ interface TooltipProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof TooltipVariants> {
   label: string
+  isOpen: boolean
   onClose: () => void
   color?: 'orange' | 'neutral'
   size?: 'sm' | 'md' | 'lg'
 }
 
 const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
-  ({ size, color, className, label, children, onClose, ...props }, ref) => {
+  (
+    { size, color, className, label, children, isOpen, onClose, ...props },
+    ref,
+  ) => {
     return (
       <div className="relative">
         {children}
-        <div
-          role="tooltip"
-          {...props}
-          ref={ref}
-          className={cn(TooltipVariants({ color, size }), className)}
-        >
-          <Typography size="h5-2" className="text-white">
-            {label}
-          </Typography>
-          <Icon
-            type="roundedTriangle"
-            className="absolute bottom-[calc(100%-6px)] left-5 w-[22px] h-[18px]"
-          />
-          <AccessibleIconButton
-            label="닫기"
-            icon={{
-              type: 'close',
-              onClick: onClose,
-              stroke: 'neutral-000',
-              'aria-hidden': true,
-              size: 'sm',
-            }}
-          />
-        </div>
+        {isOpen && (
+          <div
+            role="tooltip"
+            {...props}
+            ref={ref}
+            className={cn(TooltipVariants({ color, size }), className)}
+          >
+            <Typography size="h5-2" className="text-white">
+              {label}
+            </Typography>
+            <Icon
+              type="roundedTriangle"
+              className="absolute bottom-[calc(100%-6px)] left-5 w-[22px] h-[18px]"
+            />
+            <AccessibleIconButton
+              label="닫기"
+              icon={{
+                type: 'close',
+                onClick: onClose,
+                stroke: 'neutral-000',
+                'aria-hidden': true,
+                size: 'sm',
+              }}
+            />
+          </div>
+        )}
       </div>
     )
   },

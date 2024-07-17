@@ -34,7 +34,7 @@ const Home = () => {
         state={temp ? BOTTOM_SHEET_STATE.Default : BOTTOM_SHEET_STATE.Collapsed}
         body={
           <PlaceListItem
-            placeId="fasfasfas"
+            placeId={12}
             name="존라멘"
             address="서울시 성동구 장터5길"
             rating={0.5}
