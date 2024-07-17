@@ -11,10 +11,14 @@ interface GpsButtonProps extends ClassName {
   bottomRef?: RefObject<HTMLDivElement>
 }
 
+const DEFAULT_BUTTON_BOTTOM = 16
+
 const GpsButton = forwardRef<HTMLButtonElement, GpsButtonProps>(
   ({ bottomRef }, ref) => {
     const userLocation = useUserGeoLocation()
-    const [gpsBottomPosition, setGpsBottomPosition] = useState(16)
+    const [gpsBottomPosition, setGpsBottomPosition] = useState(
+      DEFAULT_BUTTON_BOTTOM,
+    )
     const [gpsMode, setGpsMode] = useState(false)
     const { height } = useWindowSize()
     const { map } = useKakaoMap()
@@ -37,12 +41,14 @@ const GpsButton = forwardRef<HTMLButtonElement, GpsButtonProps>(
       const getGpsButtonPositionY = () => {
         if (bottomRef?.current) {
           setGpsBottomPosition(
-            height - bottomRef.current.getBoundingClientRect().top + 16,
+            height -
+              bottomRef.current.getBoundingClientRect().top +
+              DEFAULT_BUTTON_BOTTOM,
           )
           return
         }
 
-        setGpsBottomPosition(16)
+        setGpsBottomPosition(DEFAULT_BUTTON_BOTTOM)
       }
 
       getGpsButtonPositionY()
