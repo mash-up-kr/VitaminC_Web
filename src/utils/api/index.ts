@@ -27,13 +27,17 @@ const maps = {
 }
 
 const search = {
-  suggestKeyword: (q: string): Promise<ResponseWithMessage<string[]>> =>
-    client.public.get(`/search/suggest?q=${q}`),
-  searchPlaces: ({
-    q,
-    rect,
-  }: QueryParams): Promise<ResponseWithMessage<KakaoPlaceItem[]>> =>
-    client.public.get(`/search/places?q=${q}&rect=${rect}`),
+  suggest: {
+    get: (q: string): Promise<ResponseWithMessage<string[]>> =>
+      client.public.get(`/search/suggest?q=${q}`),
+  },
+  places: {
+    get: ({
+      q,
+      rect,
+    }: QueryParams): Promise<ResponseWithMessage<KakaoPlaceItem[]>> =>
+      client.public.get(`/search/places?q=${q}&rect=${rect}`),
+  },
 }
 
 const place = {

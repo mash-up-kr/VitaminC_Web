@@ -4,7 +4,7 @@ export interface KakaoPlaceItem {
   category_group_name: string // "음식점"
   category_name: string // "음식점 > 한식 > 육류,고기 > 곱창,막창"
   distance: string // ""
-  id: string // "1261894710"
+  id: number // "1261894710"
   phone: string // "02-555-7364"
   place_name: string // "세광양대창 역삼GS타워점"
   place_url: string // "http://place.map.kakao.com/1261894710"
