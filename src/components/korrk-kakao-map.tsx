@@ -1,12 +1,12 @@
 import { ReactNode, useRef, useState } from 'react'
 import GpsButton from './kakao-map/gps-button'
 import KakaoMap from './kakao-map/kakao-map'
-import { PlaceType } from './place/types'
 import Marker from './kakao-map/marker'
 import BottomSheet from './bottom-sheet'
 import PlaceMapPopup from './place/place-map-popup'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { formatDistance, getDistance } from '@/utils/location'
+import { PlaceType } from '@/types/api/place'
 
 interface KorrkKakaoMapProps {
   mapMode?: 'search' | 'map'
@@ -79,6 +79,7 @@ const KorrkKakaoMap = ({
             ),
           )}
           pick={{
+            //TODO: userId 연동
             isLiked: selectedPlace.likedUserIds.includes(1),
             isMyPick: selectedPlace.createdBy.id === 1,
             numOfLikes: selectedPlace.likedUserIds.length,
