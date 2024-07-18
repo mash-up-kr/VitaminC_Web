@@ -62,6 +62,6 @@ const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
   },
 )
 
-FilterButton.displayName = 'chip-button'
+FilterButton.displayName = 'FilterButton'
 
 export default FilterButton
