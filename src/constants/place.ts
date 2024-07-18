@@ -1,39 +1,6 @@
-export const PLACE_LIST_DATA: {
-  place: {
-    id: number
-    kakaoPlace: {
-      id: number
-      name: string
-      category: string
-      address: string
-      x: number
-      y: number
-      menuList: {
-        menu: string
-        price: string
-      }[]
-      photoList: string[]
-    }
-    x: number
-    y: number
-  }
-  tags: [
-    {
-      id: number
-      mapId: string
-      content: string
-      createdAt: string
-    },
-  ]
-  comments: [{}]
-  likedUserIds: number[]
-  createdBy: {
-    id: number
-    nickname: string
-  }
-  createdAt: string
-  updatedAt: string
-}[] = [
+import { PlaceType } from '@/types/api/place'
+
+export const PLACE_LIST_DATA: PlaceType[] = [
   {
     place: {
       id: 1,
@@ -58,6 +25,8 @@ export const PLACE_LIST_DATA: {
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
         ],
+        createdAt: new Date('2024-07-16T12:00:00Z'),
+        updatedAt: new Date('2024-07-16T12:00:00Z'),
       },
       x: 126.977969,
       y: 37.566535,
@@ -103,6 +72,8 @@ export const PLACE_LIST_DATA: {
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
         ],
+        createdAt: new Date('2024-07-16T12:00:00Z'),
+        updatedAt: new Date('2024-07-16T12:00:00Z'),
       },
       x: 126.983569,
       y: 37.563375,
@@ -148,6 +119,8 @@ export const PLACE_LIST_DATA: {
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
         ],
+        createdAt: new Date('2024-07-16T12:00:00Z'),
+        updatedAt: new Date('2024-07-16T12:00:00Z'),
       },
       x: 126.974546,
       y: 37.579617,
@@ -193,6 +166,8 @@ export const PLACE_LIST_DATA: {
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
         ],
+        createdAt: new Date('2024-07-16T12:00:00Z'),
+        updatedAt: new Date('2024-07-16T12:00:00Z'),
       },
       x: 126.976889,
       y: 37.558517,
@@ -238,6 +213,8 @@ export const PLACE_LIST_DATA: {
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
           'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
         ],
+        createdAt: new Date('2024-07-16T12:00:00Z'),
+        updatedAt: new Date('2024-07-16T12:00:00Z'),
       },
       x: 126.984851,
       y: 37.571455,
