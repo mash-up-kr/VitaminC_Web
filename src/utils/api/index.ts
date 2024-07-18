@@ -18,7 +18,7 @@ const maps = {
     client.secure.get(`/maps`),
   id: {
     get: (id: string): Promise<ResponseWithMessage<MapDataType>> =>
-      client.secure.get(`maps/${id}`),
+      client.secure.get(`/maps/${id}`),
     tag: {
       get: (id: string): Promise<ResponseWithMessage<TagItem[]>> =>
         client.secure.get(`/maps/${id}/tag`),
