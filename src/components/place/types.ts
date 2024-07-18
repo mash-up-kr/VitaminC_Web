@@ -6,11 +6,11 @@ export interface PlaceProps {
   address: string
   distance?: string
   category?: string
+  tags?: string[]
   pick?: {
     isMyPick: boolean
     numOfLikes: number
     isLiked: boolean
-    tags?: string[]
     onClickLike: () => void
   }
 }

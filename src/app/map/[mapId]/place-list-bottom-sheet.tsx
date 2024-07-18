@@ -50,12 +50,13 @@ const PlaceListBottomSheet = ({
               ),
             )}
             images={place.place.kakaoPlace.photoList}
+            tags={place.tags.map((tag) => tag.content)}
             pick={{
               //TODO: userId 연동
               isLiked: place.likedUserIds.includes(1),
               isMyPick: place.createdBy.id === 1,
               numOfLikes: place.likedUserIds.length,
-              tags: place.tags.map((tag) => tag.content),
+
               onClickLike: () => null,
             }}
           />

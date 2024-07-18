@@ -78,12 +78,12 @@ const KorrkKakaoMap = ({
               selectedPlace.place.x,
             ),
           )}
+          tags={selectedPlace.tags.map((tag) => tag.content)}
           pick={{
             //TODO: userId 연동
             isLiked: selectedPlace.likedUserIds.includes(1),
             isMyPick: selectedPlace.createdBy.id === 1,
             numOfLikes: selectedPlace.likedUserIds.length,
-            tags: selectedPlace.tags.map((tag) => tag.content),
             onClickLike: () => null,
           }}
         />

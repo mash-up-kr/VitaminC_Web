@@ -9,7 +9,7 @@ interface PlaceListItemProps extends PlaceProps {
 
 // TODO: 클릭 시 식당 상세로 이동 로직
 const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
-  ({ placeId, name, address, rating, images, pick }, ref) => {
+  ({ placeId, name, address, rating, images, pick, tags }, ref) => {
     return (
       <section
         ref={ref}
@@ -58,7 +58,7 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
           </div>
         </div>
 
-        {pick?.tags && <TagList placeId={placeId} tags={pick.tags} />}
+        {tags && <TagList placeId={placeId} tags={tags} />}
       </section>
     )
   },
