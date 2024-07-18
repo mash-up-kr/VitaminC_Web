@@ -5,7 +5,6 @@ import { cva, VariantProps } from 'class-variance-authority'
 import cn from '@/utils/cn'
 import Icon from './icon'
 import Typography from './typography'
-import type { ColorKey } from '@/types/color'
 
 const FilterButtonVariants = cva<{
   colorScheme: Record<'neutral' | 'orange', string>
@@ -27,34 +26,36 @@ const FilterButtonVariants = cva<{
 interface FilterButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof FilterButtonVariants> {
-  rightIcon?: Parameters<typeof Icon>[0]
+  icon?: Parameters<typeof Icon>[0]
   isActive?: boolean
+  numOfSelectedFilter?: number
 }
 
 const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
-  ({ className, children, rightIcon, isActive = false, ...props }, ref) => {
+  ({ className, children, icon, numOfSelectedFilter = 0, ...props }, ref) => {
+    const isActive = numOfSelectedFilter > 0
+
     return (
       <button
         ref={ref}
         type="button"
         className={cn(
           FilterButtonVariants({
-            colorScheme: isActive ? 'orange' : 'neutral',
+            colorScheme: numOfSelectedFilter ? 'orange' : 'neutral',
           }),
           className,
-          rightIcon ? 'gap-1' : '',
+          icon ? 'gap-1' : '',
+          numOfSelectedFilter ? 'border border-orange-400' : '',
         )}
         {...props}
+        aria-label="필터 적용"
       >
+        {icon && isActive && <Icon {...icon} stroke="orange-400" aria-hidden />}
         <Typography size="h7" color={isActive ? 'orange-400' : 'neutral-100'}>
-          {children}
+          {isActive ? numOfSelectedFilter : children}
         </Typography>
-        {rightIcon && (
-          <Icon
-            {...rightIcon}
-            color={isActive ? 'orange-400' : 'neutral-100'}
-            aria-hidden
-          />
+        {icon && !isActive && (
+          <Icon {...icon} stroke="neutral-100" aria-hidden />
         )}
       </button>
     )
