@@ -28,8 +28,7 @@ const SearchBox = () => {
   const [suggestedPlaces, setSuggestedPlaces] = useState<KakaoPlaceItem[]>([])
   const isShowRecentKeywords =
     query === '' && !!recentKeywords.length && search === ''
-  const isShowResultPlaces = search !== ''
-  const isShowSuggestionPlaces = !isShowRecentKeywords && !isShowResultPlaces
+  const isShowSuggestionPlaces = !isShowRecentKeywords
 
   const createQueryString = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -45,7 +44,7 @@ const SearchBox = () => {
     if (keywordIndex !== -1) {
       existRecentKeywords.splice(keywordIndex, 1)
     }
-    recentSearchStorage.set([...existRecentKeywords, keyword])
+    recentSearchStorage.set([keyword, ...existRecentKeywords])
     setRecentKeywords([keyword, ...existRecentKeywords])
   }
 
@@ -58,7 +57,7 @@ const SearchBox = () => {
       createQueryString('search', searchKeyword)
       addUniqueKeyword(searchKeyword)
       setQuery(searchKeyword)
-      router.push(`${pathname}?${createQueryString('search', searchKeyword)}`)
+      router.push(`search/${encodeURI(searchKeyword)}`)
     }
   }
 
@@ -74,7 +73,6 @@ const SearchBox = () => {
 
   const handleResetQuery = () => {
     setQuery('')
-    createQueryString('search', '')
     router.push(`${pathname}?${createQueryString('search', '')}`)
   }
 
@@ -87,7 +85,7 @@ const SearchBox = () => {
     if (!query) return
 
     try {
-      const res = await api.search.searchPlaces({
+      const res = await api.search.places.get({
         q: query,
         rect: formatBoundToRect(mapBounds),
       })
@@ -136,8 +134,6 @@ const SearchBox = () => {
             검색 결과가 없습니다.
           </Typography>
         ))}
-
-      {isShowResultPlaces && <div>Result</div>}
     </div>
   )
 }
