@@ -9,6 +9,7 @@ import Close from './Close.svg'
 import Delete from './Delete.svg'
 import DeleteOrange300 from './DeleteOrange300.svg'
 import DeleteOrange400 from './DeleteOrange400.svg'
+import Filter from './Filter.svg'
 import Gps from './Gps.svg'
 import HeartStraightFilled from './HeartStraightFilled.svg'
 import HeartStraightOutlined from './HeartStraightOutlined.svg'
@@ -44,6 +45,7 @@ export const icons = {
   delete: Delete,
   deleteOrange300: DeleteOrange300,
   deleteOrange400: DeleteOrange400,
+  filter: Filter,
   gps: Gps,
   heartStraightFilled: HeartStraightFilled,
   heartStraightOutlined: HeartStraightOutlined,
