@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { Typography, PickChip, HashtagList, LikeButton } from '@/components'
+import { Typography, PickChip, TagList, LikeButton } from '@/components'
 import type { PlaceProps } from './types'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
@@ -59,9 +59,7 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
 
             <img className="rounded-md w-20 h-20" src={image} alt="식당" />
           </div>
-          {pick?.hashtags?.length && (
-            <HashtagList placeId={placeId} hashtags={pick.hashtags} />
-          )}
+          {pick?.tags?.length && <TagList placeId={placeId} tags={pick.tags} />}
         </section>
       </div>
     )

@@ -10,7 +10,7 @@ export interface PlaceProps {
     isMyPick: boolean
     numOfLikes: number
     isLiked: boolean
-    hashtags?: string[]
+    tags?: string[]
     onClickLike: () => void
   }
 }

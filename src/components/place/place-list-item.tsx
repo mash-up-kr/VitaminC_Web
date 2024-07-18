@@ -1,11 +1,5 @@
 import { forwardRef } from 'react'
-import {
-  Typography,
-  PickChip,
-  LikeButton,
-  HashtagList,
-  Icon,
-} from '@/components'
+import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
 import { PlaceProps } from './types'
 
 interface PlaceListItemProps extends PlaceProps {
@@ -64,9 +58,7 @@ const PlaceListItem = forwardRef<HTMLDivElement, PlaceListItemProps>(
           </div>
         </div>
 
-        {pick?.hashtags && (
-          <HashtagList placeId={placeId} hashtags={pick.hashtags} />
-        )}
+        {pick?.tags && <TagList placeId={placeId} tags={pick.tags} />}
       </section>
     )
   },

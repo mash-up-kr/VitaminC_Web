@@ -18,12 +18,12 @@ import FilterModalBody, { CategoryType } from './filter-modal-body'
 
 export interface FilterIdsType {
   category: string[]
-  hashtags: number[]
+  tags: number[]
 }
 
 const INITIAL_FILTER_IDS = {
   category: [],
-  hashtags: [],
+  tags: [],
 }
 
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
@@ -62,16 +62,16 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     }
 
     if (typeof value === 'number') {
-      if (selectedFilterIds.hashtags.includes(value)) {
+      if (selectedFilterIds.tags.includes(value)) {
         setSelcectedFilterIds((prev) => ({
           ...prev,
-          hashtags: prev.hashtags.filter((h) => h !== value),
+          tags: prev.tags.filter((h) => h !== value),
         }))
         return
       }
       setSelcectedFilterIds((prev) => ({
         ...prev,
-        hashtags: [...prev.hashtags, value],
+        tags: [...prev.tags, value],
       }))
     }
   }
@@ -114,11 +114,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             return false
           })
 
-        const matchesHashtags =
-          selectedFilterIds.hashtags.length === 0 ||
-          place.tags.some((tag) => selectedFilterIds.hashtags.includes(tag.id))
+        const matchestags =
+          selectedFilterIds.tags.length === 0 ||
+          place.tags.some((tag) => selectedFilterIds.tags.includes(tag.id))
 
-        return matchesCategory && matchesHashtags
+        return matchesCategory && matchestags
       }),
     )
   }, [places, selectedFilterIds])

@@ -83,7 +83,7 @@ const KorrkKakaoMap = ({
             isLiked: selectedPlace.likedUserIds.includes(1),
             isMyPick: selectedPlace.createdBy.id === 1,
             numOfLikes: selectedPlace.likedUserIds.length,
-            hashtags: selectedPlace.tags.map((tag) => tag.content),
+            tags: selectedPlace.tags.map((tag) => tag.content),
             onClickLike: () => null,
           }}
         />

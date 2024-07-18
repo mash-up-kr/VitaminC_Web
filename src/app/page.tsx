@@ -39,7 +39,7 @@ const Home = () => {
             address="서울시 성동구 장터5길"
             rating={0.5}
             pick={{
-              hashtags: [
+              tags: [
                 '존존맛탱구리',
                 '존맛',
                 '존맛탱',

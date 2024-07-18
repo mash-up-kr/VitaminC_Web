@@ -24,7 +24,7 @@ const PlaceListBottomSheet = ({
         <FilterButton
           numOfSelectedFilter={
             (selectedFilter?.category.length ?? 0) +
-            (selectedFilter?.hashtags.length ?? 0)
+            (selectedFilter?.tags.length ?? 0)
           }
           icon={{ type: 'filter' }}
           onClick={onClickFilterButton}
@@ -55,7 +55,7 @@ const PlaceListBottomSheet = ({
               isLiked: place.likedUserIds.includes(1),
               isMyPick: place.createdBy.id === 1,
               numOfLikes: place.likedUserIds.length,
-              hashtags: place.tags.map((tag) => tag.content),
+              tags: place.tags.map((tag) => tag.content),
               onClickLike: () => null,
             }}
           />
