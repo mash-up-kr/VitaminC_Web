@@ -26,8 +26,15 @@ const search = {
     client.public.get(`/search/places?q=${q}&rect=${rect}`),
 }
 
+const place = {
+  mapId: {
+    get: (mapId: string) => client.secure.get(`/place/${mapId}`),
+  },
+}
+
 export const api = {
   users,
   maps,
   search,
+  place,
 } as const

@@ -1,9 +1,11 @@
+import { PlaceType } from '@/types/api/place'
+
 const changeSpaceToHyphen = (name: string) => {
   return name.replace(/ /g, '-')
 }
 
 const getFitContainerWidthHashtag = (
-  placeId: number,
+  placeId: PlaceType['place']['id'],
   currentHashtags: string[],
   containerWidth: number,
 ) => {

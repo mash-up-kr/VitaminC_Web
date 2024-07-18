@@ -8,9 +8,10 @@ import {
   getFitContainerWidthHashtag,
 } from '@/utils/hashtag'
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import { PlaceType } from '@/types/api/place'
 
 interface HashtagListProps extends ClassName {
-  placeId: number
+  placeId: PlaceType['place']['id']
   hashtags: string[]
 }
 
