@@ -21,6 +21,7 @@ const Setting = () => {
 
   const handleSignout = () => {
     deleteCookie(AUTHORIZATION)
+    router.refresh()
   }
 
   return (
