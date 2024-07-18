@@ -40,24 +40,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     [],
   )
 
-  const getPlaceList = async () => {
-    try {
-      const { data: placeList } = await api.place.mapId.get(mapId)
-      setPlaces(placeList)
-    } catch (err) {
-      notify.error('예상치 못한 오류가 발생했습니다.')
-    }
-  }
-
-  const getMapData = async () => {
-    try {
-      const { data } = await api.maps.id.get(mapId)
-      setMapData(data)
-    } catch (err) {
-      notify.error('오류가 발생했습니다.')
-    }
-  }
-
   const handleSelectedFilterChange = (value: CategoryType | number) => {
     if (value === 'all') {
       setSelcectedFilterIds((prev) => ({ ...prev, category: [] }))
@@ -95,6 +77,24 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }
 
   useIsomorphicLayoutEffect(() => {
+    const getPlaceList = async () => {
+      try {
+        const { data: placeList } = await api.place.mapId.get(mapId)
+        setPlaces(placeList)
+      } catch (err) {
+        notify.error('예상치 못한 오류가 발생했습니다.')
+      }
+    }
+
+    const getMapData = async () => {
+      try {
+        const { data } = await api.maps.id.get(mapId)
+        setMapData(data)
+      } catch (err) {
+        notify.error('오류가 발생했습니다.')
+      }
+    }
+
     getMapData()
     getPlaceList()
   }, [])
