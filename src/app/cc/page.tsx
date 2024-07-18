@@ -32,7 +32,7 @@ const Page = () => {
       <Button
         className="bg-sky-400"
         onClick={() =>
-          addMarker('test', { latitude: 37.5664, longitude: 126.97782 })
+          addMarker(1, { latitude: 37.5664, longitude: 126.97782 })
         }
       >
         서울 시청에 마커 추가

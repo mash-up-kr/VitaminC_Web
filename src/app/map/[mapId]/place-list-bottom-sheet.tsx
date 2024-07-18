@@ -3,11 +3,11 @@ import PlaceListItem from '@/components/place/place-list-item'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { PlaceType } from '@/types/api/place'
 import { formatDistance, getDistance } from '@/utils/location'
-import { FilterType } from './page'
+import { FilterIdsType } from './page'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[]
-  selectedFilter?: FilterType
+  selectedFilter?: FilterIdsType
   onClickFilterButton: VoidFunction
 }
 
