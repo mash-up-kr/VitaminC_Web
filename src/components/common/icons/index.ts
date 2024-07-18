@@ -17,6 +17,8 @@ import InfoCircle from './InfoCircle.svg'
 import KakaoLogo from './KakaoLogo.svg'
 import LocationOff from './LocationOff.svg'
 import LocationOn from './LocationOn.svg'
+import ListView from './ListView.svg'
+import MapView from './MapView.svg'
 import PickFlag from './PickFlag.svg'
 import Plus from './Plus.svg'
 import Restaurant from './Restaurant.svg'
@@ -31,7 +33,9 @@ import StarFilled from './StarFilled.svg'
 import StarGrey from './StarGrey.svg'
 import StarHalfFilled from './StarHalfFilled.svg'
 import Subtract from './Subtract.svg'
+import Sushi from './Sushi.svg'
 import UploadSimple from './UploadSimple.svg'
+
 export const icons = {
   bar: Bar,
   cafe: Cafe,
@@ -52,6 +56,8 @@ export const icons = {
   kakaoLogo: KakaoLogo,
   locationOff: LocationOff,
   locationOn: LocationOn,
+  listView: ListView,
+  mapView: MapView,
   pickFlag: PickFlag,
   plus: Plus,
   restaurant: Restaurant,
@@ -66,5 +72,6 @@ export const icons = {
   starGrey: StarGrey,
   starHalfFilled: StarHalfFilled,
   subtract: Subtract,
+  sushi: Sushi,
   uploadSimple: UploadSimple,
 }

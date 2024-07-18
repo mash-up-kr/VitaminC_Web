@@ -9,6 +9,18 @@ interface LikeButtonProps {
   onClick: () => void
 }
 
+const formatLike = (number: number) => {
+  const K = 1000
+  const M = 10000
+  if (number < K) {
+    return number.toString()
+  } else if (number < M) {
+    return (number / K).toFixed(1).replace(/\.0$/, '') + 'k'
+  }
+
+  return (number / M).toFixed(1).replace(/\.0$/, '') + 'm'
+}
+
 const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
   ({ isLiked, numOfLikes, onClick }, ref) => {
     return (
@@ -25,7 +37,7 @@ const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
           }}
         />
         <Typography size="body1" color="neutral-200" className="font-medium">
-          {numOfLikes}
+          {formatLike(numOfLikes)}
         </Typography>
       </div>
     )
