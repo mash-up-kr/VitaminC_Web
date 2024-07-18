@@ -138,7 +138,9 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             <Typography size="h3">{mapData?.name ?? ''}</Typography>
             <Icon type="caretDown" size="lg" />
           </Link>
-          <Avatar value="홍길동" />
+          <Link href="/setting">
+            <Avatar value="홍길동" />
+          </Link>
         </div>
         <Tooltip
           isOpen={isTooltipOpen}
