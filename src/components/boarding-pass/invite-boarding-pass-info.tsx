@@ -1,11 +1,14 @@
 import { SINGLE } from './constant'
 import { Typography } from '../common'
 import { InviteBoardingPass } from './types'
+import BoardingDivider from './boarding-divider'
+import { formatDate } from '../../utils/date'
 
-const InviteBoardingHeader = ({
+const InviteBoardingPassInfo = ({
   mapName,
   owner,
   numOfCrews,
+  expirationTime,
 }: InviteBoardingPass) => {
   return (
     <>
@@ -36,8 +39,19 @@ const InviteBoardingHeader = ({
           </Typography>
         </div>
       </div>
+
+      <BoardingDivider />
+
+      <div className="pt-2 px-5 flex flex-col gap-1 bg-neutral-600">
+        <Typography size="body4" color="neutral-300" className="text-left">
+          Boarding Time
+        </Typography>
+        <Typography size="h4" color="neutral-000" className="text-left">
+          {formatDate(expirationTime)}
+        </Typography>
+      </div>
     </>
   )
 }
 
-export default InviteBoardingHeader
+export default InviteBoardingPassInfo
