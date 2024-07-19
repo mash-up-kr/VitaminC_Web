@@ -2,7 +2,10 @@ import { apiClientFactory } from './api-client-factory'
 import type { QueryParams } from '@/types/api/search'
 import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import type { ResponseWithMessage } from '@/types/api'
-import type { MapItemForUser } from '@/models/interface'
+import type {
+  MapInviteInfoResponseType,
+  UserByMap,
+} from '@/models/map.interface'
 
 const client = {
   public: apiClientFactory({}),
@@ -12,8 +15,16 @@ const client = {
 const users = {}
 
 const maps = {
-  get: (): Promise<ResponseWithMessage<MapItemForUser[]>> =>
+  get: (): Promise<ResponseWithMessage<UserByMap[]>> =>
     client.secure.get(`/maps`),
+  inviteLinks: {
+    get: (
+      token: string,
+    ): Promise<ResponseWithMessage<MapInviteInfoResponseType>> =>
+      client.public.get(`/maps/invite-links/${token}`),
+    post: (token: string): Promise<ResponseWithMessage<{}>> =>
+      client.secure.post(`/maps/invite-links/${token}`),
+  },
 }
 
 const search = {
