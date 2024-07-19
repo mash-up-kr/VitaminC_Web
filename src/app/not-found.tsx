@@ -13,9 +13,11 @@ const NotFound = () => {
       try {
         const mapId = await getMapId()
         if (mapId) {
-          return router.replace(`/map/${mapId}`)
+          router.replace(`/map/${mapId}`)
+        } else {
+          throw new Error()
         }
-      } finally {
+      } catch {
         return router.replace('/intro')
       }
     })()
