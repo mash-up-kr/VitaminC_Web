@@ -7,6 +7,8 @@ import type {
   MapInviteInfoResponseType,
   UserByMap,
 } from '@/models/map.interface'
+import { PlaceType } from '@/types/api/place'
+import { MapDataType, TagItem } from '@/types/api/maps'
 
 const client = {
   public: apiClientFactory({}),
@@ -19,6 +21,12 @@ const maps = {
   get: (): Promise<ResponseWithMessage<UserByMap[]>> =>
     client.secure.get(`/maps`),
   id: {
+    get: (id: string): Promise<ResponseWithMessage<MapDataType>> =>
+      client.secure.get(`/maps/${id}`),
+    tag: {
+      get: (id: string): Promise<ResponseWithMessage<TagItem[]>> =>
+        client.secure.get(`/maps/${id}/tag`),
+    },
     inviteLinks: {
       post: (id: string): Promise<ResponseWithMessage<InviteLink>> =>
         client.secure.post(`/maps/${id}/invite-links`),
@@ -48,8 +56,16 @@ const search = {
   },
 }
 
+const place = {
+  mapId: {
+    get: (mapId: string): Promise<ResponseWithMessage<PlaceType[]>> =>
+      client.secure.get(`/place/${mapId}`),
+  },
+}
+
 export const api = {
   users,
   maps,
   search,
+  place,
 } as const
