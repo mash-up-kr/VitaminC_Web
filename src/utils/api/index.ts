@@ -11,7 +11,16 @@ const client = {
   secure: apiClientFactory({ secure: true }),
 }
 
-const users = {}
+const users = {
+  id: {
+    maps: {
+      mapId: {
+        delete: ({ id, mapId }: { id: number; mapId: string }) =>
+          client.secure.delete(`/users/${id}/maps/${mapId}`),
+      },
+    },
+  },
+}
 
 const maps = {
   get: (): Promise<ResponseWithMessage<MapItemForUser[]>> =>
