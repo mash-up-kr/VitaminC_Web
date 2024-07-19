@@ -7,11 +7,11 @@ import { motion } from 'framer-motion'
 import { Typography } from '@/components/common'
 import ConfirmCancelButton from '@/components/confirm-cancel-button'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
-import { api } from '../../../utils/api'
-import { getMapId } from '../../../services/map-id'
-import { APIError } from '../../../models/interface'
-import { notify } from '../../common/custom-toast'
-import { InvitingBoardingPassProps } from '../../boarding-pass/types'
+import { InvitingBoardingPassProps } from '@/components/boarding-pass/types'
+import { notify } from '@/components/common/custom-toast'
+import { api } from '@/utils/api'
+import { getMapId } from '@/services/map-id'
+import { APIError } from '@/models/interface'
 
 const Invite = () => {
   const router = useRouter()
