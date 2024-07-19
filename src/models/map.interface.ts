@@ -15,7 +15,7 @@ export interface MapInfo extends MutatedAt {
   users: UserByMap[]
 }
 
-export interface InviteCode {
+export interface InviteLink {
   token: string
   createdAt: DateTimeType
   mapRole: MapRole
@@ -29,6 +29,6 @@ export interface PlacePreview {
 
 export interface MapInviteInfoResponseType {
   map: MapInfo
-  inviteCode: InviteCode
+  inviteLink: InviteLink
   placePreviewList: PlacePreview[]
 }

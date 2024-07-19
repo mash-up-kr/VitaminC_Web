@@ -28,7 +28,7 @@ const Invite = async ({
     await getMapInviteInfo(inviteCode)
 
   const mapInfo = mapInviteInfo?.map
-  const expirationTime = mapInviteInfo?.inviteCode.expiresAt
+  const expirationTime = mapInviteInfo?.inviteLink.expiresAt
   const isExpired = !mapInfo || !expirationTime
 
   return (
