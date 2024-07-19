@@ -5,7 +5,7 @@ import BottomModal from '@/components/BottomModal'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { deleteCookie } from '../actions'
-import { AUTHORIZATION } from '@/utils/storage'
+import { AUTHORIZATION } from '@/constants/cookie'
 
 const USER_DATA = {
   nickName: '홍길동',
