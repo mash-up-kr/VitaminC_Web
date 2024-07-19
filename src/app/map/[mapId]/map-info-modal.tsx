@@ -8,6 +8,7 @@ import { MapItemForUser } from '@/models/interface'
 import { MapDataType } from '@/types/api/maps'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CircleLoader } from 'react-spinners'
 
@@ -18,8 +19,19 @@ interface MapInfoModalProps {
 }
 
 const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
+  const [currentMapId, setCurrentMapId] = useState(mapId)
   const [maps, setMaps] = useState<MapItemForUser[]>([])
   const [mapData, setMapData] = useState<MapDataType>()
+
+  const router = useRouter()
+
+  const handleCloseModal = () => {
+    if (currentMapId === mapId) {
+      onClose()
+      return
+    }
+    router.push(`/map/${currentMapId}`)
+  }
 
   useEffect(() => {
     const getMapList = async () => {
@@ -51,7 +63,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
     <Modal
       className="w-full max-w-[420px] top-0 translate-y-0"
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleCloseModal}
     >
       <div className="flex flex-col items-center gap-3">
         {/* 지도 리스트 */}
@@ -59,8 +71,9 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
           {maps.map((map) => (
             <ChipButton
               className="px-6 py-2 rounded-full flex-shrink-0"
-              isActive={mapId === map.id}
+              isActive={currentMapId === map.id}
               fontSize="body1"
+              onClick={() => setCurrentMapId(map.id)}
             >
               {map.name}
             </ChipButton>

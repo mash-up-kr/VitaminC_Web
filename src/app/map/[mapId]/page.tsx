@@ -15,6 +15,7 @@ import PlaceListBottomSheet from './place-list-bottom-sheet'
 import BottomModal from '@/components/BottomModal'
 import { MapDataType } from '@/types/api/maps'
 import FilterModalBody, { CategoryType } from './filter-modal-body'
+import MapInfoModal from './map-info-modal'
 
 export interface FilterIdsType {
   category: string[]
@@ -27,13 +28,14 @@ const INITIAL_FILTER_IDS = {
 }
 
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
+  const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterIds, setSelcectedFilterIds] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
   const [places, setPlaces] = useState<PlaceType[]>([])
   const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
-  const [mapData, setMapData] = useState<MapDataType | null>(null)
+  const [mapData, setMapData] = useState<MapDataType>()
 
   const visitedMapIds = useMemo(
     () => visitedMapIdsStorage.getValueOrNull() ?? [],
@@ -133,11 +135,14 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     <>
       <header className="absolute inset-x-5 z-50 top-4 flex flex-col gap-2">
         <div className="w-full flex justify-between">
-          {/* TODO: 초대장 페이지 제작 후 연결 */}
-          <Link href="" className="flex items-center">
+          <button
+            className="flex items-center"
+            onClick={() => setIsMapInfoOpen(true)}
+            aria-label="지도 정보 팝업 열기"
+          >
             <Typography size="h3">{mapData?.name ?? ''}</Typography>
             <Icon type="caretDown" size="lg" />
-          </Link>
+          </button>
           <Link href="/setting">
             <Avatar value="홍길동" />
           </Link>
@@ -184,6 +189,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           setSelcectedFilterIds(INITIAL_FILTER_IDS)
           setIsFilterModalOpen(false)
         }}
+      />
+      <MapInfoModal
+        isOpen={isMapInfoOpen}
+        mapId={mapId}
+        onClose={() => setIsMapInfoOpen(false)}
       />
     </>
   )
