@@ -3,6 +3,7 @@ import type { QueryParams } from '@/types/api/search'
 import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import type { ResponseWithMessage } from '@/types/api'
 import type {
+  InviteLink,
   MapInviteInfoResponseType,
   UserByMap,
 } from '@/models/map.interface'
@@ -17,6 +18,12 @@ const users = {}
 const maps = {
   get: (): Promise<ResponseWithMessage<UserByMap[]>> =>
     client.secure.get(`/maps`),
+  id: {
+    inviteLinks: {
+      post: (id: string): Promise<ResponseWithMessage<InviteLink>> =>
+        client.secure.post(`/maps/${id}/invite-links`),
+    },
+  },
   inviteLinks: {
     get: (
       token: string,
