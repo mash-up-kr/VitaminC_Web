@@ -1,3 +1,4 @@
+import { MapMemberData } from '@/types/api/maps'
 import type { DateTimeType, MutatedAt } from './interface'
 
 type MapRole = 'ADMIN' | 'READ' | 'WRITE'
@@ -10,7 +11,7 @@ export interface UserByMap extends MutatedAt {
 export interface MapInfo extends MutatedAt {
   id: string
   name: string
-  creator: string
+  creator: MapMemberData
   registeredPlaceCount: number
   users: UserByMap[]
 }
