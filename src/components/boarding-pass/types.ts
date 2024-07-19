@@ -1,5 +1,5 @@
 import type { ClassName } from '@/models/interface'
-import { MapMemberData } from '@/types/api/maps'
+import { MapDataType, MapMemberData } from '@/types/api/maps'
 
 interface BoardingMembers {
   owner: MapMemberData
@@ -12,6 +12,7 @@ export interface BoardingMembersProps
 
 export interface BoardingInfoPassProps extends BoardingMembers, ClassName {
   mapId: string
+  name: string
   day: number
   numOfPins: number
 }
