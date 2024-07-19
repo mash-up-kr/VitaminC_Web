@@ -13,12 +13,6 @@ export const recentSearchStorage = new LocalStorageManager<string[]>(
 export const INVITE_CODE = '@@invite-code'
 export const inviteCodeStorage = new LocalStorageManager<string>(INVITE_CODE)
 
-export const NEW_MAP_ID = '@@new-map-id'
-export const newMapIdStorage = new SessionStorageManager<string>(NEW_MAP_ID)
-
-export const NICKNAME = '@@nickname'
-export const nicknameStorage = new SessionStorageManager<string>(NICKNAME)
-
 export const MAP_BOUND = '@@map-bound'
 export const mapBoundSessionStorage = new SessionStorageManager<{
   latitude1: number
