@@ -8,12 +8,14 @@ export interface TagItem {
 export interface MapDataType {
   id: string
   name: string
-  users: {
-    id: number
-    nickname: string
-    role: string
-  }[]
+  users: MapMemberData[]
   registeredPlaceCount: number
   createdAt: Date
   updatedAt: Date
+}
+
+export interface MapMemberData {
+  id: number
+  nickname: string
+  role: string
 }
