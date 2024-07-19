@@ -44,6 +44,7 @@ const MapList = ({
     <div className="pt-4 pl-5 flex gap-2 justify-start items-center overflow-x-scroll no-scrollbar">
       {maps.map((map) => (
         <ChipButton
+          key={map.id}
           className="px-6 py-2 rounded-full flex-shrink-0"
           isActive={mapId === map.id}
           fontSize="body1"
@@ -70,8 +71,8 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
     router.push(`/map/${currentMapId}`)
   }
 
-  const handleChangeMap = (mapId: string) => {
-    setCurrentMapId(mapId)
+  const handleChangeMap = (selectedMapId: string) => {
+    setCurrentMapId(selectedMapId)
   }
 
   useEffect(() => {
