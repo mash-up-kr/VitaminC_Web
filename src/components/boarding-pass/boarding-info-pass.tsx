@@ -7,11 +7,13 @@ import BoardingDivider from './boarding-divider'
 import BoardingBottom from './boarding-bottom'
 import BoardingMembers from './boarding-members'
 import { BoardingInfoPassProps } from './types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import BottomModal from '../BottomModal'
 import { notify } from '../common/custom-toast'
 import { api } from '@/utils/api'
-
+import Modal from '../common/Modal/Modal'
+import InvitingBoardingPass from './inviting-boarding-pass'
+import { InviteLink } from '@/models/map.interface'
 //TODO: 유저 정보 쿠키 저장 나오면 변경
 const USER_ID = 3
 
@@ -62,6 +64,7 @@ const BoardingInfoPass = ({
 }: BoardingInfoPassProps) => {
   const [isInvited, setIsInvited] = useState(false)
   const [isExitModalOpen, setIsExitModalOpen] = useState(false)
+  const [invitedCode, setInvitedCode] = useState<InviteLink>()
 
   // TODO: 사용자 정보 cookie에 저장하는 로직 완성 후 적용
   const isMyBoard = owner.id === USER_ID
@@ -83,8 +86,17 @@ const BoardingInfoPass = ({
 
   const handleIssuedInviteCode = async () => {
     try {
-    } catch (err) {}
+      const { data: code } = await api.maps.id.inviteLinks.post(mapId)
+      setIsInvited(true)
+      setInvitedCode(code)
+    } catch (err) {
+      setIsInvited(false)
+    }
   }
+
+  useEffect(() => {
+    setIsInvited(false)
+  }, [mapId])
 
   return (
     <>
@@ -141,6 +153,20 @@ const BoardingInfoPass = ({
         onCancel={() => setIsExitModalOpen(false)}
         onConfirm={handleExitMap}
       />
+      {invitedCode && (
+        <Modal
+          isOpen={Boolean(invitedCode)}
+          onClose={() => setInvitedCode(undefined)}
+        >
+          <InvitingBoardingPass
+            inviteCode={invitedCode.token}
+            expirationTime={new Date(invitedCode.expiresAt)}
+            mapName={name}
+            numOfCrews={numOfCrews}
+            owner={owner}
+          />
+        </Modal>
+      )}
     </>
   )
 }
