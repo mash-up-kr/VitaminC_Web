@@ -166,6 +166,14 @@ class HTTPClient {
     return this.request<T>(url, 'PUT', { ...options, body })
   }
 
+  public patch<T>(
+    url: string,
+    body?: any,
+    options?: Omit<RequestOptions, 'body'>,
+  ): Promise<T> {
+    return this.request<T>(url, 'PATCH', { ...options, body })
+  }
+
   public delete<T>(url: string, options?: RequestOptions): Promise<T> {
     return this.request<T>(url, 'DELETE', options)
   }
