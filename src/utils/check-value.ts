@@ -1,6 +1,6 @@
 import { setCookie } from '../app/actions'
 import { api } from './api'
-import { RECENT_MAP_ID } from './storage'
+import { RECENT_MAP_ID } from '@/constants/cookie'
 import getCookie from './storage/cookie'
 
 export const checkMapId = async () => {
