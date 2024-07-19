@@ -4,7 +4,7 @@ import { ChipButton } from '@/components'
 import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
 import Modal from '@/components/common/Modal/Modal'
 import { notify } from '@/components/common/custom-toast'
-import { MapItemForUser } from '@/models/interface'
+import { UserByMap } from '@/models/map.interface'
 import { MapDataType } from '@/types/api/maps'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
@@ -25,7 +25,7 @@ const MapList = ({
   mapId: string
   onClickMap: (mapId: string) => void
 }) => {
-  const [maps, setMaps] = useState<MapItemForUser[]>([])
+  const [maps, setMaps] = useState<UserByMap[]>([])
 
   useEffect(() => {
     const getMapList = async () => {
@@ -77,7 +77,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
   useEffect(() => {
     const getMapData = async () => {
       try {
-        const { data } = await api.maps.id.get(mapId)
+        const { data } = await api.maps.id.get(currentMapId)
         setMapData(data)
       } catch (err) {
         notify.error('지도 정보를 가지고 오는데 에러가 발생했습니다. ')
@@ -85,7 +85,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
     }
 
     getMapData()
-  }, [mapId])
+  }, [currentMapId])
 
   return (
     <Modal
@@ -104,6 +104,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
               members={mapData.users}
               numOfCrews={mapData.users.length}
               numOfPins={mapData.registeredPlaceCount}
+              // TODO: api creator 생성시 변경
               owner={mapData.users.filter((user) => user.role === 'ADMIN')[0]}
             />
           ) : (
