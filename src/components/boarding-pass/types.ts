@@ -1,5 +1,6 @@
 import type { ClassName } from '@/models/interface'
-import { MapDataType, MapMemberData } from '@/types/api/maps'
+import type { PlacePreview } from '@/models/map.interface'
+import { MapMemberData } from '@/types/api/maps'
 
 interface BoardingMembers {
   owner: MapMemberData
@@ -17,20 +18,18 @@ export interface BoardingInfoPassProps extends BoardingMembers, ClassName {
   numOfPins: number
 }
 
-export interface InviteBoardingPass extends Omit<BoardingMembers, 'members'> {
+export interface InviteBoardingPass
+  extends Omit<BoardingMembers, 'members'>,
+    ClassName {
   mapName: string
+  expirationTime: Date
 }
 
-export interface InviteBoardingPassProps extends InviteBoardingPass, ClassName {
-  time: Date
+export interface InvitingBoardingPassProps extends InviteBoardingPass {
+  inviteCode: string
 }
 
-export interface InvitedBoardingPassProps extends InviteBoardingPassProps {
-  isExpired: boolean
-  images?: string[]
-  onClick: VoidFunction
-}
-
-export interface InvitingBoardingPassProps extends InviteBoardingPassProps {
-  url: string
+export interface InvitedBoardingPassProps extends InvitingBoardingPassProps {
+  mapId: string
+  images?: PlacePreview[]
 }

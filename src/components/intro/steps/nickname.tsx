@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 import { Button, Input, Typography } from '@/components/common'
 import type { IntroActionDispatch } from '@/app/intro/page'
-import { invitationLinkStorage, nicknameStorage } from '@/utils/storage'
+import { inviteCodeStorage, nicknameStorage } from '@/utils/storage'
 import { setCookie } from '@/app/actions'
 import { RECENT_MAP_ID } from '@/constants/cookie'
 
@@ -24,10 +24,10 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
     // request: nickname
     nicknameStorage.set(nickname)
 
-    const invitationLink = invitationLinkStorage.getValueOrNull()
-    if (invitationLink) {
+    const inviteCode = inviteCodeStorage.getValueOrNull()
+    if (inviteCode) {
       // TODO: API - POST
-      // request: invitationLink
+      // request: inviteCode
       // response: mapId
       const mapId = 'mapId'
       setCookie(RECENT_MAP_ID, mapId)

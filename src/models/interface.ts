@@ -21,14 +21,16 @@ export interface ClassName {
   className?: string
 }
 
-/* Map */
-type MapRole = 'ADMIN' | 'READ' | 'WRITE'
-export interface MapItemForUser {
-  id: string
-  name: string
-  role: MapRole
-  createdAt: string
-  updatedAt: string
+export type DateType =
+  `${number}${number}-${number}${number}-${number}${number}`
+export type TimeType =
+  `${number}${number}:${number}${number}:${number}${number}`
+export type DateTimeType =
+  `${DateType}T${TimeType}.${number}${number}${number}Z`
+
+export interface MutatedAt {
+  createdAt: DateTimeType
+  updatedAt: DateTimeType
 }
 
 /* Bottom Sheet */

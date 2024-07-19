@@ -13,7 +13,7 @@ import { IntroStep } from '@/models/interface'
 import {
   newMapIdStorage,
   nicknameStorage,
-  invitationLinkStorage,
+  inviteCodeStorage,
 } from '@/utils/storage'
 import useCookie from '@/hooks/use-cookie'
 import { useIsServer } from '@/hooks/use-is-server'
@@ -52,6 +52,7 @@ const Intro = () => {
   const isServer = useIsServer()
 
   const authorization = useCookie(AUTHORIZATION)
+  // TODO: GET /users/me 로 닉네임 조회
   const nickname = nicknameStorage.getValueOrNull()
   const newMapId = newMapIdStorage.getValueOrNull()
   const getInitialStep = useMemo(() => {
@@ -73,8 +74,8 @@ const Intro = () => {
   }, [getInitialStep])
 
   const goNextStep = () => {
-    const hasInvitationLink = !!invitationLinkStorage.getValueOrNull()
-    const lastStep = hasInvitationLink ? IntroStep.NICKNAME : IntroStep.INVITE
+    const hasInviteCode = !!inviteCodeStorage.getValueOrNull()
+    const lastStep = hasInviteCode ? IntroStep.NICKNAME : IntroStep.INVITE
     const nextStep: IntroStep = Math.min(step + 1, lastStep)
     setStep(nextStep)
   }

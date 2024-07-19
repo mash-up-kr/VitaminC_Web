@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-import { AUTHORIZATION, RECENT_MAP_ID } from '@/utils/storage/index'
+import { AUTHORIZATION, RECENT_MAP_ID } from '@/constants/cookie'
 
 export const middleware = (request: NextRequest) => {
   const url = request.nextUrl

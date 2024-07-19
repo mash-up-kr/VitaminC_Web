@@ -1,55 +1,60 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import cn from '@/utils/cn'
 
-import { formatDate } from '@/utils/date'
-import { Button, Typography } from '../common'
-import BoardingDivider from './boarding-divider'
-import BoardingBottom from './boarding-bottom'
-import InviteBoardingHeader from './invite-boarding-header'
 import { InvitedBoardingPassProps } from './types'
+import { api } from '../../utils/api'
+import { APIError } from '../../models/interface'
+import InviteBoardingPassInfo from './invite-boarding-pass-info'
+import { Button } from '../common'
+import BoardingBottom from './boarding-bottom'
+import { RECENT_MAP_ID } from '../../constants/cookie'
+import { setCookie } from '../../app/actions'
+import { INVITE_CODE } from '../../utils/storage'
 
 const InvitedBoardingPass = ({
   className,
+  inviteCode,
+  mapId,
   mapName,
   owner,
   numOfCrews,
-  time,
-  isExpired,
+  expirationTime,
   images,
-  onClick,
 }: InvitedBoardingPassProps) => {
+  const router = useRouter()
+
+  const handleClick = async () => {
+    try {
+      const res = await api.maps.inviteLinks.post(inviteCode)
+      if (res.data) {
+        router.push(`/map/${mapId}`)
+        setCookie(RECENT_MAP_ID, mapId)
+      }
+    } catch (error) {
+      if (error instanceof APIError) {
+        setCookie(INVITE_CODE, inviteCode)
+        router.push('/intro')
+      }
+    }
+  }
+
   return (
     <div className={cn('flex flex-col w-full', className)}>
-      <InviteBoardingHeader
+      <InviteBoardingPassInfo
         mapName={mapName}
         owner={owner}
         numOfCrews={numOfCrews}
+        expirationTime={expirationTime}
       />
 
-      <BoardingDivider />
-
-      <div className="pt-2 px-5 flex flex-col gap-1 bg-neutral-600">
-        <Typography size="body4" color="neutral-300" className="text-left">
-          Boarding Time
-        </Typography>
-        {isExpired ? (
-          <Typography size="h4" color="orange-300" className="text-left">
-            앗.. 탑승 시간이 지나버렸어요..
-          </Typography>
-        ) : (
-          <Typography size="h4" color="neutral-000" className="text-left">
-            {formatDate(time)}
-          </Typography>
-        )}
-      </div>
-
-      {images && !isExpired && (
+      {images && (
         <div className="pt-[18px] px-[20px] w-full flex gap-[10px] bg-neutral-600 overflow-x-scroll no-scrollbar">
           {images.map((image, index) => (
             <img
-              key={image}
-              src={image}
+              key={image.key}
+              src={image.src}
               className="w-[88px] h-[88px] max-w-[88px] rounded"
               alt={`음식사진 ${index + 1}`}
             />
@@ -58,7 +63,7 @@ const InvitedBoardingPass = ({
       )}
 
       <div className="px-[20px] bg-neutral-600">
-        <Button disabled={isExpired} className="my-5" onClick={onClick}>
+        <Button className="my-5" onClick={handleClick}>
           승선하기
         </Button>
       </div>
