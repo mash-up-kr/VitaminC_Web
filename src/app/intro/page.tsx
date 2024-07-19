@@ -11,6 +11,7 @@ import Header from '@/components/intro/header'
 import LoadingIndicator from '@/components/loading-indicator'
 import { IntroStep } from '@/models/interface'
 import { inviteCodeStorage } from '@/utils/storage'
+
 import useCookie from '@/hooks/use-cookie'
 import { useIsServer } from '@/hooks/use-is-server'
 import { AUTHORIZATION } from '@/constants/cookie'
