@@ -18,20 +18,14 @@ interface MapInfoModalProps {
   onClose: VoidFunction
 }
 
-const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
-  const [currentMapId, setCurrentMapId] = useState(mapId)
+const MapList = ({
+  mapId,
+  onClickMap,
+}: {
+  mapId: string
+  onClickMap: (mapId: string) => void
+}) => {
   const [maps, setMaps] = useState<MapItemForUser[]>([])
-  const [mapData, setMapData] = useState<MapDataType>()
-
-  const router = useRouter()
-
-  const handleCloseModal = () => {
-    if (currentMapId === mapId) {
-      onClose()
-      return
-    }
-    router.push(`/map/${currentMapId}`)
-  }
 
   useEffect(() => {
     const getMapList = async () => {
@@ -45,6 +39,40 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
 
     getMapList()
   }, [])
+
+  return (
+    <div className="pt-4 pl-5 flex gap-2 justify-start items-center overflow-x-scroll no-scrollbar">
+      {maps.map((map) => (
+        <ChipButton
+          className="px-6 py-2 rounded-full flex-shrink-0"
+          isActive={mapId === map.id}
+          fontSize="body1"
+          onClick={() => onClickMap(map.id)}
+        >
+          {map.name}
+        </ChipButton>
+      ))}
+    </div>
+  )
+}
+
+const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
+  const [currentMapId, setCurrentMapId] = useState(mapId)
+  const [mapData, setMapData] = useState<MapDataType>()
+
+  const router = useRouter()
+
+  const handleCloseModal = () => {
+    if (currentMapId === mapId) {
+      onClose()
+      return
+    }
+    router.push(`/map/${currentMapId}`)
+  }
+
+  const handleChangeMap = (mapId: string) => {
+    setCurrentMapId(mapId)
+  }
 
   useEffect(() => {
     const getMapData = async () => {
@@ -66,20 +94,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
       onClose={handleCloseModal}
     >
       <div className="flex flex-col items-center gap-3">
-        {/* 지도 리스트 */}
-        <div className="pt-4 pl-5 flex gap-2 justify-start items-center overflow-x-scroll no-scrollbar">
-          {maps.map((map) => (
-            <ChipButton
-              className="px-6 py-2 rounded-full flex-shrink-0"
-              isActive={currentMapId === map.id}
-              fontSize="body1"
-              onClick={() => setCurrentMapId(map.id)}
-            >
-              {map.name}
-            </ChipButton>
-          ))}
-        </div>
-        {/* 초대장 */}
+        <MapList mapId={currentMapId} onClickMap={handleChangeMap} />
         <div className="px-5">
           {mapData ? (
             <BoardingInfoPass
