@@ -1,12 +1,6 @@
 import Link from 'next/link'
 
-import {
-  Typography,
-  PickChip,
-  LikeButton,
-  HashtagList,
-  Icon,
-} from '@/components'
+import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
 import type { PlaceProps } from './types'
 import IconChip from '../icon-chip'
 
@@ -23,6 +17,7 @@ const PlaceListItem = ({
   rating,
   images,
   pick,
+  tags,
 }: PlaceListItemProps) => {
   return (
     <Link
@@ -74,9 +69,7 @@ const PlaceListItem = ({
         </div>
       </div>
 
-      {pick?.hashtags && (
-        <HashtagList placeId={placeId} hashtags={pick.hashtags} />
-      )}
+      {tags && <TagList placeId={placeId} tags={tags} />}
     </Link>
   )
 }

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { Typography, PickChip, HashtagList, LikeButton } from '@/components'
+import { Typography, PickChip, TagList, LikeButton } from '@/components'
 import type { PlaceProps } from './types'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
@@ -11,7 +11,17 @@ interface PlaceMapPopupProps extends PlaceProps, ClassName {
 // TODO: 클릭 시 식당 상세로 이동 로직
 const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
   (
-    { placeId, name, image, distance, address, category, pick, className },
+    {
+      placeId,
+      name,
+      image,
+      distance,
+      address,
+      category,
+      tags,
+      pick,
+      className,
+    },
     ref,
   ) => {
     return (
@@ -59,9 +69,7 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
 
             <img className="rounded-md w-20 h-20" src={image} alt="식당" />
           </div>
-          {pick?.hashtags?.length && (
-            <HashtagList placeId={placeId} hashtags={pick.hashtags} />
-          )}
+          {tags?.length && <TagList placeId={placeId} tags={tags} />}
         </section>
       </div>
     )

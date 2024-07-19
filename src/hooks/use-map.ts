@@ -1,3 +1,4 @@
+import { PlaceType } from '@/types/api/place'
 import { useState, type RefObject, useEffect, useCallback } from 'react'
 
 type LocationType = {
@@ -56,7 +57,7 @@ const useMap = <T>(
    * @param eventHandler 이벤트 핸들러
    */
   const addMarker = (
-    placeId: string,
+    placeId: PlaceType['place']['id'],
     location: LocationType,
     eventType?: keyof WindowEventMap,
     eventHandler?: () => void,

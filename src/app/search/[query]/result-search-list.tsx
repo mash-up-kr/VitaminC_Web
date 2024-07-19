@@ -28,12 +28,12 @@ const ResultSearchListBox = ({
             placeId={place.id}
             name={place.place_name}
             rating={4.5}
+            tags={['하이', '키키']}
             pick={{
               isLiked: true,
               numOfLikes: 1550,
               isMyPick: true,
               onClickLike: () => console.log('like'),
-              hashtags: ['하이', '키키'],
             }}
             address={place.road_address_name}
           />
