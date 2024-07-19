@@ -1,8 +1,9 @@
 import type { ClassName } from '@/models/interface'
+import { MapMemberData } from '@/types/api/maps'
 
 interface BoardingMembers {
-  owner: string
-  members: string[]
+  owner: MapMemberData
+  members: MapMemberData[]
   numOfCrews: number
 }
 
@@ -10,6 +11,7 @@ export interface BoardingMembersProps
   extends Omit<BoardingMembers, 'numOfCrews'> {}
 
 export interface BoardingInfoPassProps extends BoardingMembers, ClassName {
+  mapId: string
   day: number
   numOfPins: number
 }
