@@ -1,48 +1,43 @@
 'use client'
 
 import cn from '@/utils/cn'
-import { formatDate } from '@/utils/date'
-import { Button, QRCode, Typography } from '../common'
+import { Button, QRCode } from '../common'
 import BoardingBottom from './boarding-bottom'
 import BoardingDivider from './boarding-divider'
-import InviteBoardingHeader from './invite-boarding-header'
+import InviteBoardingPassInfo from './invite-boarding-pass-info'
 import { InvitingBoardingPassProps } from './types'
+import useKakaoShare from '../../hooks/use-kakao-share'
 
 const InvitingBoardingPass = ({
   className,
+  inviteCode,
   mapName,
   owner,
   numOfCrews,
-  time,
-  url,
+  expirationTime,
 }: InvitingBoardingPassProps) => {
+  const shareInvite = useKakaoShare()
+
   const handleClickShareButton = () => {
-    console.log('share', url)
+    shareInvite(inviteCode, expirationTime)
   }
 
   return (
     <div className={cn('flex flex-col w-full', className)}>
-      <InviteBoardingHeader
+      <InviteBoardingPassInfo
         mapName={mapName}
         owner={owner}
         numOfCrews={numOfCrews}
+        expirationTime={expirationTime}
       />
 
       <BoardingDivider />
 
-      <div className="pt-2 px-5 flex flex-col gap-1 bg-neutral-600">
-        <Typography size="body4" color="neutral-300" className="text-left">
-          Boarding Time
-        </Typography>
-        <Typography size="h4" color="neutral-000" className="text-left">
-          {formatDate(time)}
-        </Typography>
-      </div>
-
-      <BoardingDivider />
-
       <div className="w-full flex justify-center bg-neutral-600 pt-1">
-        <QRCode url={url} size={160} />
+        <QRCode
+          url={`${window.location.origin}/invite?code=${inviteCode}`}
+          size={160}
+        />
       </div>
 
       <div className="px-[20px] bg-neutral-600">
