@@ -1,5 +1,5 @@
 import type { ClassName } from '@/models/interface'
-import type { PlacePreview } from '@/models/map.interface'
+import type { InviteLink, PlacePreview } from '@/models/map.interface'
 import { MapMemberData } from '@/types/api/maps'
 
 interface BoardingMembers {
@@ -16,6 +16,7 @@ export interface BoardingInfoPassProps extends BoardingMembers, ClassName {
   name: string
   day: number
   numOfPins: number
+  onChangeInviteLink: (inviteLink: InviteLink) => void
 }
 
 export interface InviteBoardingPass
