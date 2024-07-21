@@ -2,6 +2,7 @@ import { KakaoPlaceDetail } from '../map/kakao-raw-type'
 import { TagItem } from './maps'
 
 export interface PlaceType {
+  id: number
   place: {
     id: number
     kakaoPlace: KakaoPlaceDetail
@@ -9,7 +10,7 @@ export interface PlaceType {
     y: number
   }
   tags: TagItem[]
-  comments: [{}]
+  comments: unknown[]
   likedUserIds: number[]
   createdBy: {
     id: number
