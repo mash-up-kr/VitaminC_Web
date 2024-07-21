@@ -1,17 +1,28 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { type CSSProperties, useEffect, useState } from 'react'
 
 import Indicator from './indicator'
 import Slide from './slide'
+import type { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
 
-interface CarouselProps {
+interface CarouselProps extends ClassName {
   srcList: string[]
+  delay?: number
+  objectFit?: CSSProperties['objectFit']
+  indicatorPosition?: 'bottom' | 'inside'
 }
 
 const AUTO_PLAY_SPEED = 5000
 
-const Carousel = ({ srcList }: CarouselProps) => {
+const Carousel = ({
+  srcList,
+  className,
+  delay,
+  objectFit = 'contain',
+  indicatorPosition = 'bottom'
+}: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0)
 
   const handleChangeActiveIndex = (index: number) => {
@@ -21,20 +32,22 @@ const Carousel = ({ srcList }: CarouselProps) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setActiveIndex((index) => (index + 1) % srcList.length)
-    }, AUTO_PLAY_SPEED)
+    }, delay ?? AUTO_PLAY_SPEED)
     return () => clearInterval(intervalId)
   })
 
   return (
-    <div className="relative mt-6">
+    <div className={cn('relative mt-6', className)}>
       <Slide
         activeIndex={activeIndex}
         srcList={srcList}
+        objectFit={objectFit}
         handleChangeActiveIndex={handleChangeActiveIndex}
       />
       <Indicator
         activeIndex={activeIndex}
         numOfSlides={srcList.length}
+        position={indicatorPosition}
         onClick={handleChangeActiveIndex}
       />
     </div>
