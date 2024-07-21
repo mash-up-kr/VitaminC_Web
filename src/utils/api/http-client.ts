@@ -57,6 +57,10 @@ class HTTPClient {
     }
 
     if (body) {
+      requestInit.headers = {
+        ...requestInit.headers,
+        'Content-Type': 'application/json',
+      }
       requestInit.body = JSON.stringify(body)
     }
 
