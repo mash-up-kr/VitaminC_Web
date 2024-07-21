@@ -2,6 +2,7 @@ import { PlaceType } from '@/types/api/place'
 
 export const PLACE_LIST_DATA: PlaceType[] = [
   {
+    id: 1,
     place: {
       id: 1,
       kakaoPlace: {
@@ -14,17 +15,14 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         menuList: [
           {
             menu: 'Kimchi Stew',
-            price: '8000 KRW',
+            price: '8000',
           },
           {
             menu: 'Bulgogi',
-            price: '12000 KRW',
+            price: '12000',
           },
         ],
-        photoList: [
-          'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
-          'https://img.freepik.com/free-photo/people-creating-food-content-to-upload-on-the-internet-for-food-lovers_23-2151461628.jpg?size=626&ext=jpg',
-        ],
+        photoList: ['/food.png', '/food.png', '/food.png'],
         createdAt: new Date('2024-07-16T12:00:00Z'),
         updatedAt: new Date('2024-07-16T12:00:00Z'),
       },
@@ -35,7 +33,19 @@ export const PLACE_LIST_DATA: PlaceType[] = [
       {
         id: 1,
         mapId: '1',
-        content: 'Cozy place',
+        content: '소규모 모임',
+        createdAt: '2024-07-16T12:00:00Z',
+      },
+      {
+        id: 2,
+        mapId: '1',
+        content: '혼밥',
+        createdAt: '2024-07-16T12:00:00Z',
+      },
+      {
+        id: 3,
+        mapId: '1',
+        content: '진대쌉가능',
         createdAt: '2024-07-16T12:00:00Z',
       },
     ],
@@ -49,6 +59,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     updatedAt: '2024-07-16T12:00:00Z',
   },
   {
+    id: 2,
     place: {
       id: 2,
       kakaoPlace: {
@@ -61,11 +72,11 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         menuList: [
           {
             menu: 'Sushi Set',
-            price: '15000 KRW',
+            price: '15000',
           },
           {
             menu: 'Tempura',
-            price: '10000 KRW',
+            price: '10000',
           },
         ],
         photoList: [
@@ -96,6 +107,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     updatedAt: '2024-07-16T12:30:00Z',
   },
   {
+    id: 3,
     place: {
       id: 3,
       kakaoPlace: {
@@ -108,11 +120,11 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         menuList: [
           {
             menu: 'BBQ Set',
-            price: '20000 KRW',
+            price: '20000',
           },
           {
             menu: 'Galbi',
-            price: '25000 KRW',
+            price: '25000',
           },
         ],
         photoList: [
@@ -143,6 +155,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     updatedAt: '2024-07-16T13:00:00Z',
   },
   {
+    id: 4,
     place: {
       id: 4,
       kakaoPlace: {
@@ -155,11 +168,11 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         menuList: [
           {
             menu: 'Cold Noodles',
-            price: '7000 KRW',
+            price: '7000',
           },
           {
             menu: 'Spicy Noodles',
-            price: '7500 KRW',
+            price: '7500',
           },
         ],
         photoList: [
@@ -190,6 +203,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     updatedAt: '2024-07-16T13:30:00Z',
   },
   {
+    id: 5,
     place: {
       id: 5,
       kakaoPlace: {
@@ -202,11 +216,11 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         menuList: [
           {
             menu: 'Americano',
-            price: '4000 KRW',
+            price: '4000',
           },
           {
             menu: 'Green Tea Latte',
-            price: '5000 KRW',
+            price: '5000',
           },
         ],
         photoList: [
@@ -222,6 +236,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     tags: [
       {
         id: 5,
+        type: 'U1F35A',
         mapId: '5',
         content: 'Cozy ambiance',
         createdAt: '2024-07-16T14:00:00Z',

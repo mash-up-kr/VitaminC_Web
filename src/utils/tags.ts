@@ -1,18 +1,21 @@
-import { PlaceType } from '@/types/api/place'
+import type { TagItem } from '@/types/api/maps'
+import type { PlaceType } from '@/types/api/place'
 
 const changeSpaceToHyphen = (name: string) => {
+  if (typeof name !== 'string' || name === '') return
+
   return name.replace(/ /g, '-')
 }
 
 const getFitContainerWidthTags = (
   placeId: PlaceType['place']['id'],
-  currenttags: string[],
+  currentTags: TagItem[],
   containerWidth: number,
 ) => {
   let totalWidth = 0
-  const filteredVisibletags = currenttags.filter((tag) => {
+  const filteredVisibleTags = currentTags.filter((tag) => {
     const chip = document.querySelector<HTMLElement>(
-      `#tag-${placeId}-${changeSpaceToHyphen(tag)}`,
+      `#tag-${placeId}-${changeSpaceToHyphen(tag.content)}`,
     )
 
     if (chip === null) return false
@@ -26,7 +29,7 @@ const getFitContainerWidthTags = (
     return false
   })
 
-  return filteredVisibletags
+  return filteredVisibleTags
 }
 
 export { changeSpaceToHyphen, getFitContainerWidthTags }
