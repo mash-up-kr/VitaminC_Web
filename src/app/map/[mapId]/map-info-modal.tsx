@@ -1,6 +1,6 @@
 'use client'
 
-import { ChipButton } from '@/components'
+import { ChipButton, Icon } from '@/components'
 import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 import Modal from '@/components/common/Modal/Modal'
@@ -26,6 +26,9 @@ const MapList = ({
   onClickMap: (mapId: string) => void
 }) => {
   const [maps, setMaps] = useState<UserByMap[]>([])
+  const router = useRouter()
+
+  const hasOwnerMap = maps.some((map) => map.role === 'ADMIN')
 
   useEffect(() => {
     const getMapList = async () => {
@@ -53,6 +56,15 @@ const MapList = ({
           {map.name}
         </ChipButton>
       ))}
+      {!hasOwnerMap && (
+        <ChipButton
+          className="px-6 py-2 rounded-full flex-shrink-0"
+          onClick={() => router.push('map/create')}
+          aria-label="지도 생성"
+        >
+          <Icon type="plus" size="lg" />
+        </ChipButton>
+      )}
     </div>
   )
 }
