@@ -26,7 +26,7 @@ const users = {
   check: {
     nickname: {
       get: (nickname: string): Promise<ResponseWithMessage<User>> =>
-        client.public.get(`/users/check/nickname?${nickname}`),
+        client.public.get(`/users/check/nickname?nickname=${nickname}`),
     },
   },
 }
