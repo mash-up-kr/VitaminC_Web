@@ -97,9 +97,12 @@ class HTTPClient {
         )
 
         if (!response.ok) {
+          const data = await response.json()
+
           throw new APIError({
+            status: data.statusCode,
             name: 'API Error',
-            message: `Error on API, Status: ${response.status}`,
+            message: data.message,
           })
         }
 
@@ -115,6 +118,7 @@ class HTTPClient {
     }
 
     throw new APIError({
+      status: 404,
       name: 'API Error',
       message: 'Unexpected Error',
     })
@@ -143,9 +147,13 @@ class HTTPClient {
       const data = await parseJSON<T>(response)
       return data
     } catch (error) {
+      if (error instanceof APIError) {
+        throw new APIError(error)
+      }
       throw new APIError({
+        status: 404,
         name: 'API Error',
-        message: 'Error on fetching api. please check your api',
+        message: 'Unexpected Error',
       })
     }
   }
