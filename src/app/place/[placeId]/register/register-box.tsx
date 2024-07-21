@@ -6,12 +6,12 @@ import { useRouter, redirect } from 'next/navigation'
 import HashTagList from './hash-tag-list'
 import type { TagItem } from '@/types/api/maps'
 import type { PlaceType } from '@/types/api/place'
-import BottomModal from '@/components/BottomModal'
 import { AccessibleIconButton, Button, Typography } from '@/components'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
+import RegisterCancelModal from './register-cancel-modal'
 
 const toTagIds = (tags: TagItem[]): TagItem['id'][] => tags.map((tag) => tag.id)
 
@@ -64,9 +64,9 @@ const RegisterBox = ({
       <div className="flex flex-col bg-neutral-700 min-h-dvh">
         <AccessibleIconButton
           icon={{ type: 'caretLeft', size: 'xl' }}
-          label="뒤로 가기"
+          label="맛집 등록 취소하기"
           className=" p-[10px] pt-4"
-          onClick={() => router.back()}
+          onClick={() => setIsOpenBackModal(true)}
         />
 
         <div className="flex pt-6 px-5">
@@ -95,14 +95,9 @@ const RegisterBox = ({
         />
       </div>
 
-      <BottomModal
+      <RegisterCancelModal
         isOpen={isOpenBackModal}
-        title="맛집 등록을 취소하시겠어요?"
-        body="이탈하면 등록했던 태그는 모두 사라져요"
-        cancelMessage="아니요"
-        confirmMessage="취소"
         onClose={() => setIsOpenBackModal(false)}
-        onCancel={() => setIsOpenBackModal(false)}
         onConfirm={() => {
           router.push(`/place/${place.place.id}`)
         }}
