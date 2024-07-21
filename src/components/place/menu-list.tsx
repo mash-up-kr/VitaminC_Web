@@ -32,7 +32,7 @@ const MenuList = ({
         className="max-w-full rounded-[6px] mt-[10px] object-fill"
       />
 
-      <ul className="flex flex-col">
+      <ul className="flex flex-col divide-y divide-y-neutral-600">
         {menuList.map((menu, index) => (
           <li
             key={menu.menu}
