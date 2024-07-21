@@ -64,7 +64,8 @@ const BoardingInfoPass = ({
   const [isExitModalOpen, setIsExitModalOpen] = useState(false)
 
   // TODO: 사용자 정보 cookie에 저장하는 로직 완성 후 적용
-  const isMyBoard = owner.id === USER_ID
+  const isMyBoard =
+    members.filter((member) => member.id === USER_ID)[0].role === 'ADMIN'
 
   const handleExitMap = async () => {
     try {
@@ -73,7 +74,7 @@ const BoardingInfoPass = ({
         notify.error('최소 1개의 지도에는 속해있어야 합니다.')
         return
       }
-      await api.users.id.maps.mapId.delete({ id: USER_ID, mapId })
+      await api.users.maps.mapId.delete({ mapId })
       //TODO: 지도 나가기 후 어느 경로로 이동?
       notify.success('지도에 나가졌습니다.')
     } catch (err) {
