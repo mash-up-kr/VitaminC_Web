@@ -3,6 +3,12 @@ import type { DateTimeType, MutatedAt } from './interface'
 
 type MapRole = 'ADMIN' | 'READ' | 'WRITE'
 export interface UserByMap extends MutatedAt {
+  id: number
+  name: string
+  role: MapRole
+}
+
+export interface MapListItemResponse extends MutatedAt {
   id: string
   name: string
   role: MapRole
@@ -11,7 +17,7 @@ export interface UserByMap extends MutatedAt {
 export interface MapInfo extends MutatedAt {
   id: string
   name: string
-  creator: MapMemberData
+  creator: UserByMap
   registeredPlaceCount: number
   users: UserByMap[]
 }

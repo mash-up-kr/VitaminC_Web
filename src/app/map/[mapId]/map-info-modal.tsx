@@ -5,7 +5,12 @@ import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 import Modal from '@/components/common/Modal/Modal'
 import { notify } from '@/components/common/custom-toast'
-import { InviteLink, UserByMap } from '@/models/map.interface'
+import {
+  InviteLink,
+  MapInfo,
+  MapListItemResponse,
+  UserByMap,
+} from '@/models/map.interface'
 import { MapDataType } from '@/types/api/maps'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
@@ -25,7 +30,7 @@ const MapList = ({
   mapId: string
   onClickMap: (mapId: string) => void
 }) => {
-  const [maps, setMaps] = useState<UserByMap[]>([])
+  const [maps, setMaps] = useState<MapListItemResponse[]>([])
   const router = useRouter()
 
   const hasOwnerMap = maps.some((map) => map.role === 'ADMIN')
@@ -71,7 +76,7 @@ const MapList = ({
 
 const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
   const [currentMapId, setCurrentMapId] = useState(mapId)
-  const [mapData, setMapData] = useState<MapDataType>()
+  const [mapData, setMapData] = useState<MapInfo>()
   const [invitedCode, setInvitedCode] = useState<InviteLink>()
 
   const router = useRouter()
@@ -144,7 +149,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
             mapName={mapData.name}
             numOfCrews={mapData.users.length}
             // TODO: api creator 생성시 변경
-            owner={mapData.users.filter((user) => user.role === 'ADMIN')[0]}
+            owner={mapData.creator}
           />
         </Modal>
       )}

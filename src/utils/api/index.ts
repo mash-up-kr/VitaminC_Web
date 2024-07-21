@@ -4,11 +4,12 @@ import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import type { ResponseWithMessage } from '@/types/api'
 import type {
   InviteLink,
+  MapInfo,
   MapInviteInfoResponseType,
-  UserByMap,
+  MapListItemResponse,
 } from '@/models/map.interface'
 import { PlaceType } from '@/types/api/place'
-import { MapDataType, TagItem } from '@/types/api/maps'
+import { TagItem } from '@/types/api/maps'
 
 const client = {
   public: apiClientFactory({}),
@@ -25,10 +26,10 @@ const users = {
 }
 
 const maps = {
-  get: (): Promise<ResponseWithMessage<UserByMap[]>> =>
+  get: (): Promise<ResponseWithMessage<MapListItemResponse[]>> =>
     client.secure.get(`/maps`),
   id: {
-    get: (id: string): Promise<ResponseWithMessage<MapDataType>> =>
+    get: (id: string): Promise<ResponseWithMessage<MapInfo>> =>
       client.secure.get(`/maps/${id}`),
     tag: {
       get: (id: string): Promise<ResponseWithMessage<TagItem[]>> =>

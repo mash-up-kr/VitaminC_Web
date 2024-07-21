@@ -34,8 +34,8 @@ const InviteBoardingPassInfo = ({
           </Typography>
           <Typography size="h4" color="neutral-000" className="text-left">
             {numOfCrews === SINGLE
-              ? owner.nickname
-              : `${owner.nickname} 외 ${(numOfCrews - 1).toLocaleString()}명`}
+              ? owner.name
+              : `${owner.name} 외 ${(numOfCrews - 1).toLocaleString()}명`}
           </Typography>
         </div>
       </div>
