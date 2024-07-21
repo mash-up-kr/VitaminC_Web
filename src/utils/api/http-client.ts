@@ -149,12 +149,13 @@ class HTTPClient {
     } catch (error) {
       if (error instanceof APIError) {
         throw new APIError(error)
+      } else {
+        throw new APIError({
+          status: 404,
+          name: 'API Error',
+          message: 'Unexpected Error',
+        })
       }
-      throw new APIError({
-        status: 404,
-        name: 'API Error',
-        message: 'Unexpected Error',
-      })
     }
   }
 
