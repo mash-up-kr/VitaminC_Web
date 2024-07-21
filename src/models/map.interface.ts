@@ -1,4 +1,3 @@
-import { MapMemberData } from '@/types/api/maps'
 import type { DateTimeType, MutatedAt } from './interface'
 
 type MapRole = 'ADMIN' | 'READ' | 'WRITE'

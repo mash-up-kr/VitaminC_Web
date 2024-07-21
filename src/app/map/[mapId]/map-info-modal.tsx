@@ -9,9 +9,7 @@ import {
   InviteLink,
   MapInfo,
   MapListItemResponse,
-  UserByMap,
 } from '@/models/map.interface'
-import { MapDataType } from '@/types/api/maps'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
 import { useRouter } from 'next/navigation'
