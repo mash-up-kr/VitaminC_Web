@@ -64,8 +64,9 @@ const BoardingInfoPass = ({
   const [isExitModalOpen, setIsExitModalOpen] = useState(false)
 
   // TODO: 사용자 정보 cookie에 저장하는 로직 완성 후 적용
-  const isMyBoard =
-    members.filter((member) => member.id === USER_ID)[0].role === 'ADMIN'
+  const isMyBoard = members.some(
+    (member) => member.id === USER_ID && member.role === 'ADMIN',
+  )
 
   const handleExitMap = async () => {
     try {
