@@ -81,9 +81,6 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
   const handleRegisterPlace = async () => {
     try {
-      const mapId = await getMapId()
-      if (!mapId) throw new Error('잘못된 접근입니다.')
-
       router.push(`/place/${place.id}/register`)
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
