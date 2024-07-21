@@ -57,6 +57,10 @@ class HTTPClient {
     }
 
     if (body) {
+      requestInit.headers = {
+        ...requestInit.headers,
+        'Content-Type': 'application/json',
+      }
       requestInit.body = JSON.stringify(body)
     }
 
@@ -93,9 +97,12 @@ class HTTPClient {
         )
 
         if (!response.ok) {
+          const data = await response.json()
+
           throw new APIError({
+            status: data.statusCode,
             name: 'API Error',
-            message: `Error on API, Status: ${response.status}`,
+            message: data.message,
           })
         }
 
@@ -111,6 +118,7 @@ class HTTPClient {
     }
 
     throw new APIError({
+      status: 404,
       name: 'API Error',
       message: 'Unexpected Error',
     })
@@ -139,10 +147,15 @@ class HTTPClient {
       const data = await parseJSON<T>(response)
       return data
     } catch (error) {
-      throw new APIError({
-        name: 'API Error',
-        message: 'Error on fetching api. please check your api',
-      })
+      if (error instanceof APIError) {
+        throw new APIError(error)
+      } else {
+        throw new APIError({
+          status: 404,
+          name: 'API Error',
+          message: 'Unexpected Error',
+        })
+      }
     }
   }
 
@@ -164,6 +177,14 @@ class HTTPClient {
     options?: Omit<RequestOptions, 'body'>,
   ): Promise<T> {
     return this.request<T>(url, 'PUT', { ...options, body })
+  }
+
+  public patch<T>(
+    url: string,
+    body?: any,
+    options?: Omit<RequestOptions, 'body'>,
+  ): Promise<T> {
+    return this.request<T>(url, 'PATCH', { ...options, body })
   }
 
   public delete<T>(url: string, options?: RequestOptions): Promise<T> {

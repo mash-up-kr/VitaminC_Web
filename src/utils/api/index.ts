@@ -9,17 +9,33 @@ import type {
 } from '@/models/map.interface'
 import { PlaceType } from '@/types/api/place'
 import { MapDataType, TagItem } from '@/types/api/maps'
+import type { User } from '@/models/user.interface'
 
 const client = {
   public: apiClientFactory({}),
   secure: apiClientFactory({ secure: true }),
 }
 
-const users = {}
+const users = {
+  me: {
+    get: (): Promise<ResponseWithMessage<User>> =>
+      client.secure.get(`/users/me`),
+    patch: (nickname: string): Promise<ResponseWithMessage<User>> =>
+      client.secure.patch(`/users/me`, { nickname }),
+  },
+  check: {
+    nickname: {
+      get: (nickname: string): Promise<ResponseWithMessage<User>> =>
+        client.public.get(`/users/check/nickname?nickname=${nickname}`),
+    },
+  },
+}
 
 const maps = {
   get: (): Promise<ResponseWithMessage<UserByMap[]>> =>
     client.secure.get(`/maps`),
+  post: (name: string): Promise<ResponseWithMessage<UserByMap>> =>
+    client.secure.post(`/maps`, { name }),
   id: {
     get: (id: string): Promise<ResponseWithMessage<MapDataType>> =>
       client.secure.get(`/maps/${id}`),

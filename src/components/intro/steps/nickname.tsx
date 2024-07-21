@@ -5,9 +5,12 @@ import { useRouter } from 'next/navigation'
 
 import { Button, Input, Typography } from '@/components/common'
 import type { IntroActionDispatch } from '@/app/intro/page'
-import { inviteCodeStorage, nicknameStorage } from '@/utils/storage'
+import { inviteCodeStorage } from '@/utils/storage'
 import { setCookie } from '@/app/actions'
 import { RECENT_MAP_ID } from '@/constants/cookie'
+import { api } from '@/utils/api'
+import { APIError } from '../../../models/interface'
+import { notify } from '../../common/custom-toast'
 
 const MIN_LENGTH = 0
 
@@ -19,19 +22,29 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
     setNickname(value)
   }
 
-  const handleClick = () => {
-    // TODO: API - POST
-    // request: nickname
-    nicknameStorage.set(nickname)
+  const handleClick = async () => {
+    try {
+      await api.users.check.nickname.get(nickname)
+      await api.users.me.patch(nickname)
+    } catch (err) {
+      if (err instanceof Error && err.message) {
+        return notify.error(err.message)
+      }
+    }
 
     const inviteCode = inviteCodeStorage.getValueOrNull()
     if (inviteCode) {
-      // TODO: API - POST
-      // request: inviteCode
-      // response: mapId
-      const mapId = 'mapId'
-      setCookie(RECENT_MAP_ID, mapId)
-      router.push(`/map/${mapId}`)
+      try {
+        const res = await api.maps.inviteLinks.get(inviteCode)
+        const data = res.data
+        const mapId = data.map.id
+        setCookie(RECENT_MAP_ID, mapId)
+        router.push(`/map/${mapId}`)
+      } catch (err) {
+        if (err instanceof APIError && err.message) {
+          return notify.error(err.message)
+        }
+      }
     } else {
       goNextStep()
     }
