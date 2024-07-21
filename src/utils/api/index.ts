@@ -35,7 +35,7 @@ const maps = {
   get: (): Promise<ResponseWithMessage<UserByMap[]>> =>
     client.secure.get(`/maps`),
   post: (name: string): Promise<ResponseWithMessage<UserByMap>> =>
-    client.secure.post(`/maps/${name}`),
+    client.secure.post(`/maps`, { name }),
   id: {
     get: (id: string): Promise<ResponseWithMessage<MapDataType>> =>
       client.secure.get(`/maps/${id}`),
