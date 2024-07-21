@@ -50,7 +50,7 @@ const PlaceListBottomSheet = ({
               ),
             )}
             images={place.place.kakaoPlace.photoList}
-            tags={place.tags.map((tag) => tag.content)}
+            tags={place.tags}
             pick={{
               //TODO: userId 연동
               isLiked: place.likedUserIds.includes(1),
