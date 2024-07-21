@@ -35,6 +35,22 @@ import StarGrey from './StarGrey.svg'
 import StarHalfFilled from './StarHalfFilled.svg'
 import Subtract from './Subtract.svg'
 import Sushi from './Sushi.svg'
+import U1F4B0 from './U+1F4B0-💰.svg'
+import U1F6BB from './U+1F6BB-🚻.svg'
+import U1F35A from './U+1F35A-🍚.svg'
+import U1F48E from './U+1F48E-💎.svg'
+import U1F60C from './U+1F60C-😌.svg'
+import U1F60E from './U+1F60E-😎.svg'
+import U1F92B from './U+1F92B-🤫.svg'
+import U1F96C from './U+1F96C-🥬.svg'
+import U1F331 from './U+1F331-🌱.svg'
+import U1F371 from './U+1F371-🍱.svg'
+import U1F496 from './U+1F496-💖.svg'
+import U1F911 from './U+1F911-🤑.svg'
+import U1F924 from './U+1F924-🤤.svg'
+import U2728 from './U+2728-✨.svg'
+import UFamily from './U+Family-👨‍👩‍👦‍👦.svg'
+import UParking from './U+Parking-🅿️.svg'
 import UploadSimple from './UploadSimple.svg'
 
 export const icons = {
@@ -75,5 +91,21 @@ export const icons = {
   starHalfFilled: StarHalfFilled,
   subtract: Subtract,
   sushi: Sushi,
+  U1F4B0,
+  U1F6BB,
+  U1F35A,
+  U1F48E,
+  U1F60C,
+  U1F60E,
+  U1F92B,
+  U1F96C,
+  U1F331,
+  U1F371,
+  U1F496,
+  U1F911,
+  U1F924,
+  U2728,
+  UFamily,
+  UParking,
   uploadSimple: UploadSimple,
 }
