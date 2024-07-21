@@ -81,10 +81,28 @@ const search = {
   },
 }
 
+interface PlaceIdWithMapId {
+  placeId: PlaceType['id']
+  mapId: MapInfo['id']
+}
+
 const place = {
   mapId: {
     get: (mapId: MapInfo['id']): Promise<ResponseWithMessage<PlaceType[]>> =>
       client.secure.get(`/place/${mapId}`),
+
+    placeId: {
+      delete: ({ placeId, mapId }: PlaceIdWithMapId) =>
+        client.secure.delete(`/place/${mapId}/${placeId}`),
+
+      like: {
+        put: ({ placeId, mapId }: PlaceIdWithMapId) =>
+          client.secure.put(`/place/${mapId}/${placeId}/like`),
+
+        delete: ({ placeId, mapId }: PlaceIdWithMapId) =>
+          client.secure.delete(`/place/${mapId}/${placeId}/like`),
+      },
+    },
 
     kakao: {
       kakaoPlaceId: {
