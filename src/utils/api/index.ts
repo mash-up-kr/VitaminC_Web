@@ -16,12 +16,10 @@ const client = {
 }
 
 const users = {
-  id: {
-    maps: {
-      mapId: {
-        delete: ({ id, mapId }: { id: number; mapId: string }) =>
-          client.secure.delete(`/users/${id}/maps/${mapId}`),
-      },
+  maps: {
+    mapId: {
+      delete: ({ mapId }: { mapId: string }) =>
+        client.secure.delete(`/users/maps/${mapId}`),
     },
   },
 }
