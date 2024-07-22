@@ -143,7 +143,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
     getMapname()
     getPlaceList()
-  }, [])
+  }, [mapId])
 
   useEffect(() => {
     setFilteredPlace(
@@ -166,7 +166,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         return matchesCategory && matchestags
       }),
     )
-  }, [places, selectedFilterIds])
+  }, [places, selectedFilterIds.category, selectedFilterIds, userData])
 
   useEffect(() => {
     if (!visitedMapIds.includes(mapId)) {

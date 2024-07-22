@@ -2,11 +2,10 @@
 
 import { ChipButton, Icon } from '@/components'
 import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
-import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 import Modal from '@/components/common/Modal/Modal'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
-import { InviteLink, MapInfo, UserByMapInfo } from '@/models/map.interface'
+import { MapInfo, UserByMapInfo } from '@/models/map.interface'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
 import { useRouter } from 'next/navigation'

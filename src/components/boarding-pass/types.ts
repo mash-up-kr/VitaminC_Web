@@ -1,9 +1,5 @@
 import type { ClassName } from '@/models/interface'
-import type {
-  InviteLink,
-  MapMemberData,
-  PlacePreview,
-} from '@/models/map.interface'
+import type { MapMemberData, PlacePreview } from '@/models/map.interface'
 import { User } from '@/models/user.interface'
 
 interface BoardingMembers {

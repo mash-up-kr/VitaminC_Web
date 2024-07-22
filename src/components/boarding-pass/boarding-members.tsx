@@ -1,12 +1,5 @@
-'use client'
-import { useState, useEffect } from 'react'
-
 import { Avatar, Chip, Typography } from '../common'
 import { BoardingMembersProps } from './types'
-import { APIError } from '@/models/interface'
-import { notify } from '../common/custom-toast'
-import { api } from '@/utils/api'
-
 const memberColors = [
   'coral',
   'dark-blue',
