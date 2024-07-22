@@ -1,13 +1,14 @@
 import type { ClassName } from '@/models/interface'
 import type {
   InviteLink,
+  MapUser,
   PlacePreview,
   UserByMap,
 } from '@/models/map.interface'
 
 interface BoardingMembers {
-  owner: UserByMap
-  members: UserByMap[]
+  owner: MapUser
+  members: MapUser[]
   numOfCrews: number
 }
 

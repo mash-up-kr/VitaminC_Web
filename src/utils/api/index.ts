@@ -6,7 +6,6 @@ import type {
   InviteLink,
   MapInfo,
   MapInviteInfoResponseType,
-  MapListItemResponse,
   UserByMap,
 } from '@/models/map.interface'
 import { PlaceType } from '@/types/api/place'
@@ -40,7 +39,7 @@ const users = {
 }
 
 const maps = {
-  get: (): Promise<ResponseWithMessage<MapListItemResponse[]>> =>
+  get: (): Promise<ResponseWithMessage<UserByMap[]>> =>
     client.secure.get(`/maps`),
   post: (name: string): Promise<ResponseWithMessage<UserByMap>> =>
     client.secure.post(`/maps`, { name }),

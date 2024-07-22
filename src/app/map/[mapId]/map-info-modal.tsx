@@ -5,11 +5,7 @@ import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 import Modal from '@/components/common/Modal/Modal'
 import { notify } from '@/components/common/custom-toast'
-import {
-  InviteLink,
-  MapInfo,
-  MapListItemResponse,
-} from '@/models/map.interface'
+import { InviteLink, MapInfo, UserByMap } from '@/models/map.interface'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
 import { useRouter } from 'next/navigation'
@@ -28,7 +24,7 @@ const MapList = ({
   mapId: string
   onClickMap: (mapId: string) => void
 }) => {
-  const [maps, setMaps] = useState<MapListItemResponse[]>([])
+  const [maps, setMaps] = useState<UserByMap[]>([])
   const router = useRouter()
 
   const hasOwnerMap = maps.some((map) => map.role === 'ADMIN')
