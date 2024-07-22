@@ -5,8 +5,8 @@ import { Carousel } from '@/components'
 const KakaoLogin = () => {
   return (
     <Link href={`${process.env.NEXT_PUBLIC_API_ORIGIN}/auth/kakao`}>
-      <div className="flex items-center bg-[#FEE500] p-4 rounded-xl w-full">
-        <Icon type="kakaoLogo" />
+      <div className="flex items-center bg-[#FEE500] py-4 px-5 rounded-xl w-full">
+        <Icon type="kakaoLogo" size="lg" />
         <Typography size="h5" className="text-black/[.85] text-center w-full">
           카카오 로그인
         </Typography>
