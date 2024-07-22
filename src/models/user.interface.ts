@@ -2,7 +2,7 @@
 type UserRole = 'ADMIN' | 'USER'
 type Provider = 'KAKAO'
 export interface User {
-  id: string
+  id: number
   nickname?: string
   provider: Provider
   providerId: string
