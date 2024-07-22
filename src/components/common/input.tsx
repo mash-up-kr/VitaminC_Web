@@ -27,7 +27,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             {...props}
             className={cn(
-              'w-full h-[54px] leading-none placeholder:text-[20px] placeholder:font-normal placeholder-neutral-400 text-h1 text-orange-300 caret-orange-300 border-2 border-solid border-orange-300 rounded-full outline-none outline-offset-0 px-5 bg-transparent',
+              `flex items-center w-full h-[54px] leading-none text-h1 text-orange-300 caret-orange-300 border-2 border-solid border-orange-300 rounded-full outline-none outline-offset-0 px-5 bg-transparent
+                placeholder:text-[20px] placeholder:font-normal placeholder-neutral-400 placeholder-center
+              `,
               error && 'text-orange-400 border-orange-400',
             )}
             ref={ref}
@@ -39,12 +41,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
           <AccessibleIconButton
             className="absolute top-1/2 -translate-y-1/2 right-4"
-            label={'초기화'}
+            label="초기화"
             onClick={() => onChange('')}
             icon={{
-              type: !error ? 'deleteOrange300' : 'deleteOrange400',
+              type: error ? 'deleteOrange400' : 'deleteOrange300',
+              size: 'md',
               'aria-hidden': true,
-              className: 'w-4 h-4',
             }}
           />
         </div>
