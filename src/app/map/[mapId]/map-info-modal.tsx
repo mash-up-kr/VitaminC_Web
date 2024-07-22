@@ -129,8 +129,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
                 members={mapData.users}
                 numOfCrews={mapData.users.length}
                 numOfPins={mapData.registeredPlaceCount}
-                // TODO: api creator 생성시 변경
-                owner={mapData.users.filter((user) => user.role === 'ADMIN')[0]}
+                owner={mapData.creator}
                 onChangeInviteLink={(invitedLink: InviteLink) =>
                   setInvitedCode(invitedLink)
                 }
@@ -151,7 +150,6 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
             expirationTime={new Date(invitedCode.expiresAt)}
             mapName={mapData.name}
             numOfCrews={mapData.users.length}
-            // TODO: api creator 생성시 변경
             owner={mapData.creator}
           />
         </Modal>
