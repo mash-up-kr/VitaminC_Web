@@ -65,11 +65,13 @@ const BoardingInfoPass = ({
     useState(false)
   const [isInvited, setIsInvited] = useState(false)
   const [isExitModalOpen, setIsExitModalOpen] = useState(false)
-  const [userData, setUserData] = useState<User>()
+  const [userId, setUserId] = useState<User['id']>(-1)
   const [mapInviteInfo, setMapInviteInfo] =
     useState<InvitingBoardingPassProps>()
 
-  const isMyBoard = userData?.role === 'ADMIN'
+  const isMyBoard = members.some(
+    (member) => member.id === userId && member.role === 'ADMIN',
+  )
 
   const handleExitMap = async () => {
     try {
@@ -132,7 +134,7 @@ const BoardingInfoPass = ({
     const getUserData = async () => {
       try {
         const { data } = await api.users.me.get()
-        setUserData(data)
+        setUserId(data.id)
       } catch (error) {
         if (error instanceof APIError) {
           notify.error(error.message)
@@ -174,11 +176,7 @@ const BoardingInfoPass = ({
 
         <BoardingDivider />
 
-        <BoardingMembers
-          members={members}
-          owner={owner}
-          userId={userData?.id ?? -1}
-        />
+        <BoardingMembers members={members} owner={owner} userId={userId} />
 
         <div className="flex justify-center bg-neutral-600 pb-5">
           {isMyBoard ? (
