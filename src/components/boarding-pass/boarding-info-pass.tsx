@@ -12,6 +12,7 @@ import BottomModal from '../BottomModal'
 import { notify } from '../common/custom-toast'
 import { api } from '@/utils/api'
 import { APIError } from '@/models/interface'
+import { User } from '@/models/user.interface'
 
 const ShareButton = ({
   isInvited,
@@ -61,11 +62,9 @@ const BoardingInfoPass = ({
 }: BoardingInfoPassProps) => {
   const [isInvited, setIsInvited] = useState(false)
   const [isExitModalOpen, setIsExitModalOpen] = useState(false)
-  const [userId, setUserId] = useState(-1)
+  const [userData, setUserData] = useState<User>()
 
-  const isMyBoard = members.some(
-    (member) => member.id === userId && member.role === 'ADMIN',
-  )
+  const isMyBoard = userData?.role === 'ADMIN'
 
   const handleExitMap = async () => {
     try {
@@ -106,10 +105,10 @@ const BoardingInfoPass = ({
   }, [mapId])
 
   useEffect(() => {
-    const getUserId = async () => {
+    const getUserData = async () => {
       try {
         const { data } = await api.users.me.get()
-        setUserId(data.id)
+        setUserData(data)
       } catch (error) {
         if (error instanceof APIError) {
           notify.error(error.message)
@@ -117,7 +116,7 @@ const BoardingInfoPass = ({
       }
     }
 
-    getUserId()
+    getUserData()
   }, [])
 
   return (
@@ -151,7 +150,11 @@ const BoardingInfoPass = ({
 
         <BoardingDivider />
 
-        <BoardingMembers members={members} owner={owner} userId={userId} />
+        <BoardingMembers
+          members={members}
+          owner={owner}
+          userId={userData?.id ?? -1}
+        />
 
         <div className="flex justify-center bg-neutral-600 pb-5">
           {isMyBoard ? (
