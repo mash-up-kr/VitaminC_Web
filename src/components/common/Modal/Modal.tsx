@@ -91,7 +91,6 @@ const Modal = forwardRef(
         if (event.target.id !== `dim-${portalId}`) {
           return
         }
-        console.log(event.target)
       }
       if (shouldCloseOnDimClick) {
         onClose()
