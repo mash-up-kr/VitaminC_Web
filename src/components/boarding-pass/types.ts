@@ -1,5 +1,6 @@
 import type { ClassName } from '@/models/interface'
 import type { InviteLink, MapUser, PlacePreview } from '@/models/map.interface'
+import { User } from '@/models/user.interface'
 
 interface BoardingMembers {
   owner: MapUser
@@ -8,7 +9,9 @@ interface BoardingMembers {
 }
 
 export interface BoardingMembersProps
-  extends Omit<BoardingMembers, 'numOfCrews'> {}
+  extends Omit<BoardingMembers, 'numOfCrews'> {
+  userId: User['id']
+}
 
 export interface BoardingInfoPassProps extends BoardingMembers, ClassName {
   mapId: string

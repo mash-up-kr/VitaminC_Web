@@ -12,8 +12,6 @@ import BottomModal from '../BottomModal'
 import { notify } from '../common/custom-toast'
 import { api } from '@/utils/api'
 import { APIError } from '@/models/interface'
-//TODO: 유저 정보 쿠키 저장 나오면 변경
-const USER_ID = 3
 
 const ShareButton = ({
   isInvited,
@@ -63,10 +61,10 @@ const BoardingInfoPass = ({
 }: BoardingInfoPassProps) => {
   const [isInvited, setIsInvited] = useState(false)
   const [isExitModalOpen, setIsExitModalOpen] = useState(false)
+  const [userId, setUserId] = useState(-1)
 
-  // TODO: 사용자 정보 cookie에 저장하는 로직 완성 후 적용
   const isMyBoard = members.some(
-    (member) => member.id === USER_ID && member.role === 'ADMIN',
+    (member) => member.id === userId && member.role === 'ADMIN',
   )
 
   const handleExitMap = async () => {
@@ -107,6 +105,21 @@ const BoardingInfoPass = ({
     setIsInvited(false)
   }, [mapId])
 
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const { data } = await api.users.me.get()
+        setUserId(data.id)
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+        }
+      }
+    }
+
+    getUserId()
+  }, [])
+
   return (
     <>
       <div className={cn('flex flex-col w-full', className)}>
@@ -138,7 +151,7 @@ const BoardingInfoPass = ({
 
         <BoardingDivider />
 
-        <BoardingMembers members={members} owner={owner} />
+        <BoardingMembers members={members} owner={owner} userId={userId} />
 
         <div className="flex justify-center bg-neutral-600 pb-5">
           {isMyBoard ? (
