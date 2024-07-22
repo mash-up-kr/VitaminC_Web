@@ -56,11 +56,16 @@ const Intro = () => {
 
   useEffect(() => {
     ;(async () => {
-      const user = await getUser()
-      setNickname(user?.nickname)
+      try {
+        const user = await getUser()
+        setNickname(user?.nickname)
 
-      const existingMapId = await getMapId()
-      setMapId(existingMapId)
+        const existingMapId = await getMapId()
+        setMapId(existingMapId)
+      } catch (err) {
+        setNickname(undefined)
+        setMapId(undefined)
+      }
     })()
   }, [authorization])
 
