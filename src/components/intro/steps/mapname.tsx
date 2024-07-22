@@ -3,8 +3,11 @@
 import { useState } from 'react'
 
 import { Button, Input, Typography } from '@/components/common'
-import { newMapIdStorage } from '@/utils/storage'
 import { IntroActionDispatch } from '@/app/intro/page'
+import { api } from '@/utils/api'
+import { notify } from '@/components/common/custom-toast'
+import { setCookie } from '@/app/actions'
+import { RECENT_MAP_ID } from '../../../constants/cookie'
 
 const MIN_LENGTH = 0
 
@@ -14,13 +17,18 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
     setMapname(value)
   }
 
-  const handleClick = () => {
-    // TODO: API - POST
-    // request: mapname
-    // response: mapId
-    const newMapId = 'newMapId'
-    newMapIdStorage.set(newMapId)
-    goNextStep()
+  const handleClick = async () => {
+    try {
+      const res = await api.maps.post(mapname)
+      const mapId = res.data.id
+      setCookie(RECENT_MAP_ID, mapId)
+
+      goNextStep()
+    } catch (err) {
+      if (err instanceof Error && err.message) {
+        return notify.error(err.message)
+      }
+    }
   }
 
   return (

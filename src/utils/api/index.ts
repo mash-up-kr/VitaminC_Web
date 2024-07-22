@@ -7,9 +7,11 @@ import type {
   MapInfo,
   MapInviteInfoResponseType,
   MapListItemResponse,
+  UserByMap,
 } from '@/models/map.interface'
 import { PlaceType } from '@/types/api/place'
 import { TagItem } from '@/types/api/maps'
+import type { User } from '@/models/user.interface'
 
 const client = {
   public: apiClientFactory({}),
@@ -22,12 +24,26 @@ const users = {
       delete: ({ mapId }: { mapId: string }) =>
         client.secure.delete(`/users/maps/${mapId}`),
     },
+    me: {
+      get: (): Promise<ResponseWithMessage<User>> =>
+        client.secure.get(`/users/me`),
+      patch: (nickname: string): Promise<ResponseWithMessage<User>> =>
+        client.secure.patch(`/users/me`, { nickname }),
+    },
+    check: {
+      nickname: {
+        get: (nickname: string): Promise<ResponseWithMessage<User>> =>
+          client.public.get(`/users/check/nickname?nickname=${nickname}`),
+      },
+    },
   },
 }
 
 const maps = {
   get: (): Promise<ResponseWithMessage<MapListItemResponse[]>> =>
     client.secure.get(`/maps`),
+  post: (name: string): Promise<ResponseWithMessage<UserByMap>> =>
+    client.secure.post(`/maps`, { name }),
   id: {
     get: (id: string): Promise<ResponseWithMessage<MapInfo>> =>
       client.secure.get(`/maps/${id}`),

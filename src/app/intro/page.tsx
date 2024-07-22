@@ -10,14 +10,13 @@ import Invite from '@/components/intro/steps/invite'
 import Header from '@/components/intro/header'
 import LoadingIndicator from '@/components/loading-indicator'
 import { IntroStep } from '@/models/interface'
-import {
-  newMapIdStorage,
-  nicknameStorage,
-  inviteCodeStorage,
-} from '@/utils/storage'
+import { inviteCodeStorage } from '@/utils/storage'
+
 import useCookie from '@/hooks/use-cookie'
 import { useIsServer } from '@/hooks/use-is-server'
 import { AUTHORIZATION } from '@/constants/cookie'
+import { getUser } from '@/services/user'
+import { getMapId } from '@/services/map-id'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -52,20 +51,30 @@ const Intro = () => {
   const isServer = useIsServer()
 
   const authorization = useCookie(AUTHORIZATION)
-  // TODO: GET /users/me 로 닉네임 조회
-  const nickname = nicknameStorage.getValueOrNull()
-  const newMapId = newMapIdStorage.getValueOrNull()
+  const [nickname, setNickname] = useState<string | undefined>()
+  const [mapId, setMapId] = useState<string | undefined>()
+
+  useEffect(() => {
+    ;(async () => {
+      const user = await getUser()
+      setNickname(user?.nickname)
+
+      const existingMapId = await getMapId()
+      setMapId(existingMapId)
+    })()
+  }, [authorization])
+
   const getInitialStep = useMemo(() => {
     if (!authorization) {
       return IntroStep.LOGIN
     } else if (!nickname) {
       return IntroStep.NICKNAME
-    } else if (!newMapId) {
+    } else if (!mapId) {
       return IntroStep.NEW_MAP
     } else {
       return IntroStep.INVITE
     }
-  }, [authorization, newMapId, nickname])
+  }, [authorization, nickname, mapId])
 
   const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
 

@@ -8,7 +8,24 @@ class ErrorNameMessage extends Error {
     this.message = message
   }
 }
-export class APIError extends ErrorNameMessage {}
+
+export class APIError extends ErrorNameMessage {
+  status: number
+
+  constructor({
+    status,
+    name,
+    message,
+  }: {
+    status: number
+    name: string
+    message: string
+  }) {
+    super({ name, message })
+    this.status = status
+  }
+}
+
 export class ParseJSONError extends ErrorNameMessage {}
 
 export interface ResponseOk {
