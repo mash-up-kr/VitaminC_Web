@@ -19,7 +19,7 @@ const PlaceListBottomSheet = ({
   const userLocation = useUserGeoLocation()
 
   return (
-    <div className="flex flex-col pt-3.5 px-5">
+    <div className="flex flex-col px-5">
       <div>
         <FilterButton
           numOfSelectedFilter={

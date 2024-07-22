@@ -24,22 +24,24 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
 
     const [contentRef, contentBounds] = useMeasure()
     const dragControls = useDragControls()
-    const size = useWindowSize()
+    const { height: windowHeight } = useWindowSize()
 
-    const headerHeight = 38
+    const headerHeight = 36
     const defaultHeight = Math.min(
       contentBounds.height + headerHeight,
-      size.height / 2,
+      windowHeight / 2,
     )
     const expandedHeight = Math.min(
       contentBounds.height + headerHeight,
-      size.height - headerHeight,
+      (windowHeight * 3) / 4,
     )
 
     const bodyHeight = useMemo(() => {
       switch (bottomSheetState) {
         case BOTTOM_SHEET_STATE.Expanded:
           return expandedHeight - headerHeight
+        case BOTTOM_SHEET_STATE.Collapsed:
+          return 0
         default:
           return defaultHeight - headerHeight
       }
@@ -110,13 +112,13 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           aria-expanded={bottomSheetState !== BOTTOM_SHEET_STATE.Collapsed}
         >
           {/* header */}
-          <div className="pt-[16px] cursor-grab">
+          <div className="pt-[16px] pb-[14px] cursor-grab">
             {/* bar */}
             <div className="w-[53px] h-[6px] bg-[#6D717A] my-0 mx-auto rounded-full" />
           </div>
           {/* body */}
           <div
-            className="transition-all select-none overflow-y-scroll overscroll-contain no-scrollbar"
+            className="transition-all duration-300 select-none overflow-y-scroll overscroll-contain no-scrollbar"
             style={{ height: bodyHeight }}
             aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
           >
