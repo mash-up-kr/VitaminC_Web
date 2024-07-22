@@ -23,17 +23,17 @@ const users = {
       delete: ({ mapId }: { mapId: string }) =>
         client.secure.delete(`/users/maps/${mapId}`),
     },
-    me: {
-      get: (): Promise<ResponseWithMessage<User>> =>
-        client.secure.get(`/users/me`),
-      patch: (nickname: string): Promise<ResponseWithMessage<User>> =>
-        client.secure.patch(`/users/me`, { nickname }),
-    },
-    check: {
-      nickname: {
-        get: (nickname: string): Promise<ResponseWithMessage<User>> =>
-          client.public.get(`/users/check/nickname?nickname=${nickname}`),
-      },
+  },
+  me: {
+    get: (): Promise<ResponseWithMessage<User>> =>
+      client.secure.get(`/users/me`),
+    patch: (nickname: string): Promise<ResponseWithMessage<User>> =>
+      client.secure.patch(`/users/me`, { nickname }),
+  },
+  check: {
+    nickname: {
+      get: (nickname: string): Promise<ResponseWithMessage<User>> =>
+        client.public.get(`/users/check/nickname?nickname=${nickname}`),
     },
   },
 }
