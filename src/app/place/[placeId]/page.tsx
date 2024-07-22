@@ -1,18 +1,15 @@
-import { redirect } from 'next/navigation'
-import { getMapId } from '@/services/map-id'
+import { PLACE_DETAIL_DATA } from '@/constants/place'
+import PlaceBox from './place-box'
 
-const PlaceDetail = async ({
-  searchParams,
-}: {
-  searchParams?: { mapId?: string; search?: string }
-}) => {
-  const recentMapId = getMapId()
+const PlaceDetail = async () => {
+  // TODO: place/id api 연결
+  const place = { data: PLACE_DETAIL_DATA }
 
-  if (!searchParams?.mapId) {
-    redirect(`/map/${recentMapId}`)
-  }
-
-  return <>맛집 상세 화면</>
+  return (
+    <>
+      <PlaceBox place={place.data} />
+    </>
+  )
 }
 
 export default PlaceDetail

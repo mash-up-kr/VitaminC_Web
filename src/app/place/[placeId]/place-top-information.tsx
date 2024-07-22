@@ -1,46 +1,35 @@
-import Link from 'next/link'
-
+import IconChip from '@/components/icon-chip'
+import type { PlaceProps } from '@/components/place/types'
 import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
-import type { PlaceProps } from './types'
-import IconChip from '../icon-chip'
+import type { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
 import { getCategoryIconKey } from '@/utils/category'
 
-interface PlaceListItemProps extends PlaceProps {
+interface PlaceTopInformationProps extends PlaceProps, ClassName {
   rating: number
   images?: string[]
 }
 
-const PlaceListItem = ({
+const PlaceTopInformation = ({
   placeId,
   category,
   name,
   address,
   rating,
-  images,
   pick,
   tags,
-}: PlaceListItemProps) => {
+  className,
+}: PlaceTopInformationProps) => {
   const categoryIconKey = getCategoryIconKey(category)
 
   return (
-    <Link
-      href={`/place/${placeId}`}
-      className="bg-neutral-700 w-full py-4 flex flex-col gap-3.5 "
-    >
-      {images && (
-        <div className="flex box-border gap-2 max-x-[335px] items-center justify-center overflow-x-scroll no-scrollbar">
-          {images.map((image, idx) => (
-            <img
-              key={`${placeId}-${image}`}
-              src={image}
-              className="w-[106px] h-[106px] rounded-md"
-              alt={`${name}${idx}`}
-            />
-          ))}
-        </div>
+    <section
+      className={cn(
+        'bg-neutral-700 w-full py-4 flex flex-col gap-3.5',
+        className,
       )}
-
-      {categoryIconKey && category && (
+    >
+      {category && categoryIconKey && (
         <IconChip icon={{ type: categoryIconKey }} label={category} />
       )}
 
@@ -75,8 +64,8 @@ const PlaceListItem = ({
       </div>
 
       {tags && <TagList placeId={placeId} tags={tags} />}
-    </Link>
+    </section>
   )
 }
 
-export default PlaceListItem
+export default PlaceTopInformation

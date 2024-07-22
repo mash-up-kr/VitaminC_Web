@@ -4,12 +4,13 @@ import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import type { ResponseWithMessage } from '@/types/api'
 import type {
   InviteLink,
+  MapInfo,
   MapInviteInfoResponseType,
   UserByMap,
 } from '@/models/map.interface'
-import { PlaceType } from '@/types/api/place'
-import { MapDataType, TagItem } from '@/types/api/maps'
 import type { User } from '@/models/user.interface'
+import type { PlaceType } from '@/types/api/place'
+import type { MapDataType, TagItem } from '@/types/api/maps'
 
 const client = {
   public: apiClientFactory({}),
@@ -37,14 +38,22 @@ const maps = {
   post: (name: string): Promise<ResponseWithMessage<UserByMap>> =>
     client.secure.post(`/maps`, { name }),
   id: {
-    get: (id: string): Promise<ResponseWithMessage<MapDataType>> =>
-      client.secure.get(`/maps/${id}`),
+    get: (id: MapInfo['id']): Promise<ResponseWithMessage<MapDataType>> =>
+      client.secure.get(`/maps/${id}`, { tags: ['map', id] }),
     tag: {
-      get: (id: string): Promise<ResponseWithMessage<TagItem[]>> =>
-        client.secure.get(`/maps/${id}/tag`),
+      get: (id: MapInfo['id']): Promise<ResponseWithMessage<TagItem[]>> =>
+        client.secure.get(`/maps/${id}/tag`, { tags: ['tag', id] }),
+      post: ({
+        id,
+        content,
+      }: {
+        id: MapInfo['id']
+        content: string
+      }): Promise<ResponseWithMessage<TagItem>> =>
+        client.secure.post(`/maps/${id}/tag`, { content }),
     },
     inviteLinks: {
-      post: (id: string): Promise<ResponseWithMessage<InviteLink>> =>
+      post: (id: MapInfo['id']): Promise<ResponseWithMessage<InviteLink>> =>
         client.secure.post(`/maps/${id}/invite-links`),
     },
   },
@@ -72,10 +81,49 @@ const search = {
   },
 }
 
+interface PlaceIdWithMapId {
+  placeId: PlaceType['id']
+  mapId: MapInfo['id']
+}
+
 const place = {
   mapId: {
-    get: (mapId: string): Promise<ResponseWithMessage<PlaceType[]>> =>
+    get: (mapId: MapInfo['id']): Promise<ResponseWithMessage<PlaceType[]>> =>
       client.secure.get(`/place/${mapId}`),
+
+    placeId: {
+      delete: ({ placeId, mapId }: PlaceIdWithMapId) =>
+        client.secure.delete(`/place/${mapId}/${placeId}`),
+
+      like: {
+        put: ({ placeId, mapId }: PlaceIdWithMapId) =>
+          client.secure.put(`/place/${mapId}/${placeId}/like`),
+
+        delete: ({ placeId, mapId }: PlaceIdWithMapId) =>
+          client.secure.delete(`/place/${mapId}/${placeId}/like`),
+      },
+    },
+
+    kakao: {
+      kakaoPlaceId: {
+        put: ({
+          mapId,
+          kakaoPlaceId,
+          tagIds,
+        }: {
+          mapId: MapInfo['id']
+          kakaoPlaceId: PlaceType['place']['kakaoPlace']['id']
+          tagIds: TagItem['id'][]
+        }): Promise<ResponseWithMessage<PlaceType>> =>
+          client.secure.put(`/place/${mapId}/kakao/${kakaoPlaceId}`, {
+            tagIds,
+          }),
+      },
+    },
+  },
+  placeId: {
+    get: (placeId: string): Promise<ResponseWithMessage<PlaceType>> =>
+      client.secure.get(`place/${placeId}`),
   },
 }
 

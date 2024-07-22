@@ -6,6 +6,7 @@ import { Icon, Typography } from '@/components'
 import type { ClassName } from '@/models/interface'
 import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import { recentSearchStorage } from '@/utils/storage'
+import { extractCategory } from '@/utils/category'
 
 interface PlaceAutoSearchItemProps extends KakaoPlaceItem, ClassName {
   numOfReviews: number
@@ -26,8 +27,7 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
     },
     ref,
   ) => {
-    const categories = category_name?.split(' > ')
-    const category = categories?.[categories.length - 1]
+    const category = extractCategory(category_name)
     const nameParts = place_name?.split(new RegExp(`(${query})`, 'gi'))
 
     const addRecentKeyword = () => {

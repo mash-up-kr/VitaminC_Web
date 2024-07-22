@@ -2,10 +2,11 @@ import cn from '@/utils/cn'
 import { roundToNthDecimal } from '@/utils/number'
 import type { ClassName } from '@/models/interface'
 import { ExternalLink, Icon, Typography } from '../common'
+import type { PlaceType } from '@/types/api/place'
 
 interface KakaoRatingProps extends ClassName {
   rating: number
-  url: string
+  placeId: PlaceType['place']['kakaoPlace']['id']
 }
 
 const MAX_STAR = 5
@@ -28,21 +29,19 @@ const getNumberOfStarIcons = (rating: number) => {
   return { roundedRating, fullIcons, halfIcon, emptyIcons }
 }
 
-const KakaoRating = ({ className, rating, url }: KakaoRatingProps) => {
+const toKakaoMapURL = (placeId: PlaceType['place']['kakaoPlace']['id']) =>
+  `https://place.map.kakao.com/${placeId}`
+
+const KakaoRating = ({ className, rating, placeId }: KakaoRatingProps) => {
   const { roundedRating, fullIcons, halfIcon, emptyIcons } =
     getNumberOfStarIcons(rating)
 
   return (
-    <div
-      className={cn(
-        'w-full h-[124px] py-5 flex flex-col gap-[10px]',
-        className,
-      )}
-    >
+    <div className={cn('w-full flex flex-col gap-[10px]', className)}>
       <Typography size="h5" className="text-[#D5D5D5]">
         후기
       </Typography>
-      <ExternalLink url={url}>
+      <ExternalLink url={toKakaoMapURL(placeId)}>
         <div className="w-full flex-1 rounded-[6px] bg-neutral-600 px-5 py-[14px] flex items-center">
           <div className="flex w-full">
             <img

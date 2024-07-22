@@ -1,6 +1,7 @@
 import PlaceListItem from '@/components/place/place-list-item'
 import type { ClassName } from '@/models/interface'
 import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
+import { extractCategory } from '@/utils/category'
 import cn from '@/utils/cn'
 
 interface ResultSearchListBoxProps extends ClassName {
@@ -19,7 +20,7 @@ const ResultSearchListBox = ({
       )}
     >
       {places.map((place) => {
-        const categories = place.category_name.split(' > ')
+        const categories = extractCategory(place.category_group_name)
         const category = categories[categories.length - 1]
         return (
           <PlaceListItem
@@ -28,7 +29,6 @@ const ResultSearchListBox = ({
             placeId={place.id}
             name={place.place_name}
             rating={4.5}
-            tags={['하이', '키키']}
             pick={{
               isLiked: true,
               numOfLikes: 1550,

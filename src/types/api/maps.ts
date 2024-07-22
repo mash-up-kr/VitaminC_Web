@@ -1,5 +1,9 @@
+import type { IconKey } from '@/components/common/icon'
+import type { User } from '@/models/user.interface'
+
 export interface TagItem {
   id: number
+  type?: IconKey
   mapId: string
   content: string
   createdAt: string
@@ -8,11 +12,7 @@ export interface TagItem {
 export interface MapDataType {
   id: string
   name: string
-  users: {
-    id: number
-    nickname: string
-    role: string
-  }[]
+  users: User[]
   registeredPlaceCount: number
   createdAt: Date
   updatedAt: Date
