@@ -52,11 +52,16 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
         <>
           <KorrkKakaoMap
             places={places}
+            selectedPlace={selectedPlace}
             topOfBottomBounds={bottomBounds.top}
             className="absolute top-0 left-0 w-[calc(100%+40px)] mx-[-20px] h-dvh z-[50]"
+            onClickMap={() => setSelectedPlace(null)}
             onClickPlace={(place) => {
-              console.log(place)
-              setSelectedPlace(place)
+              if (place.id === selectedPlace?.id) {
+                setSelectedPlace(null)
+              } else {
+                setSelectedPlace(place)
+              }
             }}
           />
           {selectedPlace && (
