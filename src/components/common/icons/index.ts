@@ -52,6 +52,19 @@ import U2728 from './U+2728-✨.svg'
 import UFamily from './U+Family-👨‍👩‍👦‍👦.svg'
 import UParking from './U+Parking-🅿️.svg'
 import UploadSimple from './UploadSimple.svg'
+import 고기 from './고기.svg'
+import 백반 from './백반.svg'
+import 분식 from './분식.svg'
+import 아시안 from './아시안.svg'
+import 양식 from './양식.svg'
+import 일식 from './일식.svg'
+import 중식 from './중식.svg'
+import 찜 from './찜.svg'
+import 치킨 from './치킨.svg'
+import 카페 from './카페.svg'
+import 패스트푸드 from './패스트푸드.svg'
+import 피자 from './피자.svg'
+import 호프 from './호프.svg'
 
 export const icons = {
   bar: Bar,
@@ -108,4 +121,17 @@ export const icons = {
   UFamily,
   UParking,
   uploadSimple: UploadSimple,
+  고기,
+  백반,
+  분식,
+  아시안,
+  양식,
+  일식,
+  중식,
+  찜,
+  치킨,
+  카페,
+  패스트푸드,
+  피자,
+  호프,
 }
