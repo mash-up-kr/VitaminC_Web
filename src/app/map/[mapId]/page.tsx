@@ -8,13 +8,16 @@ import { visitedMapIdsStorage } from '@/utils/storage'
 import SearchAnchorBox from './search-anchor-box'
 import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import { api } from '@/utils/api'
-import { PlaceType } from '@/types/api/place'
+import type { PlaceType } from '@/types/api/place'
 import { notify } from '@/components/common/custom-toast'
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import BottomModal from '@/components/BottomModal'
-import { MapDataType } from '@/types/api/maps'
-import FilterModalBody, { CategoryType } from './filter-modal-body'
+import FilterModalBody, { type CategoryType } from './filter-modal-body'
+import useMeasure from '@/hooks/use-measure'
+import PlaceMapPopup from '@/components/place/place-map-popup'
+import BottomSheet from '@/components/bottom-sheet'
+import { APIError, BOTTOM_SHEET_STATE } from '@/models/interface'
 
 export interface FilterIdsType {
   category: string[]
@@ -31,14 +34,35 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterIds, setSelcectedFilterIds] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
+
   const [places, setPlaces] = useState<PlaceType[]>([])
   const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
-  const [mapData, setMapData] = useState<MapDataType | null>(null)
+  const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
+
+  const [mapname, setMapname] = useState<string>('')
+
+  const [bottomRef, bottomBounds] = useMeasure()
 
   const visitedMapIds = useMemo(
     () => visitedMapIdsStorage.getValueOrNull() ?? [],
     [],
   )
+
+  const handleClickPlace = (place: PlaceType) => () => {
+    if (selectedPlace?.place.id === place.place.id) {
+      setSelectedPlace(null)
+      return
+    }
+    setSelectedPlace(place)
+  }
+
+  const handleFilterModalOpen = () => {
+    setIsFilterModalOpen(!isFilterModalOpen)
+  }
+
+  const resetFilter = () => {
+    setSelcectedFilterIds(INITIAL_FILTER_IDS)
+  }
 
   const handleSelectedFilterChange = (value: CategoryType | number) => {
     if (value === 'all') {
@@ -82,20 +106,24 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         const { data: placeList } = await api.place.mapId.get(mapId)
         setPlaces(placeList)
       } catch (err) {
-        notify.error('예상치 못한 오류가 발생했습니다.')
+        if (err instanceof APIError) {
+          notify.error(err.message)
+        }
       }
     }
 
-    const getMapData = async () => {
+    const getMapname = async () => {
       try {
         const { data } = await api.maps.id.get(mapId)
-        setMapData(data)
+        setMapname(data.name)
       } catch (err) {
-        notify.error('오류가 발생했습니다.')
+        if (err instanceof APIError) {
+          notify.error(err.message)
+        }
       }
     }
 
-    getMapData()
+    getMapname()
     getPlaceList()
   }, [])
 
@@ -135,7 +163,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         <div className="w-full flex justify-between">
           {/* TODO: 초대장 페이지 제작 후 연결 */}
           <Link href="" className="flex items-center">
-            <Typography size="h3">{mapData?.name ?? ''}</Typography>
+            <Typography size="h3">{mapname}</Typography>
             <Icon type="caretDown" size="lg" />
           </Link>
           <Link href="/setting">
@@ -156,35 +184,55 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           <SearchAnchorBox mapId={mapId} />
         </Tooltip>
       </header>
+
       <KorrkKakaoMap
-        bottomBodyElement={
-          <PlaceListBottomSheet
-            places={filteredPlace}
-            selectedFilter={selectedFilterIds}
-            onClickFilterButton={() => setIsFilterModalOpen(true)}
-          />
-        }
         places={filteredPlace}
+        selectedPlace={selectedPlace}
+        handleClickPlace={handleClickPlace}
+        topOfBottomBounds={bottomBounds.top}
       />
-      <BottomModal
-        title="보고 싶은 맛집을 선택해주세요"
-        body={
-          <FilterModalBody
-            mapId={mapId}
-            selectedFilterIds={selectedFilterIds}
-            onChangeSelectedFilterIds={handleSelectedFilterChange}
+
+      {selectedPlace === null ? (
+        <>
+          <BottomSheet
+            ref={bottomRef}
+            body={
+              <PlaceListBottomSheet
+                places={places}
+                selectedFilter={selectedFilterIds}
+                onClickFilterButton={handleFilterModalOpen}
+              />
+            }
+            state={
+              places.length
+                ? BOTTOM_SHEET_STATE.Default
+                : BOTTOM_SHEET_STATE.Collapsed
+            }
           />
-        }
-        isOpen={isFilterModalOpen}
-        cancelMessage="초기화"
-        confirmMessage="적용"
-        onClose={() => setIsFilterModalOpen(false)}
-        onConfirm={() => setIsFilterModalOpen(false)}
-        onCancel={() => {
-          setSelcectedFilterIds(INITIAL_FILTER_IDS)
-          setIsFilterModalOpen(false)
-        }}
-      />
+          <BottomModal
+            title="보고 싶은 맛집을 선택해주세요"
+            body={
+              <FilterModalBody
+                mapId={mapId}
+                selectedFilterIds={selectedFilterIds}
+                onChangeSelectedFilterIds={handleSelectedFilterChange}
+              />
+            }
+            isOpen={isFilterModalOpen}
+            cancelMessage="초기화"
+            confirmMessage="적용"
+            onClose={handleFilterModalOpen}
+            onConfirm={handleFilterModalOpen}
+            onCancel={resetFilter}
+          />
+        </>
+      ) : (
+        <PlaceMapPopup
+          ref={bottomRef}
+          className="absolute bottom-5 px-5"
+          selectedPlace={selectedPlace}
+        />
+      )}
     </>
   )
 }

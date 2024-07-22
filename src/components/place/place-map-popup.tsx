@@ -1,29 +1,38 @@
 import { forwardRef } from 'react'
 import { Typography, PickChip, TagList, LikeButton } from '@/components'
-import type { PlaceProps } from './types'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
+import { formatDistance, getDistance } from '@/utils/location'
+import useUserGeoLocation from '@/hooks/use-user-geo-location'
+import type { PlaceType } from '@/types/api/place'
 
-interface PlaceMapPopupProps extends PlaceProps, ClassName {
-  image: string
+interface PlaceMapPopupProps extends ClassName {
+  selectedPlace: PlaceType
 }
 
 // TODO: 클릭 시 식당 상세로 이동 로직
 const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
-  (
-    {
-      placeId,
-      name,
-      image,
-      distance,
-      address,
-      category,
-      tags,
-      pick,
-      className,
-    },
-    ref,
-  ) => {
+  ({ selectedPlace, className }, ref) => {
+    const userLocation = useUserGeoLocation()
+    const place = selectedPlace.place
+    const distance = formatDistance(
+      getDistance(
+        userLocation.latitude,
+        userLocation.longitude,
+        place.y,
+        place.x,
+      ),
+    )
+    const kakaoPlace = place.kakaoPlace
+    const tags = selectedPlace.tags
+    const pick = {
+      //TODO: userId 연동
+      isLiked: selectedPlace.likedUserIds.includes(1),
+      isMyPick: selectedPlace.createdBy.id === 1,
+      numOfLikes: selectedPlace.likedUserIds.length,
+      onClickLike: () => null,
+    }
+
     return (
       <div
         role="presentation"
@@ -38,10 +47,10 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
               <div className="flex flex-col gap-1 ">
                 <div className="flex gap-1.5 items-end">
                   <Typography as="h2" size="h4">
-                    {name}
+                    {kakaoPlace.name}
                   </Typography>
                   <Typography as="span" size="body3" color="neutral-400">
-                    {category}
+                    {kakaoPlace.category}
                   </Typography>
                 </div>
 
@@ -50,7 +59,7 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
                     {distance}
                   </Typography>
                   <Typography as="span" size="body3" color="neutral-300">
-                    {address}
+                    {kakaoPlace.address}
                   </Typography>
                 </div>
               </div>
@@ -67,9 +76,13 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
               )}
             </div>
 
-            <img className="rounded-md w-20 h-20" src={image} alt="식당" />
+            <img
+              className="rounded-md w-20 h-20"
+              src={kakaoPlace.photoList?.[0]}
+              alt="식당"
+            />
           </div>
-          {tags?.length && <TagList placeId={placeId} tags={tags} />}
+          {tags?.length && <TagList placeId={kakaoPlace.id} tags={tags} />}
         </section>
       </div>
     )

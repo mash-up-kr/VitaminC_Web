@@ -1,85 +1,72 @@
-import { forwardRef, useEffect, useState } from 'react'
-import type { RefObject } from 'react'
+import { useEffect, useState } from 'react'
 import { AccessibleIconButton } from '@/components'
-import { ClassName } from '@/models/interface'
 import useWindowSize from '@/hooks/use-window-size'
 import { useKakaoMap } from './context'
 import GpsMarker from './gps-marker'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 
-interface GpsButtonProps extends ClassName {
-  bottomRef?: RefObject<HTMLDivElement>
+const BUTTON_OFFSET_Y = 16
+const BUTTON_HEIGHT = 11
+interface GpsButtonProps {
+  topOfBottomBounds: number
 }
 
-const DEFAULT_BUTTON_BOTTOM = 16
+const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
+  const userLocation = useUserGeoLocation()
+  const [gpsBottomPositionY, setGpsBottomPositionY] = useState(BUTTON_OFFSET_Y)
+  const [gpsMode, setGpsMode] = useState(false)
+  const { height: windowHeight } = useWindowSize()
+  const { map } = useKakaoMap()
 
-const GpsButton = forwardRef<HTMLButtonElement, GpsButtonProps>(
-  ({ bottomRef }, ref) => {
-    const userLocation = useUserGeoLocation()
-    const [gpsBottomPosition, setGpsBottomPosition] = useState(
-      DEFAULT_BUTTON_BOTTOM,
-    )
-    const [gpsMode, setGpsMode] = useState(false)
-    const { height } = useWindowSize()
-    const { map } = useKakaoMap()
+  const handleGpsClick = () => {
+    if (!map) return
 
-    const handleGpsClick = () => {
-      if (!map) return
-
-      if (!gpsMode) {
-        const location = new window.kakao.maps.LatLng(
-          userLocation.latitude,
-          userLocation.longitude,
-        )
-        map.setCenter(location)
-      }
-
-      setGpsMode((prev) => !prev)
+    if (!gpsMode) {
+      const location = new window.kakao.maps.LatLng(
+        userLocation.latitude,
+        userLocation.longitude,
+      )
+      map.setCenter(location)
     }
 
-    useEffect(() => {
-      const getGpsButtonPositionY = () => {
-        if (bottomRef?.current) {
-          setGpsBottomPosition(
-            height -
-              bottomRef.current.getBoundingClientRect().top +
-              DEFAULT_BUTTON_BOTTOM,
-          )
-          return
-        }
+    setGpsMode((prev) => !prev)
+  }
 
-        setGpsBottomPosition(DEFAULT_BUTTON_BOTTOM)
-      }
+  useEffect(() => {
+    if (topOfBottomBounds) {
+      setGpsBottomPositionY(
+        Math.min(
+          windowHeight - topOfBottomBounds + BUTTON_OFFSET_Y,
+          (windowHeight * 3) / 4 - BUTTON_OFFSET_Y - BUTTON_HEIGHT / 2,
+        ),
+      )
+    } else {
+      setGpsBottomPositionY(BUTTON_OFFSET_Y)
+    }
+  }, [topOfBottomBounds, windowHeight])
 
-      getGpsButtonPositionY()
-    }, [bottomRef, height])
-
-    return (
-      <>
-        {gpsMode && (
-          <GpsMarker
-            latitude={userLocation.latitude}
-            longitude={userLocation.longitude}
-          />
-        )}
-        <AccessibleIconButton
-          ref={ref}
-          className={`absolute right-5 transition-[bottom] z-10`}
-          style={{
-            bottom: `${gpsBottomPosition}px`,
-          }}
-          label={gpsMode ? '내 위치로 이동 취소' : '내 위치로 이동'}
-          icon={{
-            className: 'w-11 h-11',
-            type: gpsMode ? 'locationOn' : 'locationOff',
-          }}
-          onClick={handleGpsClick}
+  return (
+    <>
+      {gpsMode && (
+        <GpsMarker
+          latitude={userLocation.latitude}
+          longitude={userLocation.longitude}
         />
-      </>
-    )
-  },
-)
-
-GpsButton.displayName = 'GpsButton'
+      )}
+      <AccessibleIconButton
+        className={`absolute right-5 z-10 transition-all ease-in-out duration-300`}
+        style={{
+          bottom: `${gpsBottomPositionY}px`,
+        }}
+        label={gpsMode ? '내 위치로 이동 취소' : '내 위치로 이동'}
+        icon={{
+          className: 'w-11 h-11',
+          type: gpsMode ? 'locationOn' : 'locationOff',
+        }}
+        onClick={handleGpsClick}
+      />
+    </>
+  )
+}
 
 export default GpsButton
