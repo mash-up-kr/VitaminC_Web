@@ -48,7 +48,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     [],
   )
 
-  const handleClickPlace = (place: PlaceType) => () => {
+  const handleClickPlace = (place: PlaceType) => {
     if (selectedPlace?.place.id === place.place.id) {
       setSelectedPlace(null)
       return
@@ -188,7 +188,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       <KorrkKakaoMap
         places={filteredPlace}
         selectedPlace={selectedPlace}
-        handleClickPlace={handleClickPlace}
+        onClickPlace={handleClickPlace}
         topOfBottomBounds={bottomBounds.top}
       />
 

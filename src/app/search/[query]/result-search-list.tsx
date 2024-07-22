@@ -1,11 +1,11 @@
 import PlaceListItem from '@/components/place/place-list-item'
 import type { ClassName } from '@/models/interface'
-import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
+import type { PlaceType } from '@/types/api/place'
 import { extractCategory } from '@/utils/category'
 import cn from '@/utils/cn'
 
 interface ResultSearchListBoxProps extends ClassName {
-  places: KakaoPlaceItem[]
+  places: PlaceType[]
 }
 
 const ResultSearchListBox = ({
@@ -20,14 +20,14 @@ const ResultSearchListBox = ({
       )}
     >
       {places.map((place) => {
-        const categories = extractCategory(place.category_group_name)
+        const categories = extractCategory(place.place.kakaoPlace.category)
         const category = categories[categories.length - 1]
         return (
           <PlaceListItem
             key={place.id}
             category={category}
             placeId={place.id}
-            name={place.place_name}
+            name={place.place.kakaoPlace.name}
             rating={4.5}
             pick={{
               isLiked: true,
@@ -35,7 +35,7 @@ const ResultSearchListBox = ({
               isMyPick: true,
               onClickLike: () => console.log('like'),
             }}
-            address={place.road_address_name}
+            address={place.place.kakaoPlace.address}
           />
         )
       })}
