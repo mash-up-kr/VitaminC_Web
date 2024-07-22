@@ -1,24 +1,25 @@
 import type { DateTimeType, MutatedAt } from './interface'
+import { User } from './user.interface'
 
 type MapRole = 'ADMIN' | 'READ' | 'WRITE'
 
-export interface MapUser {
-  id: number
+export interface MapMemberData {
+  id: User['id']
   nickname: string
   role: MapRole
 }
-export interface UserByMap extends MutatedAt {
-  id: string
-  name: string
+export interface UserByMapInfo extends MutatedAt {
+  id: MapInfo['id']
+  name: MapInfo['name']
   role: MapRole
 }
 
 export interface MapInfo extends MutatedAt {
   id: string
   name: string
-  creator: MapUser
+  creator: MapMemberData
   registeredPlaceCount: number
-  users: MapUser[]
+  users: MapMemberData[]
 }
 
 export interface InviteLink {
