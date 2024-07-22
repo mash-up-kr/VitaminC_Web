@@ -38,7 +38,6 @@ const Home = () => {
             name="존라멘"
             address="서울시 성동구 장터5길"
             rating={0.5}
-            tags={['존존맛탱구리', '존맛', '존맛탱', '존맛탱구', '존맛탱구리']}
             pick={{
               isLiked: false,
               isMyPick: false,

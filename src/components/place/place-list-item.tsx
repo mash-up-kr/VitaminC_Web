@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
 import type { PlaceProps } from './types'
 import IconChip from '../icon-chip'
+import { getCategoryIconKey } from '@/utils/category'
 
 interface PlaceListItemProps extends PlaceProps {
   rating: number
@@ -19,6 +20,8 @@ const PlaceListItem = ({
   pick,
   tags,
 }: PlaceListItemProps) => {
+  const categoryIconKey = getCategoryIconKey(category)
+
   return (
     <Link
       href={`/place/${placeId}`}
@@ -37,7 +40,9 @@ const PlaceListItem = ({
         </div>
       )}
 
-      {category && <IconChip icon={{ type: 'sushi' }} label={category} />}
+      {categoryIconKey && category && (
+        <IconChip icon={{ type: categoryIconKey }} label={category} />
+      )}
 
       <div className="flex flex-col gap-2 ">
         <div className="flex items-center justify-between">

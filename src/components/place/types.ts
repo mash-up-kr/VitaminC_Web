@@ -1,3 +1,4 @@
+import { TagItem } from '@/types/api/maps'
 import { PlaceType } from '@/types/api/place'
 
 export interface PlaceProps {
@@ -6,7 +7,7 @@ export interface PlaceProps {
   address: string
   distance?: string
   category?: string
-  tags?: string[]
+  tags?: TagItem[]
   pick?: {
     isMyPick: boolean
     numOfLikes: number

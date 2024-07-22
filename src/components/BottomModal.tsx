@@ -8,9 +8,10 @@ import type { ClassName } from '@/models/interface'
 interface BottomModalLayoutProps extends ClassName {
   title: string
   body?: string | ReactNode
-  cancelMessage: string
+  cancelMessage?: string
   confirmMessage: string
-  onCancel: VoidFunction
+  layout?: 'confirm' | 'alert'
+  onCancel?: VoidFunction
   onConfirm: VoidFunction
 }
 
@@ -20,6 +21,7 @@ const BottomModalLayout = ({
   className,
   cancelMessage,
   confirmMessage,
+  layout,
   onCancel,
   onConfirm,
 }: BottomModalLayoutProps) => {
@@ -50,30 +52,38 @@ const BottomModalLayout = ({
         body
       )}
 
-      <div className="w-full h-[94px] flex justify-center items-center gap-2">
-        <Button colorScheme="neutral" onClick={onCancel}>
-          {cancelMessage}
-        </Button>
-        <Button colorScheme="orange" onClick={onConfirm}>
-          {confirmMessage}
-        </Button>
-      </div>
+      {layout === 'confirm' ? (
+        <div className="w-full h-[94px] flex justify-center items-center gap-2">
+          <Button colorScheme="neutral" onClick={onCancel}>
+            {cancelMessage}
+          </Button>
+          <Button colorScheme="orange" onClick={onConfirm}>
+            {confirmMessage}
+          </Button>
+        </div>
+      ) : (
+        <div className="py-5">
+          <Button onClick={onConfirm}>{confirmMessage}</Button>
+        </div>
+      )}
     </div>
   )
 }
 
 interface BottomModalProps extends BottomModalLayoutProps {
+  layout?: 'confirm' | 'alert'
   isOpen: Parameters<typeof Modal>[0]['isOpen']
   onClose: Parameters<typeof Modal>[0]['onClose']
 }
 
 const BottomModal = ({
   isOpen,
-  onClose,
   title,
   body,
   confirmMessage,
   cancelMessage,
+  layout = 'confirm',
+  onClose,
   onCancel,
   onConfirm,
 }: BottomModalProps) => {
@@ -90,6 +100,7 @@ const BottomModal = ({
       <BottomModalLayout
         title={title}
         body={body}
+        layout={layout}
         cancelMessage={cancelMessage}
         confirmMessage={confirmMessage}
         onCancel={onCancel}

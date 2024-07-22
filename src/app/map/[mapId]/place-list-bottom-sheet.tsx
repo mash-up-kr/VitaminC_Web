@@ -19,7 +19,7 @@ const PlaceListBottomSheet = ({
   const userLocation = useUserGeoLocation()
 
   return (
-    <div className="flex flex-col pt-3.5 px-5">
+    <div className="flex flex-col px-5">
       <div>
         <FilterButton
           numOfSelectedFilter={
@@ -50,7 +50,7 @@ const PlaceListBottomSheet = ({
               ),
             )}
             images={place.place.kakaoPlace.photoList}
-            tags={place.tags.map((tag) => tag.content)}
+            tags={place.tags}
             pick={{
               //TODO: userId 연동
               isLiked: place.likedUserIds.includes(1),

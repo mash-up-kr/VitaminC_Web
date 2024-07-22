@@ -3,12 +3,23 @@ import cn from '@/utils/cn'
 interface IndicatorProps {
   activeIndex: number
   numOfSlides: number
+  position: 'bottom' | 'inside'
   onClick: (index: number) => void
 }
 
-const Indicator = ({ activeIndex, numOfSlides, onClick }: IndicatorProps) => {
+const Indicator = ({
+  activeIndex,
+  numOfSlides,
+  position,
+  onClick,
+}: IndicatorProps) => {
   return (
-    <div className="w-full h-[44px] flex justify-center items-center">
+    <div
+      className={cn(
+        'w-full h-[44px] flex justify-center items-center',
+        position === 'inside' && 'absolute bottom-[10px] z-[100]',
+      )}
+    >
       <ul className="px-3 py-2 rounded-[50px] bg-[#BFBFBF] bg-opacity-[0.44] flex gap-2">
         {[...Array(numOfSlides)].map((_, index) => (
           <li key={index} className="h-2 w-2 flex">

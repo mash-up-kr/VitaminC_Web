@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { useEffect, useState } from 'react'
+import { startTransition, useEffect, useState } from 'react'
 
 import useRenderState from './use-render-state'
 
@@ -17,16 +17,18 @@ const useModalTransition = (
 
   useEffect(() => {
     if (isOpen && state === 'unmounted') {
-      transition('mounting')
-      setStyles({ ...initial, transition: `all ${delay}ms ease-in` })
+      startTransition(() => {
+        transition('mounting')
+        setStyles({ ...initial, transition: `all ${delay}ms ease-in` })
 
-      setTimeout(() => {
-        transition('mounted')
-        setStyles({
-          ...animate,
-          transition: `all ${delay}ms ease-in`,
-        })
-      }, 0)
+        setTimeout(() => {
+          transition('mounted')
+          setStyles({
+            ...animate,
+            transition: `all ${delay}ms ease-in`,
+          })
+        }, 0)
+      })
     } else if (!isOpen && state === 'mounted') {
       transition('unmounting')
       setStyles({
