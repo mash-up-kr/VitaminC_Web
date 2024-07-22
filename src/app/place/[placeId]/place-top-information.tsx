@@ -3,6 +3,7 @@ import type { PlaceProps } from '@/components/place/types'
 import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
+import { getCategoryIconKey } from '@/utils/category'
 
 interface PlaceTopInformationProps extends PlaceProps, ClassName {
   rating: number
@@ -19,6 +20,8 @@ const PlaceTopInformation = ({
   tags,
   className,
 }: PlaceTopInformationProps) => {
+  const categoryIconKey = getCategoryIconKey(category)
+
   return (
     <section
       className={cn(
@@ -26,8 +29,9 @@ const PlaceTopInformation = ({
         className,
       )}
     >
-      {/* TODO: category 별 아이콘 체인지 */}
-      {category && <IconChip icon={{ type: 'sushi' }} label={category} />}
+      {category && categoryIconKey && (
+        <IconChip icon={{ type: categoryIconKey }} label={category} />
+      )}
 
       <div className="flex flex-col gap-2 ">
         <div className="flex items-center justify-between">
