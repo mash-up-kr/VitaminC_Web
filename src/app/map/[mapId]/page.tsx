@@ -18,6 +18,7 @@ import useMeasure from '@/hooks/use-measure'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 import BottomSheet from '@/components/bottom-sheet'
 import { APIError, BOTTOM_SHEET_STATE } from '@/models/interface'
+import MapInfoModal from './map-info-modal'
 
 export interface FilterIdsType {
   category: string[]
@@ -237,6 +238,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           selectedPlace={selectedPlace}
         />
       )}
+      <MapInfoModal
+        isOpen={isMapInfoOpen}
+        mapId={mapId}
+        onClose={() => setIsMapInfoOpen(false)}
+      />
     </>
   )
 }
