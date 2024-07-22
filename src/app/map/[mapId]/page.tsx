@@ -16,6 +16,7 @@ import BottomModal from '@/components/BottomModal'
 import FilterModalBody, { CategoryType } from './filter-modal-body'
 import MapInfoModal from './map-info-modal'
 import { MapInfo } from '@/models/map.interface'
+import { APIError } from '@/models/interface'
 
 export interface FilterIdsType {
   category: string[]
@@ -83,8 +84,12 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       try {
         const { data: placeList } = await api.place.mapId.get(mapId)
         setPlaces(placeList)
-      } catch (err) {
-        notify.error('예상치 못한 오류가 발생했습니다.')
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+          return
+        }
+        notify.error('예상치 못한 에러가 발생했습니다. ')
       }
     }
 
@@ -92,8 +97,12 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       try {
         const { data } = await api.maps.id.get(mapId)
         setMapData(data)
-      } catch (err) {
-        notify.error('오류가 발생했습니다.')
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+          return
+        }
+        notify.error('예상치 못한 에러가 발생했습니다. ')
       }
     }
 

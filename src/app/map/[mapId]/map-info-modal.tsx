@@ -5,6 +5,7 @@ import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 import Modal from '@/components/common/Modal/Modal'
 import { notify } from '@/components/common/custom-toast'
+import { APIError } from '@/models/interface'
 import { InviteLink, MapInfo, UserByMap } from '@/models/map.interface'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
@@ -34,7 +35,11 @@ const MapList = ({
       try {
         const { data } = await api.maps.get()
         setMaps(data)
-      } catch (err) {
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+          return
+        }
         notify.error('지도 목록을 가지고 오는데 에러가 발생했습니다. ')
       }
     }
@@ -94,8 +99,12 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
       try {
         const { data } = await api.maps.id.get(currentMapId)
         setMapData(data)
-      } catch (err) {
-        notify.error('지도 정보를 가지고 오는데 에러가 발생했습니다. ')
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+          return
+        }
+        notify.error('지도 목록을 가지고 오는데 에러가 발생했습니다. ')
       }
     }
 

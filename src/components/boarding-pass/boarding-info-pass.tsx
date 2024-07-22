@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 import BottomModal from '../BottomModal'
 import { notify } from '../common/custom-toast'
 import { api } from '@/utils/api'
+import { APIError } from '@/models/interface'
 //TODO: 유저 정보 쿠키 저장 나오면 변경
 const USER_ID = 3
 
@@ -78,8 +79,12 @@ const BoardingInfoPass = ({
       await api.users.maps.mapId.delete({ mapId })
       //TODO: 지도 나가기 후 어느 경로로 이동?
       notify.success('지도에 나가졌습니다.')
-    } catch (err) {
-      notify.error('에러가 발생했습니다. ')
+    } catch (error) {
+      if (error instanceof APIError) {
+        notify.error(error.message)
+        return
+      }
+      notify.error('예상치 못한 에러가 발생했습니다. ')
     }
   }
 
@@ -88,7 +93,12 @@ const BoardingInfoPass = ({
       const { data: code } = await api.maps.id.inviteLinks.post(mapId)
       setIsInvited(true)
       onChangeInviteLink(code)
-    } catch (err) {
+    } catch (error) {
+      if (error instanceof APIError) {
+        notify.error(error.message)
+        return
+      }
+      notify.error('예상치 못한 에러가 발생했습니다. ')
       setIsInvited(false)
     }
   }
