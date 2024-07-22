@@ -76,18 +76,15 @@ const MapList = ({
 const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
   const [currentMapId, setCurrentMapId] = useState(mapId)
   const [mapData, setMapData] = useState<MapInfo>()
-  const [invitedCode, setInvitedCode] = useState<InviteLink>()
 
   const router = useRouter()
 
   const handleCloseModal = () => {
-    if (!invitedCode) {
-      if (currentMapId === mapId) {
-        onClose()
-        return
-      }
-      router.push(`/map/${currentMapId}`)
+    if (currentMapId === mapId) {
+      onClose()
+      return
     }
+    router.push(`/map/${currentMapId}`)
   }
 
   const handleChangeMap = (selectedMapId: string) => {
@@ -130,30 +127,11 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
                 numOfCrews={mapData.users.length}
                 numOfPins={mapData.registeredPlaceCount}
                 owner={mapData.creator}
-                onChangeInviteLink={(invitedLink: InviteLink) =>
-                  setInvitedCode(invitedLink)
-                }
               />
             )}
           </div>
         </div>
       </Modal>
-      {invitedCode && mapData && (
-        <Modal
-          isOpen={Boolean(invitedCode)}
-          onClose={() => setInvitedCode(undefined)}
-          dimClassName="z-[9998]"
-          className="z-[9999]"
-        >
-          <InvitingBoardingPass
-            inviteCode={invitedCode.token}
-            expirationTime={new Date(invitedCode.expiresAt)}
-            mapName={mapData.name}
-            numOfCrews={mapData.users.length}
-            owner={mapData.creator}
-          />
-        </Modal>
-      )}
     </>
   )
 }

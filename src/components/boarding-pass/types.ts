@@ -22,7 +22,6 @@ export interface BoardingInfoPassProps extends BoardingMembers, ClassName {
   name: string
   day: number
   numOfPins: number
-  onChangeInviteLink: (inviteLink: InviteLink) => void
 }
 
 export interface InviteBoardingPass

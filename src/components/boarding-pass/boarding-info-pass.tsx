@@ -6,13 +6,15 @@ import { Icon, Typography } from '../common'
 import BoardingDivider from './boarding-divider'
 import BoardingBottom from './boarding-bottom'
 import BoardingMembers from './boarding-members'
-import { BoardingInfoPassProps } from './types'
+import { BoardingInfoPassProps, InvitingBoardingPassProps } from './types'
 import { useEffect, useState } from 'react'
 import BottomModal from '../BottomModal'
 import { notify } from '../common/custom-toast'
 import { api } from '@/utils/api'
 import { APIError } from '@/models/interface'
 import { User } from '@/models/user.interface'
+import Modal from '../common/Modal/Modal'
+import InvitingBoardingPass from './inviting-boarding-pass'
 
 const ShareButton = ({
   isInvited,
@@ -58,11 +60,14 @@ const BoardingInfoPass = ({
   numOfCrews,
   members,
   owner,
-  onChangeInviteLink,
 }: BoardingInfoPassProps) => {
+  const [isOpenInviteBoardingPass, setIsOpenInvitedBoardingPass] =
+    useState(false)
   const [isInvited, setIsInvited] = useState(false)
   const [isExitModalOpen, setIsExitModalOpen] = useState(false)
   const [userData, setUserData] = useState<User>()
+  const [mapInviteInfo, setMapInviteInfo] =
+    useState<InvitingBoardingPassProps>()
 
   const isMyBoard = userData?.role === 'ADMIN'
 
@@ -85,11 +90,30 @@ const BoardingInfoPass = ({
     }
   }
 
+  const getMapInviteInfo = async (inviteCode: string) => {
+    try {
+      const res = await api.maps.inviteLinks.get(inviteCode)
+      const data = res.data
+      setMapInviteInfo({
+        inviteCode: data.inviteLink.token,
+        expirationTime: new Date(data.inviteLink.expiresAt),
+        mapName: data.map.name,
+        owner: data.map.creator,
+        numOfCrews: data.map.users.length,
+      })
+      setIsOpenInvitedBoardingPass(true)
+    } catch (error) {
+      if (error instanceof APIError) {
+        notify.error(error.message)
+      }
+    }
+  }
+
   const handleIssuedInviteCode = async () => {
     try {
-      const { data: code } = await api.maps.id.inviteLinks.post(mapId)
+      const { data } = await api.maps.id.inviteLinks.post(mapId)
       setIsInvited(true)
-      onChangeInviteLink(code)
+      getMapInviteInfo(data.token)
     } catch (error) {
       if (error instanceof APIError) {
         notify.error(error.message)
@@ -178,6 +202,22 @@ const BoardingInfoPass = ({
         onCancel={() => setIsExitModalOpen(false)}
         onConfirm={handleExitMap}
       />
+      {mapInviteInfo && (
+        <Modal
+          isOpen={isOpenInviteBoardingPass}
+          onClose={() => setIsOpenInvitedBoardingPass(false)}
+          dimClassName="z-[9998]"
+          className="z-[9999]"
+        >
+          <InvitingBoardingPass
+            inviteCode={mapInviteInfo.inviteCode}
+            expirationTime={new Date(mapInviteInfo.expirationTime)}
+            mapName={mapInviteInfo.mapName}
+            numOfCrews={mapInviteInfo.numOfCrews}
+            owner={mapInviteInfo.owner}
+          />
+        </Modal>
+      )}
     </>
   )
 }
