@@ -3,6 +3,12 @@ import { User } from './user.interface'
 
 type MapRole = 'ADMIN' | 'READ' | 'WRITE'
 
+export interface CreateBy {
+  id: User['id']
+  nickname: User['nickname']
+  provider: string
+  providerId: string
+}
 export interface MapMemberData {
   id: User['id']
   nickname: string
@@ -17,7 +23,7 @@ export interface UserByMapInfo extends MutatedAt {
 export interface MapInfo extends MutatedAt {
   id: string
   name: string
-  creator: MapMemberData
+  createBy: CreateBy
   registeredPlaceCount: number
   users: MapMemberData[]
 }

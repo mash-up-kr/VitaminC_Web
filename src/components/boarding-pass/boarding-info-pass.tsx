@@ -98,7 +98,7 @@ const BoardingInfoPass = ({
         inviteCode: data.inviteLink.token,
         expirationTime: new Date(data.inviteLink.expiresAt),
         mapName: data.map.name,
-        owner: data.map.creator,
+        owner: data.map.createBy,
         numOfCrews: data.map.users.length,
       })
       setIsOpenInvitedBoardingPass(true)

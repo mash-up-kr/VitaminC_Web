@@ -125,7 +125,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
                 members={mapData.users}
                 numOfCrews={mapData.users.length}
                 numOfPins={mapData.registeredPlaceCount}
-                owner={mapData.creator}
+                owner={mapData.createBy}
               />
             )}
           </div>
