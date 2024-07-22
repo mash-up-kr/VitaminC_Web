@@ -63,7 +63,7 @@ const BottomModalLayout = ({
         </div>
       ) : (
         <div className="py-5">
-          <Button onClick={onConfirm}>추가</Button>
+          <Button onClick={onConfirm}>{confirmMessage}</Button>
         </div>
       )}
     </div>
