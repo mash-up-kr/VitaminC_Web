@@ -21,7 +21,7 @@ const NewMap = ({ goNextStep }: IntroActionDispatch) => {
 
         <div className="w-full flex justify-center items-center">
           <img
-            className="h-[220px] object-contain"
+            className="h-[220px] object-fill"
             src="/chunsik.png"
             alt="미정"
           />

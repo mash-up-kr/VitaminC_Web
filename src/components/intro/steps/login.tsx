@@ -33,6 +33,7 @@ const Login = () => {
         </div>
         <Carousel
           className="h-[220px] min-h-[220px]"
+          objectFit="fill"
           srcList={[
             '/image-placeholder-1.png',
             '/image-placeholder-2.png',
