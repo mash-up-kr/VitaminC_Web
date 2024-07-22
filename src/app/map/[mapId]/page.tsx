@@ -13,9 +13,9 @@ import { notify } from '@/components/common/custom-toast'
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import BottomModal from '@/components/BottomModal'
-import { MapDataType } from '@/types/api/maps'
 import FilterModalBody, { CategoryType } from './filter-modal-body'
 import MapInfoModal from './map-info-modal'
+import { MapInfo } from '@/models/map.interface'
 
 export interface FilterIdsType {
   category: string[]
@@ -35,7 +35,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
   const [places, setPlaces] = useState<PlaceType[]>([])
   const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
-  const [mapData, setMapData] = useState<MapDataType>()
+  const [mapData, setMapData] = useState<MapInfo>()
 
   const visitedMapIds = useMemo(
     () => visitedMapIdsStorage.getValueOrNull() ?? [],
