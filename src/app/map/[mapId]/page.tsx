@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { Avatar, Icon, Typography } from '@/components'
 import Tooltip from '@/components/tooltip'
 import Link from 'next/link'
@@ -10,7 +10,6 @@ import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import { api } from '@/utils/api'
 import type { PlaceType } from '@/types/api/place'
 import { notify } from '@/components/common/custom-toast'
-import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import BottomModal from '@/components/BottomModal'
 import FilterModalBody, { type CategoryType } from './filter-modal-body'
@@ -19,6 +18,7 @@ import PlaceMapPopup from '@/components/place/place-map-popup'
 import BottomSheet from '@/components/bottom-sheet'
 import { APIError, BOTTOM_SHEET_STATE } from '@/models/interface'
 import MapInfoModal from './map-info-modal'
+import { User } from '@/models/user.interface'
 
 export interface FilterIdsType {
   category: string[]
@@ -36,6 +36,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterIds, setSelcectedFilterIds] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
+  const [userData, setUserData] = useState<User>()
 
   const [places, setPlaces] = useState<PlaceType[]>([])
   const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
@@ -102,7 +103,22 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     }
   }
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const { data } = await api.users.me.get()
+        setUserData(data)
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+        }
+      }
+    }
+
+    getUserData()
+  }, [])
+
+  useEffect(() => {
     const getPlaceList = async () => {
       try {
         const { data: placeList } = await api.place.mapId.get(mapId)
@@ -129,15 +145,14 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     getPlaceList()
   }, [])
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     setFilteredPlace(
       places.filter((place) => {
         const matchesCategory =
           selectedFilterIds.category.length === 0 ||
           selectedFilterIds.category.some((cat) => {
             if (cat === 'like') {
-              //TODO: userId 저장하는 store 완성 후 연결
-              return place.likedUserIds.includes(1)
+              return place.likedUserIds.includes(userData?.id ?? -1)
             } else if (cat === 'pick') {
               return place.createdBy.id === 1
             }
@@ -153,7 +168,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     )
   }, [places, selectedFilterIds])
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     if (!visitedMapIds.includes(mapId)) {
       setIsTooltipOpen(true)
     }
@@ -172,7 +187,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             <Icon type="caretDown" size="lg" />
           </button>
           <Link href="/setting">
-            <Avatar value="홍길동" />
+            <Avatar value={userData?.nickname ?? ''} />
           </Link>
         </div>
         <Tooltip
