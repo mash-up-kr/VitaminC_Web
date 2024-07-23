@@ -34,4 +34,10 @@ body {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  .placeholder-center::placeholder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }

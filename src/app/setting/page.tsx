@@ -26,11 +26,12 @@ const Setting = () => {
 
   return (
     <>
-      <div className="px-5">
-        <header className="relative flex items-center pt-[18px] pb-2.5">
+      <div className="min-h-dvh bg-neutral-700">
+        <header className="relative flex items-center pt-4">
           <AccessibleIconButton
-            icon={{ type: 'caretLeft', className: 'w-6 h-6' }}
+            icon={{ type: 'caretLeft', size: 'xl' }}
             label="이전 페이지"
+            className="p-[10px]"
             onClick={() => router.back()}
           />
           <Typography
@@ -41,28 +42,37 @@ const Setting = () => {
             설정
           </Typography>
         </header>
-        <main className="flex flex-col gap-6">
-          <div className="flex gap-1 items-center pt-2">
-            <div className="p-2">
-              <Avatar value={USER_DATA.nickName} />
-            </div>
+
+        <div className="px-5 flex flex-col">
+          <div className="flex gap-2 pt-3 pb-1 items-center">
+            <Avatar value={USER_DATA.nickName} />
             <Typography as="span" size="body1">
               {USER_DATA.nickName}
             </Typography>
           </div>
-          <section className="flex flex-col gap-4">
-            <Typography as="h2" size="body1">
+
+          <section className="flex flex-col">
+            <Typography
+              as="h2"
+              size="body1"
+              className="flex items-end h-[43px] font-medium"
+            >
               일반
             </Typography>
-            <button
-              className="flex gap-2 items-center"
-              onClick={() => setIsOpenSignupModal(true)}
-            >
-              <Icon type="signOut" size="lg" />
-              <Typography size="body1">로그아웃</Typography>
-            </button>
+
+            <div className="h-[38px] flex items-end">
+              <button
+                className="flex gap-2"
+                onClick={() => setIsOpenSignupModal(true)}
+              >
+                <Icon type="signOut" size="lg" />
+                <Typography size="body1" color="neutral-100">
+                  로그아웃
+                </Typography>
+              </button>
+            </div>
           </section>
-        </main>
+        </div>
       </div>
       <BottomModal
         isOpen={isOpenSignupModal}

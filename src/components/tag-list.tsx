@@ -30,6 +30,8 @@ const TagList = ({ placeId, tags, className }: TagListProps) => {
     editTags()
   }, [tags])
 
+  if (visibleTags.length === 0) return null
+
   return (
     <div
       ref={containerRef}
@@ -40,7 +42,7 @@ const TagList = ({ placeId, tags, className }: TagListProps) => {
           id={`hashtag-${placeId}-${changeSpaceToHyphen(tag.content)}`}
           className="whitespace-nowrap"
           colorScheme="neutral-600"
-          key={`${placeId}-${tag}`}
+          key={`${placeId}-${tag.content}`}
         >{`#${tag}`}</Chip>
       ))}
     </div>

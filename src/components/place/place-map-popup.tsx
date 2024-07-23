@@ -46,7 +46,11 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
             <div className="flex flex-col justify-between">
               <div className="flex flex-col gap-1 ">
                 <div className="flex gap-1.5 items-end">
-                  <Typography as="h2" size="h4">
+                  <Typography
+                    as="h2"
+                    size="h4"
+                    className="text-ellipsis overflow-hidden"
+                  >
                     {kakaoPlace.name}
                   </Typography>
                   <Typography as="span" size="body3" color="neutral-400">
@@ -58,7 +62,12 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
                   <Typography as="span" size="body3" color="neutral-300">
                     {distance}
                   </Typography>
-                  <Typography as="span" size="body3" color="neutral-300">
+                  <Typography
+                    as="span"
+                    size="body3"
+                    color="neutral-300"
+                    className="text-ellipsis overflow-hidden"
+                  >
                     {kakaoPlace.address}
                   </Typography>
                 </div>
@@ -82,6 +91,7 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
               alt="식당"
             />
           </div>
+
           {tags?.length && <TagList placeId={kakaoPlace.id} tags={tags} />}
         </section>
       </div>

@@ -9,7 +9,6 @@ import { recentSearchStorage } from '@/utils/storage'
 import { extractCategory } from '@/utils/category'
 
 interface PlaceAutoSearchItemProps extends KakaoPlaceItem, ClassName {
-  numOfReviews: number
   query: string
 }
 
@@ -22,7 +21,6 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
       className,
       road_address_name,
       category_name,
-      numOfReviews,
       query,
     },
     ref,
@@ -46,7 +44,7 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
       <li ref={ref} className={cn('w-full', className)}>
         <Link
           href={`/place/${id}`}
-          className="w-full bg-neutral-700 h-[88px] flex pt-5 gap-2.5"
+          className="w-full bg-neutral-700 h-fit flex pt-5 gap-2.5"
           onClick={addRecentKeyword}
         >
           <Icon type="subtract" size="xl" />
@@ -68,15 +66,6 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
                   {road_address_name}
                 </Typography>
               </div>
-
-              <p className="flex items-center gap-1">
-                <Typography as="span" size="body4" color="neutral-500">
-                  리뷰
-                </Typography>
-                <Typography as="span" size="body4" color="neutral-200">
-                  {numOfReviews?.toLocaleString()}
-                </Typography>
-              </p>
             </div>
 
             <div className="flex flex-col gap-1.5">

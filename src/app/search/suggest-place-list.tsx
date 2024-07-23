@@ -12,7 +12,7 @@ const SuggestPlaceList = ({ places, query }: SuggestPlaceListProps) => {
   const userLocation = useUserGeoLocation()
 
   return (
-    <ul className="flex flex-col space-y-[13px] divide-y divide-neutral-600 mx-[-20px]">
+    <ul className="flex flex-col space-y-[17px] divide-y divide-neutral-600 mx-[-20px]">
       {places.map((place) => {
         const diffDistance = getDistance(
           userLocation.latitude,
@@ -28,7 +28,6 @@ const SuggestPlaceList = ({ places, query }: SuggestPlaceListProps) => {
             className="px-5"
             query={query}
             distance={formatDistance(diffDistance)}
-            numOfReviews={312}
           />
         )
       })}
