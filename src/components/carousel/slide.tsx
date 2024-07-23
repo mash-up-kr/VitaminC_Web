@@ -1,6 +1,12 @@
 'use client'
 
-import { type CSSProperties, useCallback, useEffect, useRef } from 'react'
+import {
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useRef,
+  type ReactNode,
+} from 'react'
 import { PanInfo, animate, motion, useMotionValue } from 'framer-motion'
 import cn from '@/utils/cn'
 
@@ -8,6 +14,7 @@ interface SlideProps {
   activeIndex: number
   srcList: string[]
   objectFit: CSSProperties['objectFit']
+  title?: ReactNode[]
   handleChangeActiveIndex: (index: number) => void
 }
 
@@ -34,6 +41,7 @@ const Slide = ({
   activeIndex,
   srcList,
   objectFit = 'contain',
+  title,
   handleChangeActiveIndex,
 }: SlideProps) => {
   const x = useMotionValue(0)
@@ -84,13 +92,14 @@ const Slide = ({
             right: `${activeIndex * 100}%`,
           }}
           key={src}
-          className="shrink-0 w-full h-full flex justify-center items-center snap-always snap-center"
+          className="shrink-0 w-full h-full flex flex-col justify-center items-center snap-always snap-center"
           draggable
           drag="x"
           dragElastic={1}
           onDragEnd={handleDragEnd}
           aria-hidden={activeIndex !== index}
         >
+          {title?.[index]}
           <img
             draggable={false}
             alt={`슬라이드 ${index + 1}`}

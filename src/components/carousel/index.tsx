@@ -1,6 +1,6 @@
 'use client'
 
-import { type CSSProperties, useEffect, useState } from 'react'
+import { type CSSProperties, useEffect, useState, type ReactNode } from 'react'
 
 import Indicator from './indicator'
 import Slide from './slide'
@@ -9,6 +9,7 @@ import cn from '@/utils/cn'
 
 interface CarouselProps extends ClassName {
   srcList: string[]
+  title?: ReactNode[]
   delay?: number
   autoPlay?: boolean
   objectFit?: CSSProperties['objectFit']
@@ -19,6 +20,7 @@ const AUTO_PLAY_SPEED = 5000
 
 const Carousel = ({
   srcList,
+  title,
   className,
   delay,
   autoPlay = false,
@@ -45,6 +47,7 @@ const Carousel = ({
       <Slide
         activeIndex={activeIndex}
         srcList={srcList}
+        title={title}
         objectFit={objectFit}
         handleChangeActiveIndex={handleChangeActiveIndex}
       />
