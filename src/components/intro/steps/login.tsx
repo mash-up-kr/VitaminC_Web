@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { Icon, Typography } from '@/components/common'
 import { Carousel } from '@/components'
 
-import IntroImage1 from '/public/intro_lost-map.png'
-import IntroImage2 from '/public/intro_find-treasure.png'
-import IntroImage3 from '/public/intro_lets-go.png'
+import IntroImage1 from '/public/intro-lost-map.png'
+import IntroImage2 from '/public/intro-find-treasure.png'
+import IntroImage3 from '/public/intro-lets-go.png'
 
 const KakaoLogin = () => {
   return (
