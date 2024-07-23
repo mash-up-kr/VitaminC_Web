@@ -15,6 +15,7 @@ export type FontKey =
   | 'h5-2'
   | 'h6'
   | 'h7'
+  | 'body0-2'
   | 'body0'
   | 'body1'
   | 'body2'
@@ -36,6 +37,7 @@ export const TypographyVariants = cva<{
       'h5-2': 'text-h5-2',
       h6: 'text-h6',
       h7: 'text-h7',
+      'body0-2': 'text-body0-2',
       body0: 'text-body0',
       body1: 'text-body1',
       body2: 'text-body2',

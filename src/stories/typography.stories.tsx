@@ -18,6 +18,7 @@ const meta: Meta<typeof Typography> = {
         'h5-2',
         'h6',
         'h7',
+        'body0-2',
         'body0',
         'body1',
         'body2',
