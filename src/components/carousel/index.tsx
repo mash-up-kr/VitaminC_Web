@@ -10,6 +10,7 @@ import cn from '@/utils/cn'
 interface CarouselProps extends ClassName {
   srcList: string[]
   delay?: number
+  autoPlay?: boolean
   objectFit?: CSSProperties['objectFit']
   indicatorPosition?: 'bottom' | 'inside'
 }
@@ -20,8 +21,9 @@ const Carousel = ({
   srcList,
   className,
   delay,
+  autoPlay = false,
   objectFit = 'contain',
-  indicatorPosition = 'bottom'
+  indicatorPosition = 'bottom',
 }: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0)
 
@@ -30,10 +32,12 @@ const Carousel = ({
   }
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setActiveIndex((index) => (index + 1) % srcList.length)
-    }, delay ?? AUTO_PLAY_SPEED)
-    return () => clearInterval(intervalId)
+    if (autoPlay) {
+      const intervalId = setInterval(() => {
+        setActiveIndex((index) => (index + 1) % srcList.length)
+      }, delay ?? AUTO_PLAY_SPEED)
+      return () => clearInterval(intervalId)
+    }
   })
 
   return (
