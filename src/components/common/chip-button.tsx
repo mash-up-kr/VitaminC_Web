@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
 import Icon from './icon'
-import Typography from './typography'
+import Typography, { FontKey } from './typography'
 import type { ColorKey } from '@/types/color'
 
 const ChipButtonVariants = cva<{
@@ -26,10 +26,21 @@ interface ChipButtonProps
     VariantProps<typeof ChipButtonVariants> {
   rightIcon?: Parameters<typeof Icon>[0]
   isActive?: boolean
+  fontSize?: FontKey
 }
 
 const ChipButton = forwardRef<HTMLButtonElement, ChipButtonProps>(
-  ({ className, children, rightIcon, isActive = false, ...props }, ref) => {
+  (
+    {
+      className,
+      children,
+      rightIcon,
+      isActive = false,
+      fontSize = 'h6',
+      ...props
+    },
+    ref,
+  ) => {
     return (
       <button
         ref={ref}
@@ -43,7 +54,7 @@ const ChipButton = forwardRef<HTMLButtonElement, ChipButtonProps>(
         )}
         {...props}
       >
-        <Typography size="h6" color="neutral-100">
+        <Typography size={fontSize} color="neutral-100">
           {children}
         </Typography>
         {rightIcon && <Icon {...rightIcon} aria-hidden />}

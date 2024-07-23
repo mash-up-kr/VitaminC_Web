@@ -6,11 +6,11 @@ import type {
   InviteLink,
   MapInfo,
   MapInviteInfoResponseType,
-  UserByMap,
+  UserByMapInfo,
 } from '@/models/map.interface'
 import type { User } from '@/models/user.interface'
 import type { PlaceType } from '@/types/api/place'
-import type { MapDataType, TagItem } from '@/types/api/maps'
+import type { TagItem } from '@/types/api/maps'
 
 const client = {
   public: apiClientFactory({}),
@@ -18,6 +18,12 @@ const client = {
 }
 
 const users = {
+  maps: {
+    mapId: {
+      delete: ({ mapId }: { mapId: string }) =>
+        client.secure.delete(`/users/maps/${mapId}`),
+    },
+  },
   me: {
     get: (): Promise<ResponseWithMessage<User>> =>
       client.secure.get(`/users/me`),
@@ -33,12 +39,12 @@ const users = {
 }
 
 const maps = {
-  get: (): Promise<ResponseWithMessage<UserByMap[]>> =>
+  get: (): Promise<ResponseWithMessage<UserByMapInfo[]>> =>
     client.secure.get(`/maps`),
-  post: (name: string): Promise<ResponseWithMessage<UserByMap>> =>
+  post: (name: string): Promise<ResponseWithMessage<UserByMapInfo>> =>
     client.secure.post(`/maps`, { name }),
   id: {
-    get: (id: MapInfo['id']): Promise<ResponseWithMessage<MapDataType>> =>
+    get: (id: MapInfo['id']): Promise<ResponseWithMessage<MapInfo>> =>
       client.secure.get(`/maps/${id}`, { tags: ['map', id] }),
     tag: {
       get: (id: MapInfo['id']): Promise<ResponseWithMessage<TagItem[]>> =>

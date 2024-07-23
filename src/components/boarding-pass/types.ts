@@ -1,16 +1,21 @@
 import type { ClassName } from '@/models/interface'
-import type { PlacePreview } from '@/models/map.interface'
+import type { MapMemberData, PlacePreview } from '@/models/map.interface'
+import { User } from '@/models/user.interface'
 
 interface BoardingMembers {
-  owner: string
-  members: string[]
+  owner: User
+  members: MapMemberData[]
   numOfCrews: number
 }
 
 export interface BoardingMembersProps
-  extends Omit<BoardingMembers, 'numOfCrews'> {}
+  extends Omit<BoardingMembers, 'numOfCrews'> {
+  userId: User['id']
+}
 
 export interface BoardingInfoPassProps extends BoardingMembers, ClassName {
+  mapId: string
+  name: string
   day: number
   numOfPins: number
 }

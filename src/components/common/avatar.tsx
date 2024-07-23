@@ -35,7 +35,7 @@ interface AvatarProps {
 
 const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
   ({ value, colorScheme, className, me = false }, ref) => {
-    const initial = value.charAt(0)
+    const initial = value ? value.charAt(0) : '🍋'
 
     return (
       <Typography

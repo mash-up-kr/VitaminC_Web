@@ -86,7 +86,12 @@ const Modal = forwardRef(
       }
     }, [preventBackgroundScroll, state])
 
-    useClickOutside(modalRef, () => {
+    useClickOutside(modalRef, (event) => {
+      if (event.target instanceof HTMLElement) {
+        if (event.target.id !== `dim-${portalId}`) {
+          return
+        }
+      }
       if (shouldCloseOnDimClick) {
         onClose()
       }
@@ -99,6 +104,7 @@ const Modal = forwardRef(
     return (
       <Portal id={portalId} containerRef={mountNode}>
         <Backdrop
+          id={`dim-${portalId}`}
           className={cn(
             'fixed top-0 left-0 right-0 bottom-0 z-[9995] bg-black opacity-[0.85]',
             dimClassName,
