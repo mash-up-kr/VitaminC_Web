@@ -74,7 +74,7 @@ const Slide = ({
   return (
     <motion.div
       ref={containerRef}
-      className="relative w-full flex h-full overflow-x-auto no-scrollbar"
+      className="flex h-full overflow-x-auto no-scrollbar snap-mandatory snap-x"
     >
       {srcList.map((src, index) => (
         <motion.div
@@ -84,7 +84,7 @@ const Slide = ({
             right: `${activeIndex * 100}%`,
           }}
           key={src}
-          className="shrink-0 w-full h-full flex justify-center items-center"
+          className="shrink-0 w-full h-full flex justify-center items-center snap-always snap-center"
           draggable
           drag="x"
           dragElastic={1}
@@ -94,7 +94,10 @@ const Slide = ({
           <img
             draggable={false}
             alt={`슬라이드 ${index + 1}`}
-            className={cn('w-full h-full', getObjectFitClass(objectFit))}
+            className={cn(
+              'w-full h-full snap-always',
+              getObjectFitClass(objectFit),
+            )}
             src={src}
           />
         </motion.div>

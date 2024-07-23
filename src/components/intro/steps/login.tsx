@@ -37,7 +37,6 @@ const Login = () => {
           </Typography>
         </div>
         <Carousel
-          className="h-[220px] min-h-[220px]"
           objectFit="fill"
           srcList={[IntroImage1.src, IntroImage2.src, IntroImage3.src]}
         />
