@@ -5,8 +5,8 @@ import KakaoMap from '@/components/kakao-map/kakao-map'
 import Marker from '@/components/kakao-map/marker'
 import PlaceListItem from '@/components/place/place-list-item'
 import BottomSheet from '@/components/bottom-sheet'
-import { BOTTOM_SHEET_STATE } from '@/models/interface'
 import useKakaoShare from '@/hooks/use-kakao-share'
+import { BOTTOM_SHEET_STATE } from '@/components/bottom-sheet/constants'
 
 const Home = () => {
   const [temp, setTemp] = useState(false)

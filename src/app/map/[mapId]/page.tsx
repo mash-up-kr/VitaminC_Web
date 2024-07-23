@@ -16,9 +16,10 @@ import FilterModalBody, { type CategoryType } from './filter-modal-body'
 import useMeasure from '@/hooks/use-measure'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 import BottomSheet from '@/components/bottom-sheet'
-import { APIError, BOTTOM_SHEET_STATE } from '@/models/interface'
+import { APIError } from '@/models/interface'
 import MapInfoModal from './map-info-modal'
 import { User } from '@/models/user.interface'
+import { BOTTOM_SHEET_STATE } from '../../../components/bottom-sheet/constants'
 
 export interface FilterIdsType {
   category: string[]

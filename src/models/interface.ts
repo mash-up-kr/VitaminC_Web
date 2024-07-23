@@ -50,15 +50,6 @@ export interface MutatedAt {
   updatedAt: DateTimeType
 }
 
-/* Bottom Sheet */
-export const BOTTOM_SHEET_STATE = {
-  Default: 'default',
-  Expanded: 'expanded',
-  Collapsed: 'collapsed',
-} as const
-export type BottomSheetState =
-  (typeof BOTTOM_SHEET_STATE)[keyof typeof BOTTOM_SHEET_STATE]
-
 /* Intro */
 export enum IntroStep {
   LOADING = -1,

@@ -1,10 +1,12 @@
-import React, { forwardRef, ReactNode, useMemo, useState } from 'react'
+import React, { forwardRef, ReactNode, useState } from 'react'
 import { motion, useDragControls } from 'framer-motion'
 import type { PanInfo } from 'framer-motion'
 
 import useMeasure from '@/hooks/use-measure'
 import useWindowSize from '@/hooks/use-window-size'
-import { BOTTOM_SHEET_STATE, type BottomSheetState } from '@/models/interface'
+import { type BottomSheetState, type BottomSheetStateNum } from './types'
+import { BOTTOM_SHEET_STATE, BOTTOM_SHEET_STATE_MAP } from './constants'
+import { clamp } from '@/utils/number'
 
 interface BottomSheetProps {
   body: ReactNode
@@ -36,7 +38,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       (windowHeight * 3) / 4,
     )
 
-    const bodyHeight = useMemo(() => {
+    const bodyHeight = () => {
       switch (bottomSheetState) {
         case BOTTOM_SHEET_STATE.Expanded:
           return expandedHeight - headerHeight
@@ -45,47 +47,43 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
         default:
           return defaultHeight - headerHeight
       }
-    }, [defaultHeight, expandedHeight, bottomSheetState])
+    }
 
-    const handleDragEnd = (info: PanInfo) => {
+    const isOverThreshold = (info: PanInfo) => {
       const offsetThreshold = 50
       const deltaThreshold = 5
 
       const isOverOffsetThreshold = Math.abs(info.offset.y) > offsetThreshold
       const isOverDeltaThreshold = Math.abs(info.delta.y) > deltaThreshold
 
-      const isOverThreshold = isOverOffsetThreshold || isOverDeltaThreshold
+      return isOverOffsetThreshold || isOverDeltaThreshold
+    }
 
-      if (!isOverThreshold) return
+    const handleDragEnd = (info: PanInfo) => {
+      if (!isOverThreshold(info)) return
+
+      let bottomSheetStateNum = BOTTOM_SHEET_STATE_MAP[bottomSheetState]
 
       const offsetY = info.offset.y
+
       const largeEnoughValue = 200
-      const skipOneStep = Math.abs(offsetY) - largeEnoughValue > 0
-      switch (bottomSheetState) {
-        case BOTTOM_SHEET_STATE.Default:
-          if (offsetY < 0) {
-            setBottomSheetState(BOTTOM_SHEET_STATE.Expanded)
-          } else {
-            setBottomSheetState(BOTTOM_SHEET_STATE.Collapsed)
-          }
-          break
-        case BOTTOM_SHEET_STATE.Expanded:
-          if (offsetY <= 0) break
-          if (skipOneStep) {
-            setBottomSheetState(BOTTOM_SHEET_STATE.Collapsed)
-          } else {
-            setBottomSheetState(BOTTOM_SHEET_STATE.Default)
-          }
-          break
-        case BOTTOM_SHEET_STATE.Collapsed:
-          if (offsetY >= 0) break
-          if (skipOneStep) {
-            setBottomSheetState(BOTTOM_SHEET_STATE.Expanded)
-          } else {
-            setBottomSheetState(BOTTOM_SHEET_STATE.Default)
-          }
-          break
+      const skipOneStep = Math.abs(offsetY) > largeEnoughValue
+
+      const sign = offsetY < 0 ? -1 : 1
+
+      if (skipOneStep) {
+        bottomSheetStateNum += 2 * sign
+      } else {
+        bottomSheetStateNum += 1 * sign
       }
+
+      const newState = clamp(
+        bottomSheetStateNum,
+        BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Expanded],
+        BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Collapsed],
+      ) as BottomSheetStateNum
+
+      setBottomSheetState(BOTTOM_SHEET_STATE_MAP[newState])
     }
 
     return (
@@ -98,8 +96,8 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           initial="default"
           animate={bottomSheetState}
           variants={{
-            default: { top: `calc(100vh - ${defaultHeight}px)` },
             expanded: { top: `calc(100vh - ${expandedHeight}px)` },
+            default: { top: `calc(100vh - ${defaultHeight}px)` },
             collapsed: { top: `calc(100vh - ${headerHeight}px)` },
           }}
           transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
@@ -119,7 +117,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           {/* body */}
           <div
             className="transition-all duration-300 select-none overflow-y-scroll overscroll-contain no-scrollbar"
-            style={{ height: bodyHeight }}
+            style={{ height: bodyHeight() }}
             aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
           >
             {/* content */}
