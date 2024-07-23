@@ -1,6 +1,11 @@
 import Link from 'next/link'
+
 import { Icon, Typography } from '@/components/common'
 import { Carousel } from '@/components'
+
+import IntroImage1 from '/public/intro_lost-map.png'
+import IntroImage2 from '/public/intro_find-treasure.png'
+import IntroImage3 from '/public/intro_lets-go.png'
 
 const KakaoLogin = () => {
   return (
@@ -34,11 +39,7 @@ const Login = () => {
         <Carousel
           className="h-[220px] min-h-[220px]"
           objectFit="fill"
-          srcList={[
-            '/image-placeholder-1.png',
-            '/image-placeholder-2.png',
-            '/image-placeholder-3.png',
-          ]}
+          srcList={[IntroImage1.src, IntroImage2.src, IntroImage3.src]}
         />
       </div>
       <div className="p-5 w-full">
