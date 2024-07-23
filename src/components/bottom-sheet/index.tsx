@@ -50,11 +50,11 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     }
 
     const isOverThreshold = (info: PanInfo) => {
-      const offsetThreshold = 50
-      const deltaThreshold = 5
+      const OFFSET_THRESHOLD = 50
+      const DELTA_THRESHOLD = 5
 
-      const isOverOffsetThreshold = Math.abs(info.offset.y) > offsetThreshold
-      const isOverDeltaThreshold = Math.abs(info.delta.y) > deltaThreshold
+      const isOverOffsetThreshold = Math.abs(info.offset.y) > OFFSET_THRESHOLD
+      const isOverDeltaThreshold = Math.abs(info.delta.y) > DELTA_THRESHOLD
 
       return isOverOffsetThreshold || isOverDeltaThreshold
     }
@@ -66,16 +66,11 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
 
       const offsetY = info.offset.y
 
-      const largeEnoughValue = 200
-      const skipOneStep = Math.abs(offsetY) > largeEnoughValue
-
+      const LARGE_ENOUGH_VALUE = 200
+      const step = Math.abs(offsetY) > LARGE_ENOUGH_VALUE ? 2 : 1
       const sign = offsetY < 0 ? -1 : 1
 
-      if (skipOneStep) {
-        bottomSheetStateNum += 2 * sign
-      } else {
-        bottomSheetStateNum += 1 * sign
-      }
+      bottomSheetStateNum += step * sign
 
       const newState = clamp(
         bottomSheetStateNum,
