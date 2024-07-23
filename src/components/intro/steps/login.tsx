@@ -10,11 +10,13 @@ import IntroImage3 from '/public/intro-lets-go.png'
 const KakaoLogin = () => {
   return (
     <Link href={`${process.env.NEXT_PUBLIC_API_ORIGIN}/auth/kakao`}>
-      <div className="flex items-center bg-[#FEE500] py-4 px-5 rounded-xl w-full">
-        <Icon type="kakaoLogo" size="lg" />
-        <Typography size="body2" className="text-[#191919] text-center w-full">
-          카카오로 시작하기
-        </Typography>
+      <div className="bg-[#FEE500] w-full py-4 px-5 rounded-full flex items-center justify-center">
+        <div className="flex items-center w-fit space-x-[3px]">
+          <Icon type="kakaoLogo" size="lg" />
+          <Typography size="h4" className="text-black text-center w-full">
+            카카오 로그인
+          </Typography>
+        </div>
       </div>
     </Link>
   )
