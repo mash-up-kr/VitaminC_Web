@@ -4,9 +4,10 @@ import type { PanInfo } from 'framer-motion'
 
 import useMeasure from '@/hooks/use-measure'
 import useWindowSize from '@/hooks/use-window-size'
-import { type BottomSheetState, type BottomSheetStateNum } from './types'
+import type { BottomSheetState, BottomSheetStateNum } from './types'
 import { BOTTOM_SHEET_STATE, BOTTOM_SHEET_STATE_MAP } from './constants'
 import { clamp } from '@/utils/number'
+import { toBottomSheetState } from '@/utils/bottom-sheet'
 
 interface BottomSheetProps {
   body: ReactNode
@@ -82,7 +83,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       if (!isOverThreshold(info)) return
 
       const nextBottomSheetState = getNextBottomSheetState(info)
-      setBottomSheetState(BOTTOM_SHEET_STATE_MAP[nextBottomSheetState])
+      setBottomSheetState(toBottomSheetState(nextBottomSheetState))
     }
 
     return (
