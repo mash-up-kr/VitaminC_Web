@@ -59,9 +59,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       return isOverOffsetThreshold || isOverDeltaThreshold
     }
 
-    const handleDragEnd = (info: PanInfo) => {
-      if (!isOverThreshold(info)) return
-
+    const getNextBottomSheetState = (info: PanInfo) => {
       let bottomSheetStateNum = BOTTOM_SHEET_STATE_MAP[bottomSheetState]
 
       const offsetY = info.offset.y
@@ -72,13 +70,19 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
 
       bottomSheetStateNum += step * sign
 
-      const newState = clamp(
+      const result = clamp<BottomSheetStateNum>(
         bottomSheetStateNum,
         BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Expanded],
         BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Collapsed],
-      ) as BottomSheetStateNum
+      )
+      return result
+    }
 
-      setBottomSheetState(BOTTOM_SHEET_STATE_MAP[newState])
+    const handleDragEnd = (info: PanInfo) => {
+      if (!isOverThreshold(info)) return
+
+      const nextBottomSheetState = getNextBottomSheetState(info)
+      setBottomSheetState(BOTTOM_SHEET_STATE_MAP[nextBottomSheetState])
     }
 
     return (

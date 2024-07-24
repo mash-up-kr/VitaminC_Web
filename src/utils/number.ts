@@ -5,6 +5,13 @@ export const roundToNthDecimal = (value: number, n: number): number => {
 }
 
 // value를 [min, max]로 제한
-export const clamp = (value: number, min: number, max: number): number => {
-  return Math.min(Math.max(value, min), max)
+export const clamp = <T extends number>(value: number, min: T, max: T): T => {
+  if (value < min) {
+    return min
+  }
+  if (value > max) {
+    return max
+  }
+
+  return value as T
 }
