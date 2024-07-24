@@ -1,20 +1,15 @@
 'use client'
 
-import {
-  type CSSProperties,
-  useCallback,
-  useEffect,
-  useRef,
-  type ReactNode,
-} from 'react'
-import { PanInfo, animate, motion, useMotionValue } from 'framer-motion'
+import { type CSSProperties, useCallback, useEffect, useRef } from 'react'
+import { type PanInfo, animate, motion, useMotionValue } from 'framer-motion'
 import cn from '@/utils/cn'
+import type { Item } from './types'
+import { Typography } from '../common'
 
 interface SlideProps {
+  items: Item[]
   activeIndex: number
-  srcList: string[]
   objectFit: CSSProperties['objectFit']
-  title?: ReactNode[]
   handleChangeActiveIndex: (index: number) => void
 }
 
@@ -38,10 +33,9 @@ const getObjectFitClass = (objectFit: CSSProperties['objectFit']): string => {
 }
 
 const Slide = ({
+  items,
   activeIndex,
-  srcList,
   objectFit = 'contain',
-  title,
   handleChangeActiveIndex,
 }: SlideProps) => {
   const x = useMotionValue(0)
@@ -63,10 +57,10 @@ const Slide = ({
     }
 
     const isFirst = activeIndex === 0
-    const isLast = activeIndex === srcList.length - 1
+    const isLast = activeIndex === items.length - 1
 
     if (offset.x > clientWidth / 4) {
-      handleChangeActiveIndex(isFirst ? srcList.length - 1 : activeIndex - 1)
+      handleChangeActiveIndex(isFirst ? items.length - 1 : activeIndex - 1)
     } else if (offset.x < -clientWidth / 4) {
       handleChangeActiveIndex(isLast ? 0 : activeIndex + 1)
     } else {
@@ -84,14 +78,14 @@ const Slide = ({
       ref={containerRef}
       className="flex h-full overflow-x-auto no-scrollbar snap-mandatory snap-x"
     >
-      {srcList.map((src, index) => (
+      {items.map((item, index) => (
         <motion.div
           style={{
             x,
             left: `${activeIndex * 100}%`,
             right: `${activeIndex * 100}%`,
           }}
-          key={src}
+          key={`${index}${item.src}`}
           className="shrink-0 w-full h-full flex flex-col justify-center items-center snap-always snap-center"
           draggable
           drag="x"
@@ -99,16 +93,43 @@ const Slide = ({
           onDragEnd={handleDragEnd}
           aria-hidden={activeIndex !== index}
         >
-          {title?.[index]}
+          {typeof item.title === 'string' ? (
+            <Typography
+              size="h1"
+              color="neutral-200"
+              className="mb-2 whitespace-pre-line"
+            >
+              {item.title}
+            </Typography>
+          ) : (
+            item.title
+          )}
+
           <img
             draggable={false}
-            alt={`슬라이드 ${index + 1}`}
+            alt={
+              item.title && typeof item.title === 'string'
+                ? item.title
+                : `슬라이드 ${index + 1}`
+            }
             className={cn(
               'w-full h-full snap-always',
               getObjectFitClass(objectFit),
             )}
-            src={src}
+            src={item.src}
           />
+
+          {typeof item.caption === 'string' ? (
+            <Typography
+              size="body2"
+              color="neutral-200"
+              className="my-1 whitespace-pre-line"
+            >
+              {item.caption}
+            </Typography>
+          ) : (
+            item.caption
+          )}
         </motion.div>
       ))}
     </motion.div>

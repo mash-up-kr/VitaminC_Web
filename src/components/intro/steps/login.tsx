@@ -37,27 +37,37 @@ const Login = () => {
       <div className="flex-1">
         <Carousel
           objectFit="fill"
-          srcList={[
-            '/intro-lost-map.png',
-            '/intro-find-treasure.png',
-            '/intro-lets-go.png',
-          ]}
-          title={[
-            <Title
-              key="title1"
-              body="보물섬으로 가는 지도를"
-              heading="잃어버렸어..."
-            />,
-            <Title
-              key="title2"
-              body="맛집으로 지도를 채우면"
-              heading={`보물섬으로 가는 길이\n나온다던데!`}
-            />,
-            <Title
-              key="title3"
-              body="혼자서는 못할것 같아"
-              heading="함께 채워볼래?"
-            />,
+          items={[
+            {
+              src: '/intro-lost-map.png',
+              title: (
+                <Title
+                  key="title1"
+                  body="보물섬으로 가는 지도를"
+                  heading="잃어버렸어..."
+                />
+              ),
+            },
+            {
+              src: '/intro-find-treasure.png',
+              title: (
+                <Title
+                  key="title2"
+                  body="맛집으로 지도를 채우면"
+                  heading={`보물섬으로 가는 길이\n나온다던데!`}
+                />
+              ),
+            },
+            {
+              src: '/intro-lets-go.png',
+              title: (
+                <Title
+                  key="title3"
+                  body="혼자서는 못할것 같아"
+                  heading="함께 채워볼래?"
+                />
+              ),
+            },
           ]}
         />
       </div>
