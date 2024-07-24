@@ -1,6 +1,5 @@
 import { Button, Typography } from '@/components/common'
 import { IntroActionDispatch } from '@/app/intro/page'
-import IntroNewMapImage from '/public/intro-making-map.png'
 
 const NewMap = ({ goNextStep }: IntroActionDispatch) => {
   const handleClick = () => {
@@ -21,7 +20,7 @@ const NewMap = ({ goNextStep }: IntroActionDispatch) => {
         </div>
 
         <div className="w-full flex justify-center items-center">
-          <img src={IntroNewMapImage.src} width="100%" alt="보물지도" />
+          <img src="/intro-making-map.png" width="100%" alt="보물지도" />
         </div>
       </div>
 

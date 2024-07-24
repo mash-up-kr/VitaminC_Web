@@ -3,10 +3,6 @@ import Link from 'next/link'
 import { Icon, Typography } from '@/components/common'
 import { Carousel } from '@/components'
 
-import IntroImage1 from '/public/intro-lost-map.png'
-import IntroImage2 from '/public/intro-find-treasure.png'
-import IntroImage3 from '/public/intro-lets-go.png'
-
 const KakaoLogin = () => {
   return (
     <Link href={`${process.env.NEXT_PUBLIC_API_ORIGIN}/auth/kakao`}>
@@ -41,7 +37,11 @@ const Login = () => {
       <div className="flex-1">
         <Carousel
           objectFit="fill"
-          srcList={[IntroImage1.src, IntroImage2.src, IntroImage3.src]}
+          srcList={[
+            '/intro-lost-map.png',
+            '/intro-find-treasure.png',
+            '/intro-lets-go.png',
+          ]}
           title={[
             <Title
               key="title1"
