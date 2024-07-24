@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode, useState } from 'react'
+import { forwardRef, ReactNode, useState } from 'react'
 import { motion, useDragControls } from 'framer-motion'
 import type { PanInfo } from 'framer-motion'
 
