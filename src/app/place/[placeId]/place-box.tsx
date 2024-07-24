@@ -101,7 +101,9 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
         {/* TODO: mainPhotoList가 나오는 경우 수정, 아니면 TODO 지우기 */}
         <Carousel
-          srcList={place.place.kakaoPlace.photoList.slice(0, 3)}
+          items={place.place.kakaoPlace.photoList
+            .slice(0, 3)
+            .map((src) => ({ src }))}
           objectFit="fill"
           className="mt-0 w-full h-[200px] min-h-[200px]"
           indicatorPosition="inside"

@@ -9,22 +9,18 @@ const NewMap = ({ goNextStep }: IntroActionDispatch) => {
   return (
     <>
       <div className="flex-1">
-        <div className="pt-12 px-5 mb-12">
+        <div className="pt-12 px-5 mb-[54px]">
           <Typography
             size="h1"
             color="neutral-000"
-            className="whitespace-pre-line mb-4"
+            className="whitespace-pre-line"
           >
             {`새 지도 만들고\n항해를 시작할까요?`}
           </Typography>
         </div>
 
         <div className="w-full flex justify-center items-center">
-          <img
-            className="h-[220px] object-fill"
-            src="/chunsik.png"
-            alt="미정"
-          />
+          <img src="/intro-making-map.png" width="100%" alt="보물지도" />
         </div>
       </div>
 

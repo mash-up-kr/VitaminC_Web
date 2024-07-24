@@ -6,10 +6,12 @@ import Indicator from './indicator'
 import Slide from './slide'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
+import type { Item } from './types'
 
 interface CarouselProps extends ClassName {
-  srcList: string[]
+  items: Item[]
   delay?: number
+  autoPlay?: boolean
   objectFit?: CSSProperties['objectFit']
   indicatorPosition?: 'bottom' | 'inside'
 }
@@ -17,11 +19,12 @@ interface CarouselProps extends ClassName {
 const AUTO_PLAY_SPEED = 5000
 
 const Carousel = ({
-  srcList,
+  items,
   className,
   delay,
+  autoPlay = false,
   objectFit = 'contain',
-  indicatorPosition = 'bottom'
+  indicatorPosition = 'bottom',
 }: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0)
 
@@ -30,23 +33,25 @@ const Carousel = ({
   }
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setActiveIndex((index) => (index + 1) % srcList.length)
-    }, delay ?? AUTO_PLAY_SPEED)
-    return () => clearInterval(intervalId)
+    if (autoPlay) {
+      const intervalId = setInterval(() => {
+        setActiveIndex((index) => (index + 1) % items.length)
+      }, delay ?? AUTO_PLAY_SPEED)
+      return () => clearInterval(intervalId)
+    }
   })
 
   return (
     <div className={cn('relative mt-6', className)}>
       <Slide
+        items={items}
         activeIndex={activeIndex}
-        srcList={srcList}
         objectFit={objectFit}
         handleChangeActiveIndex={handleChangeActiveIndex}
       />
       <Indicator
         activeIndex={activeIndex}
-        numOfSlides={srcList.length}
+        numOfSlides={items.length}
         position={indicatorPosition}
         onClick={handleChangeActiveIndex}
       />

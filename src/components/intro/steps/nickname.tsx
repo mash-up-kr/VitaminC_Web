@@ -9,8 +9,8 @@ import { inviteCodeStorage } from '@/utils/storage'
 import { setCookie } from '@/app/actions'
 import { RECENT_MAP_ID } from '@/constants/cookie'
 import { api } from '@/utils/api'
-import { APIError } from '../../../models/interface'
-import { notify } from '../../common/custom-toast'
+import { APIError } from '@/models/interface'
+import { notify } from '@/components/common/custom-toast'
 
 const MIN_LENGTH = 0
 
@@ -53,8 +53,12 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
   return (
     <>
       <div className="flex-1 relative mt-5">
-        <img src="/intro-polygon-top.png" />
-        <img src="/intro-polygon-bottom.png" className="relative top-[53px]" />
+        <img src="/intro-polygon-top.png" width="100%" />
+        <img
+          className="relative top-[53px]"
+          src="/intro-polygon-bottom.png"
+          width="100%"
+        />
 
         <div className="px-5 space-y-3 absolute top-[120px]">
           <Typography size="h1" color="neutral-000">

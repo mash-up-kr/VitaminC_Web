@@ -82,6 +82,14 @@ const config: Config = {
             fontWeight: 600,
           },
         ],
+        'body0-2': [
+          '28px',
+          {
+            lineHeight: '1.35',
+            letterSpacing: '-0.02em',
+            fontWeight: 400,
+          },
+        ],
         body0: [
           '18px',
           {
