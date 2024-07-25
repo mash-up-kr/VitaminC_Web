@@ -20,7 +20,7 @@ const NewMap = ({ goNextStep }: IntroActionDispatch) => {
         </div>
 
         <div className="w-full flex justify-center items-center">
-          <img src="/intro-making-map.png" width="100%" alt="보물지도" />
+          <img src="/images/intro-making-map.png" width="100%" alt="보물지도" />
         </div>
       </div>
 

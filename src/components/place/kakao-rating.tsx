@@ -45,7 +45,7 @@ const KakaoRating = ({ className, rating, placeId }: KakaoRatingProps) => {
         <div className="w-full flex-1 rounded-[6px] bg-neutral-600 px-5 py-[14px] flex items-center">
           <div className="flex w-full">
             <img
-              src="/kakao-map-logo.png"
+              src="/images/kakao-map-logo.png"
               alt="카카오 지도 로고"
               className="w-6 h-6 rounded-[2px]"
             />

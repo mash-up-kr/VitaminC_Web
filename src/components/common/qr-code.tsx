@@ -22,7 +22,7 @@ const QRCodeBox = forwardRef<QRCode, QRCodeBoxProps>(({ url, size }, ref) => {
       removeQrCodeBehindLogo
       eyeRadius={6}
       ecLevel="L"
-      logoImage="/square.png"
+      logoImage="/images/square.png"
       logoWidth={36}
       logoHeight={36}
       fgColor={QRColor}

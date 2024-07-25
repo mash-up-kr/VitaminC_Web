@@ -34,10 +34,10 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
   return (
     <>
       <div className="flex-1 relative mt-5">
-        <img src="/intro-polygon-top.png" width="100%" />
+        <img src="/images/intro-polygon-top.png" width="100%" />
         <img
           className="relative top-[53px]"
-          src="/intro-polygon-bottom.png"
+          src="/images/intro-polygon-bottom.png"
           width="100%"
         />
 

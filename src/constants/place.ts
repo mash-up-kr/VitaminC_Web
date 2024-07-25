@@ -22,7 +22,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
             price: '12000',
           },
         ],
-        photoList: ['/food.png', '/food.png', '/food.png'],
+        photoList: ['/images/food.png', '/images/food.png', '/images/food.png'],
         createdAt: new Date('2024-07-16T12:00:00Z'),
         updatedAt: new Date('2024-07-16T12:00:00Z'),
       },
