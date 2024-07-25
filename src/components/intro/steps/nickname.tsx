@@ -12,7 +12,7 @@ import { api } from '@/utils/api'
 import { APIError } from '@/models/interface'
 import { notify } from '@/components/common/custom-toast'
 
-const MIN_LENGTH = 0
+const MIN_LENGTH = 2
 
 const Nickname = ({ goNextStep }: IntroActionDispatch) => {
   const router = useRouter()
