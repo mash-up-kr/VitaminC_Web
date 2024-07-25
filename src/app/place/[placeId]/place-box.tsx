@@ -124,7 +124,9 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
         {/* TODO: api 나오면 mainPhotoUrl 수정, photoList, menuList 설정 */}
         <MenuList
           menuList={place.place.kakaoPlace.menuList}
-          mainPhotoUrl={place.place.kakaoPlace.photoList[0] || '/food.png'}
+          mainPhotoUrl={
+            place.place.kakaoPlace.photoList[0] || '/images/food.png'
+          }
           photoList={place.place.kakaoPlace.photoList}
           className="px-5 pt-6"
         />

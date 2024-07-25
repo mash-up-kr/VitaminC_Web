@@ -11,7 +11,7 @@ const InvitedExpiredBoardingPass = ({ className }: ClassName) => {
   return (
     <div className={cn('flex flex-col w-full', className)}>
       <div className="pt-5 flex flex-col gap-1 justify-content items-center bg-neutral-600 rounded-t-3xl">
-        <img src="/ship.png" aria-hidden className="w-[31px] h-[35px]" />
+        <img src="/images/ship.png" aria-hidden className="w-[31px] h-[35px]" />
         <Typography size="h5" color="neutral-300">
           Boarding Pass
         </Typography>

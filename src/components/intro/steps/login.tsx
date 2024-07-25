@@ -39,7 +39,7 @@ const Login = () => {
           objectFit="fill"
           items={[
             {
-              src: '/intro-lost-map.png',
+              src: '/images/intro-lost-map.png',
               title: (
                 <Title
                   key="title1"
@@ -49,7 +49,7 @@ const Login = () => {
               ),
             },
             {
-              src: '/intro-find-treasure.png',
+              src: '/images/intro-find-treasure.png',
               title: (
                 <Title
                   key="title2"
@@ -59,7 +59,7 @@ const Login = () => {
               ),
             },
             {
-              src: '/intro-lets-go.png',
+              src: '/images/intro-lets-go.png',
               title: (
                 <Title
                   key="title3"

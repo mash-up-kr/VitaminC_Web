@@ -115,7 +115,7 @@ const Invite = () => {
         <div className="w-full flex justify-center items-center">
           <img
             className="w-full h-[220px] object-fill"
-            src="/image-placeholder.png"
+            src="/images/image-placeholder.png"
             alt="미정"
           />
         </div>

@@ -7,7 +7,7 @@ interface BoardingBottomProps {
 const BoardingBottom = ({ className }: BoardingBottomProps) => {
   return (
     <img
-      src="/boarding-pass-bottom.png"
+      src="/images/boarding-pass-bottom.png"
       className={cn('w-full max-h-[7px]', className)}
       aria-hidden
     />
