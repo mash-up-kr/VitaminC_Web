@@ -11,10 +11,7 @@ interface InputProps
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    { placeholder = '최대 6글자', value, onChange, maxLength = 6, ...props },
-    ref,
-  ) => {
+  ({ placeholder, value, onChange, maxLength = 6, ...props }, ref) => {
     // 이모지(e.g. 😀)를 String: length로 계산하면 1보다 큰 값이 나오므로 길이 보정
     const utf16Length = value.length
     const numOfCharacters = Array.from(value).length
@@ -33,7 +30,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               error && 'text-orange-400 border-orange-400',
             )}
             ref={ref}
-            placeholder={placeholder}
+            placeholder={placeholder ?? `최대 ${maxLength}글자`}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             maxLength={maxLength + offset}
