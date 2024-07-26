@@ -12,6 +12,7 @@ import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import RegisterCancelModal from './register-cancel-modal'
+import get조사 from '@/utils/조사'
 
 const toTagIds = (tags: TagItem[]): TagItem['id'][] => tags.map((tag) => tag.id)
 
@@ -25,6 +26,8 @@ const RegisterBox = ({
   const router = useRouter()
   const [selectedTags, setSelectedTags] = useState<TagItem[]>([])
   const [isOpenBackModal, setIsOpenBackModal] = useState(false)
+
+  const kakaoPlaceName = place.place.kakaoPlace.name || '[식당이름]'
 
   const handleRegisterPlace = async () => {
     try {
@@ -74,7 +77,7 @@ const RegisterBox = ({
             size="h1"
             color="neutral-000"
             className="whitespace-pre-line"
-          >{`${place.place.kakaoPlace.name || '[식당이름]'}은\n어떤 장소인가요?`}</Typography>
+          >{`${kakaoPlaceName}${get조사(kakaoPlaceName, '은/는')}\n어떤 장소인가요?`}</Typography>
         </div>
 
         <div className="absolute bottom-5 w-full">

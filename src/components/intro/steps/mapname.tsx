@@ -9,7 +9,7 @@ import { notify } from '@/components/common/custom-toast'
 import { setCookie } from '@/app/actions'
 import { RECENT_MAP_ID } from '@/constants/cookie'
 
-const MIN_LENGTH = 0
+const MIN_LENGTH = 2
 
 const Mapname = ({ goNextStep }: IntroActionDispatch) => {
   const [mapname, setMapname] = useState('')
@@ -46,7 +46,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
             지도 이름은
           </Typography>
           <div className="flex items-center gap-3">
-            <Input value={mapname} onChange={handleChange} />
+            <Input value={mapname} onChange={handleChange} maxLength={8} />
             <Typography size="h1" color="neutral-000">
               로
             </Typography>
