@@ -1,20 +1,29 @@
-import { forwardRef } from 'react'
+'use client'
+
+import { forwardRef, useState, useEffect } from 'react'
 import { Typography, PickChip, TagList, LikeButton } from '@/components'
-import type { ClassName } from '@/models/interface'
+import { APIError, type ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 import { formatDistance, getDistance } from '@/utils/location'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import type { PlaceType } from '@/types/api/place'
+import Link from 'next/link'
+import { User } from '@/models/user.interface'
+import { api } from '@/utils/api'
+import { notify } from '../common/custom-toast'
+import { getMapId } from '@/services/map-id'
 
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
 }
 
-// TODO: 클릭 시 식당 상세로 이동 로직
-const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
+const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
   ({ selectedPlace, className }, ref) => {
     const userLocation = useUserGeoLocation()
+    const [userId, setUserId] = useState<User['id']>()
+
     const place = selectedPlace.place
+
     const distance = formatDistance(
       getDistance(
         userLocation.latitude,
@@ -23,22 +32,63 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
         place.x,
       ),
     )
+
+    const getIsLike =
+      userId !== undefined && selectedPlace.likedUserIds.includes(userId)
+
+    const handleLike = async () => {
+      try {
+        const mapId = await getMapId()
+        if (!mapId) return
+        if (getIsLike) {
+          await api.place.mapId.placeId.like.delete({
+            mapId,
+            placeId: place.id,
+          })
+        } else {
+          await api.place.mapId.placeId.like.put({ mapId, placeId: place.id })
+        }
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+        }
+      }
+    }
+
     const kakaoPlace = place.kakaoPlace
     const tags = selectedPlace.tags
     const pick = {
       //TODO: userId 연동
-      isLiked: selectedPlace.likedUserIds.includes(1),
-      isMyPick: selectedPlace.createdBy.id === 1,
+      isLiked: getIsLike,
+      isMyPick: selectedPlace.createdBy.id === userId,
       numOfLikes: selectedPlace.likedUserIds.length,
-      onClickLike: () => null,
+      onClickLike: handleLike,
     }
+
+    useEffect(() => {
+      const getUserId = async () => {
+        try {
+          const {
+            data: { id },
+          } = await api.users.me.get()
+          setUserId(id)
+        } catch (error) {
+          if (error instanceof APIError) {
+            notify.error(error.message)
+          }
+        }
+      }
+
+      getUserId()
+    }, [])
 
     return (
       <div
         role="presentation"
         className={cn('flex justify-center w-full', className)}
       >
-        <section
+        <Link
+          href={`/place/${place.id}`}
           ref={ref}
           className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4"
         >
@@ -93,7 +143,7 @@ const PlaceMapPopup = forwardRef<HTMLDivElement, PlaceMapPopupProps>(
           </div>
 
           {tags?.length && <TagList placeId={kakaoPlace.id} tags={tags} />}
-        </section>
+        </Link>
       </div>
     )
   },
