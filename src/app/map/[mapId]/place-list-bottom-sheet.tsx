@@ -11,7 +11,6 @@ import { User } from '@/models/user.interface'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
-import { MapInfo } from '@/models/map.interface'
 import { getMapId } from '@/services/map-id'
 
 interface PlaceListBottomSheetProps {
