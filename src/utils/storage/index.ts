@@ -26,3 +26,9 @@ export const visitedMapIdsStorage = new LocalStorageManager<string[]>(
   VISITED_MAP_IDS,
   [],
 )
+
+export const ALLOW_USER_POSITION = '@@allow_user_position'
+export const allowUserPositionStorage = new LocalStorageManager<boolean>(
+  ALLOW_USER_POSITION,
+  false,
+)

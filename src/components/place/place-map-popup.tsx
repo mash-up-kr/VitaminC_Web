@@ -12,6 +12,7 @@ import { User } from '@/models/user.interface'
 import { api } from '@/utils/api'
 import { notify } from '../common/custom-toast'
 import { getMapId } from '@/services/map-id'
+import { allowUserPositionStorage } from '@/utils/storage'
 
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
@@ -19,6 +20,7 @@ interface PlaceMapPopupProps extends ClassName {
 
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
   ({ selectedPlace, className }, ref) => {
+    const isAllowPosition = allowUserPositionStorage.getValueOrNull()
     const userLocation = useUserGeoLocation()
     const [isLikePlace, setIsLikePlace] = useState(false)
     const [userId, setUserId] = useState<User['id']>()
@@ -127,9 +129,11 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                 </div>
 
                 <div className="flex gap-2">
-                  <Typography as="span" size="body3" color="neutral-300">
-                    {distance}
-                  </Typography>
+                  {isAllowPosition && (
+                    <Typography as="span" size="body3" color="neutral-300">
+                      {distance}
+                    </Typography>
+                  )}
                   <Typography
                     as="span"
                     size="body3"

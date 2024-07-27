@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import type { LocationType } from '@/types/map/map'
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect'
+import { allowUserPositionStorage } from '@/utils/storage'
 
 /**
  * navigator.geolocation를 사용할 수 없거나 위치 정보 공유를 거절하는 경우
@@ -21,11 +22,13 @@ const useUserGeoLocation = () => {
     try {
       navigator.geolocation.getCurrentPosition(
         ({ coords: { latitude, longitude } }) => {
+          allowUserPositionStorage.set(true)
           setLocation({ latitude, longitude })
         },
         () => setLocation(INITIAL_LATITUDE_LONGITUDE),
       )
     } catch (err) {
+      allowUserPositionStorage.set(false)
       setLocation(INITIAL_LATITUDE_LONGITUDE)
     }
   }, [])

@@ -2,6 +2,7 @@ import { formatDistance, getDistance } from '@/utils/location'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import PlaceAutoSearchItem from '@/components/place/place-auto-search-item'
+import { allowUserPositionStorage } from '@/utils/storage'
 
 interface SuggestPlaceListProps {
   places: KakaoPlaceItem[]
@@ -10,6 +11,7 @@ interface SuggestPlaceListProps {
 
 const SuggestPlaceList = ({ places, query }: SuggestPlaceListProps) => {
   const userLocation = useUserGeoLocation()
+  const isAllowPosition = allowUserPositionStorage.getValueOrNull()
 
   return (
     <ul className="flex flex-col space-y-[17px] divide-y divide-neutral-600 mx-[-20px]">
@@ -27,7 +29,7 @@ const SuggestPlaceList = ({ places, query }: SuggestPlaceListProps) => {
             {...place}
             className="px-5"
             query={query}
-            distance={formatDistance(diffDistance)}
+            distance={isAllowPosition ? formatDistance(diffDistance) : null}
           />
         )
       })}
