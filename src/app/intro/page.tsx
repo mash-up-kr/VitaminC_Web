@@ -22,7 +22,7 @@ export interface IntroActionDispatch {
   goNextStep: VoidFunction
 }
 
-interface StepProps extends IntroActionDispatch {
+export interface StepProps extends IntroActionDispatch {
   step: IntroStep
 }
 
