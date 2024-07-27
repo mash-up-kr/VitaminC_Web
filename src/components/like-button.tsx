@@ -1,12 +1,12 @@
 'use client'
 
-import { forwardRef } from 'react'
+import { MouseEventHandler, forwardRef } from 'react'
 import { AccessibleIconButton, Typography } from '@/components'
 
 interface LikeButtonProps {
   numOfLikes: number
   isLiked: boolean
-  onClick: () => void
+  onClick: MouseEventHandler<HTMLButtonElement>
 }
 
 const formatLike = (number: number) => {

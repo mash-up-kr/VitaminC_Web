@@ -20,6 +20,7 @@ interface PlaceMapPopupProps extends ClassName {
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
   ({ selectedPlace, className }, ref) => {
     const userLocation = useUserGeoLocation()
+    const [isLikePlace, setIsLikePlace] = useState(false)
     const [userId, setUserId] = useState<User['id']>()
 
     const place = selectedPlace.place
@@ -36,20 +37,37 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     const getIsLike =
       userId !== undefined && selectedPlace.likedUserIds.includes(userId)
 
-    const handleLike = async () => {
+    const handleLikePlace = async () => {
       try {
         const mapId = await getMapId()
-        if (!mapId) return
-        if (getIsLike) {
-          await api.place.mapId.placeId.like.delete({
-            mapId,
-            placeId: place.id,
-          })
-        } else {
-          await api.place.mapId.placeId.like.put({ mapId, placeId: place.id })
-        }
+        if (!mapId) throw new Error('잘못된 접근입니다.')
+
+        setIsLikePlace(true)
+        await api.place.mapId.placeId.like.put({
+          placeId: place.id,
+          mapId,
+        })
       } catch (error) {
-        if (error instanceof APIError) {
+        setIsLikePlace(false)
+        if (error instanceof APIError || error instanceof Error) {
+          notify.error(error.message)
+        }
+      }
+    }
+
+    const handleUnLikePlace = async () => {
+      try {
+        const mapId = await getMapId()
+        if (!mapId) throw new Error('잘못된 접근입니다.')
+
+        setIsLikePlace(false)
+        await api.place.mapId.placeId.like.delete({
+          placeId: place.id,
+          mapId,
+        })
+      } catch (error) {
+        setIsLikePlace(true)
+        if (error instanceof APIError || error instanceof Error) {
           notify.error(error.message)
         }
       }
@@ -58,11 +76,10 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     const kakaoPlace = place.kakaoPlace
     const tags = selectedPlace.tags
     const pick = {
-      //TODO: userId 연동
       isLiked: getIsLike,
       isMyPick: selectedPlace.createdBy.id === userId,
       numOfLikes: selectedPlace.likedUserIds.length,
-      onClickLike: handleLike,
+      onClickLike: isLikePlace ? handleUnLikePlace : handleLikePlace,
     }
 
     useEffect(() => {
@@ -72,6 +89,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
             data: { id },
           } = await api.users.me.get()
           setUserId(id)
+          setIsLikePlace(selectedPlace.likedUserIds.includes(id))
         } catch (error) {
           if (error instanceof APIError) {
             notify.error(error.message)
@@ -80,7 +98,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
       }
 
       getUserId()
-    }, [])
+    }, [selectedPlace])
 
     return (
       <div
@@ -129,7 +147,11 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                   <LikeButton
                     numOfLikes={pick.numOfLikes}
                     isLiked={pick.isLiked}
-                    onClick={pick.onClickLike}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      e.preventDefault()
+                      pick.onClickLike
+                    }}
                   />
                 </div>
               )}
