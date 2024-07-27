@@ -15,7 +15,7 @@ import { APIError } from '@/models/interface'
 import { User } from '@/models/user.interface'
 import Modal from '../common/Modal/Modal'
 import InvitingBoardingPass from './inviting-boarding-pass'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 const ShareButton = ({
   isInvited,
