@@ -1,6 +1,7 @@
 'use client'
 
-import { MouseEventHandler, forwardRef } from 'react'
+import { forwardRef } from 'react'
+import type { MouseEventHandler } from 'react'
 import { AccessibleIconButton, Typography } from '@/components'
 
 interface LikeButtonProps {
