@@ -60,8 +60,10 @@ const Intro = () => {
         const user = await getUser()
         setNickname(user?.nickname)
 
-        const existingMapId = await getMapId()
-        setMapId(existingMapId)
+        if (user && user.nickname) {
+          const existingMapId = await getMapId()
+          setMapId(existingMapId)
+        }
       } catch (err) {
         setNickname(undefined)
         setMapId(undefined)
