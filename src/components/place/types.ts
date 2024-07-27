@@ -1,3 +1,5 @@
+import type { MouseEventHandler } from 'react'
+
 import { TagItem } from '@/types/api/maps'
 import { PlaceType } from '@/types/api/place'
 
@@ -12,6 +14,6 @@ export interface PlaceProps {
     isMyPick: boolean
     numOfLikes: number
     isLiked: boolean
-    onClickLike: () => void
+    onClickLike: MouseEventHandler<HTMLButtonElement>
   }
 }

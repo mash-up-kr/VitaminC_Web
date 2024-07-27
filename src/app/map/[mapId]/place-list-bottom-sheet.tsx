@@ -1,9 +1,17 @@
+'use client'
+
 import { FilterButton } from '@/components'
 import PlaceListItem from '@/components/place/place-list-item'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { PlaceType } from '@/types/api/place'
 import { formatDistance, getDistance } from '@/utils/location'
 import { FilterIdsType } from './page'
+import { useEffect, useState } from 'react'
+import { User } from '@/models/user.interface'
+import { api } from '@/utils/api'
+import { notify } from '@/components/common/custom-toast'
+import { APIError } from '@/models/interface'
+import { getMapId } from '@/services/map-id'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[]
@@ -17,6 +25,47 @@ const PlaceListBottomSheet = ({
   onClickFilterButton,
 }: PlaceListBottomSheetProps) => {
   const userLocation = useUserGeoLocation()
+  const [userId, setUserId] = useState<User['id']>()
+
+  const getIsLike = (place: PlaceType): boolean => {
+    if (typeof userId === 'undefined') return false
+
+    if (place.likedUserIds.includes(userId)) return true
+
+    return false
+  }
+  const handleLike = async (place: PlaceType) => {
+    try {
+      const mapId = await getMapId()
+      if (!mapId) return
+      if (getIsLike(place)) {
+        await api.place.mapId.placeId.like.delete({ mapId, placeId: place.id })
+      } else {
+        await api.place.mapId.placeId.like.put({ mapId, placeId: place.id })
+      }
+    } catch (error) {
+      if (error instanceof APIError) {
+        notify.error(error.message)
+      }
+    }
+  }
+
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const {
+          data: { id },
+        } = await api.users.me.get()
+        setUserId(id)
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+        }
+      }
+    }
+
+    getUserId()
+  }, [])
 
   return (
     <div className="flex flex-col px-5">
@@ -52,12 +101,15 @@ const PlaceListBottomSheet = ({
             images={place.place.kakaoPlace.photoList}
             tags={place.tags}
             pick={{
-              //TODO: userId 연동
-              isLiked: place.likedUserIds.includes(1),
-              isMyPick: place.createdBy.id === 1,
+              isLiked: getIsLike(place),
+              isMyPick: place.createdBy.id === userId,
               numOfLikes: place.likedUserIds.length,
 
-              onClickLike: () => null,
+              onClickLike: (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleLike(place)
+              },
             }}
           />
         ))}
