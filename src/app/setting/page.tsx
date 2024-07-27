@@ -3,16 +3,17 @@
 import { AccessibleIconButton, Avatar, Icon, Typography } from '@/components'
 import BottomModal from '@/components/BottomModal'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { deleteCookie } from '../actions'
 import { AUTHORIZATION } from '@/constants/cookie'
-
-const USER_DATA = {
-  nickName: '홍길동',
-}
+import { User } from '@/models/user.interface'
+import { APIError } from '@/models/interface'
+import { api } from '@/utils/api'
+import { notify } from '@/components/common/custom-toast'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
+  const [userData, setUserData] = useState<User>()
   const router = useRouter()
 
   const handleCloseSignupModal = () => {
@@ -23,6 +24,20 @@ const Setting = () => {
     deleteCookie(AUTHORIZATION)
     router.refresh()
   }
+
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const { data } = await api.users.me.get()
+        setUserData(data)
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+        }
+      }
+    }
+    getUserId()
+  }, [])
 
   return (
     <>
@@ -45,9 +60,9 @@ const Setting = () => {
 
         <div className="px-5 flex flex-col">
           <div className="flex gap-2 pt-3 pb-1 items-center">
-            <Avatar value={USER_DATA.nickName} />
+            <Avatar value={userData?.nickname ?? ''} />
             <Typography as="span" size="body1">
-              {USER_DATA.nickName}
+              {userData?.nickname}
             </Typography>
           </div>
 
