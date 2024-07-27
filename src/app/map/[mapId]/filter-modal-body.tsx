@@ -28,7 +28,7 @@ const FilterModalBody = ({
   selectedFilterIds,
   onChangeSelectedFilterIds,
 }: FilterModalBodyProps) => {
-  const [tags, settags] = useState<TagItem[]>([])
+  const [tags, setTags] = useState<TagItem[]>([])
 
   const getIsCategorySelected = (type: CategoryType) => {
     if (type === 'all') {
@@ -37,15 +37,15 @@ const FilterModalBody = ({
     return selectedFilterIds.category.includes(type)
   }
   useIsomorphicLayoutEffect(() => {
-    const gettags = async () => {
+    const fetchTags = async () => {
       try {
         const { data } = await api.maps.id.tag.get(mapId)
-        settags(data)
+        setTags(data)
       } catch (err) {
         notify.error('해시태그 목록을 가지고 오지 못했습니다.')
       }
     }
-    gettags()
+    fetchTags()
   }, [])
 
   return (
@@ -77,7 +77,7 @@ const FilterModalBody = ({
               isActive={selectedFilterIds.tags.includes(tag.id)}
               onClick={() => onChangeSelectedFilterIds(tag.id)}
             >
-              {tag.content}
+              {tag.name}
             </ChipButton>
           ))}
         </div>

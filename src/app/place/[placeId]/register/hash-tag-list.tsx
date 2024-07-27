@@ -42,17 +42,17 @@ const HashTagList = ({
     }
   }
 
-  const handleAddTag = (content: string) => {
+  const handleAddTag = (name: string) => {
     setCustomTag('')
     setIsOpenCustomModalTag(false)
-    if (content === '') return
+    if (name === '') return
 
-    const isAlreadyExist = tags.find((tag) => tag.content === content)
+    const isAlreadyExist = tags.find((tag) => tag.name === name)
     if (isAlreadyExist) {
       notify.error('이미 있는 태그입니다.')
       return
     }
-    addTagToServer(content)
+    addTagToServer(name)
   }
 
   return (
@@ -67,7 +67,7 @@ const HashTagList = ({
             const isActive = selectedTags.includes(tag)
 
             return (
-              <li key={tag.type}>
+              <li key={`${tag.name}-${tag.iconType}`}>
                 <button
                   className={cn(
                     'flex h-[35px] items-center gap-1 w-fit rounded-[20px] px-[10px] py-2 transition-colors',
@@ -75,9 +75,11 @@ const HashTagList = ({
                   )}
                   onClick={() => onClickTag(tag)}
                 >
-                  {tag.type && <Icon type={tag.type} size="md" aria-hidden />}
+                  {tag.iconType && (
+                    <Icon type={tag.iconType} size="md" aria-hidden />
+                  )}
                   <Typography as="span" size="body3" color="neutral-000">
-                    {tag.content}
+                    {tag.name}
                   </Typography>
                 </button>
               </li>

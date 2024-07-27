@@ -15,7 +15,7 @@ const getFitContainerWidthTags = (
   let totalWidth = 0
   const filteredVisibleTags = currentTags.filter((tag) => {
     const chip = document.querySelector<HTMLElement>(
-      `#tag-${placeId}-${changeSpaceToHyphen(tag.content)}`,
+      `#tag-${placeId}-${changeSpaceToHyphen(tag.name)}`,
     )
 
     if (chip === null) return false

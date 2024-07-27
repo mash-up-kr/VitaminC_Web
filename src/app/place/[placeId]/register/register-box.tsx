@@ -49,7 +49,7 @@ const RegisterBox = ({
   const handleClickTag = (tag: TagItem) => {
     if (selectedTags.includes(tag)) {
       const nextSelectedTags = [...selectedTags].filter(
-        (selectedTag) => selectedTag.content !== tag.content,
+        (selectedTag) => selectedTag.name !== tag.name,
       )
       setSelectedTags(nextSelectedTags)
       return

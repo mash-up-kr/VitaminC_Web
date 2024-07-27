@@ -1,69 +1,69 @@
-import { TagItem } from '@/types/api/maps'
+import type { TagItem } from '@/types/api/maps'
 
-const TEMP_REGISTER_TAGS: { type: TagItem['type']; content: string }[] = [
+const TEMP_REGISTER_TAGS: { iconType: TagItem['iconType']; name: string }[] = [
   {
-    type: 'U1F924',
-    content: '존맛',
+    iconType: 'U1F924',
+    name: '존맛',
   },
   {
-    type: 'U1F35A',
-    content: '양이 많아',
+    iconType: 'U1F35A',
+    name: '양이 많아',
   },
   {
-    type: 'U1F96C',
-    content: '건강한 맛이야',
+    iconType: 'U1F96C',
+    name: '건강한 맛이야',
   },
   {
-    type: 'U1F331',
-    content: '재료가 신선해',
+    iconType: 'U1F331',
+    name: '재료가 신선해',
   },
   {
-    type: 'U1F371',
-    content: '반찬이 잘 나와',
+    iconType: 'U1F371',
+    name: '반찬이 잘 나와',
   },
   {
-    type: 'U1F48E',
-    content: '좀 비싸',
+    iconType: 'U1F48E',
+    name: '좀 비싸',
   },
   {
-    type: 'U1F4B0',
-    content: '저렴해',
+    iconType: 'U1F4B0',
+    name: '저렴해',
   },
   {
-    type: 'U1F911',
-    content: '가성비가 좋아',
+    iconType: 'U1F911',
+    name: '가성비가 좋아',
   },
   {
-    type: 'U1F60C',
-    content: '아늑해',
+    iconType: 'U1F60C',
+    name: '아늑해',
   },
   {
-    type: 'U1F92B',
-    content: '조용해',
+    iconType: 'U1F92B',
+    name: '조용해',
   },
   {
-    type: 'U1F60E',
-    content: '트랜디해',
+    iconType: 'U1F60E',
+    name: '트랜디해',
   },
   {
-    type: 'U1F496',
-    content: '친절해',
+    iconType: 'U1F496',
+    name: '친절해',
   },
   {
-    type: 'U2728',
-    content: '깔끔해',
+    iconType: 'U2728',
+    name: '깔끔해',
   },
   {
-    type: 'UFamily',
-    content: '자리가 넓어',
+    iconType: 'UFamily',
+    name: '자리가 넓어',
   },
   {
-    type: 'U1F6BB',
-    content: '화장실이 깨끗해',
+    iconType: 'U1F6BB',
+    name: '화장실이 깨끗해',
   },
   {
-    type: 'UParking',
-    content: '주차가능',
+    iconType: 'UParking',
+    name: '주차가능',
   },
 ]
 
