@@ -95,7 +95,7 @@ const Invite = () => {
       )}
 
       <div className="flex-1">
-        <div className="pt-12 px-5 mb-12">
+        <div className="py-12 px-5">
           <Typography
             size="h1"
             color="neutral-000"
@@ -115,8 +115,8 @@ const Invite = () => {
         <div className="w-full flex justify-center items-center">
           <img
             className="w-full h-[220px] object-fill"
-            src="/images/image-placeholder.png"
-            alt="미정"
+            src="/images/invitation.png"
+            alt="초대장"
           />
         </div>
       </div>
