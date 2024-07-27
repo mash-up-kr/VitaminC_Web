@@ -62,7 +62,7 @@ const MapList = ({
       {!hasOwnerMap && (
         <ChipButton
           className="px-6 py-2 rounded-full flex-shrink-0"
-          onClick={() => router.push('map/create')}
+          onClick={() => router.push('/map/create')}
           aria-label="지도 생성"
         >
           <Icon type="plus" size="lg" />
