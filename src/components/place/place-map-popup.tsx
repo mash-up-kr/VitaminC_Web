@@ -150,7 +150,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                     onClick={(e) => {
                       e.stopPropagation()
                       e.preventDefault()
-                      pick.onClickLike
+                      pick.onClickLike()
                     }}
                   />
                 </div>
