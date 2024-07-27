@@ -1,8 +1,8 @@
-import { Typography } from '../../components'
-import InvitedBoardingPass from '../../components/boarding-pass/invited-boarding-pass'
-import InvitedExpiredBoardingPass from '../../components/boarding-pass/invited-expired-boarding-pass'
-import { api } from '../../utils/api'
-import { MapInviteInfoResponseType } from '../../models/map.interface'
+import { Typography } from '@/components'
+import InvitedBoardingPass from '@/components/boarding-pass/invited-boarding-pass'
+import InvitedExpiredBoardingPass from '@/components/boarding-pass/invited-expired-boarding-pass'
+import { api } from '@/utils/api'
+import { MapInviteInfoResponseType } from '@/models/map.interface'
 
 const getMapInviteInfo = async (inviteCode: string) => {
   try {
