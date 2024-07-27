@@ -28,12 +28,12 @@ const PlaceListItem = ({
       className="bg-neutral-700 w-full py-4 flex flex-col gap-3.5 "
     >
       {images && (
-        <div className="flex box-border gap-2 max-x-[335px] items-center justify-center overflow-x-scroll no-scrollbar">
+        <div className="flex flex-nowrap box-border gap-2 max-x-[335px] items-center overflow-x-scroll no-scrollbar">
           {images.map((image, idx) => (
             <img
               key={`${placeId}-${image}`}
               src={image}
-              className="w-[106px] h-[106px] rounded-md"
+              className="w-[calc(33.4%-8px)] aspect-square rounded-md object-cover"
               alt={`${name}${idx}`}
             />
           ))}
