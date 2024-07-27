@@ -105,7 +105,11 @@ const PlaceListBottomSheet = ({
               isMyPick: place.createdBy.id === userId,
               numOfLikes: place.likedUserIds.length,
 
-              onClickLike: () => handleLike(place),
+              onClickLike: (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleLike(place)
+              },
             }}
           />
         ))}
