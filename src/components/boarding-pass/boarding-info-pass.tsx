@@ -15,6 +15,7 @@ import { APIError } from '@/models/interface'
 import { User } from '@/models/user.interface'
 import Modal from '../common/Modal/Modal'
 import InvitingBoardingPass from './inviting-boarding-pass'
+import { useRouter } from 'next/router'
 
 const ShareButton = ({
   isInvited,
@@ -69,6 +70,8 @@ const BoardingInfoPass = ({
   const [mapInviteInfo, setMapInviteInfo] =
     useState<InvitingBoardingPassProps>()
 
+  const router = useRouter()
+
   const isMyBoard = members.some(
     (member) => member.id === userId && member.role === 'ADMIN',
   )
@@ -81,8 +84,12 @@ const BoardingInfoPass = ({
         return
       }
       await api.users.maps.mapId.delete({ mapId })
-      //TODO: 지도 나가기 후 어느 경로로 이동?
+      const { data: maps } = await api.maps.get()
+      if (maps.length === 0) {
+        throw new Error('지도가 존재하지 않습니다')
+      }
       notify.success('지도에 나가졌습니다.')
+      router.push(`/map/${maps[0].id}`)
     } catch (error) {
       if (error instanceof APIError) {
         notify.error(error.message)
