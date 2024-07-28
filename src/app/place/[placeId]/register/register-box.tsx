@@ -102,7 +102,7 @@ const RegisterBox = ({
         isOpen={isOpenBackModal}
         onClose={() => setIsOpenBackModal(false)}
         onConfirm={() => {
-          router.push(`/place/${place.place.id}`)
+          router.replace(`/place/${place.place.id}`)
         }}
       />
     </>
