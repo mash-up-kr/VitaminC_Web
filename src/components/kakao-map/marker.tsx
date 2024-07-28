@@ -1,7 +1,6 @@
 import { type FC, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import cn from '@/utils/cn'
 import Icon from '../common/icon'
 import { icons } from '../common/icons'
 import { useKakaoMap } from './context'
@@ -62,7 +61,7 @@ const createMarkerContent = (
   const IconComponent = icons[type]
 
   const container = document.createElement('button')
-  container.className = cn('hue-rotate-180 invert-[180%]', className)
+  container.className = className ?? ''
   container.style.position = 'relative'
   container.style.width = `${size.width}px`
   container.style.height = `${size.height}px`

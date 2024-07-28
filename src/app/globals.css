@@ -40,4 +40,8 @@ body {
     top: 50%;
     transform: translateY(-50%);
   }
+
+  .darkmode img {
+    filter: hue-rotate(180deg) invert(85%);
+  }
 }

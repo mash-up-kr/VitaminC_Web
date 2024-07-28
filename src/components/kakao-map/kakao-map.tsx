@@ -128,7 +128,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       <>
         <section
           ref={mergeRefs([ref, container])}
-          className={cn('relative hue-rotate-180 invert-[180%]', className)}
+          className={cn('relative darkmode', className)}
         />
         {map && <KakaoMapProvider map={map}>{children}</KakaoMapProvider>}
       </>
