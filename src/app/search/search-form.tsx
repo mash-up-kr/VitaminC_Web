@@ -1,7 +1,7 @@
 import type { ChangeEvent } from 'react'
-import { useRouter } from 'next/navigation'
 
 import SearchInput from '@/components/search-input'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 interface SearchFormProps {
   value: string
@@ -16,7 +16,7 @@ const SearchForm = ({
   onSubmit,
   onResetValue,
 }: SearchFormProps) => {
-  const router = useRouter()
+  const router = useSafeRouter()
 
   return (
     <form action={onSubmit}>
@@ -32,7 +32,7 @@ const SearchForm = ({
             size: 'xl',
           },
           label: '뒤로 가기',
-          onClick: () => router.back(),
+          onClick: () => router.safeBack(),
         }}
         rightIcon={{
           icon: { type: 'delete', size: 'xl', onClick: onResetValue },

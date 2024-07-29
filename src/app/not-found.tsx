@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import Spinner from '@/components/spinner'
 import { getMapId } from '@/services/map-id'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const NotFound = () => {
-  const router = useRouter()
+  const router = useSafeRouter()
 
   useEffect(() => {
     ;(async () => {

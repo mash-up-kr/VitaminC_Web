@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import cn from '@/utils/cn'
 
 import { InvitedBoardingPassProps } from './types'
@@ -12,6 +11,7 @@ import BoardingBottom from './boarding-bottom'
 import { RECENT_MAP_ID } from '../../constants/cookie'
 import { setCookie } from '../../app/actions'
 import { INVITE_CODE } from '../../utils/storage'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const InvitedBoardingPass = ({
   className,
@@ -23,7 +23,7 @@ const InvitedBoardingPass = ({
   expirationTime,
   images,
 }: InvitedBoardingPassProps) => {
-  const router = useRouter()
+  const router = useSafeRouter()
 
   const handleClick = async () => {
     try {

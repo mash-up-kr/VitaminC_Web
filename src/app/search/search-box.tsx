@@ -2,7 +2,7 @@
 
 import debounce from 'lodash.debounce'
 import { useCallback, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import { api } from '@/utils/api'
 import SearchForm from './search-form'
@@ -13,9 +13,10 @@ import { formatBoundToRect } from '@/utils/location'
 import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import { mapBoundSessionStorage, recentSearchStorage } from '@/utils/storage'
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const SearchBox = () => {
-  const router = useRouter()
+  const router = useSafeRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const search = searchParams.get('search') ?? ''

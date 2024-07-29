@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 import { AccessibleIconButton, Button, Carousel } from '@/components'
 import type { PlaceType } from '@/types/api/place'
@@ -15,6 +14,7 @@ import { notify } from '@/components/common/custom-toast'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import PlaceDeleteModal from './place-delete-modal'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 interface PlaceBoxProps {
   place: PlaceType
@@ -23,7 +23,7 @@ interface PlaceBoxProps {
 const PlaceBox = ({ place }: PlaceBoxProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isLikePlace, setIsLikePlace] = useState(false)
-  const router = useRouter()
+  const router = useSafeRouter()
   // TODO: API
   const isAlreadyPick = false
 
@@ -96,7 +96,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
           icon={{ type: 'caretLeft', size: 'xl' }}
           label="뒤로 가기"
           className="absolute top-[26px] left-[10px] z-[100]"
-          onClick={() => router.back()}
+          onClick={() => router.safeBack()}
         />
 
         {/* TODO: mainPhotoList가 나오는 경우 수정, 아니면 TODO 지우기 */}

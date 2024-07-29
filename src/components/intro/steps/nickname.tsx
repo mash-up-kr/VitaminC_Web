@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 import { Button, Input, Typography } from '@/components/common'
 import type { IntroActionDispatch } from '@/app/intro/page'
@@ -11,11 +10,12 @@ import { RECENT_MAP_ID } from '@/constants/cookie'
 import { api } from '@/utils/api'
 import { APIError } from '@/models/interface'
 import { notify } from '@/components/common/custom-toast'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const MIN_LENGTH = 2
 
 const Nickname = ({ goNextStep }: IntroActionDispatch) => {
-  const router = useRouter()
+  const router = useSafeRouter()
 
   const [nickname, setNickname] = useState('')
   const handleChange = (value: string) => {

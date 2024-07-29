@@ -1,15 +1,16 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { ChipButton, Icon } from '@/components'
 import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
 import Modal from '@/components/common/Modal/Modal'
 import { notify } from '@/components/common/custom-toast'
+import useSafeRouter from '@/hooks/use-safe-router'
 import { APIError } from '@/models/interface'
 import { MapInfo, UserByMapInfo } from '@/models/map.interface'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
 interface MapInfoModalProps {
   mapId: string
@@ -25,7 +26,7 @@ const MapList = ({
   onClickMap: (mapId: string) => void
 }) => {
   const [maps, setMaps] = useState<UserByMapInfo[]>([])
-  const router = useRouter()
+  const router = useSafeRouter()
 
   const hasOwnerMap = maps.some((map) => map.role === 'ADMIN')
 
@@ -76,7 +77,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
   const [currentMapId, setCurrentMapId] = useState(mapId)
   const [mapData, setMapData] = useState<MapInfo>()
 
-  const router = useRouter()
+  const router = useSafeRouter()
 
   const handleCloseModal = () => {
     if (currentMapId === mapId) {
