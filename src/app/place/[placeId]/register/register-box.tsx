@@ -103,7 +103,7 @@ const RegisterBox = ({
         isOpen={isOpenBackModal}
         onClose={() => setIsOpenBackModal(false)}
         onConfirm={() => {
-          router.safeBack(`/place/${place.place.id}`)
+          router.safeBack({ defaultPage: `/place/${place.place.id}` })
         }}
       />
     </>

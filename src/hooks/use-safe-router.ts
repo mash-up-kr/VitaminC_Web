@@ -8,14 +8,14 @@ const useSafeRouter = () => {
   const isServer = useIsServer()
   const router = useRouter()
 
-  const safeBack = async (defaultPage?: string) => {
+  const safeBack = async (options?: { defaultPage?: string }) => {
     if (isServer) return
 
     if (window.history.length > 1) {
       router.back()
     } else {
-      if (defaultPage) {
-        router.push(defaultPage)
+      if (options?.defaultPage) {
+        router.push(options.defaultPage)
         return
       }
 
