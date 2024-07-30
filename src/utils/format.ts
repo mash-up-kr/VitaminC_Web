@@ -5,7 +5,6 @@ export const convertSearchPlaceToPlaceType = (
 ): PlaceType => {
   return {
     ...searchPlace,
-    id: searchPlace.placeId,
     place: {
       id: searchPlace.kakaoId,
       kakaoPlace: {
@@ -17,6 +16,7 @@ export const convertSearchPlaceToPlaceType = (
         y: searchPlace.y,
         menuList: [],
         photoList: [],
+        mainPhotoUrl: '',
         createdAt: new Date(),
         updatedAt: new Date(),
       },

@@ -24,10 +24,10 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     const place = selectedPlace.place
 
     const getNumOfLike = () => {
-      const initialNumOfLike = selectedPlace.likedUserIds.length
+      const initialNumOfLike = selectedPlace.likedUserIds?.length || 0
 
       if (!userId) return initialNumOfLike
-      if (selectedPlace.likedUserIds.includes(userId)) {
+      if (selectedPlace.likedUserIds?.includes(userId)) {
         if (isLikePlace) return initialNumOfLike
         return initialNumOfLike - 1
       }
@@ -75,7 +75,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     const tags = selectedPlace.tags
     const pick = {
       isLiked: isLikePlace,
-      isMyPick: selectedPlace.createdBy.id === userId,
+      isMyPick: selectedPlace.createdBy?.id === userId,
       numOfLikes: getNumOfLike(),
       onClickLike: isLikePlace ? handleUnLikePlace : handleLikePlace,
     }
@@ -87,7 +87,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
             data: { id },
           } = await api.users.me.get()
           setUserId(id)
-          setIsLikePlace(selectedPlace.likedUserIds.includes(id))
+          setIsLikePlace(selectedPlace.likedUserIds?.includes(id) || false)
         } catch (error) {
           if (error instanceof APIError) {
             notify.error(error.message)

@@ -1,7 +1,7 @@
 import BottomModal from '@/components/BottomModal'
 
 interface PlaceDeleteModalProps {
-  name: string
+  name?: string
   numOfLike: number
   isOpen: boolean
   onCancel: VoidFunction

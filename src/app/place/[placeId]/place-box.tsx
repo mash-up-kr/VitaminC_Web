@@ -153,8 +153,8 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
       </div>
 
       <PlaceDeleteModal
-        name={place.createdBy.nickname}
-        numOfLike={place.likedUserIds.length}
+        name={place.createdBy?.nickname}
+        numOfLike={place.likedUserIds?.length || 0}
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeletePlace}

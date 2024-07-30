@@ -48,9 +48,10 @@ const ResultSearchListBox = ({
               name={place.placeName}
               rating={place.score}
               pick={{
-                isLiked: !!place.likedUserIds.find((id) => id === user?.id),
-                numOfLikes: place.likedUserIds.length,
-                isMyPick: place.createdBy.nickname === user?.nickname,
+                isLiked:
+                  !!place.likedUserIds?.find((id) => id === user?.id) || false,
+                numOfLikes: place.likedUserIds?.length ?? 0,
+                isMyPick: place.createdBy?.nickname === user?.nickname,
                 onClickLike: () => handleLikePlace(place.placeId),
               }}
               address={place.address}

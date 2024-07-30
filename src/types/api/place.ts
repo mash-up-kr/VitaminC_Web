@@ -12,8 +12,8 @@ export interface PlaceType {
   }
   tags: TagItem[]
   comments: unknown[]
-  likedUserIds: User['id'][]
-  createdBy: {
+  likedUserIds?: User['id'][]
+  createdBy?: {
     id: number
     nickname: string
   }
@@ -29,14 +29,14 @@ export interface SearchPlace {
   y: number
   placeName: string
   address: string
-  placeId: PlaceType['id']
+  placeId: PlaceType['place']['id']
   tags: TagItem[]
-  createdBy: {
+  createdBy?: {
     id: User['id']
     nickname: string
   }
   score: number
-  likedUserIds: User['id'][]
+  likedUserIds?: User['id'][]
 }
 
 export interface PlaceMenuItem {
@@ -45,13 +45,13 @@ export interface PlaceMenuItem {
   photo: string
 }
 export interface PlaceDetail {
-  id: PlaceType['id']
+  id: PlaceType['place']['id']
   kakaoId: PlaceType['place']['kakaoPlace']['id']
   mapId: MapInfo['id']
   isRegisteredPlace: boolean
-  likedUserIds: User['id'][]
+  likedUserIds?: User['id'][]
   tags: TagItem[]
-  createdBy: PlaceType['createdBy']
+  createdBy?: PlaceType['createdBy']
   name: string
   category: string
   address: string
