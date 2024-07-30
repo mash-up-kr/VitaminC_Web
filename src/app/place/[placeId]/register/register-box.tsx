@@ -39,6 +39,9 @@ const RegisterBox = ({
           kakaoPlaceId: place.kakaoId,
           tagNames: toTagNames(selectedTags),
         })
+
+        notify.success('맛집 등록이 완료되었습니다.')
+        router.push(`/place/${place.kakaoId}`)
       }
     } catch (error) {
       if (error instanceof APIError) {

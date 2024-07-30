@@ -71,6 +71,8 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
         placeId: place.id,
         mapId,
       })
+
+      setIsDeleteModalOpen(false)
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
