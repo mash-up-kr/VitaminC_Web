@@ -104,7 +104,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
         className={cn('flex justify-center w-full', className)}
       >
         <Link
-          href={`/place/${place.id}`}
+          href={`/place/${place.kakaoPlace.id}`}
           ref={ref}
           className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4 z-10"
         >

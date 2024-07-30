@@ -105,8 +105,8 @@ const PlaceListBottomSheet = ({
       <ul className="flex flex-col">
         {placeList.map((place) => (
           <PlaceListItem
-            key={`bottom-sheet-${place.place.id}`}
-            placeId={place.place.id}
+            key={`bottom-sheet-${place.place.kakaoPlace.id}`}
+            placeId={place.place.kakaoPlace.id}
             address={place.place.kakaoPlace.address}
             name={place.place.kakaoPlace.name}
             rating={place.place.kakaoPlace.score ?? 0}
