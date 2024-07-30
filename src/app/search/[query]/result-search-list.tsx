@@ -8,6 +8,7 @@ import type { SearchPlace } from '@/types/api/place'
 import { api } from '@/utils/api'
 import { extractCategory } from '@/utils/category'
 import cn from '@/utils/cn'
+import EmptyResultBox from '../empty-result-box'
 
 interface ResultSearchListBoxProps extends ClassName {
   places: SearchPlace[]
@@ -35,26 +36,30 @@ const ResultSearchListBox = ({
         className,
       )}
     >
-      {places.map((place) => {
-        const categories = extractCategory(place.category)
-        const category = categories[categories.length - 1]
-        return (
-          <PlaceListItem
-            key={place.kakaoId}
-            category={category}
-            placeId={place.kakaoId}
-            name={place.placeName}
-            rating={place.score}
-            pick={{
-              isLiked: !!place.likedUserIds.find((id) => id === user?.id),
-              numOfLikes: place.likedUserIds.length,
-              isMyPick: place.createdBy.nickname === user?.nickname,
-              onClickLike: () => handleLikePlace(place.placeId),
-            }}
-            address={place.address}
-          />
-        )
-      })}
+      {places.length > 0 ? (
+        places.map((place) => {
+          const categories = extractCategory(place.category)
+          const category = categories[categories.length - 1]
+          return (
+            <PlaceListItem
+              key={place.kakaoId}
+              category={category}
+              placeId={place.kakaoId}
+              name={place.placeName}
+              rating={place.score}
+              pick={{
+                isLiked: !!place.likedUserIds.find((id) => id === user?.id),
+                numOfLikes: place.likedUserIds.length,
+                isMyPick: place.createdBy.nickname === user?.nickname,
+                onClickLike: () => handleLikePlace(place.placeId),
+              }}
+              address={place.address}
+            />
+          )
+        })
+      ) : (
+        <EmptyResultBox />
+      )}
     </ul>
   )
 }

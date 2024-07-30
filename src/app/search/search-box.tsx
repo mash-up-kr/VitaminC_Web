@@ -6,7 +6,6 @@ import { usePathname, useSearchParams } from 'next/navigation'
 
 import { api } from '@/utils/api'
 import SearchForm from './search-form'
-import { Typography } from '@/components'
 import RecentKeywords from './recent-keywords'
 import SuggestPlaceList from './suggest-place-list'
 import { formatBoundToRect } from '@/utils/location'
@@ -15,6 +14,7 @@ import useSafeRouter from '@/hooks/use-safe-router'
 import type { SearchPlace } from '@/types/api/place'
 import { getMapId } from '@/services/map-id'
 import { notify } from '@/components/common/custom-toast'
+import EmptyResultBox from './empty-result-box'
 
 const SearchBox = () => {
   const router = useSafeRouter()
@@ -134,13 +134,7 @@ const SearchBox = () => {
         (suggestedPlaces.length > 0 ? (
           <SuggestPlaceList places={suggestedPlaces} query={query} />
         ) : (
-          <Typography
-            size="body2"
-            color="neutral-200"
-            className="flex justify-center mt-[112px]"
-          >
-            검색 결과가 없습니다.
-          </Typography>
+          <EmptyResultBox />
         ))}
     </div>
   )
