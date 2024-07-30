@@ -1,20 +1,14 @@
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 import { Typography } from '../common'
-import { KakaoPlaceDetail } from '@/types/map/kakao-raw-type'
+import type { PlaceDetail } from '@/types/api/place'
 
 interface MenuListProps extends ClassName {
   mainPhotoUrl: string
-  photoList: KakaoPlaceDetail['photoList']
-  menuList: KakaoPlaceDetail['menuList']
+  menuList: PlaceDetail['menuList']
 }
 
-const MenuList = ({
-  className,
-  mainPhotoUrl,
-  photoList,
-  menuList,
-}: MenuListProps) => {
+const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
   return (
     <div className={cn('bg-neutral-700', className)}>
       <div className="flex gap-[3px]">
@@ -33,7 +27,7 @@ const MenuList = ({
       />
 
       <ul className="flex flex-col divide-y divide-neutral-600">
-        {menuList.map((menu, index) => (
+        {menuList.map((menu) => (
           <li
             key={menu.menu}
             className="flex flex-1 justify-between items-center min-h-[96px]"
@@ -48,7 +42,7 @@ const MenuList = ({
             </div>
 
             <img
-              src={photoList[index] ?? ''}
+              src={menu.photo}
               alt={`${menu.menu}`}
               className="w-[60px] h-[60px] rounded max-w-[60px] object-cover"
             />

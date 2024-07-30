@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 
 import HashTagList from './hash-tag-list'
 import type { TagItem } from '@/types/api/maps'
-import type { PlaceType } from '@/types/api/place'
+import type { PlaceDetail } from '@/types/api/place'
 import { AccessibleIconButton, Button, Typography } from '@/components'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
@@ -22,14 +22,14 @@ const RegisterBox = ({
   place,
   tags,
 }: {
-  place: PlaceType
+  place: PlaceDetail
   tags: TagItem[]
 }) => {
   const router = useSafeRouter()
   const [selectedTags, setSelectedTags] = useState<TagItem[]>([])
   const [isOpenBackModal, setIsOpenBackModal] = useState(false)
 
-  const kakaoPlaceName = place.place.kakaoPlace.name || '[식당이름]'
+  const kakaoPlaceName = place.name || '[식당이름]'
 
   const handleRegisterPlace = async () => {
     try {
@@ -60,7 +60,7 @@ const RegisterBox = ({
     setSelectedTags((prev) => [...prev, tag])
   }
 
-  if (!place.place.id) {
+  if (!place.id) {
     redirect('/')
   }
 
@@ -104,7 +104,7 @@ const RegisterBox = ({
         isOpen={isOpenBackModal}
         onClose={() => setIsOpenBackModal(false)}
         onConfirm={() => {
-          router.safeBack({ defaultHref: `/place/${place.place.id}` })
+          router.safeBack({ defaultHref: `/place/${place.kakaoId}` })
         }}
       />
     </>
