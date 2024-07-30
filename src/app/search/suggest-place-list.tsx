@@ -1,11 +1,11 @@
 import { formatDistance, getDistance } from '@/utils/location'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import PlaceAutoSearchItem from '@/components/place/place-auto-search-item'
 import { allowUserPositionStorage } from '@/utils/storage'
+import type { SearchPlace } from '@/types/api/place'
 
 interface SuggestPlaceListProps {
-  places: KakaoPlaceItem[]
+  places: SearchPlace[]
   query: string
 }
 
@@ -25,10 +25,10 @@ const SuggestPlaceList = ({ places, query }: SuggestPlaceListProps) => {
 
         return (
           <PlaceAutoSearchItem
-            key={place.id}
-            {...place}
+            key={place.kakaoId}
             className="px-5"
             query={query}
+            place={place}
             distance={isAllowPosition ? formatDistance(diffDistance) : null}
           />
         )

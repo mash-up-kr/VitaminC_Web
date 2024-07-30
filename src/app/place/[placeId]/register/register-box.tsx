@@ -1,11 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { redirect } from 'next/navigation'
 
 import HashTagList from './hash-tag-list'
 import type { TagItem } from '@/types/api/maps'
-import type { PlaceType } from '@/types/api/place'
+import type { PlaceDetail } from '@/types/api/place'
 import { AccessibleIconButton, Button, Typography } from '@/components'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
@@ -22,24 +21,27 @@ const RegisterBox = ({
   place,
   tags,
 }: {
-  place: PlaceType
+  place: PlaceDetail
   tags: TagItem[]
 }) => {
   const router = useSafeRouter()
   const [selectedTags, setSelectedTags] = useState<TagItem[]>([])
   const [isOpenBackModal, setIsOpenBackModal] = useState(false)
 
-  const kakaoPlaceName = place.place.kakaoPlace.name || '[식당이름]'
+  const kakaoPlaceName = place.name || '[식당이름]'
 
   const handleRegisterPlace = async () => {
     try {
       const mapId = await getMapId()
       if (mapId) {
-        await api.place.mapId.kakao.kakaoPlaceId.put({
+        await api.place.mapId.kakao.kakaoPlaceId.post({
           mapId,
-          kakaoPlaceId: place.place.kakaoPlace.id,
+          kakaoPlaceId: place.kakaoId,
           tagNames: toTagNames(selectedTags),
         })
+
+        notify.success('맛집 등록이 완료되었습니다.')
+        router.push(`/place/${place.kakaoId}`)
       }
     } catch (error) {
       if (error instanceof APIError) {
@@ -60,8 +62,8 @@ const RegisterBox = ({
     setSelectedTags((prev) => [...prev, tag])
   }
 
-  if (!place.place.id) {
-    redirect('/')
+  if (!place.kakaoId) {
+    router.safeBack()
   }
 
   return (
@@ -82,7 +84,7 @@ const RegisterBox = ({
           >{`${kakaoPlaceName}${get조사(kakaoPlaceName, '은/는')}\n어떤 장소인가요?`}</Typography>
         </div>
 
-        <div className="absolute bottom-5 w-full">
+        <div className="absolute bottom-5 w-full px-5">
           <Button
             type="button"
             colorScheme="orange"
@@ -104,7 +106,7 @@ const RegisterBox = ({
         isOpen={isOpenBackModal}
         onClose={() => setIsOpenBackModal(false)}
         onConfirm={() => {
-          router.safeBack({ defaultHref: `/place/${place.place.id}` })
+          router.safeBack({ defaultHref: `/place/${place.kakaoId}` })
         }}
       />
     </>

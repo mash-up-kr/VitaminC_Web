@@ -28,7 +28,7 @@ const PlaceListBottomSheet = ({
   const getIsLike = (place: PlaceType): boolean => {
     if (typeof userId === 'undefined') return false
 
-    if (place.likedUserIds.includes(userId)) return true
+    if (place.likedUserIds?.includes(userId)) return true
 
     return false
   }
@@ -43,8 +43,8 @@ const PlaceListBottomSheet = ({
             ? {
                 ...p,
                 likedUserIds: getIsLike(place)
-                  ? p.likedUserIds.filter((id) => id !== userId)
-                  : [...p.likedUserIds, userId],
+                  ? p.likedUserIds?.filter((id) => id !== userId)
+                  : [...(p.likedUserIds ?? []), userId],
               }
             : p,
         ),
@@ -105,8 +105,8 @@ const PlaceListBottomSheet = ({
       <ul className="flex flex-col">
         {placeList.map((place) => (
           <PlaceListItem
-            key={`bottom-sheet-${place.place.id}`}
-            placeId={place.place.id}
+            key={`bottom-sheet-${place.place.kakaoPlace.id}`}
+            placeId={place.place.kakaoPlace.id}
             address={place.place.kakaoPlace.address}
             name={place.place.kakaoPlace.name}
             rating={place.place.kakaoPlace.score ?? 0}
@@ -115,8 +115,8 @@ const PlaceListBottomSheet = ({
             tags={place.tags}
             pick={{
               isLiked: getIsLike(place),
-              isMyPick: place.createdBy.id === userId,
-              numOfLikes: place.likedUserIds.length,
+              isMyPick: place.createdBy?.id === userId,
+              numOfLikes: place.likedUserIds?.length || 0,
 
               onClickLike: (e) => {
                 e.preventDefault()

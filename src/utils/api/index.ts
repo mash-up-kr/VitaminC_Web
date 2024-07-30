@@ -1,6 +1,5 @@
 import { apiClientFactory } from './api-client-factory'
 import type { QueryParams } from '@/types/api/search'
-import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import type { ResponseWithMessage } from '@/types/api'
 import type {
   InviteLink,
@@ -9,7 +8,7 @@ import type {
   UserByMapInfo,
 } from '@/models/map.interface'
 import type { User } from '@/models/user.interface'
-import type { PlaceType } from '@/types/api/place'
+import type { PlaceDetail, PlaceType, SearchPlace } from '@/types/api/place'
 import type { TagItem } from '@/types/api/maps'
 
 const client = {
@@ -82,8 +81,10 @@ const search = {
     get: ({
       q,
       rect,
-    }: QueryParams): Promise<ResponseWithMessage<KakaoPlaceItem[]>> =>
-      client.public.get(`/search/places?q=${q}&rect=${rect}`),
+      mapId,
+    }: QueryParams & { mapId: MapInfo['id'] }): Promise<
+      ResponseWithMessage<SearchPlace[]>
+    > => client.public.get(`/search/places?q=${q}&rect=${rect}&mapId=${mapId}`),
   },
 }
 
@@ -112,7 +113,16 @@ const place = {
 
     kakao: {
       kakaoPlaceId: {
-        put: ({
+        get: ({
+          mapId,
+          kakaoPlaceId,
+        }: {
+          mapId: MapInfo['id']
+          kakaoPlaceId: PlaceType['place']['kakaoPlace']['id']
+        }): Promise<ResponseWithMessage<PlaceDetail>> =>
+          client.secure.get(`/place/${mapId}/kakao/${kakaoPlaceId}`),
+
+        post: ({
           mapId,
           kakaoPlaceId,
           tagNames,
@@ -121,7 +131,7 @@ const place = {
           kakaoPlaceId: PlaceType['place']['kakaoPlace']['id']
           tagNames: TagItem['name'][]
         }): Promise<ResponseWithMessage<PlaceType>> =>
-          client.secure.put(`/place/${mapId}/kakao/${kakaoPlaceId}`, {
+          client.secure.post(`/place/${mapId}/kakao/${kakaoPlaceId}`, {
             tagNames,
           }),
       },

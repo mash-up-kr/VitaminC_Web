@@ -3,7 +3,7 @@
 import { useState } from 'react'
 
 import { AccessibleIconButton, Button, Carousel } from '@/components'
-import type { PlaceType } from '@/types/api/place'
+import type { PlaceDetail } from '@/types/api/place'
 import PlaceTopInformation from './place-top-information'
 import PlaceDivider from '@/components/place/place-divider'
 import MenuList from '@/components/place/menu-list'
@@ -15,17 +15,22 @@ import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import PlaceDeleteModal from './place-delete-modal'
 import useSafeRouter from '@/hooks/use-safe-router'
+import useUser from '@/hooks/use-user'
 
 interface PlaceBoxProps {
-  place: PlaceType
+  place: PlaceDetail
 }
 
 const PlaceBox = ({ place }: PlaceBoxProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isLikePlace, setIsLikePlace] = useState(false)
   const router = useSafeRouter()
-  // TODO: API
-  const isAlreadyPick = false
+  const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
+
+  useUser({
+    onLoadEnd: (user) =>
+      setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false),
+  })
 
   const handleLikePlace = async () => {
     try {
@@ -34,7 +39,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
       setIsLikePlace(true)
       await api.place.mapId.placeId.like.put({
-        placeId: place.place.id,
+        placeId: place.id,
         mapId,
       })
     } catch (error) {
@@ -52,7 +57,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
       setIsLikePlace(false)
       await api.place.mapId.placeId.like.delete({
-        placeId: place.place.id,
+        placeId: place.id,
         mapId,
       })
     } catch (error) {
@@ -69,9 +74,12 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
       if (!mapId) throw new Error('잘못된 접근입니다.')
 
       await api.place.mapId.placeId.delete({
-        placeId: place.place.id,
+        placeId: place.id,
         mapId,
       })
+
+      setIsAlreadyPick(false)
+      setIsDeleteModalOpen(false)
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
@@ -81,7 +89,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
   const handleRegisterPlace = async () => {
     try {
-      router.push(`/place/${place.place.id}/register`)
+      router.push(`/place/${place.kakaoId}/register`)
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
@@ -99,43 +107,34 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
           onClick={() => router.safeBack()}
         />
 
-        {/* TODO: mainPhotoList가 나오는 경우 수정, 아니면 TODO 지우기 */}
         <Carousel
-          items={place.place.kakaoPlace.photoList
-            .slice(0, 3)
-            .map((src) => ({ src }))}
+          items={place.photoList.slice(0, 3).map((src) => ({ src }))}
           objectFit="fill"
           className="mt-0 w-full h-[200px] min-h-[200px]"
           indicatorPosition="inside"
         />
 
-        {/* TODO: api 나오면 rating 추가 */}
         <PlaceTopInformation
-          placeId={place.place.id}
-          category={place.place.kakaoPlace.category}
-          name={place.place.kakaoPlace.name}
-          address={place.place.kakaoPlace.address}
+          placeId={place.kakaoId}
+          category={place.category}
+          name={place.name}
+          address={place.address}
           tags={place.tags}
-          rating={3.5}
+          rating={place.score}
           className="px-5"
         />
         <PlaceDivider className="w-full" />
 
-        {/* TODO: api 나오면 mainPhotoUrl 수정, photoList, menuList 설정 */}
         <MenuList
-          menuList={place.place.kakaoPlace.menuList}
-          mainPhotoUrl={
-            place.place.kakaoPlace.photoList[0] || '/images/food.png'
-          }
-          photoList={place.place.kakaoPlace.photoList}
+          menuList={place.menuList}
+          mainPhotoUrl={place.mainPhotoUrl}
           className="px-5 pt-6"
         />
         <PlaceDivider className="w-full" />
 
-        {/* TODO: api 나오면 rating 추가 */}
         <KakaoRating
-          rating={3.5}
-          placeId={place.place.kakaoPlace.id}
+          rating={place.score}
+          placeId={place.kakaoId}
           className="py-5 px-5"
         />
 
@@ -159,10 +158,9 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
         </footer>
       </div>
 
-      {/* TODO: API */}
       <PlaceDeleteModal
-        name="진영"
-        numOfLike={6}
+        name={place.createdBy?.nickname}
+        numOfLike={place.likedUserIds?.length || 0}
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeletePlace}

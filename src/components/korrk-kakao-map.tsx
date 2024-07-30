@@ -58,8 +58,7 @@ const KorrkKakaoMap = ({
               key={place.place.id}
               latitude={place.place.y}
               longitude={place.place.x}
-              // TODO: api
-              isSaved={true}
+              isSaved={place.likedUserIds?.length !== 0}
               type={getMarkerType(
                 place.place.kakaoPlace.category,
                 selectedPlace?.place.id === place.place.id,

@@ -156,9 +156,9 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           selectedFilterNames.category.length === 0 ||
           selectedFilterNames.category.some((cat) => {
             if (cat === 'like') {
-              return place.likedUserIds.includes(userData.id)
+              return place.likedUserIds?.includes(userData.id)
             } else if (cat === 'pick') {
-              return place.createdBy.id === userData.id
+              return place.createdBy?.id === userData.id
             }
             return false
           })

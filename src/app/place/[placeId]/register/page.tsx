@@ -1,22 +1,49 @@
-import { REGISTER_TAGS } from './tags'
+'use client'
+
 import RegisterBox from './register-box'
-import { PLACE_DETAIL_DATA } from '@/constants/place'
+import { useEffect, useState } from 'react'
+import { PlaceDetail } from '@/types/api/place'
+import { TagItem } from '@/types/api/maps'
+import { api } from '@/utils/api'
+import { notify } from '@/components/common/custom-toast'
+import { getMapId } from '@/services/map-id'
+import { APIError } from '@/models/interface'
+import LoadingIndicator from '@/components/loading-indicator'
 
-const PlaceRegister = async () => {
-  // TODO: place api 연동
-  // const tags = (await api.maps.id.tag.get('1')) ?? { data: REGISTER_TAGS }
-  // const place = (await api.place.placeId.get('1')) ?? {
-  //   data: PLACE_DETAIL_DATA,
-  // }
+const PlaceRegister = ({ params }: { params?: { placeId?: number } }) => {
+  const [place, setPlace] = useState<PlaceDetail | null>(null)
+  const [tags, setTags] = useState<TagItem[]>([])
 
-  const tags = { data: REGISTER_TAGS }
-  const place = {
-    data: PLACE_DETAIL_DATA,
-  }
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const mapId = await getMapId()
+
+        if (!mapId || !params?.placeId) {
+          throw new Error('잘못된 접근입니다.')
+        }
+        const { data: tagData } = await api.maps.id.tag.get(mapId)
+        setTags(tagData)
+        const { data: placeData } =
+          await api.place.mapId.kakao.kakaoPlaceId.get({
+            mapId,
+            kakaoPlaceId: params.placeId,
+          })
+        setPlace(placeData)
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+          return
+        }
+        notify.error('예상치 못한 오류가 발생했습니다. ')
+      }
+    }
+    fetchTags()
+  }, [params?.placeId])
 
   return (
     <>
-      <RegisterBox place={place.data} tags={tags.data} />
+      {place ? <RegisterBox place={place} tags={tags} /> : <LoadingIndicator />}
     </>
   )
 }
