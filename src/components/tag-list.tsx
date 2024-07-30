@@ -1,12 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
-
 import { Chip } from '@/components'
 import cn from '@/utils/cn'
 import type { ClassName } from '@/models/interface'
-import { changeSpaceToHyphen, getFitContainerWidthTags } from '@/utils/tags'
-import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import { changeSpaceToHyphen } from '@/utils/tags'
 import type { PlaceType } from '@/types/api/place'
 import type { TagItem } from '@/types/api/maps'
 
@@ -16,28 +13,14 @@ interface TagListProps extends ClassName {
 }
 
 const TagList = ({ placeId, tags, className }: TagListProps) => {
-  const [visibleTags, setVisibleTags] = useState(tags)
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useIsomorphicLayoutEffect(() => {
-    const editTags = () => {
-      if (!containerRef.current) return
-
-      const containerWidth = containerRef.current.offsetWidth
-
-      setVisibleTags(getFitContainerWidthTags(placeId, tags, containerWidth))
-    }
-    editTags()
-  }, [tags])
-
-  if (visibleTags.length === 0) return null
-
   return (
     <div
-      ref={containerRef}
-      className={cn('w-full max-w-full flex items-center gap-2', className)}
+      className={cn(
+        'w-full max-w-full flex items-center gap-2 overflow-x-scroll no-scrollbar',
+        className,
+      )}
     >
-      {visibleTags.map((tag) => (
+      {tags.map((tag) => (
         <Chip
           id={`hashtag-${placeId}-${changeSpaceToHyphen(tag.name)}`}
           className="whitespace-nowrap"

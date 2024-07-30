@@ -149,15 +149,16 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }, [mapId])
 
   useEffect(() => {
+    if (!userData) return
     setFilteredPlace(
       places.filter((place) => {
         const matchesCategory =
           selectedFilterNames.category.length === 0 ||
           selectedFilterNames.category.some((cat) => {
             if (cat === 'like') {
-              return place.likedUserIds.includes(userData?.id ?? -1)
+              return place.likedUserIds.includes(userData.id)
             } else if (cat === 'pick') {
-              return place.createdBy.id === 1
+              return place.createdBy.id === userData.id
             }
             return false
           })
@@ -222,13 +223,13 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             ref={bottomRef}
             body={
               <PlaceListBottomSheet
-                places={places}
+                places={filteredPlace}
                 selectedFilter={selectedFilterNames}
                 onClickFilterButton={handleFilterModalOpen}
               />
             }
             state={
-              places.length
+              filteredPlace.length
                 ? BOTTOM_SHEET_STATE.Default
                 : BOTTOM_SHEET_STATE.Collapsed
             }

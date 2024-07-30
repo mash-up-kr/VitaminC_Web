@@ -2,10 +2,10 @@ import { PlaceType } from '@/types/api/place'
 
 export const PLACE_LIST_DATA: PlaceType[] = [
   {
-    id: 1,
     place: {
       id: 1,
       kakaoPlace: {
+        mainPhotoUrl: '1',
         id: 1,
         name: 'Sarang Restaurant',
         category: 'Korean',
@@ -50,10 +50,10 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     updatedAt: '2024-07-16T12:00:00Z',
   },
   {
-    id: 2,
     place: {
       id: 2,
       kakaoPlace: {
+        mainPhotoUrl: '1',
         id: 2,
         name: 'Han River Sushi',
         category: 'Japanese',
@@ -95,10 +95,10 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     updatedAt: '2024-07-16T12:30:00Z',
   },
   {
-    id: 3,
     place: {
       id: 3,
       kakaoPlace: {
+        mainPhotoUrl: '1',
         id: 3,
         name: 'Gyeongbok Palace BBQ',
         category: 'BBQ',
@@ -140,10 +140,10 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     updatedAt: '2024-07-16T13:00:00Z',
   },
   {
-    id: 4,
     place: {
       id: 4,
       kakaoPlace: {
+        mainPhotoUrl: '1',
         id: 4,
         name: 'Namdaemun Noodles',
         category: 'Noodles',
@@ -185,10 +185,10 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     updatedAt: '2024-07-16T13:30:00Z',
   },
   {
-    id: 5,
     place: {
       id: 5,
       kakaoPlace: {
+        mainPhotoUrl: '1',
         id: 5,
         name: 'Insadong Cafe',
         category: 'Cafe',

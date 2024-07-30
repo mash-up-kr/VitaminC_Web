@@ -34,7 +34,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
       setIsLikePlace(true)
       await api.place.mapId.placeId.like.put({
-        placeId: place.id,
+        placeId: place.place.id,
         mapId,
       })
     } catch (error) {
@@ -52,7 +52,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
       setIsLikePlace(false)
       await api.place.mapId.placeId.like.delete({
-        placeId: place.id,
+        placeId: place.place.id,
         mapId,
       })
     } catch (error) {
@@ -69,7 +69,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
       if (!mapId) throw new Error('잘못된 접근입니다.')
 
       await api.place.mapId.placeId.delete({
-        placeId: place.id,
+        placeId: place.place.id,
         mapId,
       })
     } catch (error) {
@@ -81,7 +81,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
   const handleRegisterPlace = async () => {
     try {
-      router.push(`/place/${place.id}/register`)
+      router.push(`/place/${place.place.id}/register`)
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
@@ -111,7 +111,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
         {/* TODO: api 나오면 rating 추가 */}
         <PlaceTopInformation
-          placeId={place.id}
+          placeId={place.place.id}
           category={place.place.kakaoPlace.category}
           name={place.place.kakaoPlace.name}
           address={place.place.kakaoPlace.address}

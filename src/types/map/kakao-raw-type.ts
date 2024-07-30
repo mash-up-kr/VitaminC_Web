@@ -27,4 +27,6 @@ export interface KakaoPlaceDetail {
   photoList: string[] // ['http://t1.daumcdn.net/place/6DCE4A7D51924FE3A4437B8C91C553D4', 'http://t1.daumcdn.net/local/kakaomapPhoto/review/ed7aa0ecafdfb578c6b394f6f1e76d1dfca5d99e?original']
   createdAt: Date // '2024-06-29T18:08:11.692Z'
   updatedAt: Date // '2024-06-29T18:11:05.368Z'
+  mainPhotoUrl: string
+  score?: number
 }

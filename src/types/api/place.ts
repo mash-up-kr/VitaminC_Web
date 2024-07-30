@@ -2,7 +2,6 @@ import { KakaoPlaceDetail } from '../map/kakao-raw-type'
 import { TagItem } from './maps'
 
 export interface PlaceType {
-  id: number
   place: {
     id: number
     kakaoPlace: KakaoPlaceDetail

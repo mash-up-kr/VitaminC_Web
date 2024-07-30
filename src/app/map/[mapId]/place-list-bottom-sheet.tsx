@@ -22,6 +22,7 @@ const PlaceListBottomSheet = ({
   selectedFilter,
   onClickFilterButton,
 }: PlaceListBottomSheetProps) => {
+  const [placeList, setPlaceList] = useState<PlaceType[]>(places)
   const [userId, setUserId] = useState<User['id']>()
 
   const getIsLike = (place: PlaceType): boolean => {
@@ -32,13 +33,32 @@ const PlaceListBottomSheet = ({
     return false
   }
   const handleLike = async (place: PlaceType) => {
+    if (!userId) return
     try {
       const mapId = await getMapId()
       if (!mapId) return
+      setPlaceList((prevPlaces) =>
+        prevPlaces.map((p) =>
+          p.place.id === place.place.id
+            ? {
+                ...p,
+                likedUserIds: getIsLike(place)
+                  ? p.likedUserIds.filter((id) => id !== userId)
+                  : [...p.likedUserIds, userId],
+              }
+            : p,
+        ),
+      )
       if (getIsLike(place)) {
-        await api.place.mapId.placeId.like.delete({ mapId, placeId: place.id })
+        await api.place.mapId.placeId.like.delete({
+          mapId,
+          placeId: place.place.id,
+        })
       } else {
-        await api.place.mapId.placeId.like.put({ mapId, placeId: place.id })
+        await api.place.mapId.placeId.like.put({
+          mapId,
+          placeId: place.place.id,
+        })
       }
     } catch (error) {
       if (error instanceof APIError) {
@@ -64,6 +84,10 @@ const PlaceListBottomSheet = ({
     getUserId()
   }, [])
 
+  useEffect(() => {
+    setPlaceList(places)
+  }, [places])
+
   return (
     <div className="flex flex-col px-5">
       <div>
@@ -79,13 +103,13 @@ const PlaceListBottomSheet = ({
         </FilterButton>
       </div>
       <ul className="flex flex-col">
-        {places.map((place) => (
+        {placeList.map((place) => (
           <PlaceListItem
             key={`bottom-sheet-${place.place.id}`}
             placeId={place.place.id}
             address={place.place.kakaoPlace.address}
             name={place.place.kakaoPlace.name}
-            rating={1}
+            rating={place.place.kakaoPlace.score ?? 0}
             category={place.place.kakaoPlace.category}
             images={place.place.kakaoPlace.photoList}
             tags={place.tags}

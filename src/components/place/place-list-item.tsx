@@ -4,6 +4,7 @@ import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
 import type { PlaceProps } from './types'
 import IconChip from '../icon-chip'
 import { getCategoryIconKey } from '@/utils/category'
+import { getStarByScore } from '@/utils/score'
 
 interface PlaceListItemProps extends PlaceProps {
   rating: number
@@ -61,10 +62,10 @@ const PlaceListItem = ({
           )}
         </div>
 
-        <div className="flex items-center gap-[7px]">
+        <div className="flex items-center gap-2">
           <div className="flex gap-0.5 items-center">
-            <Icon type="starFilled" size="sm" fill="yellow-100" />
-            <Typography as="span" size="body3" color="neutral-300">
+            <Icon type={getStarByScore(rating)} size="sm" fill="yellow-100" />
+            <Typography as="span" size="h6" color="neutral-100">
               {rating}
             </Typography>
           </div>
