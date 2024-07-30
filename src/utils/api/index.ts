@@ -122,7 +122,7 @@ const place = {
         }): Promise<ResponseWithMessage<PlaceDetail>> =>
           client.secure.get(`/place/${mapId}/kakao/${kakaoPlaceId}`),
 
-        put: ({
+        post: ({
           mapId,
           kakaoPlaceId,
           tagNames,
@@ -131,7 +131,7 @@ const place = {
           kakaoPlaceId: PlaceType['place']['kakaoPlace']['id']
           tagNames: TagItem['name'][]
         }): Promise<ResponseWithMessage<PlaceType>> =>
-          client.secure.put(`/place/${mapId}/kakao/${kakaoPlaceId}`, {
+          client.secure.post(`/place/${mapId}/kakao/${kakaoPlaceId}`, {
             tagNames,
           }),
       },

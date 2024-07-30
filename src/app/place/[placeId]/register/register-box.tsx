@@ -35,7 +35,7 @@ const RegisterBox = ({
     try {
       const mapId = await getMapId()
       if (mapId) {
-        await api.place.mapId.kakao.kakaoPlaceId.put({
+        await api.place.mapId.kakao.kakaoPlaceId.post({
           mapId,
           kakaoPlaceId: place.kakaoId,
           tagNames: toTagNames(selectedTags),
