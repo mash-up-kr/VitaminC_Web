@@ -80,7 +80,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
   const handleRegisterPlace = async () => {
     try {
-      router.push(`/place/${place.id}/register`)
+      router.push(`/place/${place.kakaoId}/register`)
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)

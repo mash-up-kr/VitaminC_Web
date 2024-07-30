@@ -37,7 +37,7 @@ const RegisterBox = ({
       if (mapId) {
         await api.place.mapId.kakao.kakaoPlaceId.put({
           mapId,
-          kakaoPlaceId: place.place.kakaoPlace.id,
+          kakaoPlaceId: place.kakaoId,
           tagNames: toTagNames(selectedTags),
         })
       }
@@ -60,7 +60,7 @@ const RegisterBox = ({
     setSelectedTags((prev) => [...prev, tag])
   }
 
-  if (!place.id) {
+  if (!place.kakaoId) {
     redirect('/')
   }
 
