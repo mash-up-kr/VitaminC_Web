@@ -36,8 +36,17 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
       ),
     )
 
-    const getIsLike =
-      userId !== undefined && selectedPlace.likedUserIds.includes(userId)
+    const getNumOfLike = () => {
+      const initialNumOfLike = selectedPlace.likedUserIds.length
+
+      if (!userId) return initialNumOfLike
+      if (selectedPlace.likedUserIds.includes(userId)) {
+        if (isLikePlace) return initialNumOfLike
+        return initialNumOfLike - 1
+      }
+      if (isLikePlace) return initialNumOfLike + 1
+      return initialNumOfLike
+    }
 
     const handleLikePlace = async () => {
       try {
@@ -58,6 +67,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     }
 
     const handleUnLikePlace = async () => {
+      console.log('싫어요!')
       try {
         const mapId = await getMapId()
         if (!mapId) throw new Error('잘못된 접근입니다.')
@@ -78,9 +88,9 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     const kakaoPlace = place.kakaoPlace
     const tags = selectedPlace.tags
     const pick = {
-      isLiked: getIsLike,
+      isLiked: isLikePlace,
       isMyPick: selectedPlace.createdBy.id === userId,
-      numOfLikes: selectedPlace.likedUserIds.length,
+      numOfLikes: getNumOfLike(),
       onClickLike: isLikePlace ? handleUnLikePlace : handleLikePlace,
     }
 
@@ -110,7 +120,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
         <Link
           href={`/place/${place.id}`}
           ref={ref}
-          className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4"
+          className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4 z-10"
         >
           <div className="flex gap-2 justify-between h-[83px]">
             <div className="flex flex-col justify-between">
@@ -168,7 +178,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
             />
           </div>
 
-          {tags?.length && <TagList placeId={kakaoPlace.id} tags={tags} />}
+          {!!tags?.length && <TagList placeId={kakaoPlace.id} tags={tags} />}
         </Link>
       </div>
     )
