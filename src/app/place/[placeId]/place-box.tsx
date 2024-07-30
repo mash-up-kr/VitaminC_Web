@@ -28,7 +28,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
   const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
 
   useUser({
-    onLoad: (user) =>
+    onLoadEnd: (user) =>
       setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false),
   })
 

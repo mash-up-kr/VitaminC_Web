@@ -12,8 +12,8 @@ export interface PlaceType {
   }
   tags: TagItem[]
   comments: unknown[]
-  likedUserIds?: User['id'][]
-  createdBy?: {
+  likedUserIds: User['id'][]
+  createdBy: {
     id: number
     nickname: string
   }

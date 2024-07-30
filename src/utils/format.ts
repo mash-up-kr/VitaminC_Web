@@ -6,6 +6,10 @@ export const convertSearchPlaceToPlaceType = (
   return {
     ...searchPlace,
     likedUserIds: [],
+    createdBy: {
+      id: -1,
+      nickname: '',
+    },
     place: {
       id: searchPlace.kakaoId,
       kakaoPlace: {

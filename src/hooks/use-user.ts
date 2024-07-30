@@ -4,7 +4,7 @@ import type { User } from '@/models/user.interface'
 import { api } from '@/utils/api'
 import { APIError } from '@/models/interface'
 
-const useUser = (options?: { onLoad?: (user: User) => void }) => {
+const useUser = (options?: { onLoadEnd?: (user: User) => void }) => {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
@@ -16,8 +16,8 @@ const useUser = (options?: { onLoad?: (user: User) => void }) => {
         const { data } = await api.users.me.get()
 
         setUser(data)
-        if (options?.onLoad) {
-          options.onLoad(data)
+        if (options?.onLoadEnd) {
+          options.onLoadEnd(data)
         }
       } catch (err) {
         if (err instanceof APIError) setError(err.message)
@@ -28,7 +28,7 @@ const useUser = (options?: { onLoad?: (user: User) => void }) => {
     }
 
     fetchUser()
-  }, [])
+  }, [options])
 
   return { user, loading, error }
 }
