@@ -10,6 +10,9 @@ import { APIError } from '@/models/interface'
 import { getMapId } from '@/services/map-id'
 import type { PlaceType } from '@/types/api/place'
 import type { FilterIdsType } from './page'
+import { allowUserPositionStorage } from '@/utils/storage'
+import useUserGeoLocation from '@/hooks/use-user-geo-location'
+import { formatDistance, getDistance } from '@/utils/location'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[]
@@ -23,6 +26,15 @@ const PlaceListBottomSheet = ({
   onClickFilterButton,
 }: PlaceListBottomSheetProps) => {
   const [userId, setUserId] = useState<User['id']>()
+  const isAllowPosition = allowUserPositionStorage.getValueOrNull()
+  const userLocation = useUserGeoLocation()
+
+  const distance = (x: number, y: number) => {
+    if (!isAllowPosition) return
+    return formatDistance(
+      getDistance(userLocation.latitude, userLocation.longitude, y, x),
+    )
+  }
 
   const getIsLike = (place: PlaceType): boolean => {
     if (typeof userId === 'undefined') return false
@@ -36,9 +48,15 @@ const PlaceListBottomSheet = ({
       const mapId = await getMapId()
       if (!mapId) return
       if (getIsLike(place)) {
-        await api.place.mapId.placeId.like.delete({ mapId, placeId: place.id })
+        await api.place.mapId.placeId.like.delete({
+          mapId,
+          placeId: place.place.id,
+        })
       } else {
-        await api.place.mapId.placeId.like.put({ mapId, placeId: place.id })
+        await api.place.mapId.placeId.like.put({
+          mapId,
+          placeId: place.place.id,
+        })
       }
     } catch (error) {
       if (error instanceof APIError) {
@@ -85,9 +103,10 @@ const PlaceListBottomSheet = ({
             placeId={place.place.id}
             address={place.place.kakaoPlace.address}
             name={place.place.kakaoPlace.name}
-            rating={1}
+            rating={place.place.kakaoPlace.score ?? 0}
             category={place.place.kakaoPlace.category}
             images={place.place.kakaoPlace.photoList}
+            distance={distance(place.place.x, place.place.y)}
             tags={place.tags}
             pick={{
               isLiked: getIsLike(place),
