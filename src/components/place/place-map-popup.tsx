@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, useState, useEffect } from 'react'
-import { Typography, PickChip, TagList, LikeButton } from '@/components'
+import { Typography, PickChip, TagList, LikeButton, Icon } from '@/components'
 import { APIError, type ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 import { formatDistance, getDistance } from '@/utils/location'
@@ -13,6 +13,7 @@ import { api } from '@/utils/api'
 import { notify } from '../common/custom-toast'
 import { getMapId } from '@/services/map-id'
 import { allowUserPositionStorage } from '@/utils/storage'
+import { IconKey } from '../common/icon'
 
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
@@ -93,6 +94,12 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
       onClickLike: isLikePlace ? handleUnLikePlace : handleLikePlace,
     }
 
+    const getStarByScore = (): IconKey => {
+      if (!kakaoPlace.score || kakaoPlace.score > 4) return 'starFilled'
+      if (kakaoPlace.score > 1) return 'starHalfFilled'
+      return 'starGrey'
+    }
+
     useEffect(() => {
       const getUserId = async () => {
         try {
@@ -138,10 +145,17 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                 </div>
 
                 <div className="flex gap-2">
-                  {isAllowPosition && (
-                    <Typography as="span" size="body3" color="neutral-300">
-                      {distance}
-                    </Typography>
+                  {kakaoPlace.score && (
+                    <div className="flex gap-0.5 items-center">
+                      <Icon
+                        type={getStarByScore()}
+                        size="sm"
+                        fill="yellow-100"
+                      />
+                      <Typography as="span" size="body3" color="neutral-300">
+                        {kakaoPlace.score}
+                      </Typography>
+                    </div>
                   )}
                   <Typography
                     as="span"
@@ -172,7 +186,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
             <img
               className="rounded-md w-20 h-20"
-              src={kakaoPlace.photoList?.[0]}
+              src={kakaoPlace.mainPhotoUrl}
               alt="식당"
             />
           </div>
