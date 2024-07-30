@@ -31,22 +31,13 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     },
     tags: [
       {
-        id: 1,
-        mapId: '1',
         name: '소규모 모임',
-        createdAt: '2024-07-16T12:00:00Z',
       },
       {
-        id: 2,
-        mapId: '1',
         name: '혼밥',
-        createdAt: '2024-07-16T12:00:00Z',
       },
       {
-        id: 3,
-        mapId: '1',
         name: '진대쌉가능',
-        createdAt: '2024-07-16T12:00:00Z',
       },
     ],
     comments: [{}],
@@ -91,10 +82,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     },
     tags: [
       {
-        id: 2,
-        mapId: '2',
         name: 'Great sushi',
-        createdAt: '2024-07-16T12:30:00Z',
       },
     ],
     comments: [{}],
@@ -139,10 +127,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     },
     tags: [
       {
-        id: 3,
-        mapId: '3',
         name: 'Best BBQ',
-        createdAt: '2024-07-16T13:00:00Z',
       },
     ],
     comments: [{}],
@@ -187,10 +172,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     },
     tags: [
       {
-        id: 4,
-        mapId: '4',
         name: 'Refreshing noodles',
-        createdAt: '2024-07-16T13:30:00Z',
       },
     ],
     comments: [{}],
@@ -235,11 +217,8 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     },
     tags: [
       {
-        id: 5,
         iconType: 'U1F35A',
-        mapId: '5',
         name: 'Cozy ambiance',
-        createdAt: '2024-07-16T14:00:00Z',
       },
     ],
     comments: [{}],
