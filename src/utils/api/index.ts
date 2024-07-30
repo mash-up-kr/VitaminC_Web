@@ -115,14 +115,14 @@ const place = {
         put: ({
           mapId,
           kakaoPlaceId,
-          tagIds,
+          tagNames,
         }: {
           mapId: MapInfo['id']
           kakaoPlaceId: PlaceType['place']['kakaoPlace']['id']
-          tagIds: TagItem['id'][]
+          tagNames: TagItem['name'][]
         }): Promise<ResponseWithMessage<PlaceType>> =>
           client.secure.put(`/place/${mapId}/kakao/${kakaoPlaceId}`, {
-            tagIds,
+            tagNames,
           }),
       },
     },

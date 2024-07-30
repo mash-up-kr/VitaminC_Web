@@ -49,7 +49,9 @@ const BottomModalLayout = ({
           {body}
         </Typography>
       ) : (
-        <div className="w-full max-h-[70dvh] overflow-y-scroll">{body}</div>
+        <div className="w-full max-h-[70dvh] overflow-y-scroll no-scrollbar">
+          {body}
+        </div>
       )}
 
       {layout === 'confirm' ? (

@@ -20,10 +20,11 @@ import { APIError } from '@/models/interface'
 import MapInfoModal from './map-info-modal'
 import { User } from '@/models/user.interface'
 import { BOTTOM_SHEET_STATE } from '../../../components/bottom-sheet/constants'
+import { TagItem } from '@/types/api/maps'
 
 export interface FilterIdsType {
   category: string[]
-  tags: number[]
+  tags: TagItem['name'][]
 }
 
 const INITIAL_FILTER_IDS = {
@@ -35,7 +36,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
-  const [selectedFilterIds, setSelectedFilterIds] =
+  const [selectedFilterNames, setSelectedFilterNames] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
   const [userData, setUserData] = useState<User>()
 
@@ -61,47 +62,48 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }
 
   const handleFilterModalOpen = () => {
-    setIsFilterModalOpen(!isFilterModalOpen)
+    setIsFilterModalOpen((prev) => !prev)
   }
 
   const resetFilter = () => {
-    setSelectedFilterIds(INITIAL_FILTER_IDS)
+    setSelectedFilterNames(INITIAL_FILTER_IDS)
+    handleFilterModalOpen()
   }
 
-  const handleSelectedFilterChange = (value: CategoryType | number) => {
+  const handleSelectedFilterChange = (
+    value: CategoryType | TagItem['name'],
+  ) => {
     if (value === 'all') {
-      setSelectedFilterIds((prev) => ({ ...prev, category: [] }))
+      setSelectedFilterNames((prev) => ({ ...prev, category: [] }))
       return
     }
 
     if (value === 'like' || value === 'pick') {
-      if (selectedFilterIds.category.includes(value)) {
-        setSelectedFilterIds((prev) => ({
+      if (selectedFilterNames.category.includes(value)) {
+        setSelectedFilterNames((prev) => ({
           ...prev,
           category: prev.category.filter((c) => c !== value),
         }))
         return
       }
-      setSelectedFilterIds((prev) => ({
+      setSelectedFilterNames((prev) => ({
         ...prev,
         category: [...prev.category, value],
       }))
       return
     }
 
-    if (typeof value === 'number') {
-      if (selectedFilterIds.tags.includes(value)) {
-        setSelectedFilterIds((prev) => ({
-          ...prev,
-          tags: prev.tags.filter((h) => h !== value),
-        }))
-        return
-      }
-      setSelectedFilterIds((prev) => ({
+    if (selectedFilterNames.tags.includes(value)) {
+      setSelectedFilterNames((prev) => ({
         ...prev,
-        tags: [...prev.tags, value],
+        tags: prev.tags.filter((h) => h !== value),
       }))
+      return
     }
+    setSelectedFilterNames((prev) => ({
+      ...prev,
+      tags: [...prev.tags, value],
+    }))
   }
 
   useEffect(() => {
@@ -150,8 +152,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     setFilteredPlace(
       places.filter((place) => {
         const matchesCategory =
-          selectedFilterIds.category.length === 0 ||
-          selectedFilterIds.category.some((cat) => {
+          selectedFilterNames.category.length === 0 ||
+          selectedFilterNames.category.some((cat) => {
             if (cat === 'like') {
               return place.likedUserIds.includes(userData?.id ?? -1)
             } else if (cat === 'pick') {
@@ -161,13 +163,13 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           })
 
         const matchesTags =
-          selectedFilterIds.tags.length === 0 ||
-          place.tags.some((tag) => selectedFilterIds.tags.includes(tag.id))
+          selectedFilterNames.tags.length === 0 ||
+          place.tags.some((tag) => selectedFilterNames.tags.includes(tag.name))
 
         return matchesCategory && matchesTags
       }),
     )
-  }, [places, selectedFilterIds.category, selectedFilterIds, userData])
+  }, [places, selectedFilterNames.category, selectedFilterNames, userData])
 
   useEffect(() => {
     if (!visitedMapIds.includes(mapId)) {
@@ -221,7 +223,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             body={
               <PlaceListBottomSheet
                 places={places}
-                selectedFilter={selectedFilterIds}
+                selectedFilter={selectedFilterNames}
                 onClickFilterButton={handleFilterModalOpen}
               />
             }
@@ -236,8 +238,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             body={
               <FilterModalBody
                 mapId={mapId}
-                selectedFilterIds={selectedFilterIds}
-                onChangeSelectedFilterIds={handleSelectedFilterChange}
+                selectedFilterNames={selectedFilterNames}
+                onChangeSelectedFilterNames={handleSelectedFilterChange}
               />
             }
             isOpen={isFilterModalOpen}

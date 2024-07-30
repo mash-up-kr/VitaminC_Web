@@ -15,7 +15,8 @@ import RegisterCancelModal from './register-cancel-modal'
 import get조사 from '@/utils/조사'
 import useSafeRouter from '@/hooks/use-safe-router'
 
-const toTagIds = (tags: TagItem[]): TagItem['id'][] => tags.map((tag) => tag.id)
+const toTagNames = (tags: TagItem[]): TagItem['name'][] =>
+  tags.map((tag) => tag.name)
 
 const RegisterBox = ({
   place,
@@ -37,7 +38,7 @@ const RegisterBox = ({
         await api.place.mapId.kakao.kakaoPlaceId.put({
           mapId,
           kakaoPlaceId: place.place.kakaoPlace.id,
-          tagIds: toTagIds(selectedTags),
+          tagNames: toTagNames(selectedTags),
         })
       }
     } catch (error) {
