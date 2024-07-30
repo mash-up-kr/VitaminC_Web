@@ -84,7 +84,7 @@ const RegisterBox = ({
           >{`${kakaoPlaceName}${get조사(kakaoPlaceName, '은/는')}\n어떤 장소인가요?`}</Typography>
         </div>
 
-        <div className="absolute bottom-5 w-full">
+        <div className="absolute bottom-5 w-full px-5">
           <Button
             type="button"
             colorScheme="orange"
