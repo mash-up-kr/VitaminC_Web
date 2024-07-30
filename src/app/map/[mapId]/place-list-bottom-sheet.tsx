@@ -10,9 +10,6 @@ import { APIError } from '@/models/interface'
 import { getMapId } from '@/services/map-id'
 import type { PlaceType } from '@/types/api/place'
 import type { FilterIdsType } from './page'
-import { allowUserPositionStorage } from '@/utils/storage'
-import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import { formatDistance, getDistance } from '@/utils/location'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[]
@@ -27,15 +24,6 @@ const PlaceListBottomSheet = ({
 }: PlaceListBottomSheetProps) => {
   const [placeList, setPlaceList] = useState<PlaceType[]>(places)
   const [userId, setUserId] = useState<User['id']>()
-  const isAllowPosition = allowUserPositionStorage.getValueOrNull()
-  const userLocation = useUserGeoLocation()
-
-  const distance = (x: number, y: number) => {
-    if (!isAllowPosition) return
-    return formatDistance(
-      getDistance(userLocation.latitude, userLocation.longitude, y, x),
-    )
-  }
 
   const getIsLike = (place: PlaceType): boolean => {
     if (typeof userId === 'undefined') return false
@@ -124,7 +112,6 @@ const PlaceListBottomSheet = ({
             rating={place.place.kakaoPlace.score ?? 0}
             category={place.place.kakaoPlace.category}
             images={place.place.kakaoPlace.photoList}
-            distance={distance(place.place.x, place.place.y)}
             tags={place.tags}
             pick={{
               isLiked: getIsLike(place),

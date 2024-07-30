@@ -20,7 +20,6 @@ const PlaceListItem = ({
   images,
   pick,
   tags,
-  distance,
 }: PlaceListItemProps) => {
   const categoryIconKey = getCategoryIconKey(category)
 
@@ -70,11 +69,6 @@ const PlaceListItem = ({
               {rating}
             </Typography>
           </div>
-          {!!distance && (
-            <Typography as="span" size="h6" color="neutral-300">
-              {distance}
-            </Typography>
-          )}
           <Typography as="span" size="body3" color="neutral-300">
             {address}
           </Typography>
