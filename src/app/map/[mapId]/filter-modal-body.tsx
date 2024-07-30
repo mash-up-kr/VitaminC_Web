@@ -7,12 +7,13 @@ import { FilterIdsType } from './page'
 import { api } from '@/utils/api'
 import { TagItem } from '@/types/api/maps'
 import { notify } from '@/components/common/custom-toast'
-import { ChipButton, Typography } from '@/components'
+import { ChipButton, Icon, Typography } from '@/components'
+import cn from '@/utils/cn'
 
 interface FilterModalBodyProps {
   mapId: string
-  selectedFilterIds: FilterIdsType
-  onChangeSelectedFilterIds: (value: CategoryType | number) => void
+  selectedFilterNames: FilterIdsType
+  onChangeSelectedFilterNames: (value: CategoryType | TagItem['name']) => void
 }
 
 export type CategoryType = 'all' | 'pick' | 'like'
@@ -25,16 +26,16 @@ const CATEGORY_LIST: { type: CategoryType; label: string }[] = [
 
 const FilterModalBody = ({
   mapId,
-  selectedFilterIds,
-  onChangeSelectedFilterIds,
+  selectedFilterNames,
+  onChangeSelectedFilterNames,
 }: FilterModalBodyProps) => {
   const [tags, setTags] = useState<TagItem[]>([])
 
   const getIsCategorySelected = (type: CategoryType) => {
     if (type === 'all') {
-      return selectedFilterIds.category.length === 0
+      return selectedFilterNames.category.length === 0
     }
-    return selectedFilterIds.category.includes(type)
+    return selectedFilterNames.category.includes(type)
   }
   useIsomorphicLayoutEffect(() => {
     const fetchTags = async () => {
@@ -59,7 +60,7 @@ const FilterModalBody = ({
             <ChipButton
               key={category.type}
               isActive={getIsCategorySelected(category.type)}
-              onClick={() => onChangeSelectedFilterIds(category.type)}
+              onClick={() => onChangeSelectedFilterNames(category.type)}
             >
               {category.label}
             </ChipButton>
@@ -72,13 +73,23 @@ const FilterModalBody = ({
         </Typography>
         <div className="flex gap-3 items-center flex-wrap">
           {tags.map((tag) => (
-            <ChipButton
-              key={tag.id}
-              isActive={selectedFilterIds.tags.includes(tag.id)}
-              onClick={() => onChangeSelectedFilterIds(tag.id)}
+            <button
+              key={`${mapId}-${tag.name}`}
+              className={cn(
+                'flex h-[35px] items-center gap-1 w-fit rounded-[20px] px-[10px] py-2 transition-colors',
+                selectedFilterNames.tags.includes(tag.name)
+                  ? 'bg-orange-400'
+                  : 'bg-neutral-500',
+              )}
+              onClick={() => onChangeSelectedFilterNames(tag.name)}
             >
-              {tag.name}
-            </ChipButton>
+              {tag.iconType && (
+                <Icon type={tag.iconType} size="md" aria-hidden />
+              )}
+              <Typography as="span" size="body3" color="neutral-000">
+                {tag.name}
+              </Typography>
+            </button>
           ))}
         </div>
       </div>
