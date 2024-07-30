@@ -4,16 +4,12 @@ import { forwardRef, useState, useEffect } from 'react'
 import { Typography, PickChip, TagList, LikeButton, Icon } from '@/components'
 import { APIError, type ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
-import { formatDistance, getDistance } from '@/utils/location'
-import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import type { PlaceType } from '@/types/api/place'
 import Link from 'next/link'
 import { User } from '@/models/user.interface'
 import { api } from '@/utils/api'
 import { notify } from '../common/custom-toast'
 import { getMapId } from '@/services/map-id'
-import { allowUserPositionStorage } from '@/utils/storage'
-import { IconKey } from '../common/icon'
 import { getStarByScore } from '@/utils/score'
 
 interface PlaceMapPopupProps extends ClassName {
@@ -22,21 +18,10 @@ interface PlaceMapPopupProps extends ClassName {
 
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
   ({ selectedPlace, className }, ref) => {
-    const isAllowPosition = allowUserPositionStorage.getValueOrNull()
-    const userLocation = useUserGeoLocation()
     const [isLikePlace, setIsLikePlace] = useState(false)
     const [userId, setUserId] = useState<User['id']>()
 
     const place = selectedPlace.place
-
-    const distance = formatDistance(
-      getDistance(
-        userLocation.latitude,
-        userLocation.longitude,
-        place.y,
-        place.x,
-      ),
-    )
 
     const getNumOfLike = () => {
       const initialNumOfLike = selectedPlace.likedUserIds.length
@@ -140,7 +125,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                 </div>
 
                 <div className="flex gap-2">
-                  {kakaoPlace.score && (
+                  {!!kakaoPlace.score && (
                     <div className="flex gap-0.5 items-center">
                       <Icon
                         type={getStarByScore(kakaoPlace.score)}

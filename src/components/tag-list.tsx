@@ -1,12 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
-
 import { Chip } from '@/components'
 import cn from '@/utils/cn'
 import type { ClassName } from '@/models/interface'
-import { changeSpaceToHyphen, getFitContainerWidthTags } from '@/utils/tags'
-import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import { changeSpaceToHyphen } from '@/utils/tags'
 import type { PlaceType } from '@/types/api/place'
 import type { TagItem } from '@/types/api/maps'
 
