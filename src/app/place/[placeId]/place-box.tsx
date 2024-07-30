@@ -24,7 +24,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isLikePlace, setIsLikePlace] = useState(false)
   const router = useSafeRouter()
-  const isAlreadyPick = place.isRegisteredPlace
+  const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
 
   const handleLikePlace = async () => {
     try {
@@ -72,6 +72,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
         mapId,
       })
 
+      setIsAlreadyPick(false)
       setIsDeleteModalOpen(false)
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
