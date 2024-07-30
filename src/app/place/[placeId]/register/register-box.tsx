@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { redirect } from 'next/navigation'
 
 import HashTagList from './hash-tag-list'
 import type { TagItem } from '@/types/api/maps'
@@ -61,7 +60,7 @@ const RegisterBox = ({
   }
 
   if (!place.kakaoId) {
-    redirect('/')
+    router.safeBack()
   }
 
   return (
