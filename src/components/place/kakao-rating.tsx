@@ -55,9 +55,13 @@ const KakaoRating = ({ className, rating, placeId }: KakaoRatingProps) => {
                 {roundedRating.toFixed(1)}
               </Typography>
               <div className="w-full flex flex-1 gap-[2px]">
-                {Array(Math.floor(fullIcons)).fill(<Icon type="starFilled" />)}
+                {[...Array(Math.floor(fullIcons))].map((_, index) => (
+                  <Icon key={index} type="starFilled" />
+                ))}
                 {halfIcon === 1 && <Icon type="starHalfFilled" />}
-                {Array(Math.floor(emptyIcons)).fill(<Icon type="starGrey" />)}
+                {[...Array(Math.floor(emptyIcons))].map((_, index) => (
+                  <Icon key={index} type="starGrey" />
+                ))}
               </div>
             </div>
           </div>
