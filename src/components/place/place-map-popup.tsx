@@ -14,6 +14,7 @@ import { notify } from '../common/custom-toast'
 import { getMapId } from '@/services/map-id'
 import { allowUserPositionStorage } from '@/utils/storage'
 import { IconKey } from '../common/icon'
+import { getStarByScore } from '@/utils/score'
 
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
@@ -94,12 +95,6 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
       onClickLike: isLikePlace ? handleUnLikePlace : handleLikePlace,
     }
 
-    const getStarByScore = (): IconKey => {
-      if (!kakaoPlace.score || kakaoPlace.score > 4) return 'starFilled'
-      if (kakaoPlace.score > 1) return 'starHalfFilled'
-      return 'starGrey'
-    }
-
     useEffect(() => {
       const getUserId = async () => {
         try {
@@ -148,7 +143,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                   {kakaoPlace.score && (
                     <div className="flex gap-0.5 items-center">
                       <Icon
-                        type={getStarByScore()}
+                        type={getStarByScore(kakaoPlace.score)}
                         size="sm"
                         fill="yellow-100"
                       />
