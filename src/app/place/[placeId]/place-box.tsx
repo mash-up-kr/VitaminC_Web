@@ -16,25 +16,21 @@ import { getMapId } from '@/services/map-id'
 import PlaceDeleteModal from './place-delete-modal'
 import useSafeRouter from '@/hooks/use-safe-router'
 import useUser from '@/hooks/use-user'
-import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 
 interface PlaceBoxProps {
   place: PlaceDetail
 }
 
 const PlaceBox = ({ place }: PlaceBoxProps) => {
-  const { user } = useUser()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isLikePlace, setIsLikePlace] = useState(false)
   const router = useSafeRouter()
   const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
 
-  useIsomorphicLayoutEffect(() => {
-    // user가 로드되고 like 여부 검사
-    if (user) {
-      setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false)
-    }
-  }, [user])
+  useUser({
+    onLoad: (user) =>
+      setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false),
+  })
 
   const handleLikePlace = async () => {
     try {
