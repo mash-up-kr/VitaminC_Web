@@ -68,7 +68,7 @@ const FilterModalBody = ({
       </div>
       <div className="flex flex-col gap-3 py-5">
         <Typography size="h6" color="neutral-300">
-          #해시태그
+          # 해시태그
         </Typography>
         <div className="flex gap-3 items-center flex-wrap">
           {tags.map((tag) => (
