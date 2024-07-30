@@ -67,7 +67,6 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     }
 
     const handleUnLikePlace = async () => {
-      console.log('싫어요!')
       try {
         const mapId = await getMapId()
         if (!mapId) throw new Error('잘못된 접근입니다.')
