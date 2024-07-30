@@ -81,7 +81,7 @@ const PlaceListBottomSheet = ({
           필터
         </FilterButton>
       </div>
-      <ul className="flex flex-col ">
+      <ul className="flex flex-col">
         {places.map((place) => (
           <PlaceListItem
             key={`bottom-sheet-${place.place.id}`}

@@ -62,7 +62,7 @@ const MapList = ({
       {!hasOwnerMap && (
         <ChipButton
           className="px-6 py-2 rounded-full flex-shrink-0"
-          onClick={() => router.push('map/create')}
+          onClick={() => router.push('/map/create')}
           aria-label="지도 생성"
         >
           <Icon type="plus" size="lg" />
@@ -116,9 +116,10 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
       >
         <div className="flex flex-col items-center gap-3">
           <MapList mapId={currentMapId} onClickMap={handleChangeMap} />
-          <div className="px-5">
+          <div className="w-full">
             {mapData && (
               <BoardingInfoPass
+                className="px-5"
                 mapId={mapData.id}
                 name={mapData.name}
                 day={getDiffDateText(new Date(mapData.createdAt), new Date())}
