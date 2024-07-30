@@ -88,7 +88,7 @@ const search = {
 }
 
 interface PlaceIdWithMapId {
-  placeId: PlaceType['id']
+  placeId: PlaceType['place']['id']
   mapId: MapInfo['id']
 }
 

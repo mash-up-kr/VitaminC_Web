@@ -57,7 +57,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             className="absolute top-0 left-0 w-[calc(100%+40px)] mx-[-20px] h-dvh z-[50]"
             onClickMap={() => setSelectedPlace(null)}
             onClickPlace={(place) => {
-              if (place.id === selectedPlace?.id) {
+              if (place.place.id === selectedPlace?.place.id) {
                 setSelectedPlace(null)
               } else {
                 setSelectedPlace(place)
