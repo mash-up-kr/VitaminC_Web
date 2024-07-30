@@ -39,10 +39,10 @@ const TagList = ({ placeId, tags, className }: TagListProps) => {
     >
       {visibleTags.map((tag) => (
         <Chip
-          id={`hashtag-${placeId}-${changeSpaceToHyphen(tag.content)}`}
+          id={`hashtag-${placeId}-${changeSpaceToHyphen(tag.name)}`}
           className="whitespace-nowrap"
           colorScheme="neutral-600"
-          key={`${placeId}-${tag.content}`}
+          key={`${placeId}-${tag.name}`}
         >{`#${tag}`}</Chip>
       ))}
     </div>

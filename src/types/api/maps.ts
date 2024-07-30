@@ -2,8 +2,8 @@ import type { IconKey } from '@/components/common/icon'
 
 export interface TagItem {
   id: number
-  type?: IconKey
+  iconType?: IconKey
   mapId: string
-  content: string
+  name: string
   createdAt: string
 }

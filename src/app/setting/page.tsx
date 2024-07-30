@@ -1,20 +1,21 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { AccessibleIconButton, Avatar, Icon, Typography } from '@/components'
 import BottomModal from '@/components/BottomModal'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import { deleteCookie } from '../actions'
 import { AUTHORIZATION } from '@/constants/cookie'
 import { User } from '@/models/user.interface'
 import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
   const [userData, setUserData] = useState<User>()
-  const router = useRouter()
+  const router = useSafeRouter()
 
   const handleCloseSignupModal = () => {
     setIsOpenSignupModal(false)
@@ -47,7 +48,7 @@ const Setting = () => {
             icon={{ type: 'caretLeft', size: 'xl' }}
             label="이전 페이지"
             className="p-[10px]"
-            onClick={() => router.back()}
+            onClick={() => router.safeBack()}
           />
           <Typography
             className="absolute left-1/2 translate-x-[-50%]"

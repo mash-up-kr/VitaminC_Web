@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter, redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 import HashTagList from './hash-tag-list'
 import type { TagItem } from '@/types/api/maps'
@@ -13,6 +13,7 @@ import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import RegisterCancelModal from './register-cancel-modal'
 import get조사 from '@/utils/조사'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const toTagIds = (tags: TagItem[]): TagItem['id'][] => tags.map((tag) => tag.id)
 
@@ -23,7 +24,7 @@ const RegisterBox = ({
   place: PlaceType
   tags: TagItem[]
 }) => {
-  const router = useRouter()
+  const router = useSafeRouter()
   const [selectedTags, setSelectedTags] = useState<TagItem[]>([])
   const [isOpenBackModal, setIsOpenBackModal] = useState(false)
 
@@ -49,7 +50,7 @@ const RegisterBox = ({
   const handleClickTag = (tag: TagItem) => {
     if (selectedTags.includes(tag)) {
       const nextSelectedTags = [...selectedTags].filter(
-        (selectedTag) => selectedTag.content !== tag.content,
+        (selectedTag) => selectedTag.name !== tag.name,
       )
       setSelectedTags(nextSelectedTags)
       return
@@ -102,7 +103,7 @@ const RegisterBox = ({
         isOpen={isOpenBackModal}
         onClose={() => setIsOpenBackModal(false)}
         onConfirm={() => {
-          router.push(`/place/${place.place.id}`)
+          router.safeBack({ defaultHref: `/place/${place.place.id}` })
         }}
       />
     </>

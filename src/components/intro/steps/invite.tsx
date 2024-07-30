@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
 import { Typography } from '@/components/common'
@@ -12,9 +11,10 @@ import { notify } from '@/components/common/custom-toast'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import { APIError } from '@/models/interface'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const Invite = () => {
-  const router = useRouter()
+  const router = useSafeRouter()
   const [mapId, setMapId] = useState<string | undefined>()
   const [mapInviteInfo, setMapInviteInfo] = useState<
     InvitingBoardingPassProps | undefined

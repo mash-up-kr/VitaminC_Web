@@ -3,7 +3,7 @@ import Link from 'next/link'
 import cn from '@/utils/cn'
 import type { ClassName } from '@/models/interface'
 import { AccessibleIconButton, Typography } from '@/components'
-import { useRouter } from 'next/navigation'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 interface ResultSearchInputProps extends ClassName {
   value: string
@@ -17,7 +17,7 @@ const ResultSearchInput = ({
   className,
   onToggleView,
 }: ResultSearchInputProps) => {
-  const router = useRouter()
+  const router = useSafeRouter()
 
   return (
     <div

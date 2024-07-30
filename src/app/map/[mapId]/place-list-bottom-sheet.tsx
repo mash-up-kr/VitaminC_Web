@@ -2,16 +2,14 @@
 
 import { FilterButton } from '@/components'
 import PlaceListItem from '@/components/place/place-list-item'
-import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import { PlaceType } from '@/types/api/place'
-import { formatDistance, getDistance } from '@/utils/location'
-import { FilterIdsType } from './page'
 import { useEffect, useState } from 'react'
 import { User } from '@/models/user.interface'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
 import { getMapId } from '@/services/map-id'
+import type { PlaceType } from '@/types/api/place'
+import type { FilterIdsType } from './page'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[]
@@ -24,7 +22,6 @@ const PlaceListBottomSheet = ({
   selectedFilter,
   onClickFilterButton,
 }: PlaceListBottomSheetProps) => {
-  const userLocation = useUserGeoLocation()
   const [userId, setUserId] = useState<User['id']>()
 
   const getIsLike = (place: PlaceType): boolean => {
@@ -90,14 +87,6 @@ const PlaceListBottomSheet = ({
             name={place.place.kakaoPlace.name}
             rating={1}
             category={place.place.kakaoPlace.category}
-            distance={formatDistance(
-              getDistance(
-                userLocation.latitude,
-                userLocation.longitude,
-                place.place.y,
-                place.place.x,
-              ),
-            )}
             images={place.place.kakaoPlace.photoList}
             tags={place.tags}
             pick={{

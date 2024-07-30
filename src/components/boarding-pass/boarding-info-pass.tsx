@@ -2,12 +2,13 @@
 
 import cn from '@/utils/cn'
 
+import { useEffect, useState } from 'react'
+
 import { Icon, Typography } from '../common'
 import BoardingDivider from './boarding-divider'
 import BoardingBottom from './boarding-bottom'
 import BoardingMembers from './boarding-members'
 import { BoardingInfoPassProps, InvitingBoardingPassProps } from './types'
-import { useEffect, useState } from 'react'
 import BottomModal from '../BottomModal'
 import { notify } from '../common/custom-toast'
 import { api } from '@/utils/api'
@@ -15,7 +16,7 @@ import { APIError } from '@/models/interface'
 import { User } from '@/models/user.interface'
 import Modal from '../common/Modal/Modal'
 import InvitingBoardingPass from './inviting-boarding-pass'
-import { useRouter } from 'next/navigation'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const ShareButton = ({
   isInvited,
@@ -70,7 +71,7 @@ const BoardingInfoPass = ({
   const [mapInviteInfo, setMapInviteInfo] =
     useState<InvitingBoardingPassProps>()
 
-  const router = useRouter()
+  const router = useSafeRouter()
 
   const isMyBoard = members.some(
     (member) => member.id === userId && member.role === 'ADMIN',

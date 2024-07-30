@@ -35,7 +35,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
-  const [selectedFilterIds, setSelcectedFilterIds] =
+  const [selectedFilterIds, setSelectedFilterIds] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
   const [userData, setUserData] = useState<User>()
 
@@ -65,24 +65,24 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }
 
   const resetFilter = () => {
-    setSelcectedFilterIds(INITIAL_FILTER_IDS)
+    setSelectedFilterIds(INITIAL_FILTER_IDS)
   }
 
   const handleSelectedFilterChange = (value: CategoryType | number) => {
     if (value === 'all') {
-      setSelcectedFilterIds((prev) => ({ ...prev, category: [] }))
+      setSelectedFilterIds((prev) => ({ ...prev, category: [] }))
       return
     }
 
     if (value === 'like' || value === 'pick') {
       if (selectedFilterIds.category.includes(value)) {
-        setSelcectedFilterIds((prev) => ({
+        setSelectedFilterIds((prev) => ({
           ...prev,
           category: prev.category.filter((c) => c !== value),
         }))
         return
       }
-      setSelcectedFilterIds((prev) => ({
+      setSelectedFilterIds((prev) => ({
         ...prev,
         category: [...prev.category, value],
       }))
@@ -91,13 +91,13 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
     if (typeof value === 'number') {
       if (selectedFilterIds.tags.includes(value)) {
-        setSelcectedFilterIds((prev) => ({
+        setSelectedFilterIds((prev) => ({
           ...prev,
           tags: prev.tags.filter((h) => h !== value),
         }))
         return
       }
-      setSelcectedFilterIds((prev) => ({
+      setSelectedFilterIds((prev) => ({
         ...prev,
         tags: [...prev.tags, value],
       }))
@@ -160,11 +160,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             return false
           })
 
-        const matchestags =
+        const matchesTags =
           selectedFilterIds.tags.length === 0 ||
           place.tags.some((tag) => selectedFilterIds.tags.includes(tag.id))
 
-        return matchesCategory && matchestags
+        return matchesCategory && matchesTags
       }),
     )
   }, [places, selectedFilterIds.category, selectedFilterIds, userData])

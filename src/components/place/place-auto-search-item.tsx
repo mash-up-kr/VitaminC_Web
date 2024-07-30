@@ -8,8 +8,11 @@ import type { KakaoPlaceItem } from '@/types/map/kakao-raw-type'
 import { recentSearchStorage } from '@/utils/storage'
 import { extractCategory } from '@/utils/category'
 
-interface PlaceAutoSearchItemProps extends KakaoPlaceItem, ClassName {
+interface PlaceAutoSearchItemProps
+  extends Omit<KakaoPlaceItem, 'distance'>,
+    ClassName {
   query: string
+  distance: string | null
 }
 
 const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
@@ -77,14 +80,16 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
               >
                 {category}
               </Typography>
-              <Typography
-                as="span"
-                size="body4"
-                color="neutral-400"
-                className="text-right"
-              >
-                {distance}
-              </Typography>
+              {distance && (
+                <Typography
+                  as="span"
+                  size="body4"
+                  color="neutral-400"
+                  className="text-right"
+                >
+                  {distance}
+                </Typography>
+              )}
             </div>
           </div>
         </Link>
