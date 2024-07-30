@@ -2,6 +2,7 @@ import type { ChangeEvent } from 'react'
 
 import SearchInput from '@/components/search-input'
 import useSafeRouter from '@/hooks/use-safe-router'
+import { getMapId } from '@/services/map-id'
 
 interface SearchFormProps {
   value: string
@@ -18,6 +19,15 @@ const SearchForm = ({
 }: SearchFormProps) => {
   const router = useSafeRouter()
 
+  const handleClickPrev = async () => {
+    try {
+      const mapId = await getMapId()
+      router.push(`/map/${mapId}`)
+    } catch (err) {
+      router.push('/intro')
+    }
+  }
+
   return (
     <form action={onSubmit}>
       <SearchInput
@@ -32,7 +42,7 @@ const SearchForm = ({
             size: 'xl',
           },
           label: '뒤로 가기',
-          onClick: () => router.safeBack(),
+          onClick: handleClickPrev,
         }}
         rightIcon={{
           icon: { type: 'delete', size: 'xl', onClick: onResetValue },
