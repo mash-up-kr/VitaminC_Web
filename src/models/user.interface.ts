@@ -8,3 +8,7 @@ export interface User {
   providerId: string
   role: UserRole
 }
+
+export interface Token {
+  token: string
+}

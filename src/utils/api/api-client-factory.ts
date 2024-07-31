@@ -1,16 +1,21 @@
 import HTTPClient from './http-client'
+import { parseJSON } from './parse-json'
 import type { Interceptors, RequestConfig } from './types'
-import { AUTHORIZATION } from '@/constants/cookie'
-import getCookie from '../storage/cookie'
+import type { ResponseWithMessage } from '@/types/api'
+import type { Token } from '@/models/user.interface'
 
-const injectAuthTokenToConfig = (config: RequestConfig) => {
-  const bearerTokenPrefix = 'Bearer%20'
-  const token = getCookie(AUTHORIZATION)?.slice(bearerTokenPrefix.length)
+const injectAuthTokenToConfig = async (config: RequestConfig) => {
   config.headers = config.headers || {}
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
+  try {
+    const response = await fetch('/api/token')
+    const { data } = await parseJSON<ResponseWithMessage<Token>>(response)
+    const token = data.token
+
+    if (token) {
+      config.headers.Authorization = token
+    }
+  } catch {}
 
   return config
 }

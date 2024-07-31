@@ -12,11 +12,12 @@ import LoadingIndicator from '@/components/loading-indicator'
 import { IntroStep } from '@/models/interface'
 import { inviteCodeStorage } from '@/utils/storage'
 
-import useCookie from '@/hooks/use-cookie'
 import { useIsServer } from '@/hooks/use-is-server'
-import { AUTHORIZATION } from '@/constants/cookie'
 import { getUser } from '@/services/user'
 import { getMapId } from '@/services/map-id'
+import { parseJSON } from '@/utils/api/parse-json'
+import type { Token } from '@/models/user.interface'
+import type { ResponseWithMessage } from '@/types/api'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -50,29 +51,40 @@ const Step = ({ step, goNextStep }: StepProps) => {
 const Intro = () => {
   const isServer = useIsServer()
 
-  const authorization = useCookie(AUTHORIZATION)
+  const [isLoading, setLoading] = useState(true)
+  const [authorization, setAuthorization] = useState(false)
   const [nickname, setNickname] = useState<string | undefined>()
   const [mapId, setMapId] = useState<string | undefined>()
 
   useEffect(() => {
     ;(async () => {
       try {
-        const user = await getUser()
-        setNickname(user?.nickname)
+        if (!authorization) {
+          const response = await fetch('/api/token')
+          const { data } = await parseJSON<ResponseWithMessage<Token>>(response)
+          const token = data.token
 
-        if (user && user.nickname) {
-          const existingMapId = await getMapId()
-          setMapId(existingMapId)
+          setAuthorization(!!token)
         }
-      } catch (err) {
-        setNickname(undefined)
-        setMapId(undefined)
+
+        if (!nickname) {
+          const user = await getUser()
+          setNickname(user?.nickname)
+        }
+
+        const existingMapId = await getMapId()
+        setMapId(existingMapId)
+      } catch {
+      } finally {
+        setLoading(false)
       }
     })()
-  }, [authorization])
+  }, [authorization, nickname])
 
   const getInitialStep = useMemo(() => {
-    if (!authorization) {
+    if (isLoading) {
+      return IntroStep.LOADING
+    } else if (!authorization) {
       return IntroStep.LOGIN
     } else if (!nickname) {
       return IntroStep.NICKNAME
@@ -81,7 +93,7 @@ const Intro = () => {
     } else {
       return IntroStep.INVITE
     }
-  }, [authorization, nickname, mapId])
+  }, [isLoading, authorization, nickname, mapId])
 
   const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
 
