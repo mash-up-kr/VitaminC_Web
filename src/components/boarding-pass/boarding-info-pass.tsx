@@ -217,7 +217,7 @@ const BoardingInfoPass = ({
           isOpen={isOpenInviteBoardingPass}
           onClose={() => setIsOpenInvitedBoardingPass(false)}
           dimClassName="z-[9998]"
-          className="z-[9999]"
+          className="z-[9999] w-full max-w-[420px] px-5"
         >
           <InvitingBoardingPass
             inviteCode={mapInviteInfo.inviteCode}
