@@ -215,6 +215,12 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         </Tooltip>
       </header>
 
+      <MapInfoModal
+        isOpen={isMapInfoOpen}
+        mapId={mapId}
+        onClose={() => setIsMapInfoOpen(false)}
+      />
+
       <KorrkKakaoMap
         places={filteredPlace}
         selectedPlace={selectedPlace}
@@ -223,52 +229,48 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         topOfBottomBounds={bottomBounds.top}
       />
 
-      {selectedPlace === null ? (
-        <>
-          <BottomSheet
+      {!!places.length &&
+        (selectedPlace === null ? (
+          <>
+            <BottomSheet
+              ref={bottomRef}
+              body={
+                <PlaceListBottomSheet
+                  places={filteredPlace}
+                  selectedFilter={selectedFilterNames}
+                  onClickFilterButton={handleFilterModalOpen}
+                />
+              }
+              state={
+                filteredPlace.length
+                  ? BOTTOM_SHEET_STATE.Default
+                  : BOTTOM_SHEET_STATE.Collapsed
+              }
+            />
+            <BottomModal
+              title="보고 싶은 맛집을 선택해주세요"
+              body={
+                <FilterModalBody
+                  mapId={mapId}
+                  selectedFilterNames={selectedFilterNames}
+                  onChangeSelectedFilterNames={handleSelectedFilterChange}
+                />
+              }
+              isOpen={isFilterModalOpen}
+              cancelMessage="초기화"
+              confirmMessage="적용"
+              onClose={handleFilterModalOpen}
+              onConfirm={handleFilterModalOpen}
+              onCancel={resetFilter}
+            />
+          </>
+        ) : (
+          <PlaceMapPopup
             ref={bottomRef}
-            body={
-              <PlaceListBottomSheet
-                places={filteredPlace}
-                selectedFilter={selectedFilterNames}
-                onClickFilterButton={handleFilterModalOpen}
-              />
-            }
-            state={
-              filteredPlace.length
-                ? BOTTOM_SHEET_STATE.Default
-                : BOTTOM_SHEET_STATE.Collapsed
-            }
+            className="absolute bottom-5 px-5"
+            selectedPlace={selectedPlace}
           />
-          <BottomModal
-            title="보고 싶은 맛집을 선택해주세요"
-            body={
-              <FilterModalBody
-                mapId={mapId}
-                selectedFilterNames={selectedFilterNames}
-                onChangeSelectedFilterNames={handleSelectedFilterChange}
-              />
-            }
-            isOpen={isFilterModalOpen}
-            cancelMessage="초기화"
-            confirmMessage="적용"
-            onClose={handleFilterModalOpen}
-            onConfirm={handleFilterModalOpen}
-            onCancel={resetFilter}
-          />
-        </>
-      ) : (
-        <PlaceMapPopup
-          ref={bottomRef}
-          className="absolute bottom-5 px-5"
-          selectedPlace={selectedPlace}
-        />
-      )}
-      <MapInfoModal
-        isOpen={isMapInfoOpen}
-        mapId={mapId}
-        onClose={() => setIsMapInfoOpen(false)}
-      />
+        ))}
     </>
   )
 }
