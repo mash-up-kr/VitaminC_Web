@@ -11,6 +11,7 @@ import { api } from '@/utils/api'
 import { APIError } from '@/models/interface'
 import { notify } from '@/components/common/custom-toast'
 import useSafeRouter from '@/hooks/use-safe-router'
+import { countCharacters } from '@/utils/string'
 
 const MIN_LENGTH = 2
 
@@ -79,7 +80,7 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
       <div className="p-5 w-full">
         <Button
           colorScheme="orange"
-          disabled={nickname.length < MIN_LENGTH}
+          disabled={countCharacters(nickname).num < MIN_LENGTH}
           onClick={handleClick}
         >
           가입완료

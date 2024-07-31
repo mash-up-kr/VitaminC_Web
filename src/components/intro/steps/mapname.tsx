@@ -8,6 +8,7 @@ import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { setCookie } from '@/app/actions'
 import { RECENT_MAP_ID } from '@/constants/cookie'
+import { countCharacters } from '@/utils/string'
 
 const MIN_LENGTH = 2
 
@@ -60,7 +61,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
       <div className="p-5 w-full">
         <Button
           colorScheme="orange"
-          disabled={mapname.length < MIN_LENGTH}
+          disabled={countCharacters(mapname).num < MIN_LENGTH}
           onClick={handleClick}
         >
           지도 만들기 완료
