@@ -22,10 +22,21 @@ const Invite = () => {
   const [showInvitation, setShowInvitation] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
-      const id = await getMapId()
-      setMapId(id)
-    })()
+    const getAndSetMapId = async () => {
+      try {
+        const id = await getMapId()
+
+        if (!id) {
+          throw new Error('잘못된 접근입니다.')
+        }
+
+        setMapId(id)
+      } catch {
+        notify.error('예상치 못한 오류가 발생했습니다.')
+      }
+    }
+
+    getAndSetMapId()
   }, [])
 
   const goHome = () => {
