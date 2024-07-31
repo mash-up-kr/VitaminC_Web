@@ -47,7 +47,7 @@ const Slide = ({
   )
 
   const handleDragEnd = (e: Event, info: PanInfo) => {
-    const clientWidth = containerRef.current?.clientWidth || 0
+    const THRESHOLD = 5
 
     const { offset, velocity } = info
 
@@ -59,10 +59,10 @@ const Slide = ({
     const isFirst = activeIndex === 0
     const isLast = activeIndex === items.length - 1
 
-    if (offset.x > clientWidth / 4) {
-      handleChangeActiveIndex(isFirst ? items.length - 1 : activeIndex - 1)
-    } else if (offset.x < -clientWidth / 4) {
-      handleChangeActiveIndex(isLast ? 0 : activeIndex + 1)
+    if (offset.x > THRESHOLD && !isFirst) {
+      handleChangeActiveIndex(activeIndex - 1)
+    } else if (offset.x < -THRESHOLD && !isLast) {
+      handleChangeActiveIndex(activeIndex + 1)
     } else {
       animate(x, calculateNewX(), transition)
     }
