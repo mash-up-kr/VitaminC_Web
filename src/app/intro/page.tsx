@@ -15,6 +15,9 @@ import { inviteCodeStorage } from '@/utils/storage'
 import { useIsServer } from '@/hooks/use-is-server'
 import { getUser } from '@/services/user'
 import { getMapId } from '@/services/map-id'
+import { parseJSON } from '@/utils/api/parse-json'
+import type { Token } from '@/models/user.interface'
+import type { ResponseWithMessage } from '@/types/api'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -58,7 +61,7 @@ const Intro = () => {
       try {
         if (!authorization) {
           const response = await fetch('/api/token')
-          const { data } = await response.json()
+          const { data } = await parseJSON<ResponseWithMessage<Token>>(response)
           const token = data.token
 
           setAuthorization(!!token)
