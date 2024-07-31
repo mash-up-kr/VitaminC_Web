@@ -19,8 +19,9 @@ import BottomSheet from '@/components/bottom-sheet'
 import { APIError } from '@/models/interface'
 import MapInfoModal from './map-info-modal'
 import { User } from '@/models/user.interface'
-import { BOTTOM_SHEET_STATE } from '../../../components/bottom-sheet/constants'
+import { BOTTOM_SHEET_STATE } from '@/components/bottom-sheet/constants'
 import { TagItem } from '@/types/api/maps'
+import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 
 export interface FilterIdsType {
   category: string[]
@@ -122,6 +123,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }, [])
 
   useEffect(() => {
+    const mapIdFromCookie = getMapIdFromCookie()
+    if (mapId !== mapIdFromCookie) {
+      updateMapIdCookie(mapId)
+    }
+
     const getPlaceList = async () => {
       try {
         const { data: placeList } = await api.place.mapId.get(mapId)
