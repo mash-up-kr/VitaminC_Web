@@ -28,7 +28,8 @@ const useUser = (options?: { onLoadEnd?: (user: User) => void }) => {
     }
 
     fetchUser()
-  }, [options])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return { user, loading, error }
 }
