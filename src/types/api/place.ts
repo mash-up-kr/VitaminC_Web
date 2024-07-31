@@ -1,4 +1,4 @@
-import { MapInfo } from '@/models/map.interface'
+import { CategoryIcon, MapInfo } from '@/models/map.interface'
 import { KakaoPlaceDetail } from '../map/kakao-raw-type'
 import { TagItem } from './maps'
 import { User } from '@/models/user.interface'
@@ -25,6 +25,7 @@ export interface SearchPlace {
   isRegisteredPlace: boolean
   kakaoId: PlaceType['place']['kakaoPlace']['id']
   category: string
+  categoryCode: CategoryIcon
   x: number
   y: number
   placeName: string

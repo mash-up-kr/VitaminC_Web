@@ -44,6 +44,7 @@ const ResultSearchListBox = ({
             <PlaceListItem
               key={place.kakaoId}
               category={category}
+              categoryCode={place.categoryCode}
               placeId={place.kakaoId}
               name={place.placeName}
               rating={place.score}
