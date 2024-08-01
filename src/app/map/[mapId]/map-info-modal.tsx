@@ -33,7 +33,7 @@ const MapList = ({
     error,
   } = useFetch(api.maps.get, { initialData: [] })
   const router = useSafeRouter()
-  const hasOwnerMap = maps?.some((map) => map.role === 'ADMIN') || true
+  const hasOwnerMap = maps?.some((map) => map.role === 'ADMIN')
 
   if (error) {
     notify.error('지도 목록을 가지고 오는데 에러가 발생했습니다. ')
@@ -62,7 +62,7 @@ const MapList = ({
           {map.name}
         </ChipButton>
       ))}
-      {!hasOwnerMap && (
+      {!loading && !hasOwnerMap && (
         <ChipButton
           className="px-6 py-2 rounded-full flex-shrink-0"
           onClick={() => router.push('/map/create')}
