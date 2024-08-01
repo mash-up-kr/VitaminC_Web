@@ -18,7 +18,11 @@ const PlaceDeleteModal = ({
   return (
     <BottomModal
       isOpen={isOpen}
-      title={`${name}님 외 ${numOfLike.toLocaleString()}명이 선택한 맛집이에요\n정말 삭제할까요?`}
+      title={
+        numOfLike > 0
+          ? `${name}님 외 ${numOfLike.toLocaleString()}명이 선택한 맛집이에요\n정말 삭제할까요?`
+          : `${name}님이 선택한 맛집이에요\n정말 삭제할까요?`
+      }
       body="삭제하면 등록했던 태그는 모두 사라져요."
       cancelMessage="아니요"
       confirmMessage="삭제"
