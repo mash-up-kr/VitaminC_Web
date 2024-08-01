@@ -115,7 +115,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
         isOpen={isOpen}
         onClose={handleCloseModal}
       >
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col gap-3">
           <MapList mapId={currentMapId} onClickMap={handleChangeMap} />
           <div className="w-full">
             {mapData && (
