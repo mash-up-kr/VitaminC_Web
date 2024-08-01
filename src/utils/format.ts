@@ -16,6 +16,7 @@ export const convertSearchPlaceToPlaceType = (
         id: searchPlace.kakaoId,
         name: searchPlace.placeName,
         category: searchPlace.category,
+        categoryIconCode: searchPlace.categoryIconCode,
         address: searchPlace.address,
         x: searchPlace.x,
         y: searchPlace.y,
