@@ -5,7 +5,6 @@ import cn from '@/utils/cn'
 import { Icon, Typography } from '@/components'
 import type { ClassName } from '@/models/interface'
 import { recentSearchStorage } from '@/utils/storage'
-import { extractCategory } from '@/utils/category'
 import type { SearchPlace } from '@/types/api/place'
 
 interface PlaceAutoSearchItemProps extends ClassName {
@@ -16,7 +15,6 @@ interface PlaceAutoSearchItemProps extends ClassName {
 
 const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
   ({ place, distance, className, query }, ref) => {
-    const category = extractCategory(place.category)
     const nameParts = place.placeName?.split(new RegExp(`(${query})`, 'gi'))
 
     const addRecentKeyword = () => {
@@ -69,7 +67,7 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
                 color="neutral-400"
                 className="text-right"
               >
-                {category}
+                {place.category}
               </Typography>
               {distance && (
                 <Typography

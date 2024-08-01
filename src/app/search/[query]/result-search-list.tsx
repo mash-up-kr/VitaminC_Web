@@ -6,7 +6,6 @@ import type { ClassName } from '@/models/interface'
 import { getMapId } from '@/services/map-id'
 import type { SearchPlace } from '@/types/api/place'
 import { api } from '@/utils/api'
-import { extractCategory } from '@/utils/category'
 import cn from '@/utils/cn'
 import EmptyResultBox from '../empty-result-box'
 
@@ -38,12 +37,10 @@ const ResultSearchListBox = ({
     >
       {places.length > 0 ? (
         places.map((place) => {
-          const categories = extractCategory(place.category)
-          const category = categories[categories.length - 1]
           return (
             <PlaceListItem
               key={place.kakaoId}
-              category={category}
+              category={place.category}
               categoryIconCode={place.categoryIconCode}
               placeId={place.kakaoId}
               name={place.placeName}
