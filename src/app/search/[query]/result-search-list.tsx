@@ -45,15 +45,18 @@ const ResultSearchListBox = ({
               placeId={place.kakaoId}
               name={place.placeName}
               rating={place.score}
-              pick={{
-                isLiked:
-                  !!place.likedUserIds?.find((id) => id === user?.id) || false,
-                numOfLikes: place.likedUserIds?.length ?? 0,
-                isMyPick:
-                  typeof user?.nickname !== 'undefined' &&
-                  place.createdBy?.nickname === user.nickname,
-                onClickLike: () => handleLikePlace(place.placeId),
-              }}
+              pick={
+                typeof place.createdBy !== 'undefined'
+                  ? {
+                      isLiked:
+                        !!place.likedUserIds?.find((id) => id === user?.id) ||
+                        false,
+                      numOfLikes: place.likedUserIds?.length ?? 0,
+                      isMyPick: place.createdBy?.nickname === user?.nickname,
+                      onClickLike: () => handleLikePlace(place.placeId),
+                    }
+                  : undefined
+              }
               address={place.address}
             />
           )
