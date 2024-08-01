@@ -25,7 +25,7 @@ export interface SearchPlace {
   isRegisteredPlace: boolean
   kakaoId: PlaceType['place']['kakaoPlace']['id']
   category: string
-  categoryCode: CategoryIcon
+  categoryIconCode: CategoryIcon
   x: number
   y: number
   placeName: string
@@ -55,6 +55,7 @@ export interface PlaceDetail {
   createdBy?: PlaceType['createdBy']
   name: string
   category: string
+  categoryIconCode: CategoryIcon
   address: string
   x: number
   y: number

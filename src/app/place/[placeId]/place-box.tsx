@@ -117,6 +117,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
         <PlaceTopInformation
           placeId={place.kakaoId}
           category={place.category}
+          categoryIconCode={place.categoryIconCode}
           name={place.name}
           address={place.address}
           tags={place.tags}

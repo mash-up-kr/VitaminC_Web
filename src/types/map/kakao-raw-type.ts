@@ -1,3 +1,5 @@
+import { CategoryIcon } from '../../models/map.interface'
+
 export interface KakaoPlaceItem {
   address_name: string // "서울 강남구 역삼동 669-17"
   category_group_code: string // "FD6"
@@ -17,6 +19,7 @@ export interface KakaoPlaceDetail {
   id: number // 762214594
   name: string // '정분네중앙곱창 강남본점'
   category: string // '음식점'
+  categoryIconCode: CategoryIcon // 100
   address: string // '정분네중앙곱창 강남본점'
   x: number // 0
   y: number // 0

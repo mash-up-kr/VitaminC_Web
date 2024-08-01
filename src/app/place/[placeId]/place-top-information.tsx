@@ -13,7 +13,7 @@ interface PlaceTopInformationProps extends PlaceProps, ClassName {
 const PlaceTopInformation = ({
   placeId,
   category,
-  categoryCode,
+  categoryIconCode,
   name,
   address,
   rating,
@@ -30,7 +30,7 @@ const PlaceTopInformation = ({
     >
       {category && (
         <IconChip
-          icon={{ type: categoryIcons[categoryCode] }}
+          icon={{ type: categoryIcons[categoryIconCode] }}
           label={category}
         />
       )}

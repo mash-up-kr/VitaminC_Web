@@ -13,7 +13,7 @@ interface PlaceListItemProps extends PlaceProps {
 
 const PlaceListItem = ({
   placeId,
-  categoryCode,
+  categoryIconCode,
   category,
   name,
   address,
@@ -42,7 +42,7 @@ const PlaceListItem = ({
 
       {category && (
         <IconChip
-          icon={{ type: categoryIcons[categoryCode] }}
+          icon={{ type: categoryIcons[categoryIconCode] }}
           label={category}
         />
       )}

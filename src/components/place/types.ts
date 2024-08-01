@@ -10,7 +10,7 @@ export interface PlaceProps {
   address: string
   distance?: string
   category?: string
-  categoryCode: CategoryIcon
+  categoryIconCode: CategoryIcon
   tags?: TagItem[]
   pick?: {
     isMyPick: boolean
