@@ -28,6 +28,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
   const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
 
   useFetch(api.users.me.get, {
+    key: ['user'],
     onLoadEnd: (user) =>
       setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false),
   })

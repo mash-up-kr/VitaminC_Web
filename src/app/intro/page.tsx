@@ -28,19 +28,33 @@ export interface IntroActionDispatch {
 
 export interface StepProps extends IntroActionDispatch {
   step: IntroStep
+  token: string
+  goLoginStep: VoidFunction
 }
 
-const Step = ({ step, goNextStep }: StepProps) => {
+const Step = ({ token, step, goNextStep, goLoginStep }: StepProps) => {
   switch (step) {
     case IntroStep.LOGIN:
       return <Login />
     case IntroStep.NICKNAME:
+      if (!token) {
+        goLoginStep()
+        return
+      }
       return <Nickname goNextStep={goNextStep} />
     case IntroStep.NEW_MAP:
       return <NewMap goNextStep={goNextStep} />
     case IntroStep.MAPNAME:
+      if (!token) {
+        goLoginStep()
+        return
+      }
       return <Mapname goNextStep={goNextStep} />
     case IntroStep.INVITE:
+      if (!token) {
+        goLoginStep()
+        return
+      }
       return <Invite />
     default:
       return (
@@ -61,16 +75,18 @@ const Intro = () => {
   const [authorization, setAuthorization] = useState(false)
   const [nickname, setNickname] = useState<string | undefined>()
   const [mapId, setMapId] = useState<string | undefined>()
+  const [token, setToken] = useState('')
 
   useEffect(() => {
     const getCurrentState = async () => {
       try {
-        if (!authorization) {
+        if (!authorization && !token) {
           const response = await fetch('/api/token')
           const { data } = await parseJSON<ResponseWithMessage<Token>>(response)
-          const token = data.token
+          const dataToken = data.token
 
-          setAuthorization(!!token)
+          setAuthorization(!!dataToken)
+          setToken(dataToken)
         }
 
         if (!nickname) {
@@ -80,14 +96,13 @@ const Intro = () => {
 
         const existingMapId = await getMapId()
         setMapId(existingMapId)
-      } catch {
       } finally {
         setLoading(false)
       }
     }
 
     getCurrentState()
-  }, [authorization, nickname])
+  }, [authorization, nickname, token])
 
   const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
 
@@ -160,7 +175,12 @@ const Intro = () => {
           <LoadingIndicator />
         </div>
       ) : (
-        <Step step={step} goNextStep={goNextStep} />
+        <Step
+          token={token}
+          step={step}
+          goNextStep={goNextStep}
+          goLoginStep={() => setStep(IntroStep.LOGIN)}
+        />
       )}
     </div>
   )
