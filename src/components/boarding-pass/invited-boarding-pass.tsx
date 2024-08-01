@@ -1,17 +1,14 @@
 'use client'
 
 import cn from '@/utils/cn'
-
 import { InvitedBoardingPassProps } from './types'
-import { api } from '../../utils/api'
-import { APIError } from '../../models/interface'
+import { api } from '@/utils/api'
+import { APIError } from '@/models/interface'
 import InviteBoardingPassInfo from './invite-boarding-pass-info'
-import { Button } from '../common'
+import { Button } from '@/components/common'
 import BoardingBottom from './boarding-bottom'
-import { RECENT_MAP_ID } from '../../constants/cookie'
-import { setCookie } from '../../app/actions'
-import { INVITE_CODE } from '../../utils/storage'
 import useSafeRouter from '@/hooks/use-safe-router'
+import { inviteCodeStorage } from '@/utils/storage'
 
 const InvitedBoardingPass = ({
   className,
@@ -28,14 +25,17 @@ const InvitedBoardingPass = ({
   const handleClick = async () => {
     try {
       const res = await api.maps.inviteLinks.post(inviteCode)
-      if (res.data) {
+      if (res.message === 'success') {
         router.push(`/map/${mapId}`)
-        setCookie(RECENT_MAP_ID, mapId)
       }
     } catch (error) {
       if (error instanceof APIError) {
-        setCookie(INVITE_CODE, inviteCode)
-        router.push('/intro')
+        if (error.status === 409) {
+          router.push(`/map/${mapId}`)
+        } else {
+          inviteCodeStorage.set(inviteCode)
+          router.push('/intro')
+        }
       }
     }
   }
