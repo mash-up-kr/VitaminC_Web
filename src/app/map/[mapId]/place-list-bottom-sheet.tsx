@@ -111,7 +111,10 @@ const PlaceListBottomSheet = ({
             name={place.place.kakaoPlace.name}
             rating={place.place.kakaoPlace.score ?? 0}
             category={place.place.kakaoPlace.category}
-            images={place.place.kakaoPlace.photoList}
+            categoryIconCode={place.place.kakaoPlace.categoryIconCode}
+            images={place.place.kakaoPlace.menuList
+              .map((menu) => menu.photo)
+              .filter((photo) => !!photo)}
             tags={place.tags}
             pick={{
               isLiked: getIsLike(place),

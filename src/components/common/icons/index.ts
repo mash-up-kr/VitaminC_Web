@@ -53,6 +53,7 @@ import UFamily from './U+Family-👨‍👩‍👦‍👦.svg'
 import UParking from './U+Parking-🅿️.svg'
 import UploadSimple from './UploadSimple.svg'
 import 고기 from './고기.svg'
+import 기타 from './기타.svg'
 import 백반 from './백반.svg'
 import 분식 from './분식.svg'
 import 아시안 from './아시안.svg'
@@ -122,6 +123,7 @@ export const icons = {
   UParking,
   uploadSimple: UploadSimple,
   고기,
+  기타,
   백반,
   분식,
   아시안,

@@ -3,7 +3,7 @@ import type { PlaceProps } from '@/components/place/types'
 import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
-import { getCategoryIconKey } from '@/utils/category'
+import { categoryIcons } from '@/models/map.interface'
 
 interface PlaceTopInformationProps extends PlaceProps, ClassName {
   rating: number
@@ -13,6 +13,7 @@ interface PlaceTopInformationProps extends PlaceProps, ClassName {
 const PlaceTopInformation = ({
   placeId,
   category,
+  categoryIconCode,
   name,
   address,
   rating,
@@ -20,8 +21,6 @@ const PlaceTopInformation = ({
   tags,
   className,
 }: PlaceTopInformationProps) => {
-  const categoryIconKey = getCategoryIconKey(category)
-
   return (
     <section
       className={cn(
@@ -29,8 +28,11 @@ const PlaceTopInformation = ({
         className,
       )}
     >
-      {category && categoryIconKey && (
-        <IconChip icon={{ type: categoryIconKey }} label={category} />
+      {category && (
+        <IconChip
+          icon={{ type: categoryIcons[categoryIconCode] }}
+          label={category}
+        />
       )}
 
       <div className="flex flex-col gap-2 ">

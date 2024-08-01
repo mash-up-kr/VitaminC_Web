@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
 import type { PlaceProps } from './types'
 import IconChip from '../icon-chip'
-import { getCategoryIconKey } from '@/utils/category'
 import { getStarByScore } from '@/utils/score'
+import { categoryIcons } from '@/models/map.interface'
 
 interface PlaceListItemProps extends PlaceProps {
   rating: number
@@ -13,6 +13,7 @@ interface PlaceListItemProps extends PlaceProps {
 
 const PlaceListItem = ({
   placeId,
+  categoryIconCode,
   category,
   name,
   address,
@@ -21,8 +22,6 @@ const PlaceListItem = ({
   pick,
   tags,
 }: PlaceListItemProps) => {
-  const categoryIconKey = getCategoryIconKey(category)
-
   return (
     <Link
       href={`/place/${placeId}`}
@@ -33,7 +32,7 @@ const PlaceListItem = ({
           {images.map((image, idx) => (
             <img
               key={`${placeId}-${image}-${idx}`}
-              src={image}
+              src={image || '/images/image-placeholder.png'}
               className="w-[calc(33.4%-8px)] aspect-square rounded-md object-cover"
               alt={`${name}${idx}`}
             />
@@ -41,8 +40,11 @@ const PlaceListItem = ({
         </div>
       )}
 
-      {categoryIconKey && category && (
-        <IconChip icon={{ type: categoryIconKey }} label={category} />
+      {category && (
+        <IconChip
+          icon={{ type: categoryIcons[categoryIconCode] }}
+          label={category}
+        />
       )}
 
       <div className="flex flex-col gap-2 ">
