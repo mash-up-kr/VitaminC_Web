@@ -18,10 +18,10 @@ import PlaceMapPopup from '@/components/place/place-map-popup'
 import BottomSheet from '@/components/bottom-sheet'
 import { APIError } from '@/models/interface'
 import MapInfoModal from './map-info-modal'
-import { User } from '@/models/user.interface'
 import { BOTTOM_SHEET_STATE } from '@/components/bottom-sheet/constants'
 import { TagItem } from '@/types/api/maps'
 import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
+import useFetch from '@/hooks/use-fetch'
 
 export interface FilterIdsType {
   category: string[]
@@ -34,12 +34,13 @@ const INITIAL_FILTER_IDS = {
 }
 
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
+  const { data: userData, loading, error } = useFetch(api.users.me.get)
+
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterNames, setSelectedFilterNames] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
-  const [userData, setUserData] = useState<User>()
 
   const [places, setPlaces] = useState<PlaceType[]>([])
   const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
@@ -53,6 +54,10 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     () => visitedMapIdsStorage.getValueOrNull() ?? [],
     [],
   )
+
+  if (error) {
+    notify.error(error)
+  }
 
   const handleClickPlace = (place: PlaceType) => {
     if (selectedPlace?.place.id === place.place.id) {
@@ -106,21 +111,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       tags: [...prev.tags, value],
     }))
   }
-
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const { data } = await api.users.me.get()
-        setUserData(data)
-      } catch (error) {
-        if (error instanceof APIError) {
-          notify.error(error.message)
-        }
-      }
-    }
-
-    getUserData()
-  }, [])
 
   useEffect(() => {
     const mapIdFromCookie = getMapIdFromCookie()
@@ -185,7 +175,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }, [visitedMapIds, mapId])
 
   return (
-    <>
+    <div className="h-dvh">
       <header className="absolute inset-x-5 z-50 top-4 flex flex-col gap-2">
         <div className="w-full flex justify-between">
           <button
@@ -197,7 +187,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             <Icon type="caretDown" size="lg" />
           </button>
           <Link href="/setting">
-            <Avatar value={userData?.nickname ?? ''} />
+            <Avatar value={userData?.nickname ?? ''} loading={loading} />
           </Link>
         </div>
         <Tooltip
@@ -215,6 +205,12 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         </Tooltip>
       </header>
 
+      <MapInfoModal
+        isOpen={isMapInfoOpen}
+        mapId={mapId}
+        onClose={() => setIsMapInfoOpen(false)}
+      />
+
       <KorrkKakaoMap
         places={filteredPlace}
         selectedPlace={selectedPlace}
@@ -223,53 +219,49 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         topOfBottomBounds={bottomBounds.top}
       />
 
-      {selectedPlace === null ? (
-        <>
-          <BottomSheet
+      {!!places.length &&
+        (selectedPlace === null ? (
+          <>
+            <BottomSheet
+              ref={bottomRef}
+              body={
+                <PlaceListBottomSheet
+                  places={filteredPlace}
+                  selectedFilter={selectedFilterNames}
+                  onClickFilterButton={handleFilterModalOpen}
+                />
+              }
+              state={
+                filteredPlace.length
+                  ? BOTTOM_SHEET_STATE.Default
+                  : BOTTOM_SHEET_STATE.Collapsed
+              }
+            />
+            <BottomModal
+              title="보고 싶은 맛집을 선택해주세요"
+              body={
+                <FilterModalBody
+                  mapId={mapId}
+                  selectedFilterNames={selectedFilterNames}
+                  onChangeSelectedFilterNames={handleSelectedFilterChange}
+                />
+              }
+              isOpen={isFilterModalOpen}
+              cancelMessage="초기화"
+              confirmMessage="적용"
+              onClose={handleFilterModalOpen}
+              onConfirm={handleFilterModalOpen}
+              onCancel={resetFilter}
+            />
+          </>
+        ) : (
+          <PlaceMapPopup
             ref={bottomRef}
-            body={
-              <PlaceListBottomSheet
-                places={filteredPlace}
-                selectedFilter={selectedFilterNames}
-                onClickFilterButton={handleFilterModalOpen}
-              />
-            }
-            state={
-              filteredPlace.length
-                ? BOTTOM_SHEET_STATE.Default
-                : BOTTOM_SHEET_STATE.Collapsed
-            }
+            className="absolute bottom-5 px-5"
+            selectedPlace={selectedPlace}
           />
-          <BottomModal
-            title="보고 싶은 맛집을 선택해주세요"
-            body={
-              <FilterModalBody
-                mapId={mapId}
-                selectedFilterNames={selectedFilterNames}
-                onChangeSelectedFilterNames={handleSelectedFilterChange}
-              />
-            }
-            isOpen={isFilterModalOpen}
-            cancelMessage="초기화"
-            confirmMessage="적용"
-            onClose={handleFilterModalOpen}
-            onConfirm={handleFilterModalOpen}
-            onCancel={resetFilter}
-          />
-        </>
-      ) : (
-        <PlaceMapPopup
-          ref={bottomRef}
-          className="absolute bottom-5 px-5"
-          selectedPlace={selectedPlace}
-        />
-      )}
-      <MapInfoModal
-        isOpen={isMapInfoOpen}
-        mapId={mapId}
-        onClose={() => setIsMapInfoOpen(false)}
-      />
-    </>
+        ))}
+    </div>
   )
 }
 

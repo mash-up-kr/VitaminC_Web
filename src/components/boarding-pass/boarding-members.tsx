@@ -8,7 +8,11 @@ const memberColors = [
   'green',
 ] as const
 
-const BoardingMembers = ({ owner, members, userId }: BoardingMembersProps) => {
+const BoardingMembers = ({
+  creator,
+  members,
+  userId,
+}: BoardingMembersProps) => {
   return (
     <ul className="w-full bg-neutral-600 max-h-[268px] overflow-y-scroll no-scrollbar">
       {members.map((member, index) => (
@@ -26,7 +30,7 @@ const BoardingMembers = ({ owner, members, userId }: BoardingMembersProps) => {
           >
             {member.nickname}
           </Typography>
-          {owner.id === member.id && (
+          {creator.id === member.id && (
             <Chip size="sm" colorScheme="neutral-800" className="ml-[6px]">
               주인장
             </Chip>

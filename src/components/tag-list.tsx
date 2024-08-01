@@ -26,7 +26,7 @@ const TagList = ({ placeId, tags, className }: TagListProps) => {
           className="whitespace-nowrap"
           colorScheme="neutral-600"
           key={`${placeId}-${tag.name}`}
-        >{`#${tag}`}</Chip>
+        >{`#${tag.name}`}</Chip>
       ))}
     </div>
   )

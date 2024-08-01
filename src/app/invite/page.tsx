@@ -54,7 +54,7 @@ const Invite = async ({
             expirationTime={new Date(expirationTime)}
             mapId={mapInfo.id}
             mapName={mapInfo.name}
-            owner={mapInfo.createBy}
+            creator={mapInfo.createBy}
             numOfCrews={mapInfo.users.length}
             images={mapInviteInfo.placePreviewList}
           />

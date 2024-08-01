@@ -61,7 +61,7 @@ const BoardingInfoPass = ({
   numOfPins,
   numOfCrews,
   members,
-  owner,
+  creator,
 }: BoardingInfoPassProps) => {
   const [isOpenInviteBoardingPass, setIsOpenInvitedBoardingPass] =
     useState(false)
@@ -108,7 +108,7 @@ const BoardingInfoPass = ({
         inviteCode: data.inviteLink.token,
         expirationTime: new Date(data.inviteLink.expiresAt),
         mapName: data.map.name,
-        owner: data.map.createBy,
+        creator: data.map.createBy,
         numOfCrews: data.map.users.length,
       })
       setIsOpenInvitedBoardingPass(true)
@@ -167,7 +167,7 @@ const BoardingInfoPass = ({
           </Typography>
         </div>
 
-        <div className="w-full pt-5 px-5 flex bg-neutral-600">
+        <div className="w-full pt-5 px-5 flex bg-neutral-600 mt-[-0.5px]">
           <div className="flex flex-col gap-1 flex-1">
             <Typography size="body4" color="neutral-300" className="text-left">
               Crew
@@ -188,9 +188,9 @@ const BoardingInfoPass = ({
 
         <BoardingDivider />
 
-        <BoardingMembers members={members} owner={owner} userId={userId} />
+        <BoardingMembers members={members} creator={creator} userId={userId} />
 
-        <div className="flex justify-center bg-neutral-600 pb-5">
+        <div className="flex justify-center bg-neutral-600 pb-5 mt-[-0.5px]">
           {isMyBoard ? (
             <ShareButton
               isInvited={isInvited}
@@ -217,14 +217,14 @@ const BoardingInfoPass = ({
           isOpen={isOpenInviteBoardingPass}
           onClose={() => setIsOpenInvitedBoardingPass(false)}
           dimClassName="z-[9998]"
-          className="z-[9999]"
+          className="z-[9999] w-full max-w-[420px] px-5"
         >
           <InvitingBoardingPass
             inviteCode={mapInviteInfo.inviteCode}
             expirationTime={new Date(mapInviteInfo.expirationTime)}
             mapName={mapInviteInfo.mapName}
             numOfCrews={mapInviteInfo.numOfCrews}
-            owner={mapInviteInfo.owner}
+            creator={mapInviteInfo.creator}
           />
         </Modal>
       )}

@@ -9,6 +9,11 @@ export interface User {
   role: UserRole
 }
 
+export interface Creator {
+  id: User['id']
+  nickname: User['nickname']
+}
+
 export interface Token {
   token: string
 }

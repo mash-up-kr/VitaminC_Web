@@ -4,19 +4,13 @@ import { useState } from 'react'
 
 import { Button, Input, Typography } from '@/components/common'
 import type { IntroActionDispatch } from '@/app/intro/page'
-import { inviteCodeStorage } from '@/utils/storage'
-import { setCookie } from '@/app/actions'
-import { RECENT_MAP_ID } from '@/constants/cookie'
 import { api } from '@/utils/api'
-import { APIError } from '@/models/interface'
 import { notify } from '@/components/common/custom-toast'
-import useSafeRouter from '@/hooks/use-safe-router'
+import { countCharacters } from '@/utils/string'
 
 const MIN_LENGTH = 2
 
 const Nickname = ({ goNextStep }: IntroActionDispatch) => {
-  const router = useSafeRouter()
-
   const [nickname, setNickname] = useState('')
   const handleChange = (value: string) => {
     setNickname(value)
@@ -26,27 +20,12 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
     try {
       await api.users.check.nickname.get(nickname)
       await api.users.me.patch(nickname)
+
+      goNextStep()
     } catch (err) {
       if (err instanceof Error && err.message) {
         return notify.error(err.message)
       }
-    }
-
-    const inviteCode = inviteCodeStorage.getValueOrNull()
-    if (inviteCode) {
-      try {
-        const res = await api.maps.inviteLinks.get(inviteCode)
-        const data = res.data
-        const mapId = data.map.id
-        setCookie(RECENT_MAP_ID, mapId)
-        router.push(`/map/${mapId}`)
-      } catch (err) {
-        if (err instanceof APIError && err.message) {
-          return notify.error(err.message)
-        }
-      }
-    } else {
-      goNextStep()
     }
   }
 
@@ -79,7 +58,7 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
       <div className="p-5 w-full">
         <Button
           colorScheme="orange"
-          disabled={nickname.length < MIN_LENGTH}
+          disabled={countCharacters(nickname).num < MIN_LENGTH}
           onClick={handleClick}
         >
           가입완료

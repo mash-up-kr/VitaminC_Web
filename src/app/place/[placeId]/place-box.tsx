@@ -15,7 +15,7 @@ import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import PlaceDeleteModal from './place-delete-modal'
 import useSafeRouter from '@/hooks/use-safe-router'
-import useUser from '@/hooks/use-user'
+import useFetch from '@/hooks/use-fetch'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -27,7 +27,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
   const router = useSafeRouter()
   const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
 
-  useUser({
+  useFetch(api.users.me.get, {
     onLoadEnd: (user) =>
       setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false),
   })

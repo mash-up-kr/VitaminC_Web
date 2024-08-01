@@ -1,6 +1,6 @@
 import type { IconKey } from '@/components/common/icon'
 import type { DateTimeType, MutatedAt } from './interface'
-import { User } from './user.interface'
+import type { Creator, User } from './user.interface'
 
 type MapRole = 'ADMIN' | 'READ' | 'WRITE'
 
@@ -18,7 +18,7 @@ export interface UserByMapInfo extends MutatedAt {
 export interface MapInfo extends MutatedAt {
   id: string
   name: string
-  createBy: User
+  createBy: Creator
   registeredPlaceCount: number
   users: MapMemberData[]
 }
@@ -30,15 +30,10 @@ export interface InviteLink {
   expiresAt: DateTimeType
 }
 
-export interface PlacePreview {
-  // 임시 설정
-  [key: string]: string
-}
-
 export interface MapInviteInfoResponseType {
   map: MapInfo
   inviteLink: InviteLink
-  placePreviewList: PlacePreview[]
+  placePreviewList: string[]
 }
 
 export const enum CategoryIcon {

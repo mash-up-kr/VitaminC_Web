@@ -1,18 +1,18 @@
 'use client'
 
 import cn from '@/utils/cn'
-import { Button, QRCode } from '../common'
+import { Button, QRCode } from '@/components/common'
 import BoardingBottom from './boarding-bottom'
 import BoardingDivider from './boarding-divider'
 import InviteBoardingPassInfo from './invite-boarding-pass-info'
 import { InvitingBoardingPassProps } from './types'
-import useKakaoShare from '../../hooks/use-kakao-share'
+import useKakaoShare from '@/hooks/use-kakao-share'
 
 const InvitingBoardingPass = ({
   className,
   inviteCode,
   mapName,
-  owner,
+  creator,
   numOfCrews,
   expirationTime,
 }: InvitingBoardingPassProps) => {
@@ -26,7 +26,7 @@ const InvitingBoardingPass = ({
     <div className={cn('flex flex-col w-full', className)}>
       <InviteBoardingPassInfo
         mapName={mapName}
-        owner={owner}
+        creator={creator}
         numOfCrews={numOfCrews}
         expirationTime={expirationTime}
       />
@@ -40,7 +40,7 @@ const InvitingBoardingPass = ({
         />
       </div>
 
-      <div className="px-[20px] bg-neutral-600">
+      <div className="px-[20px] bg-neutral-600 mt-[-0.5px]">
         <Button className="my-5" onClick={handleClickShareButton}>
           카카오톡으로 공유
         </Button>

@@ -10,7 +10,9 @@ export const middleware = (request: NextRequest) => {
 
   const authorization = cookies().get(AUTHORIZATION)?.value
 
-  if (!authorization && pathname !== '/intro') {
+  const isPublicPage = pathname === '/intro' || pathname === '/invite'
+
+  if (!authorization && !isPublicPage) {
     return NextResponse.redirect(new URL('/intro', request.url))
   }
 }

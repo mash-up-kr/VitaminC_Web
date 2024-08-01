@@ -3,6 +3,7 @@ import { InputHTMLAttributes, forwardRef } from 'react'
 import { Icon, Typography } from '@/components'
 import AccessibleIconButton from '@/components/accessible-icon-button'
 import cn from '@/utils/cn'
+import { countCharacters } from '@/utils/string'
 
 interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
@@ -12,11 +13,8 @@ interface InputProps
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ placeholder, value, onChange, maxLength = 6, ...props }, ref) => {
-    // 이모지(e.g. 😀)를 String: length로 계산하면 1보다 큰 값이 나오므로 길이 보정
-    const utf16Length = value.length
-    const numOfCharacters = Array.from(value).length
-    const error = numOfCharacters > maxLength
-    const offset = utf16Length - numOfCharacters
+    const { num, offset } = countCharacters(value)
+    const error = num > maxLength
 
     return (
       <div className="w-full relative">

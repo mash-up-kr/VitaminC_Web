@@ -1,13 +1,13 @@
 'use client'
 
 import PlaceListItem from '@/components/place/place-list-item'
-import useUser from '@/hooks/use-user'
 import type { ClassName } from '@/models/interface'
 import { getMapId } from '@/services/map-id'
 import type { SearchPlace } from '@/types/api/place'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 import EmptyResultBox from '../empty-result-box'
+import useFetch from '@/hooks/use-fetch'
 
 interface ResultSearchListBoxProps extends ClassName {
   places: SearchPlace[]
@@ -17,7 +17,7 @@ const ResultSearchListBox = ({
   className,
   places,
 }: ResultSearchListBoxProps) => {
-  const { user } = useUser()
+  const { data: user } = useFetch(api.users.me.get)
 
   const handleLikePlace = async (placeId: SearchPlace['placeId']) => {
     try {

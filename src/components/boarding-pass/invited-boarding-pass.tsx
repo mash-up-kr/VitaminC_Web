@@ -1,24 +1,21 @@
 'use client'
 
 import cn from '@/utils/cn'
-
 import { InvitedBoardingPassProps } from './types'
-import { api } from '../../utils/api'
-import { APIError } from '../../models/interface'
+import { api } from '@/utils/api'
+import { APIError } from '@/models/interface'
 import InviteBoardingPassInfo from './invite-boarding-pass-info'
-import { Button } from '../common'
+import { Button } from '@/components/common'
 import BoardingBottom from './boarding-bottom'
-import { RECENT_MAP_ID } from '../../constants/cookie'
-import { setCookie } from '../../app/actions'
-import { INVITE_CODE } from '../../utils/storage'
 import useSafeRouter from '@/hooks/use-safe-router'
+import { inviteCodeStorage } from '@/utils/storage'
 
 const InvitedBoardingPass = ({
   className,
   inviteCode,
   mapId,
   mapName,
-  owner,
+  creator,
   numOfCrews,
   expirationTime,
   images,
@@ -28,14 +25,17 @@ const InvitedBoardingPass = ({
   const handleClick = async () => {
     try {
       const res = await api.maps.inviteLinks.post(inviteCode)
-      if (res.data) {
+      if (res.message === 'success') {
         router.push(`/map/${mapId}`)
-        setCookie(RECENT_MAP_ID, mapId)
       }
     } catch (error) {
       if (error instanceof APIError) {
-        setCookie(INVITE_CODE, inviteCode)
-        router.push('/intro')
+        if (error.status === 409) {
+          router.push(`/map/${mapId}`)
+        } else {
+          inviteCodeStorage.set(inviteCode)
+          router.push('/intro')
+        }
       }
     }
   }
@@ -44,7 +44,7 @@ const InvitedBoardingPass = ({
     <div className={cn('flex flex-col w-full', className)}>
       <InviteBoardingPassInfo
         mapName={mapName}
-        owner={owner}
+        creator={creator}
         numOfCrews={numOfCrews}
         expirationTime={expirationTime}
       />
@@ -53,8 +53,8 @@ const InvitedBoardingPass = ({
         <div className="pt-[18px] px-[20px] w-full flex gap-[10px] bg-neutral-600 overflow-x-scroll no-scrollbar">
           {images.map((image, index) => (
             <img
-              key={image.key}
-              src={image.src}
+              key={`${index}-${image}`}
+              src={image}
               className="w-[88px] h-[88px] max-w-[88px] rounded"
               alt={`음식사진 ${index + 1}`}
             />
@@ -62,7 +62,7 @@ const InvitedBoardingPass = ({
         </div>
       )}
 
-      <div className="px-[20px] bg-neutral-600">
+      <div className="px-[20px] bg-neutral-600 mt-[-0.5px]">
         <Button className="my-5" onClick={handleClick}>
           승선하기
         </Button>
