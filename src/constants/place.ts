@@ -9,16 +9,19 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         id: 1,
         name: 'Sarang Restaurant',
         category: 'Korean',
+        categoryIconCode: 100,
         address: '서울특별시 중구 세종대로 110',
         x: 126.977969,
         y: 37.566535,
         menuList: [
           {
             menu: 'Kimchi Stew',
+            photo: '',
             price: '8000',
           },
           {
             menu: 'Bulgogi',
+            photo: '',
             price: '12000',
           },
         ],
@@ -57,16 +60,19 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         id: 2,
         name: 'Han River Sushi',
         category: 'Japanese',
+        categoryIconCode: 100,
         address: '서울특별시 중구 을지로 39길',
         x: 126.983569,
         y: 37.563375,
         menuList: [
           {
             menu: 'Sushi Set',
+            photo: '',
             price: '15000',
           },
           {
             menu: 'Tempura',
+            photo: '',
             price: '10000',
           },
         ],
@@ -102,16 +108,19 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         id: 3,
         name: 'Gyeongbok Palace BBQ',
         category: 'BBQ',
+        categoryIconCode: 100,
         address: '서울특별시 종로구 사직로 161',
         x: 126.974546,
         y: 37.579617,
         menuList: [
           {
             menu: 'BBQ Set',
+            photo: '',
             price: '20000',
           },
           {
             menu: 'Galbi',
+            photo: '',
             price: '25000',
           },
         ],
@@ -147,16 +156,19 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         id: 4,
         name: 'Namdaemun Noodles',
         category: 'Noodles',
+        categoryIconCode: 100,
         address: '서울특별시 중구 남대문로 23',
         x: 126.976889,
         y: 37.558517,
         menuList: [
           {
             menu: 'Cold Noodles',
+            photo: '',
             price: '7000',
           },
           {
             menu: 'Spicy Noodles',
+            photo: '',
             price: '7500',
           },
         ],
@@ -192,16 +204,19 @@ export const PLACE_LIST_DATA: PlaceType[] = [
         id: 5,
         name: 'Insadong Cafe',
         category: 'Cafe',
+        categoryIconCode: 100,
         address: '서울특별시 종로구 인사동길 12',
         x: 126.984851,
         y: 37.571455,
         menuList: [
           {
             menu: 'Americano',
+            photo: '',
             price: '4000',
           },
           {
             menu: 'Green Tea Latte',
+            photo: '',
             price: '5000',
           },
         ],
