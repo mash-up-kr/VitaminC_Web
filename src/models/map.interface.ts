@@ -30,15 +30,10 @@ export interface InviteLink {
   expiresAt: DateTimeType
 }
 
-export interface PlacePreview {
-  // 임시 설정
-  [key: string]: string
-}
-
 export interface MapInviteInfoResponseType {
   map: MapInfo
   inviteLink: InviteLink
-  placePreviewList: PlacePreview[]
+  placePreviewList: string[]
 }
 
 export const enum CategoryIcon {

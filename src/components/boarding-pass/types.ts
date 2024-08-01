@@ -1,5 +1,5 @@
 import type { ClassName } from '@/models/interface'
-import type { MapMemberData, PlacePreview } from '@/models/map.interface'
+import type { MapMemberData } from '@/models/map.interface'
 import type { Creator, User } from '@/models/user.interface'
 
 interface BoardingMembers {
@@ -33,5 +33,5 @@ export interface InvitingBoardingPassProps extends InviteBoardingPass {
 
 export interface InvitedBoardingPassProps extends InvitingBoardingPassProps {
   mapId: string
-  images?: PlacePreview[]
+  images?: string[]
 }
