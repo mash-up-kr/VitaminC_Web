@@ -42,7 +42,7 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
             </div>
 
             <img
-              src={menu.photo}
+              src={menu.photo || '/images/image-placeholder.png'}
               alt={`${menu.menu}`}
               className="w-[60px] h-[60px] rounded max-w-[60px] object-cover"
             />

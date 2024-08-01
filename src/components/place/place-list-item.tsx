@@ -32,7 +32,7 @@ const PlaceListItem = ({
           {images.map((image, idx) => (
             <img
               key={`${placeId}-${image}-${idx}`}
-              src={image}
+              src={image || '/images/image-placeholder.png'}
               className="w-[calc(33.4%-8px)] aspect-square rounded-md object-cover"
               alt={`${name}${idx}`}
             />
