@@ -92,6 +92,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
       setIsAlreadyPick(false)
       setIsDeleteModalOpen(false)
+      window.location.reload()
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
