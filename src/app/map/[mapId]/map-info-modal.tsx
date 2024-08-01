@@ -11,6 +11,8 @@ import { APIError } from '@/models/interface'
 import { MapInfo, UserByMapInfo } from '@/models/map.interface'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
+import useFetch from '@/hooks/use-fetch'
+import Spinner from '@/components/spinner'
 
 interface MapInfoModalProps {
   mapId: string
@@ -25,31 +27,31 @@ const MapList = ({
   mapId: string
   onClickMap: (mapId: string) => void
 }) => {
-  const [maps, setMaps] = useState<UserByMapInfo[]>([])
+  const {
+    data: maps,
+    loading,
+    error,
+  } = useFetch<UserByMapInfo[]>(api.maps.get, { initialData: [] })
   const router = useSafeRouter()
+  const hasOwnerMap = maps?.some((map) => map.role === 'ADMIN') || true
 
-  const hasOwnerMap = maps.some((map) => map.role === 'ADMIN')
-
-  useEffect(() => {
-    const getMapList = async () => {
-      try {
-        const { data } = await api.maps.get()
-        setMaps(data)
-      } catch (error) {
-        if (error instanceof APIError) {
-          notify.error(error.message)
-          return
-        }
-        notify.error('지도 목록을 가지고 오는데 에러가 발생했습니다. ')
-      }
-    }
-
-    getMapList()
-  }, [])
+  if (error) {
+    notify.error('지도 목록을 가지고 오는데 에러가 발생했습니다. ')
+  }
 
   return (
     <div className="pt-4 pl-5 flex gap-2 justify-start items-center overflow-x-scroll no-scrollbar">
-      {maps.map((map) => (
+      {loading && (
+        <ChipButton
+          className="py-2 rounded-full flex-shrink-0 bg-transparent"
+          fontSize="body1"
+        >
+          <div className="flex items-center">
+            ⠀<Spinner />⠀
+          </div>
+        </ChipButton>
+      )}
+      {maps?.map((map) => (
         <ChipButton
           key={map.id}
           className="px-6 py-2 rounded-full flex-shrink-0"
