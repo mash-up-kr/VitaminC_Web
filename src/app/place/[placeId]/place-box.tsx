@@ -134,12 +134,14 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
   return (
     <>
       <div className="relative flex flex-col bg-neutral-700 min-h-dvh">
-        <AccessibleIconButton
-          icon={{ type: 'caretLeft', size: 'xl' }}
-          label="뒤로 가기"
-          className="absolute top-[26px] left-[10px] z-[100]"
-          onClick={() => router.safeBack()}
-        />
+        <header className="absolute top-0 left-0 z-[100] w-full h-[60px] bg-gradient-to-t from-[rgba(33,33,36,0)] to-[rgba(33,33,36,0.6)]">
+          <AccessibleIconButton
+            icon={{ type: 'caretLeft', size: 'xl' }}
+            label="뒤로 가기"
+            className="absolute top-[26px] left-[10px]"
+            onClick={() => router.safeBack()}
+          />
+        </header>
 
         <Carousel
           items={place.photoList.slice(0, 3).map((src) => ({ src }))}
