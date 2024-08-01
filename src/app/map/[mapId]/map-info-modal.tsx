@@ -8,7 +8,7 @@ import Modal from '@/components/common/Modal/Modal'
 import { notify } from '@/components/common/custom-toast'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { APIError } from '@/models/interface'
-import { MapInfo, UserByMapInfo } from '@/models/map.interface'
+import { MapInfo } from '@/models/map.interface'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
 import useFetch from '@/hooks/use-fetch'
@@ -31,7 +31,7 @@ const MapList = ({
     data: maps,
     loading,
     error,
-  } = useFetch<UserByMapInfo[]>(api.maps.get, { initialData: [] })
+  } = useFetch(api.maps.get, { initialData: [] })
   const router = useSafeRouter()
   const hasOwnerMap = maps?.some((map) => map.role === 'ADMIN') || true
 

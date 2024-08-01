@@ -18,7 +18,6 @@ import PlaceMapPopup from '@/components/place/place-map-popup'
 import BottomSheet from '@/components/bottom-sheet'
 import { APIError } from '@/models/interface'
 import MapInfoModal from './map-info-modal'
-import { User } from '@/models/user.interface'
 import { BOTTOM_SHEET_STATE } from '@/components/bottom-sheet/constants'
 import { TagItem } from '@/types/api/maps'
 import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
@@ -35,7 +34,7 @@ const INITIAL_FILTER_IDS = {
 }
 
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
-  const { data: userData, loading, error } = useFetch<User>(api.users.me.get)
+  const { data: userData, loading, error } = useFetch(api.users.me.get)
 
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
