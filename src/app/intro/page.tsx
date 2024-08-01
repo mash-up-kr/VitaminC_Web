@@ -28,11 +28,14 @@ export interface IntroActionDispatch {
 
 export interface StepProps extends IntroActionDispatch {
   step: IntroStep
-  token: string
-  goLoginStep: VoidFunction
 }
 
-const Step = ({ token, step, goNextStep, goLoginStep }: StepProps) => {
+const Step = ({
+  token,
+  step,
+  goNextStep,
+  goLoginStep,
+}: StepProps & { token: string; goLoginStep: VoidFunction }) => {
   switch (step) {
     case IntroStep.LOGIN:
       return <Login />
