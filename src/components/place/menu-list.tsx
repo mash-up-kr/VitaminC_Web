@@ -41,11 +41,13 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
               </Typography>
             </div>
 
-            <img
-              src={menu.photo || '/images/image-placeholder.png'}
-              alt={`${menu.menu}`}
-              className="w-[60px] h-[60px] rounded max-w-[60px] object-cover"
-            />
+            {menu.photo && (
+              <img
+                src={menu.photo}
+                alt={`${menu.menu}`}
+                className="w-[60px] h-[60px] rounded max-w-[60px] object-cover"
+              />
+            )}
           </li>
         ))}
       </ul>
