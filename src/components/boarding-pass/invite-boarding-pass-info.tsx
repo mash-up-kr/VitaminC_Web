@@ -19,7 +19,7 @@ const InviteBoardingPassInfo = ({
         </Typography>
       </div>
 
-      <div className="w-full pt-5 px-5 flex bg-neutral-600">
+      <div className="w-full pt-5 px-5 flex bg-neutral-600 mt-[-0.5px]">
         <div className="flex flex-col gap-1 flex-1">
           <Typography size="body4" color="neutral-300" className="text-left">
             Flight

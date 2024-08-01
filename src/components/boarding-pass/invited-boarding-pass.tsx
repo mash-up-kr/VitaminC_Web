@@ -62,7 +62,7 @@ const InvitedBoardingPass = ({
         </div>
       )}
 
-      <div className="px-[20px] bg-neutral-600">
+      <div className="px-[20px] bg-neutral-600 mt-[-0.5px]">
         <Button className="my-5" onClick={handleClick}>
           승선하기
         </Button>
