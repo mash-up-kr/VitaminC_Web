@@ -22,6 +22,7 @@ import { User } from '@/models/user.interface'
 import { BOTTOM_SHEET_STATE } from '@/components/bottom-sheet/constants'
 import { TagItem } from '@/types/api/maps'
 import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
+import useFetch from '@/hooks/use-fetch'
 
 export interface FilterIdsType {
   category: string[]
@@ -34,12 +35,13 @@ const INITIAL_FILTER_IDS = {
 }
 
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
+  const { data: userData, loading, error } = useFetch<User>(api.users.me.get)
+
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterNames, setSelectedFilterNames] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
-  const [userData, setUserData] = useState<User>()
 
   const [places, setPlaces] = useState<PlaceType[]>([])
   const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
@@ -53,6 +55,10 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     () => visitedMapIdsStorage.getValueOrNull() ?? [],
     [],
   )
+
+  if (error) {
+    notify.error(error)
+  }
 
   const handleClickPlace = (place: PlaceType) => {
     if (selectedPlace?.place.id === place.place.id) {
@@ -106,21 +112,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       tags: [...prev.tags, value],
     }))
   }
-
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const { data } = await api.users.me.get()
-        setUserData(data)
-      } catch (error) {
-        if (error instanceof APIError) {
-          notify.error(error.message)
-        }
-      }
-    }
-
-    getUserData()
-  }, [])
 
   useEffect(() => {
     const mapIdFromCookie = getMapIdFromCookie()
@@ -197,7 +188,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             <Icon type="caretDown" size="lg" />
           </button>
           <Link href="/setting">
-            <Avatar value={userData?.nickname ?? ''} />
+            <Avatar value={userData?.nickname ?? ''} loading={loading} />
           </Link>
         </div>
         <Tooltip
