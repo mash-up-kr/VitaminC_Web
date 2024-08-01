@@ -175,7 +175,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }, [visitedMapIds, mapId])
 
   return (
-    <>
+    <div className="h-dvh">
       <header className="absolute inset-x-5 z-50 top-4 flex flex-col gap-2">
         <div className="w-full flex justify-between">
           <button
@@ -261,7 +261,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             selectedPlace={selectedPlace}
           />
         ))}
-    </>
+    </div>
   )
 }
 
