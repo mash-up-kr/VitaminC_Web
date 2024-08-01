@@ -19,6 +19,7 @@ const PlaceTopInformation = ({
   rating,
   pick,
   tags,
+  distance,
   className,
 }: PlaceTopInformationProps) => {
   return (
@@ -53,12 +54,20 @@ const PlaceTopInformation = ({
         </div>
 
         <div className="flex items-center gap-[7px]">
-          <div className="flex gap-0.5 items-center">
-            <Icon type="starFilled" size="sm" fill="yellow-100" />
-            <Typography as="span" size="body3" color="neutral-300">
-              {rating}
+          {rating && (
+            <div className="flex gap-0.5 items-center">
+              <Icon type="starFilled" size="sm" fill="yellow-100" />
+              <Typography as="span" size="body3" color="neutral-300">
+                {rating}
+              </Typography>
+            </div>
+          )}
+
+          {distance && (
+            <Typography as="span" size="h6" color="neutral-300">
+              {distance}
             </Typography>
-          </div>
+          )}
           <Typography as="span" size="body3" color="neutral-300">
             {address}
           </Typography>

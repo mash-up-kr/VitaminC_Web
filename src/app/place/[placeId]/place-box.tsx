@@ -16,6 +16,9 @@ import { getMapId } from '@/services/map-id'
 import PlaceDeleteModal from './place-delete-modal'
 import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
+import useUserGeoLocation from '@/hooks/use-user-geo-location'
+import { allowUserPositionStorage } from '@/utils/storage'
+import { formatDistance, getDistance } from '@/utils/location'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -26,11 +29,19 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
   const [isLikePlace, setIsLikePlace] = useState(false)
   const router = useSafeRouter()
   const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
+  const userLocation = useUserGeoLocation()
+  const isAllowPosition = allowUserPositionStorage.getValueOrNull()
+  const diffDistance = getDistance(
+    userLocation.latitude,
+    userLocation.longitude,
+    place.y,
+    place.x,
+  )
 
-  useFetch(api.users.me.get, {
+  const { data: user } = useFetch(api.users.me.get, {
     key: ['user'],
-    onLoadEnd: (user) =>
-      setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false),
+    onLoadEnd: (userData) =>
+      setIsLikePlace(place.likedUserIds?.includes(userData.id) ?? false),
   })
 
   const handleLikePlace = async () => {
@@ -123,6 +134,19 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
           address={place.address}
           tags={place.tags}
           rating={place.score}
+          distance={isAllowPosition ? formatDistance(diffDistance) : undefined}
+          pick={
+            typeof place.createdBy !== 'undefined'
+              ? {
+                  isLiked:
+                    !!place.likedUserIds?.find((id) => id === user?.id) ||
+                    false,
+                  numOfLikes: place.likedUserIds?.length ?? 0,
+                  isMyPick: place.createdBy?.nickname === user?.nickname,
+                  onClickLike: handleLikePlace,
+                }
+              : undefined
+          }
           className="px-5"
         />
         <PlaceDivider className="w-full" />
