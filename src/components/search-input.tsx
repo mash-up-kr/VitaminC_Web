@@ -14,7 +14,7 @@ const SearchInputVariants = cva<{
       variant: {
         outlined: 'border border-solid border-neutral-400 bg-neutral-800',
         filled:
-          'bg-neutral-600 outline-none outline-offset-0 focus:outline-1 focus:outline-neutral-300',
+          'bg-neutral-600 outline-none outline-offset-0 focus:outline-1 focus:outline-neutral-300 focus-outline-offset-1',
       },
       size: {
         sm: 'p-3 pr-[50px]',

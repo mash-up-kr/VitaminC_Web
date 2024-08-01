@@ -99,6 +99,7 @@ const HashTagList = ({
 
       <BottomModal
         title="나만의 태그를 만들어보세요"
+        scrollable={false}
         body={
           <SearchInput
             ref={(node) => node?.focus()}
