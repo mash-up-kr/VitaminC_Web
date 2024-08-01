@@ -23,7 +23,7 @@ const Carousel = ({
   className,
   delay,
   autoPlay = false,
-  objectFit = 'contain',
+  objectFit = 'cover',
   indicatorPosition = 'bottom',
 }: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0)

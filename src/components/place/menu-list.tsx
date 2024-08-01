@@ -23,7 +23,7 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
       <img
         src={mainPhotoUrl}
         alt="메인 음식"
-        className="max-w-full rounded-[6px] mt-[10px] object-fill"
+        className="max-w-full rounded-[6px] mt-[10px] object-cover"
       />
 
       <ul className="flex flex-col divide-y divide-neutral-600">

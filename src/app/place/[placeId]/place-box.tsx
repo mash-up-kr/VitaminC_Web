@@ -143,7 +143,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
         <Carousel
           items={place.photoList.slice(0, 3).map((src) => ({ src }))}
-          objectFit="fill"
+          objectFit="cover"
           className="mt-0 w-full h-[200px] min-h-[200px]"
           indicatorPosition="inside"
         />

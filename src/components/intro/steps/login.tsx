@@ -36,7 +36,7 @@ const Login = () => {
     <>
       <div className="flex-1">
         <Carousel
-          objectFit="fill"
+          objectFit="cover"
           items={[
             {
               src: '/images/intro-lost-map.png',
