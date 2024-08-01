@@ -27,6 +27,7 @@ interface PlaceBoxProps {
 const PlaceBox = ({ place }: PlaceBoxProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isLikePlace, setIsLikePlace] = useState(false)
+  const [isRecentlyLike, setIsRecentlyLike] = useState<boolean | null>(null)
   const router = useSafeRouter()
   const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
   const userLocation = useUserGeoLocation()
@@ -43,6 +44,21 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
     onLoadEnd: (userData) =>
       setIsLikePlace(place.likedUserIds?.includes(userData.id) ?? false),
   })
+  const numOfLikes = (() => {
+    const likedUserIdsCount = place.likedUserIds?.length ?? 0
+
+    if (user && place.likedUserIds?.includes(user.id)) {
+      if (isRecentlyLike == null) {
+        return likedUserIdsCount
+      }
+
+      const recentlyLikedBonus = isRecentlyLike ? 0 : -1
+      return likedUserIdsCount + recentlyLikedBonus
+    }
+    const recentlyLikedBonus = isRecentlyLike ? 1 : 0
+
+    return likedUserIdsCount + recentlyLikedBonus
+  })()
 
   const handleLikePlace = async () => {
     try {
@@ -50,12 +66,14 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
       if (!mapId) throw new Error('잘못된 접근입니다.')
 
       setIsLikePlace(true)
+      setIsRecentlyLike(true)
       await api.place.mapId.placeId.like.put({
         placeId: place.id,
         mapId,
       })
     } catch (error) {
       setIsLikePlace(false)
+      setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
       }
@@ -68,12 +86,15 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
       if (!mapId) throw new Error('잘못된 접근입니다.')
 
       setIsLikePlace(false)
+      setIsRecentlyLike(false)
       await api.place.mapId.placeId.like.delete({
         placeId: place.id,
         mapId,
       })
     } catch (error) {
       setIsLikePlace(true)
+      setIsRecentlyLike(false)
+      setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
       }
@@ -139,12 +160,12 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
           pick={
             typeof place.createdBy !== 'undefined'
               ? {
-                  isLiked:
-                    !!place.likedUserIds?.find((id) => id === user?.id) ||
-                    false,
-                  numOfLikes: place.likedUserIds?.length ?? 0,
+                  isLiked: isLikePlace || false,
+                  numOfLikes,
                   isMyPick: place.createdBy?.nickname === user?.nickname,
-                  onClickLike: handleLikePlace,
+                  onClickLike: isLikePlace
+                    ? handleUnLikePlace
+                    : handleLikePlace,
                 }
               : undefined
           }
