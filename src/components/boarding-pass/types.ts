@@ -1,9 +1,9 @@
 import type { ClassName } from '@/models/interface'
 import type { MapMemberData, PlacePreview } from '@/models/map.interface'
-import { User } from '@/models/user.interface'
+import type { Creator, User } from '@/models/user.interface'
 
 interface BoardingMembers {
-  owner: User
+  creator: Creator
   members: MapMemberData[]
   numOfCrews: number
 }

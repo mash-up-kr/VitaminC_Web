@@ -34,12 +34,9 @@ const TestDesign = () => {
           expirationTime={new Date()}
           mapName={'TEST'}
           numOfCrews={3000}
-          owner={{
+          creator={{
             id: 1,
             nickname: '상민이',
-            role: 'ADMIN',
-            provider: 'KAKAO',
-            providerId: '',
           }}
         />
       </Modal>

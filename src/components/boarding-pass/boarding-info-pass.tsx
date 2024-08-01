@@ -61,7 +61,7 @@ const BoardingInfoPass = ({
   numOfPins,
   numOfCrews,
   members,
-  owner,
+  creator,
 }: BoardingInfoPassProps) => {
   const [isOpenInviteBoardingPass, setIsOpenInvitedBoardingPass] =
     useState(false)
@@ -108,7 +108,7 @@ const BoardingInfoPass = ({
         inviteCode: data.inviteLink.token,
         expirationTime: new Date(data.inviteLink.expiresAt),
         mapName: data.map.name,
-        owner: data.map.createBy,
+        creator: data.map.createBy,
         numOfCrews: data.map.users.length,
       })
       setIsOpenInvitedBoardingPass(true)
@@ -188,7 +188,7 @@ const BoardingInfoPass = ({
 
         <BoardingDivider />
 
-        <BoardingMembers members={members} owner={owner} userId={userId} />
+        <BoardingMembers members={members} creator={creator} userId={userId} />
 
         <div className="flex justify-center bg-neutral-600 pb-5 mt-[-0.5px]">
           {isMyBoard ? (
@@ -224,7 +224,7 @@ const BoardingInfoPass = ({
             expirationTime={new Date(mapInviteInfo.expirationTime)}
             mapName={mapInviteInfo.mapName}
             numOfCrews={mapInviteInfo.numOfCrews}
-            owner={mapInviteInfo.owner}
+            creator={mapInviteInfo.creator}
           />
         </Modal>
       )}

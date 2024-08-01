@@ -1,7 +1,7 @@
 import { CategoryIcon, MapInfo } from '@/models/map.interface'
 import { KakaoPlaceDetail } from '../map/kakao-raw-type'
 import { TagItem } from './maps'
-import { User } from '@/models/user.interface'
+import type { Creator, User } from '@/models/user.interface'
 
 export interface PlaceType {
   place: {
@@ -32,10 +32,7 @@ export interface SearchPlace {
   address: string
   placeId: PlaceType['place']['id']
   tags: TagItem[]
-  createdBy?: {
-    id: User['id']
-    nickname: string
-  }
+  createdBy?: Creator
   score: number
   likedUserIds?: User['id'][]
 }

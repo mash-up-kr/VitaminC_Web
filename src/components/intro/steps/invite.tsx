@@ -55,7 +55,7 @@ const Invite = () => {
         inviteCode: data.inviteLink.token,
         expirationTime: new Date(data.inviteLink.expiresAt),
         mapName: data.map.name,
-        owner: data.map.createBy,
+        creator: data.map.createBy,
         numOfCrews: data.map.users.length,
       })
       handleShowInvitation()
@@ -96,7 +96,7 @@ const Invite = () => {
           >
             <InvitingBoardingPass
               mapName={mapInviteInfo.mapName}
-              owner={mapInviteInfo.owner}
+              creator={mapInviteInfo.creator}
               numOfCrews={mapInviteInfo.numOfCrews}
               expirationTime={mapInviteInfo.expirationTime}
               inviteCode={mapInviteInfo.inviteCode}

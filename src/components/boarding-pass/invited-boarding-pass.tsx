@@ -18,7 +18,7 @@ const InvitedBoardingPass = ({
   inviteCode,
   mapId,
   mapName,
-  owner,
+  creator,
   numOfCrews,
   expirationTime,
   images,
@@ -44,7 +44,7 @@ const InvitedBoardingPass = ({
     <div className={cn('flex flex-col w-full', className)}>
       <InviteBoardingPassInfo
         mapName={mapName}
-        owner={owner}
+        creator={creator}
         numOfCrews={numOfCrews}
         expirationTime={expirationTime}
       />

@@ -1,6 +1,6 @@
 import type { IconKey } from '@/components/common/icon'
 import type { DateTimeType, MutatedAt } from './interface'
-import { User } from './user.interface'
+import type { Creator, User } from './user.interface'
 
 type MapRole = 'ADMIN' | 'READ' | 'WRITE'
 
@@ -18,7 +18,7 @@ export interface UserByMapInfo extends MutatedAt {
 export interface MapInfo extends MutatedAt {
   id: string
   name: string
-  createBy: User
+  createBy: Creator
   registeredPlaceCount: number
   users: MapMemberData[]
 }
