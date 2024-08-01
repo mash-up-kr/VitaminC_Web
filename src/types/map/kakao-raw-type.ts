@@ -1,4 +1,5 @@
-import { CategoryIcon } from '../../models/map.interface'
+import { CategoryIcon } from '@/models/map.interface'
+import type { PlaceMenuItem } from '../api/place'
 
 export interface KakaoPlaceItem {
   address_name: string // "서울 강남구 역삼동 669-17"
@@ -23,10 +24,7 @@ export interface KakaoPlaceDetail {
   address: string // '정분네중앙곱창 강남본점'
   x: number // 0
   y: number // 0
-  menuList: {
-    menu: string // '구이양념막창'
-    price: string // '14,000'
-  }[]
+  menuList: PlaceMenuItem[]
   photoList: string[] // ['http://t1.daumcdn.net/place/6DCE4A7D51924FE3A4437B8C91C553D4', 'http://t1.daumcdn.net/local/kakaomapPhoto/review/ed7aa0ecafdfb578c6b394f6f1e76d1dfca5d99e?original']
   createdAt: Date // '2024-06-29T18:08:11.692Z'
   updatedAt: Date // '2024-06-29T18:11:05.368Z'
