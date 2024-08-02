@@ -27,9 +27,16 @@ const useFetch = <T>(
   }, [])
 
   useEffect(() => {
+    const handleLoadEnd = (payload: T) => {
+      if (options?.onLoadEnd) {
+        options.onLoadEnd(payload)
+      }
+    }
+
     const fetchData = async () => {
       if (cache[cacheKey]) {
         setData(cache[cacheKey])
+        handleLoadEnd(cache[cacheKey])
         return
       }
 
@@ -38,10 +45,7 @@ const useFetch = <T>(
         const response = await queryFn()
 
         setData(response.data)
-
-        if (options?.onLoadEnd) {
-          options.onLoadEnd(response.data)
-        }
+        handleLoadEnd(response.data)
         cache[cacheKey] = response.data
       } catch (err) {
         if (err instanceof APIError) setError(err.message)
