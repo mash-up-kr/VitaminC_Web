@@ -51,7 +51,7 @@ const PlaceListItem = ({
 
       <div className="flex flex-col gap-2 ">
         <div className="flex items-center justify-between">
-          <Typography as="h2" size="h4" className="w-[194px]">
+          <Typography as="h2" size="h4" className="w-[194px] flex-1">
             {name}
           </Typography>
           {pick && (
@@ -82,7 +82,12 @@ const PlaceListItem = ({
             </Typography>
           )}
 
-          <Typography as="span" size="body3" color="neutral-300">
+          <Typography
+            as="span"
+            size="body3"
+            color="neutral-300"
+            className="truncate"
+          >
             {address}
           </Typography>
         </div>
