@@ -25,12 +25,14 @@ const useKakaoShare = () => {
         imageUrl: 'https://kr.object.ncloudstorage.com/korrk-image/korrk.png',
         link: {
           webUrl: `${window.location.origin}/invite?code=${inviteLinkToken}`,
+          mobileWebUrl: `${window.location.origin}/invite?code=${inviteLinkToken}`,
         },
       },
       buttons: [
         {
           link: {
             webUrl: `${window.location.origin}/invite?code=${inviteLinkToken}`,
+            mobileWebUrl: `${window.location.origin}/invite?code=${inviteLinkToken}`,
           },
           title: '맛집지도 사용하기',
         },
