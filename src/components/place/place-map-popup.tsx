@@ -12,6 +12,7 @@ import { notify } from '../common/custom-toast'
 import { getMapId } from '@/services/map-id'
 import { getStarByScore } from '@/utils/score'
 import useFetch from '@/hooks/use-fetch'
+import { roundOnePoint } from '@/utils/number'
 
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
@@ -118,7 +119,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                         fill="yellow-100"
                       />
                       <Typography as="span" size="body3" color="neutral-300">
-                        {kakaoPlace.score}
+                        {roundOnePoint(kakaoPlace.score)}
                       </Typography>
                     </div>
                   )}
