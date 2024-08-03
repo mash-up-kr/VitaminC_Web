@@ -120,15 +120,11 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
             ref={ref as ForwardedRef<HTMLAnchorElement>}
             className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4 z-10"
           >
-            <div className="flex gap-2 justify-between h-[83px]">
+            <div className="flex gap-2 justify-between">
               <div className="flex flex-col justify-between w-full">
                 <div className="flex flex-col gap-1 ">
                   <div className="flex gap-1.5 items-end">
-                    <Typography
-                      as="h2"
-                      size="h4"
-                      className="text-ellipsis text-nowrap overflow-hidden"
-                    >
+                    <Typography as="h2" size="h4">
                       {place.name}
                     </Typography>
                     <Typography as="span" size="body3" color="neutral-400">
@@ -163,7 +159,9 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
                 {place.isRegisteredPlace && (
                   <div className="flex gap-3 items-center">
                     <PickChip
-                      isMyPick={!!place.likedUserIds?.includes(user?.id ?? -1)}
+                      isMyPick={
+                        !!place.createdBy && place.createdBy.id === user?.id
+                      }
                     />
                     <LikeButton
                       numOfLikes={numOfLikes}

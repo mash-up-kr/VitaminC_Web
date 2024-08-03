@@ -63,7 +63,7 @@ const KorrkKakaoMap = ({
                 key={place.kakaoId}
                 latitude={place.y}
                 longitude={place.x}
-                isSaved={place.likedUserIds?.length !== 0}
+                isSaved={place.isRegisteredPlace}
                 type={
                   isSearchPlace(selectedPlace)
                     ? getMarkerType(
@@ -79,7 +79,7 @@ const KorrkKakaoMap = ({
                 key={place.place.id}
                 latitude={place.place.y}
                 longitude={place.place.x}
-                isSaved={place.likedUserIds?.length !== 0}
+                isSaved={!!place.createdBy}
                 type={
                   !isSearchPlace(selectedPlace)
                     ? getMarkerType(
