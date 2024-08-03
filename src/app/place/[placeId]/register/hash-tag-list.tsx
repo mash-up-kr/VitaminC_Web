@@ -28,12 +28,12 @@ const HashTagList = ({
   const [tags, setTags] = useState<TagItem[]>(defaultTags)
   const [isOpenCustomTagModal, setIsOpenCustomModalTag] = useState(false)
 
-  const addTagToServer = async (content: string) => {
+  const addTagToServer = async (name: string) => {
     try {
       const mapId = await getMapId()
       if (!mapId) return
 
-      const response = await api.maps.id.tag.post({ id: mapId, content })
+      const response = await api.maps.id.tag.post({ id: mapId, name })
       setTags((prev) => [...prev, response.data])
     } catch (error) {
       if (error instanceof APIError) {
@@ -99,6 +99,7 @@ const HashTagList = ({
 
       <BottomModal
         title="나만의 태그를 만들어보세요"
+        scrollable={false}
         body={
           <SearchInput
             ref={(node) => node?.focus()}

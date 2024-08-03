@@ -18,6 +18,7 @@ const PlaceListItem = ({
   name,
   address,
   rating,
+  distance,
   images,
   pick,
   tags,
@@ -65,12 +66,21 @@ const PlaceListItem = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex gap-0.5 items-center">
-            <Icon type={getStarByScore(rating)} size="sm" fill="yellow-100" />
-            <Typography as="span" size="h6" color="neutral-100">
-              {rating}
+          {rating && (
+            <div className="flex gap-0.5 items-center">
+              <Icon type={getStarByScore(rating)} size="sm" fill="yellow-100" />
+              <Typography as="span" size="h6" color="neutral-100">
+                {rating}
+              </Typography>
+            </div>
+          )}
+
+          {distance && (
+            <Typography as="span" size="h6" color="neutral-300">
+              {distance}
             </Typography>
-          </div>
+          )}
+
           <Typography as="span" size="body3" color="neutral-300">
             {address}
           </Typography>

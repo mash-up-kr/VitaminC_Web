@@ -34,7 +34,11 @@ const INITIAL_FILTER_IDS = {
 }
 
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
-  const { data: userData, loading, error } = useFetch(api.users.me.get)
+  const {
+    data: userData,
+    loading,
+    error,
+  } = useFetch(api.users.me.get, { key: ['user'] })
 
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
@@ -120,6 +124,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
     const getPlaceList = async () => {
       try {
+        if (!userData) return
+
         const { data: placeList } = await api.place.mapId.get(mapId)
         setPlaces(placeList)
       } catch (err) {
@@ -142,7 +148,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
     getMapname()
     getPlaceList()
-  }, [mapId])
+  }, [mapId, userData])
 
   useEffect(() => {
     if (!userData) return

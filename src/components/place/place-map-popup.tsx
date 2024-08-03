@@ -109,13 +109,13 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4 z-10"
         >
           <div className="flex gap-2 justify-between h-[83px]">
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between w-full">
               <div className="flex flex-col gap-1 ">
                 <div className="flex gap-1.5 items-end">
                   <Typography
                     as="h2"
                     size="h4"
-                    className="text-ellipsis overflow-hidden"
+                    className="text-ellipsis text-nowrap overflow-hidden"
                   >
                     {kakaoPlace.name}
                   </Typography>

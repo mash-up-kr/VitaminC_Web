@@ -37,7 +37,11 @@ const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
             className: 'w-4 h-4',
           }}
         />
-        <Typography size="body1" color="neutral-200" className="font-medium">
+        <Typography
+          size="body1"
+          color="neutral-200"
+          className="font-medium min-w-[10px] text-center"
+        >
           {formatLike(numOfLikes)}
         </Typography>
       </div>
