@@ -7,14 +7,14 @@ import { notify } from '@/components/common/custom-toast'
 import ResultSearchListBox from './result-search-list'
 import ResultSearchInput from './result-search-input'
 import KorrkKakaoMap from '@/components/korrk-kakao-map'
-import type { PlaceType, SearchPlace } from '@/types/api/place'
-import PlaceMapPopup from '@/components/place/place-map-popup'
+import { isSearchPlace, type SearchPlace } from '@/types/api/place'
 import useMeasure from '@/hooks/use-measure'
 import { mapBoundSessionStorage } from '@/utils/storage'
 import { api } from '@/utils/api'
 import { formatBoundToRect } from '@/utils/location'
 import { convertSearchPlaceToPlaceType } from '@/utils/format'
 import { getMapId } from '@/services/map-id'
+import ResultPlaceMapPopup from './result-place-map-popup'
 
 interface ResultSearchBoxProps extends ClassName {
   query: string
@@ -22,21 +22,28 @@ interface ResultSearchBoxProps extends ClassName {
 
 const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   const [isMapView, setIsMapView] = useState(false)
+  const [mapId, setMapId] = useState('')
   const [places, setPlaces] = useState<SearchPlace[]>([])
-  const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
+  const [selectedPlace, setSelectedPlace] = useState<SearchPlace | null>(null)
 
   const [bottomRef, bottomBounds] = useMeasure()
 
   useEffect(() => {
     ;(async () => {
+      const data = await getMapId()
+
+      if (!data) {
+        throw new Error('잘못된 접근입니다.')
+      }
+      setMapId(data)
+    })()
+  }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      if (!mapId) return
       const bounds = mapBoundSessionStorage.getValueOrNull()
       try {
-        const mapId = await getMapId()
-
-        if (!mapId) {
-          throw new Error('잘못된 접근입니다.')
-        }
-
         const { data } = await api.search.places.get({
           q: query,
           rect: formatBoundToRect(bounds),
@@ -47,7 +54,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
         notify.error('예상치 못한 오류가 발생했습니다.')
       }
     })()
-  }, [query])
+  }, [query, mapId])
 
   return (
     <div className={cn('w-full min-h-dvh relative', className)}>
@@ -66,17 +73,20 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             className="absolute top-0 left-0 w-[calc(100%+40px)] mx-[-20px] h-dvh z-[50]"
             onClickMap={() => setSelectedPlace(null)}
             onClickPlace={(place) => {
-              if (place.place.id === selectedPlace?.place.id) {
-                setSelectedPlace(null)
-              } else {
-                setSelectedPlace(place)
+              if (isSearchPlace(place)) {
+                if (place.placeId === selectedPlace?.placeId) {
+                  setSelectedPlace(null)
+                } else {
+                  setSelectedPlace(place)
+                }
               }
             }}
           />
           {selectedPlace && (
-            <PlaceMapPopup
+            <ResultPlaceMapPopup
               ref={bottomRef}
-              selectedPlace={selectedPlace}
+              kakaoId={selectedPlace.kakaoId}
+              mapId={mapId}
               className="absolute bottom-5 z-[100]"
             />
           )}

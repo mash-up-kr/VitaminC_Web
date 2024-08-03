@@ -8,7 +8,7 @@ import { visitedMapIdsStorage } from '@/utils/storage'
 import SearchAnchorBox from './search-anchor-box'
 import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import { api } from '@/utils/api'
-import type { PlaceType } from '@/types/api/place'
+import { isSearchPlace, type PlaceType } from '@/types/api/place'
 import { notify } from '@/components/common/custom-toast'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import BottomModal from '@/components/BottomModal'
@@ -221,7 +221,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         places={filteredPlace}
         selectedPlace={selectedPlace}
         onClickMap={() => setSelectedPlace(null)}
-        onClickPlace={handleClickPlace}
+        onClickPlace={(place) => {
+          if (!isSearchPlace(place)) {
+            handleClickPlace(place)
+          }
+        }}
         topOfBottomBounds={bottomBounds.top}
       />
 

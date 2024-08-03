@@ -2,17 +2,21 @@ import type { ClassName } from '@/models/interface'
 import GpsButton from './kakao-map/gps-button'
 import KakaoMap from './kakao-map/kakao-map'
 import Marker from './kakao-map/marker'
-import type { PlaceType } from '@/types/api/place'
+import {
+  isSearchPlace,
+  type PlaceType,
+  type SearchPlace,
+} from '@/types/api/place'
 import cn from '@/utils/cn'
 import { removeAllSpaces } from '@/utils/category'
 import type { IconKey } from './common/icon'
 
 interface KorrkKakaoMapProps extends ClassName {
-  places?: PlaceType[]
-  selectedPlace?: PlaceType | null
+  places?: PlaceType[] | SearchPlace[]
+  selectedPlace?: PlaceType | SearchPlace | null
   topOfBottomBounds?: number
   onClickMap: Parameters<typeof KakaoMap>[0]['onClick']
-  onClickPlace: (place: PlaceType) => void
+  onClickPlace: (place: PlaceType | SearchPlace) => void
 }
 
 const getMarkerType = (
@@ -53,19 +57,41 @@ const KorrkKakaoMap = ({
         )}
       >
         <KakaoMap className="w-[calc(100%+40px)] h-screen" onClick={onClickMap}>
-          {places.map((place) => (
-            <Marker
-              key={place.place.id}
-              latitude={place.place.y}
-              longitude={place.place.x}
-              isSaved={place.likedUserIds?.length !== 0}
-              type={getMarkerType(
-                place.place.kakaoPlace.category,
-                selectedPlace?.place.id === place.place.id,
-              )}
-              onClick={() => onClickPlace(place)}
-            />
-          ))}
+          {places.map((place, index) =>
+            isSearchPlace(place) ? (
+              <Marker
+                key={`${place.placeId}-${index}`}
+                latitude={place.y}
+                longitude={place.x}
+                isSaved={place.likedUserIds?.length !== 0}
+                type={
+                  isSearchPlace(selectedPlace)
+                    ? getMarkerType(
+                        place.category,
+                        selectedPlace.placeId === place.placeId,
+                      )
+                    : getMarkerType(place.category, false)
+                }
+                onClick={() => onClickPlace(place)}
+              />
+            ) : (
+              <Marker
+                key={`${place.place.id}-${index}`}
+                latitude={place.place.y}
+                longitude={place.place.x}
+                isSaved={place.likedUserIds?.length !== 0}
+                type={
+                  !isSearchPlace(selectedPlace)
+                    ? getMarkerType(
+                        place.place.kakaoPlace.category,
+                        selectedPlace?.place.id === place.place.id,
+                      )
+                    : getMarkerType(place.place.kakaoPlace.category, false)
+                }
+                onClick={() => onClickPlace(place)}
+              />
+            ),
+          )}
           <GpsButton topOfBottomBounds={topOfBottomBounds} />
         </KakaoMap>
       </div>

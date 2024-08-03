@@ -37,6 +37,13 @@ export interface SearchPlace {
   likedUserIds?: User['id'][]
 }
 
+export const isSearchPlace = (
+  place: PlaceType | SearchPlace | null | undefined,
+): place is SearchPlace => {
+  if (!place) return false
+  return 'isRegisteredPlace' in place
+}
+
 export interface PlaceMenuItem {
   menu: string
   price: string

@@ -94,7 +94,6 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
       })
     } catch (error) {
       setIsLikePlace(true)
-      setIsRecentlyLike(false)
       setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
