@@ -109,10 +109,6 @@ const Marker = ({
     if (onClick) content.onclick = onClick
 
     customOverlay.setMap(map)
-
-    return () => {
-      customOverlay.setMap(null)
-    }
   }, [map, latitude, longitude, type, isSaved, onClick, className])
 
   return null
