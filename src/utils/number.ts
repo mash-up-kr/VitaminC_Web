@@ -4,6 +4,10 @@ export const roundToNthDecimal = (value: number, n: number): number => {
   return Math.round((value + Number.EPSILON) * factor) / factor
 }
 
+export const roundOnePoint = (value: number): string => {
+  return roundToNthDecimal(value, 2).toFixed(1)
+}
+
 // value를 [min, max]로 제한
 export const clamp = <T extends number>(value: number, min: T, max: T): T => {
   if (value < min) {

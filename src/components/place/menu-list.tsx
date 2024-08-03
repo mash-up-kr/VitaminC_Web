@@ -12,10 +12,10 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
   return (
     <div className={cn('bg-neutral-700', className)}>
       <div className="flex gap-[3px]">
-        <Typography size="h5" className="text-[#D5D5D5]">
+        <Typography size="body1" className="text-[#D5D5D5]">
           메뉴
         </Typography>
-        <Typography size="h5" className="text-[#0385FF]">
+        <Typography size="body1" className="text-[#0385FF]">
           {menuList.length}
         </Typography>
       </div>

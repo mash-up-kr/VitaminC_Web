@@ -5,6 +5,7 @@ import type { PlaceProps } from './types'
 import IconChip from '../icon-chip'
 import { getStarByScore } from '@/utils/score'
 import { categoryIcons } from '@/models/map.interface'
+import { roundOnePoint } from '@/utils/number'
 
 interface PlaceListItemProps extends PlaceProps {
   rating: number
@@ -70,7 +71,7 @@ const PlaceListItem = ({
             <div className="flex gap-0.5 items-center">
               <Icon type={getStarByScore(rating)} size="sm" fill="yellow-100" />
               <Typography as="span" size="h6" color="neutral-100">
-                {rating}
+                {roundOnePoint(rating)}
               </Typography>
             </div>
           )}
