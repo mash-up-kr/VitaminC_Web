@@ -37,10 +37,12 @@ const useFetch = <T>(
       if (cache[cacheKey]) {
         setData(cache[cacheKey])
         handleLoadEnd(cache[cacheKey])
+
+        setLoading(false)
+
         return
       }
 
-      setLoading(true)
       try {
         const response = await queryFn()
 
