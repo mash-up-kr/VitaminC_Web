@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react'
 
 import { AccessibleIconButton, Avatar, Icon, Typography } from '@/components'
 import BottomModal from '@/components/BottomModal'
-import { deleteCookie } from '../actions'
-import { AUTHORIZATION } from '@/constants/cookie'
 import { User } from '@/models/user.interface'
 import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
@@ -21,9 +19,13 @@ const Setting = () => {
     setIsOpenSignupModal(false)
   }
 
-  const handleSignout = () => {
-    deleteCookie(AUTHORIZATION)
-    router.refresh()
+  const handleSignout = async () => {
+    try {
+      await fetch('/api/token', { method: 'DELETE' })
+      router.replace('/intro')
+    } catch (error) {
+      notify.error('로그아웃에 실패했습니다. ')
+    }
   }
 
   useEffect(() => {
