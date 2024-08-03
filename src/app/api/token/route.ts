@@ -34,8 +34,5 @@ export async function DELETE() {
 
   cookieStore.delete(AUTHORIZATION)
 
-  return NextResponse.json(
-    { message: 'Success', statusCode: 200 },
-    { status: 200 },
-  )
+  return NextResponse.json({ message: 'success', data: {} })
 }
