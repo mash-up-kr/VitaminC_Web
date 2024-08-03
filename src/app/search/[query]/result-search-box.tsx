@@ -74,7 +74,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             onClickMap={() => setSelectedPlace(null)}
             onClickPlace={(place) => {
               if (isSearchPlace(place)) {
-                if (place.placeId === selectedPlace?.placeId) {
+                if (place.kakaoId === selectedPlace?.kakaoId) {
                   setSelectedPlace(null)
                 } else {
                   setSelectedPlace(place)

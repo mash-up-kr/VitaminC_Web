@@ -57,10 +57,10 @@ const KorrkKakaoMap = ({
         )}
       >
         <KakaoMap className="w-[calc(100%+40px)] h-screen" onClick={onClickMap}>
-          {places.map((place, index) =>
+          {places.map((place) =>
             isSearchPlace(place) ? (
               <Marker
-                key={`${place.placeId}-${index}`}
+                key={place.kakaoId}
                 latitude={place.y}
                 longitude={place.x}
                 isSaved={place.likedUserIds?.length !== 0}
@@ -68,7 +68,7 @@ const KorrkKakaoMap = ({
                   isSearchPlace(selectedPlace)
                     ? getMarkerType(
                         place.category,
-                        selectedPlace.placeId === place.placeId,
+                        selectedPlace.kakaoId === place.kakaoId,
                       )
                     : getMarkerType(place.category, false)
                 }
@@ -76,7 +76,7 @@ const KorrkKakaoMap = ({
               />
             ) : (
               <Marker
-                key={`${place.place.id}-${index}`}
+                key={place.place.id}
                 latitude={place.place.y}
                 longitude={place.place.x}
                 isSaved={place.likedUserIds?.length !== 0}
