@@ -31,7 +31,7 @@ export interface SearchPlace {
   placeName: string
   address: string
   placeId: PlaceType['place']['id']
-  tags: TagItem[]
+  tags: string[]
   createdBy?: Creator
   score: number
   likedUserIds?: User['id'][]
