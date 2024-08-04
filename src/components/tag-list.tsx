@@ -13,6 +13,8 @@ interface TagListProps extends ClassName {
 }
 
 const TagList = ({ placeId, tags, className }: TagListProps) => {
+  const tagNames = tags.map((tag) => (typeof tag === 'string' ? tag : tag.name))
+
   return (
     <div
       className={cn(
@@ -20,23 +22,14 @@ const TagList = ({ placeId, tags, className }: TagListProps) => {
         className,
       )}
     >
-      {tags.map((tag) =>
-        typeof tag === 'string' ? (
-          <Chip
-            id={`hashtag-${placeId}-${changeSpaceToHyphen(tag)}`}
-            className="whitespace-nowrap"
-            colorScheme="neutral-600"
-            key={`${placeId}-${tag}`}
-          >{`#${tag}`}</Chip>
-        ) : (
-          <Chip
-            id={`hashtag-${placeId}-${changeSpaceToHyphen(tag.name)}`}
-            className="whitespace-nowrap"
-            colorScheme="neutral-600"
-            key={`${placeId}-${tag.name}`}
-          >{`#${tag.name}`}</Chip>
-        ),
-      )}
+      {tagNames.map((tag) => (
+        <Chip
+          id={`hashtag-${placeId}-${changeSpaceToHyphen(tag)}`}
+          className="whitespace-nowrap"
+          colorScheme="neutral-600"
+          key={`${placeId}-${tag}`}
+        >{`#${tag}`}</Chip>
+      ))}
     </div>
   )
 }
