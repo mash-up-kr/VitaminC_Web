@@ -7,7 +7,12 @@ const cache: Record<string, any> = {}
 
 const useFetch = <T>(
   queryFn: () => Promise<ResponseWithMessage<T>>,
-  options?: { onLoadEnd?: (data: T) => void; initialData?: T; key?: string[] },
+  options?: {
+    onLoadEnd?: (data: T) => void
+    initialData?: T
+    key?: string[]
+    enabled?: boolean
+  },
 ) => {
   const [data, setData] = useState<T | null>(options?.initialData || null)
   const [loading, setLoading] = useState<boolean>(true)
@@ -27,6 +32,10 @@ const useFetch = <T>(
   }, [])
 
   useEffect(() => {
+    if (options && 'enabled' in options && !options.enabled) {
+      return setLoading(false)
+    }
+
     const handleLoadEnd = (payload: T) => {
       if (options?.onLoadEnd) {
         options.onLoadEnd(payload)
@@ -59,7 +68,7 @@ const useFetch = <T>(
 
     fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [options?.enabled])
 
   return { data, loading, error, revalidate, clear }
 }
