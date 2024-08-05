@@ -53,14 +53,18 @@ const Step = ({ step, goNextStep }: StepProps) => {
 const Intro = () => {
   const isServer = useIsServer()
   const router = useSafeRouter()
-  const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
+
+  const [isLoading, setIsLoading] = useState(true)
+  const [authorization, setAuthorization] = useState(false)
+  const [mapId, setMapId] = useState<string | undefined>()
+
+  const { data: user, loading: isLoadingUser } = useFetch(api.users.me.get, {
+    key: ['user'],
+    enabled: authorization,
+  })
 
   const nickname = user?.nickname
   const inviteCode = inviteCodeStorage.getValueOrNull()
-
-  const [isLoading, setLoading] = useState(true)
-  const [authorization, setAuthorization] = useState(false)
-  const [mapId, setMapId] = useState<string | undefined>()
 
   useEffect(() => {
     const getCurrentState = async () => {
@@ -79,7 +83,7 @@ const Intro = () => {
         }
       } catch {
       } finally {
-        setLoading(false)
+        setIsLoading(false)
       }
     }
 
@@ -111,7 +115,7 @@ const Intro = () => {
 
   useEffect(() => {
     if (step >= IntroStep.NEW_MAP && !!inviteCode) {
-      setLoading(true)
+      setIsLoading(true)
 
       const boardMap = async () => {
         try {
@@ -141,7 +145,7 @@ const Intro = () => {
           if (error instanceof APIError) {
             notify.error(error.message)
           }
-          setLoading(false)
+          setIsLoading(false)
         }
       }
 
@@ -152,7 +156,7 @@ const Intro = () => {
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
       <Header />
-      {isLoading || isServer ? (
+      {isLoading || isLoadingUser || isServer ? (
         <div className="text-white flex-1 flex items-center justify-center">
           <LoadingIndicator />
         </div>
