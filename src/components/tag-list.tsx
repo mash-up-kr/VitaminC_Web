@@ -9,10 +9,12 @@ import type { TagItem } from '@/types/api/maps'
 
 interface TagListProps extends ClassName {
   placeId: PlaceType['place']['id']
-  tags: TagItem[]
+  tags: TagItem[] | string[]
 }
 
 const TagList = ({ placeId, tags, className }: TagListProps) => {
+  const tagNames = tags.map((tag) => (typeof tag === 'string' ? tag : tag.name))
+
   return (
     <div
       className={cn(
@@ -20,13 +22,13 @@ const TagList = ({ placeId, tags, className }: TagListProps) => {
         className,
       )}
     >
-      {tags.map((tag) => (
+      {tagNames.map((tag) => (
         <Chip
-          id={`hashtag-${placeId}-${changeSpaceToHyphen(tag.name)}`}
+          id={`hashtag-${placeId}-${changeSpaceToHyphen(tag)}`}
           className="whitespace-nowrap"
           colorScheme="neutral-600"
-          key={`${placeId}-${tag.name}`}
-        >{`#${tag.name}`}</Chip>
+          key={`${placeId}-${tag}`}
+        >{`#${tag}`}</Chip>
       ))}
     </div>
   )

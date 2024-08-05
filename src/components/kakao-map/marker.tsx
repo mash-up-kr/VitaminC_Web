@@ -1,4 +1,4 @@
-import { type FC, useEffect } from 'react'
+import { type FC, useEffect, useMemo } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import Icon from '../common/icon'
@@ -92,28 +92,31 @@ const Marker = ({
 }: MarkerProps) => {
   const { map } = useKakaoMap()
 
-  useEffect(() => {
-    if (!map) return
-
+  const overlay = useMemo(() => {
     const position = new kakao.maps.LatLng(latitude, longitude)
     const content = createMarkerContent(type, iconSize, isSaved, className)
 
-    const customOverlay = new kakao.maps.CustomOverlay({
+    if (onClick) content.onclick = onClick
+
+    const KakaoCustomOverlay = new kakao.maps.CustomOverlay({
       position,
       content,
       clickable: true,
       xAnchor: 0.5,
       yAnchor: 1.2,
     })
+    return KakaoCustomOverlay
+  }, [onClick, className, isSaved, latitude, longitude, type])
 
-    if (onClick) content.onclick = onClick
+  useEffect(() => {
+    if (!map) return
 
-    customOverlay.setMap(map)
+    overlay.setMap(map)
 
     return () => {
-      customOverlay.setMap(null)
+      overlay.setMap(null)
     }
-  }, [map, latitude, longitude, type, isSaved, onClick, className])
+  }, [map, overlay])
 
   return null
 }

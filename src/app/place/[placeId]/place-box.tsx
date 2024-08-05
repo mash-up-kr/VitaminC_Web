@@ -19,6 +19,7 @@ import useFetch from '@/hooks/use-fetch'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { allowUserPositionStorage } from '@/utils/storage'
 import { formatDistance, getDistance } from '@/utils/location'
+import { roundToNthDecimal } from '@/utils/number'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -93,7 +94,6 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
       })
     } catch (error) {
       setIsLikePlace(true)
-      setIsRecentlyLike(false)
       setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
@@ -183,7 +183,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
         <PlaceDivider className="w-full" />
 
         <KakaoRating
-          rating={place.score}
+          rating={roundToNthDecimal(place.score, 2)}
           placeId={place.kakaoId}
           className="py-5 px-5"
         />
