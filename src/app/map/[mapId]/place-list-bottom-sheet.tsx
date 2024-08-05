@@ -3,13 +3,13 @@
 import { FilterButton } from '@/components'
 import PlaceListItem from '@/components/place/place-list-item'
 import { useEffect, useState } from 'react'
-import { User } from '@/models/user.interface'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
 import { getMapId } from '@/services/map-id'
 import type { PlaceType } from '@/types/api/place'
 import type { FilterIdsType } from './page'
+import useFetch from '@/hooks/use-fetch'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[]
@@ -23,7 +23,10 @@ const PlaceListBottomSheet = ({
   onClickFilterButton,
 }: PlaceListBottomSheetProps) => {
   const [placeList, setPlaceList] = useState<PlaceType[]>(places)
-  const [userId, setUserId] = useState<User['id']>()
+  const { data: user } = useFetch(api.users.me.get, {
+    key: ['user'],
+  })
+  const userId = user?.id
 
   const getIsLike = (place: PlaceType): boolean => {
     if (typeof userId === 'undefined') return false
@@ -66,23 +69,6 @@ const PlaceListBottomSheet = ({
       }
     }
   }
-
-  useEffect(() => {
-    const getUserId = async () => {
-      try {
-        const {
-          data: { id },
-        } = await api.users.me.get()
-        setUserId(id)
-      } catch (error) {
-        if (error instanceof APIError) {
-          notify.error(error.message)
-        }
-      }
-    }
-
-    getUserId()
-  }, [])
 
   useEffect(() => {
     setPlaceList(places)

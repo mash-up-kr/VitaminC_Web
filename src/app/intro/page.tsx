@@ -9,17 +9,17 @@ import Mapname from '@/components/intro/steps/mapname'
 import Invite from '@/components/intro/steps/invite'
 import Header from '@/components/intro/header'
 import LoadingIndicator from '@/components/loading-indicator'
-import { notify } from '@/components/common/custom-toast'
-
 import { APIError, IntroStep } from '@/models/interface'
-import type { Token } from '@/models/user.interface'
-import { useIsServer } from '@/hooks/use-is-server'
-import useSafeRouter from '@/hooks/use-safe-router'
-import { getUser } from '@/services/user'
-import { getMapId } from '@/services/map-id'
-import { api } from '@/utils/api'
-import { fetchData } from '@/utils/api/route'
 import { inviteCodeStorage } from '@/utils/storage'
+
+import { useIsServer } from '@/hooks/use-is-server'
+import { getMapId } from '@/services/map-id'
+import useSafeRouter from '@/hooks/use-safe-router'
+import { api } from '@/utils/api'
+import { notify } from '@/components/common/custom-toast'
+import { fetchData } from '@/utils/api/route'
+import useFetch from '@/hooks/use-fetch'
+import { Token } from '@/models/user.interface'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -53,12 +53,13 @@ const Step = ({ step, goNextStep }: StepProps) => {
 const Intro = () => {
   const isServer = useIsServer()
   const router = useSafeRouter()
+  const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
 
+  const nickname = user?.nickname
   const inviteCode = inviteCodeStorage.getValueOrNull()
 
   const [isLoading, setLoading] = useState(true)
   const [authorization, setAuthorization] = useState(false)
-  const [nickname, setNickname] = useState<string | undefined>()
   const [mapId, setMapId] = useState<string | undefined>()
 
   useEffect(() => {
@@ -72,13 +73,10 @@ const Intro = () => {
           setAuthorization(!!token)
         }
 
-        if (!nickname) {
-          const user = await getUser()
-          setNickname(user?.nickname)
+        if (nickname) {
+          const existingMapId = await getMapId()
+          setMapId(existingMapId)
         }
-
-        const existingMapId = await getMapId()
-        setMapId(existingMapId)
       } catch {
       } finally {
         setLoading(false)
