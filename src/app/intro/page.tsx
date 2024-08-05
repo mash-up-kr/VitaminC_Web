@@ -9,18 +9,17 @@ import Mapname from '@/components/intro/steps/mapname'
 import Invite from '@/components/intro/steps/invite'
 import Header from '@/components/intro/header'
 import LoadingIndicator from '@/components/loading-indicator'
-import { APIError, IntroStep } from '@/models/interface'
-import { inviteCodeStorage } from '@/utils/storage'
+import { notify } from '@/components/common/custom-toast'
 
+import { APIError, IntroStep } from '@/models/interface'
+import type { Token } from '@/models/user.interface'
 import { useIsServer } from '@/hooks/use-is-server'
+import useSafeRouter from '@/hooks/use-safe-router'
 import { getUser } from '@/services/user'
 import { getMapId } from '@/services/map-id'
-import { parseJSON } from '@/utils/api/parse-json'
-import type { Token } from '@/models/user.interface'
-import type { ResponseWithMessage } from '@/types/api'
-import useSafeRouter from '@/hooks/use-safe-router'
 import { api } from '@/utils/api'
-import { notify } from '@/components/common/custom-toast'
+import { fetchData } from '@/utils/api/route'
+import { inviteCodeStorage } from '@/utils/storage'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -66,10 +65,10 @@ const Intro = () => {
     const getCurrentState = async () => {
       try {
         if (!authorization) {
-          const response = await fetch('/api/token')
-          const { data } = await parseJSON<ResponseWithMessage<Token>>(response)
+          const data = await fetchData<Token>('/api/token', {
+            key: ['token'],
+          })
           const token = data.token
-
           setAuthorization(!!token)
         }
 

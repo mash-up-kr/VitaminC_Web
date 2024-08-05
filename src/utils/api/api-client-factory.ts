@@ -1,17 +1,16 @@
 import HTTPClient from './http-client'
-import { parseJSON } from './parse-json'
 import type { Interceptors, RequestConfig } from './types'
-import type { ResponseWithMessage } from '@/types/api'
-import type { Token } from '@/models/user.interface'
+import { fetchData } from './route'
+import { Token } from '@/models/user.interface'
 
 const injectAuthTokenToConfig = async (config: RequestConfig) => {
   config.headers = config.headers || {}
 
   try {
-    const response = await fetch('/api/token')
-    const { data } = await parseJSON<ResponseWithMessage<Token>>(response)
+    const data = await fetchData<Token>('/api/token', {
+      key: ['token'],
+    })
     const token = data.token
-
     if (token) {
       config.headers.Authorization = token
     }
