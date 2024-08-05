@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 
 import { APIError } from '@/models/interface'
 import type { ResponseWithMessage } from '@/types/api'
+import { deleteCookie } from '@/app/actions'
+import { revalidate as revalidateRoute } from '@/utils/api/route'
 
 const cache: Record<string, any> = {}
 
@@ -59,8 +61,15 @@ const useFetch = <T>(
         handleLoadEnd(response.data)
         cache[cacheKey] = response.data
       } catch (err) {
-        if (err instanceof APIError) setError(err.message)
-        else setError('예상치 못한 오류가 발생했습니다.')
+        if (err instanceof APIError) {
+          if (err.status === 401) {
+            await revalidateRoute('token')
+            deleteCookie('Authorization')
+          }
+          setError(err.message)
+        } else {
+          setError('예상치 못한 오류가 발생했습니다.')
+        }
       } finally {
         setLoading(false)
       }
