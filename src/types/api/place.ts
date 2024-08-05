@@ -44,6 +44,13 @@ export const isSearchPlace = (
   return 'isRegisteredPlace' in place
 }
 
+export const isPlaceType = (
+  place: PlaceType | SearchPlace | null | undefined,
+): place is PlaceType => {
+  if (!place) return false
+  return 'place' in place
+}
+
 export interface PlaceMenuItem {
   menu: string
   price: string

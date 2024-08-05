@@ -7,12 +7,11 @@ import { notify } from '@/components/common/custom-toast'
 import ResultSearchListBox from './result-search-list'
 import ResultSearchInput from './result-search-input'
 import KorrkKakaoMap from '@/components/korrk-kakao-map'
-import { isSearchPlace, type SearchPlace } from '@/types/api/place'
+import { type SearchPlace } from '@/types/api/place'
 import useMeasure from '@/hooks/use-measure'
 import { mapBoundSessionStorage } from '@/utils/storage'
 import { api } from '@/utils/api'
 import { formatBoundToRect } from '@/utils/location'
-import { convertSearchPlaceToPlaceType } from '@/utils/format'
 import { getMapId } from '@/services/map-id'
 import ResultPlaceMapPopup from './result-place-map-popup'
 
@@ -66,19 +65,17 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
       />
       {isMapView ? (
         <>
-          <KorrkKakaoMap
-            places={places.map((place) => convertSearchPlaceToPlaceType(place))}
+          <KorrkKakaoMap<SearchPlace>
+            places={places}
             selectedPlace={selectedPlace}
             topOfBottomBounds={bottomBounds.top}
             className="absolute top-0 left-0 w-[calc(100%+40px)] mx-[-20px] h-dvh z-[50]"
             onClickMap={() => setSelectedPlace(null)}
             onClickPlace={(place) => {
-              if (isSearchPlace(place)) {
-                if (place.kakaoId === selectedPlace?.kakaoId) {
-                  setSelectedPlace(null)
-                } else {
-                  setSelectedPlace(place)
-                }
+              if (place.kakaoId === selectedPlace?.kakaoId) {
+                setSelectedPlace(null)
+              } else {
+                setSelectedPlace(place)
               }
             }}
           />
