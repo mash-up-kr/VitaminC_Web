@@ -54,20 +54,23 @@ const Intro = () => {
   const isServer = useIsServer()
   const router = useSafeRouter()
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [Loading, setLoading] = useState(true)
   const [authorization, setAuthorization] = useState(false)
   const [mapId, setMapId] = useState<string | undefined>()
 
-  const { data: user, loading: isLoadingUser } = useFetch(api.users.me.get, {
+  const { data: user, loading: userLoading } = useFetch(api.users.me.get, {
     key: ['user'],
     enabled: authorization,
   })
 
+  const isLoading = Loading || userLoading
   const nickname = user?.nickname
   const inviteCode = inviteCodeStorage.getValueOrNull()
 
   useEffect(() => {
     const getCurrentState = async () => {
+      setLoading(true)
+
       try {
         if (!authorization) {
           const data = await fetchData<Token>('/api/token', {
@@ -83,7 +86,7 @@ const Intro = () => {
         }
       } catch {
       } finally {
-        setIsLoading(false)
+        setLoading(false)
       }
     }
 
@@ -98,7 +101,9 @@ const Intro = () => {
   }
 
   const getInitialStep = useMemo(() => {
-    if (!authorization) {
+    if (isLoading) {
+      return IntroStep.LOADING
+    } else if (!authorization) {
       return IntroStep.LOGIN
     } else if (!nickname) {
       return IntroStep.NICKNAME
@@ -107,7 +112,7 @@ const Intro = () => {
     } else {
       return IntroStep.INVITE
     }
-  }, [authorization, nickname, mapId])
+  }, [isLoading, authorization, nickname, mapId])
 
   useEffect(() => {
     setStep(getInitialStep)
@@ -115,7 +120,7 @@ const Intro = () => {
 
   useEffect(() => {
     if (step >= IntroStep.NEW_MAP && !!inviteCode) {
-      setIsLoading(true)
+      setLoading(true)
 
       const boardMap = async () => {
         try {
@@ -145,7 +150,7 @@ const Intro = () => {
           if (error instanceof APIError) {
             notify.error(error.message)
           }
-          setIsLoading(false)
+          setLoading(false)
         }
       }
 
@@ -156,7 +161,7 @@ const Intro = () => {
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
       <Header />
-      {isLoading || isLoadingUser || isServer ? (
+      {isLoading || isServer ? (
         <div className="text-white flex-1 flex items-center justify-center">
           <LoadingIndicator />
         </div>

@@ -34,6 +34,8 @@ const useFetch = <T>(
   }, [])
 
   useEffect(() => {
+    setLoading(true)
+
     if (options && 'enabled' in options && !options.enabled) {
       return setLoading(false)
     }
