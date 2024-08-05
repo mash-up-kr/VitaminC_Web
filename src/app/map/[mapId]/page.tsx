@@ -207,7 +207,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             ])
           }}
         >
-          <SearchAnchorBox mapId={mapId} />
+          <SearchAnchorBox />
         </Tooltip>
       </header>
 
