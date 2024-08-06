@@ -59,7 +59,7 @@ const useFetch = <T>(
       } catch (err) {
         if (err instanceof APIError) {
           if (err.status === 401) {
-            await revalidateRoute('token')
+            revalidateRoute('token')
             deleteCookie('Authorization')
           }
           setError(err.message)

@@ -31,7 +31,7 @@ export const fetchData = async <T>(
   }
 }
 
-export const revalidate = async (key: string[] | string) => {
+export const revalidate = (key: string[] | string) => {
   const targetKey = typeof key === 'string' ? key : key.join('')
   if (Reflect.get(cache, targetKey)) {
     Reflect.deleteProperty(cache, targetKey)
