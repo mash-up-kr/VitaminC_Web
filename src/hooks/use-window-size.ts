@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import useEventListener from './use-event-listener'
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect'
 
 interface Size {
   width: number
@@ -15,19 +17,17 @@ const useWindowSize = () => {
     height: MIN_HEIGHT,
   })
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
-    }
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    })
+  }
 
-    window.addEventListener('resize', handleResize)
+  useEventListener({ type: 'resize', listener: handleResize })
 
+  useIsomorphicLayoutEffect(() => {
     handleResize()
-
-    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   return windowSize
