@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { AccessibleIconButton, Button, Carousel } from '@/components'
 import type { PlaceDetail } from '@/types/api/place'
@@ -42,9 +42,8 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
 
   const { data: user } = useFetch(api.users.me.get, {
     key: ['user'],
-    onLoadEnd: (userData) =>
-      setIsLikePlace(place.likedUserIds?.includes(userData.id) ?? false),
   })
+
   const numOfLikes = (() => {
     const likedUserIdsCount = place.likedUserIds?.length ?? 0
 
@@ -60,6 +59,11 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
 
     return likedUserIdsCount + recentlyLikedBonus
   })()
+
+  useEffect(() => {
+    if (!place || !user) return
+    setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false)
+  }, [user, place])
 
   const handleLikePlace = async () => {
     try {
