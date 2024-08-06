@@ -6,19 +6,20 @@ import { useEffect, useState } from 'react'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
-import { getMapId } from '@/services/map-id'
 import type { PlaceType } from '@/types/api/place'
 import type { FilterIdsType } from './page'
 import useFetch from '@/hooks/use-fetch'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[]
+  mapId: string
   selectedFilter?: FilterIdsType
   onClickFilterButton: VoidFunction
 }
 
 const PlaceListBottomSheet = ({
   places,
+  mapId,
   selectedFilter,
   onClickFilterButton,
 }: PlaceListBottomSheetProps) => {
@@ -38,8 +39,6 @@ const PlaceListBottomSheet = ({
   const handleLike = async (place: PlaceType) => {
     if (!userId) return
     try {
-      const mapId = await getMapId()
-      if (!mapId) return
       setPlaceList((prevPlaces) =>
         prevPlaces.map((p) =>
           p.place.id === place.place.id

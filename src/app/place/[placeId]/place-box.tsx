@@ -12,7 +12,6 @@ import PlaceActionButtons from '@/components/place/place-action-buttons'
 import { APIError } from '@/models/interface'
 import { notify } from '@/components/common/custom-toast'
 import { api } from '@/utils/api'
-import { getMapId } from '@/services/map-id'
 import PlaceDeleteModal from './place-delete-modal'
 import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
@@ -23,9 +22,10 @@ import { roundToNthDecimal } from '@/utils/number'
 
 interface PlaceBoxProps {
   place: PlaceDetail
+  mapId: string
 }
 
-const PlaceBox = ({ place }: PlaceBoxProps) => {
+const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isLikePlace, setIsLikePlace] = useState(false)
   const [isRecentlyLike, setIsRecentlyLike] = useState<boolean | null>(null)
@@ -63,8 +63,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
   const handleLikePlace = async () => {
     try {
-      const mapId = await getMapId()
-      if (!mapId) throw new Error('잘못된 접근입니다.')
+      if (!mapId) return
 
       setIsLikePlace(true)
       setIsRecentlyLike(true)
@@ -83,8 +82,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
   const handleUnLikePlace = async () => {
     try {
-      const mapId = await getMapId()
-      if (!mapId) throw new Error('잘못된 접근입니다.')
+      if (!mapId) return
 
       setIsLikePlace(false)
       setIsRecentlyLike(false)
@@ -103,8 +101,7 @@ const PlaceBox = ({ place }: PlaceBoxProps) => {
 
   const handleDeletePlace = async () => {
     try {
-      const mapId = await getMapId()
-      if (!mapId) throw new Error('잘못된 접근입니다.')
+      if (!mapId) return
 
       await api.place.mapId.placeId.delete({
         placeId: place.id,

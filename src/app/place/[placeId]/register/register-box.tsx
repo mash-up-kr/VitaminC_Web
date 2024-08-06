@@ -9,7 +9,6 @@ import { AccessibleIconButton, Button, Typography } from '@/components'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
-import { getMapId } from '@/services/map-id'
 import RegisterCancelModal from './register-cancel-modal'
 import get조사 from '@/utils/조사'
 import useSafeRouter from '@/hooks/use-safe-router'
@@ -20,9 +19,11 @@ const toTagNames = (tags: TagItem[]): TagItem['name'][] =>
 const RegisterBox = ({
   place,
   tags,
+  mapId,
 }: {
   place: PlaceDetail
   tags: TagItem[]
+  mapId: string
 }) => {
   const router = useSafeRouter()
   const [selectedTags, setSelectedTags] = useState<TagItem[]>([])
@@ -32,17 +33,16 @@ const RegisterBox = ({
 
   const handleRegisterPlace = async () => {
     try {
-      const mapId = await getMapId()
-      if (mapId) {
-        await api.place.mapId.kakao.kakaoPlaceId.post({
-          mapId,
-          kakaoPlaceId: place.kakaoId,
-          tagNames: toTagNames(selectedTags),
-        })
+      if (!mapId) return
 
-        notify.success('맛집 등록이 완료되었습니다.')
-        router.push(`/place/${place.kakaoId}`)
-      }
+      await api.place.mapId.kakao.kakaoPlaceId.post({
+        mapId,
+        kakaoPlaceId: place.kakaoId,
+        tagNames: toTagNames(selectedTags),
+      })
+
+      notify.success('맛집 등록이 완료되었습니다.')
+      router.push(`/place/${place.kakaoId}`)
     } catch (error) {
       if (error instanceof APIError) {
         notify.error(error.message)
@@ -97,6 +97,7 @@ const RegisterBox = ({
         <HashTagList
           className="px-5 pt-5"
           defaultTags={tags}
+          mapId={mapId}
           selectedTags={selectedTags}
           onClickTag={handleClickTag}
         />

@@ -26,6 +26,7 @@ const SearchBox = () => {
   const [recentKeywords, setRecentKeywords] = useState(
     recentSearchStorage.getValueOrNull() ?? [],
   )
+  const [mapId, setMapId] = useState<string>('')
   const [query, setQuery] = useState(search)
   const [suggestedPlaces, setSuggestedPlaces] = useState<SearchPlace[]>([])
   const isShowRecentKeywords =
@@ -87,21 +88,26 @@ const SearchBox = () => {
     if (!query) return
 
     try {
-      const mapId = await getMapId()
-
-      if (!mapId) {
-        throw new Error('잘못된 접근입니다.')
+      let tempMapId = mapId
+      if (!tempMapId) {
+        const mapIdFromCookie = await getMapId()
+        if (!mapIdFromCookie) {
+          throw new Error('잘못된 접근입니다.')
+        }
+        tempMapId = mapIdFromCookie
+        setMapId(mapIdFromCookie)
       }
+
       const res = await api.search.places.get({
         q: query,
         rect: formatBoundToRect(mapBounds),
-        mapId,
+        mapId: tempMapId,
       })
       setSuggestedPlaces(res.data)
     } catch (err) {
       notify.error('잘못된 접근입니다.')
     }
-  }, [mapBounds, query])
+  }, [mapBounds, mapId, query])
 
   useEffect(() => {
     const debounceGetSuggestPlaces = debounce(getSuggestPlaces, 500)
@@ -117,6 +123,7 @@ const SearchBox = () => {
     <div className="w-full min-h-dvh bg-neutral-700 px-5 py-2">
       <SearchForm
         value={query}
+        mapId={mapId}
         onChange={(e) => setQuery(e.target.value)}
         onResetValue={handleResetQuery}
         onSubmit={searchByKeyword}

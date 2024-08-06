@@ -213,6 +213,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
               body={
                 <PlaceListBottomSheet
                   places={filteredPlace}
+                  mapId={mapId}
                   selectedFilter={selectedFilterNames}
                   onClickFilterButton={handleFilterModalOpen}
                 />
@@ -243,6 +244,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         ) : (
           <PlaceMapPopup
             ref={bottomRef}
+            mapId={mapId}
             className="absolute bottom-5 px-5"
             selectedPlace={selectedPlace}
           />

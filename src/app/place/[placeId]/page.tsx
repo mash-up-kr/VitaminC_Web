@@ -12,15 +12,17 @@ import LoadingIndicator from '@/components/loading-indicator'
 
 const PlaceDetail = ({ params }: { params?: { placeId?: number } }) => {
   const [place, setPlace] = useState<PlaceDetailType | null>(null)
+  const [mapId, setMapId] = useState('')
 
   useEffect(() => {
     ;(async () => {
       try {
-        const mapId = await getMapId()
+        const mapIdFromCookie = await getMapId()
 
-        if (!mapId || !params?.placeId) {
+        if (!mapIdFromCookie || !params?.placeId) {
           throw new Error('잘못된 접근입니다.')
         }
+        setMapId(mapIdFromCookie)
 
         const response = await api.place.mapId.kakao.kakaoPlaceId.get({
           mapId,
@@ -36,9 +38,13 @@ const PlaceDetail = ({ params }: { params?: { placeId?: number } }) => {
         notify.error('예상치 못한 오류가 발생했습니다. ')
       }
     })()
-  }, [params?.placeId])
+  }, [mapId, params?.placeId])
 
-  return <>{place ? <PlaceBox place={place} /> : <LoadingIndicator />}</>
+  return (
+    <>
+      {place ? <PlaceBox place={place} mapId={mapId} /> : <LoadingIndicator />}
+    </>
+  )
 }
 
 export default PlaceDetail
