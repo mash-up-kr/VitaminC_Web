@@ -41,7 +41,7 @@ const useFetch = <T>(
     }
 
     const fetchData = async () => {
-      if (options && 'enabled' in options && !options.enabled) return
+      if (typeof options?.enabled === 'boolean' && !options.enabled) return
       if (cache[apiKey]) {
         setData(cache[apiKey])
         handleLoadEnd(cache[apiKey])
