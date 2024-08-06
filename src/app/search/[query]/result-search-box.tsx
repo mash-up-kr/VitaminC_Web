@@ -89,7 +89,11 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
           )}
         </>
       ) : (
-        <ResultSearchListBox places={places} className="absolute top-[60px]" />
+        <ResultSearchListBox
+          mapId={mapId}
+          places={places}
+          className="absolute top-[60px]"
+        />
       )}
     </div>
   )
