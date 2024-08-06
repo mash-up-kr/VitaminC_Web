@@ -43,11 +43,7 @@ const Step = ({ step, goNextStep }: StepProps) => {
     case IntroStep.INVITE:
       return <Invite />
     default:
-      return (
-        <div className="text-white flex-1 flex items-center justify-center">
-          <LoadingIndicator />
-        </div>
-      )
+      return <LoadingIndicator />
   }
 }
 
