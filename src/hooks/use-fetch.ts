@@ -20,6 +20,7 @@ const useFetch = <T>(
   const [data, setData] = useState<T | null>(options?.initialData || null)
   const [error, setError] = useState<string | null>(null)
 
+  const cacheKey = options?.key?.join('')
   const apiKey = options?.key?.join('') ?? queryFn.toString()
 
   const revalidate = useCallback((key: string[] | string) => {
@@ -42,12 +43,11 @@ const useFetch = <T>(
 
     const fetchData = async () => {
       if (typeof options?.enabled === 'boolean' && !options.enabled) return
-      if (cache[apiKey]) {
-        setData(cache[apiKey])
-        handleLoadEnd(cache[apiKey])
+      if (cacheKey && cache[cacheKey]) {
+        setData(cache[cacheKey])
+        handleLoadEnd(cache[cacheKey])
         return
       }
-      if (loadingMap[apiKey]) return
 
       try {
         loadingMap[apiKey] = true
@@ -55,7 +55,9 @@ const useFetch = <T>(
 
         setData(response.data)
         handleLoadEnd(response.data)
-        cache[apiKey] = response.data
+        if (cacheKey) {
+          cache[cacheKey] = response.data
+        }
       } catch (err) {
         if (err instanceof APIError) {
           if (err.status === 401) {
@@ -72,7 +74,8 @@ const useFetch = <T>(
     }
 
     fetchData()
-  }, [apiKey, options, options?.enabled, queryFn])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiKey, cacheKey, options?.enabled, queryFn])
 
   return { data, loading: loadingMap[apiKey], error, revalidate, clear }
 }
