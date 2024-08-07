@@ -18,12 +18,12 @@ const PlaceRegister = ({ params }: { params?: { placeId?: number } }) => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const mapIdFromCookie = await getMapId()
+        const validMapId = await getMapId()
 
-        if (!mapIdFromCookie || !params?.placeId) {
+        if (!validMapId || !params?.placeId) {
           throw new Error('잘못된 접근입니다.')
         }
-        setMapId(mapIdFromCookie)
+        setMapId(validMapId)
 
         const { data: tagData } = await api.maps.id.tag.get(mapId)
         setTags(tagData)

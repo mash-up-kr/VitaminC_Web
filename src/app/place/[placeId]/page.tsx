@@ -25,12 +25,12 @@ const PlaceDetail = ({ params }: { params?: { placeId?: number } }) => {
   useEffect(() => {
     ;(async () => {
       try {
-        const mapIdFromCookie = await getMapId()
+        const validMapId = await getMapId()
 
-        if (!mapIdFromCookie) {
+        if (!validMapId) {
           throw new Error('잘못된 접근입니다.')
         }
-        setMapId(mapIdFromCookie)
+        setMapId(validMapId)
       } catch (error) {
         if (error instanceof APIError) {
           notify.error(error.message)

@@ -88,20 +88,19 @@ const SearchBox = () => {
     if (!query) return
 
     try {
-      let tempMapId = mapId
-      if (!tempMapId) {
-        const mapIdFromCookie = await getMapId()
-        if (!mapIdFromCookie) {
+      let validMapId = mapId
+      if (!validMapId) {
+        validMapId = (await getMapId()) || ''
+        if (!validMapId) {
           throw new Error('잘못된 접근입니다.')
         }
-        tempMapId = mapIdFromCookie
-        setMapId(mapIdFromCookie)
+        setMapId(validMapId)
       }
 
       const res = await api.search.places.get({
         q: query,
         rect: formatBoundToRect(mapBounds),
-        mapId: tempMapId,
+        mapId: validMapId,
       })
       setSuggestedPlaces(res.data)
     } catch (err) {
