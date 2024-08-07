@@ -1,4 +1,5 @@
-import Lottie from './common/lottie'
+import Lottie from 'lottie-react'
+import LoadingLottie from '../../public/lotties/loading.json'
 
 const LoadingIndicator = () => {
   return (
@@ -7,7 +8,7 @@ const LoadingIndicator = () => {
       className="w-full h-dvh flex flex-col justify-center items-center gap-3.5"
     >
       <img src="/images/treasure.png" width="100%" alt="보물지도" />
-      <Lottie src="/lotties/loading.json" className="w-1/3" />
+      <Lottie animationData={LoadingLottie} className="w-1/3" />
     </div>
   )
 }
