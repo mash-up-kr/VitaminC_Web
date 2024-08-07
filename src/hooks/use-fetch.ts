@@ -4,9 +4,12 @@ import { APIError } from '@/models/interface'
 import type { ResponseWithMessage } from '@/types/api'
 import { deleteCookie } from '@/app/actions'
 import { revalidate as revalidateRoute } from '@/utils/api/route'
+import { getTimeDiff } from '@/utils/date'
 
-const cache: Record<string, any> = {}
+const cache: Record<string, { data: any; timestamp: Date }> = {}
 const loadingMap: Record<string, boolean> = {}
+
+const CACHE_TIME = 5 // 5분
 
 const useFetch = <T>(
   queryFn?: () => Promise<ResponseWithMessage<T>>,
@@ -43,10 +46,15 @@ const useFetch = <T>(
 
     const fetchData = async () => {
       if (typeof options?.enabled === 'boolean' && !options.enabled) return
-      if (cacheKey && cache[cacheKey]) {
-        setData(cache[cacheKey])
-        handleLoadEnd(cache[cacheKey])
-        return
+      if (cacheKey && cache[cacheKey]?.data) {
+        const { mm } = getTimeDiff(cache[cacheKey].timestamp, new Date())
+        const isExpired = mm >= CACHE_TIME
+        if (!isExpired) {
+          setData(cache[cacheKey].data)
+          handleLoadEnd(cache[cacheKey].data)
+          return
+        }
+        revalidate(cacheKey)
       }
 
       if (!queryFn) return
@@ -58,7 +66,7 @@ const useFetch = <T>(
         setData(response.data)
         handleLoadEnd(response.data)
         if (cacheKey) {
-          cache[cacheKey] = response.data
+          cache[cacheKey] = { data: response.data, timestamp: new Date() }
         }
       } catch (err) {
         if (err instanceof APIError) {
