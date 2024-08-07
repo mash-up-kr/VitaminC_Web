@@ -9,7 +9,7 @@ const cache: Record<string, any> = {}
 const loadingMap: Record<string, boolean> = {}
 
 const useFetch = <T>(
-  queryFn: () => Promise<ResponseWithMessage<T>>,
+  queryFn?: () => Promise<ResponseWithMessage<T>>,
   options?: {
     onLoadEnd?: (data: T) => void
     initialData?: T
@@ -21,7 +21,7 @@ const useFetch = <T>(
   const [error, setError] = useState<string | null>(null)
 
   const cacheKey = options?.key?.join('')
-  const apiKey = options?.key?.join('') ?? queryFn.toString()
+  const apiKey = options?.key?.join('') ?? queryFn?.toString() ?? ''
 
   const revalidate = useCallback((key: string[] | string) => {
     const targetKey = typeof key === 'string' ? key : key.join('')
@@ -48,6 +48,8 @@ const useFetch = <T>(
         handleLoadEnd(cache[cacheKey])
         return
       }
+
+      if (!queryFn) return
 
       try {
         loadingMap[apiKey] = true
