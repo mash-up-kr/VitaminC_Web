@@ -81,11 +81,15 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
 
   const router = useSafeRouter()
 
+  const { revalidate } = useFetch()
+
   const handleCloseModal = () => {
     if (currentMapId === mapId) {
       onClose()
       return
     }
+    revalidate('map')
+    revalidate('places')
     router.push(`/map/${currentMapId}`)
   }
 
