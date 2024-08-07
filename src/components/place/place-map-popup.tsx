@@ -9,17 +9,17 @@ import cn from '@/utils/cn'
 import type { PlaceType } from '@/types/api/place'
 import { api } from '@/utils/api'
 import { notify } from '../common/custom-toast'
-import { getMapId } from '@/services/map-id'
 import { getStarByScore } from '@/utils/score'
 import useFetch from '@/hooks/use-fetch'
 import { roundOnePoint } from '@/utils/number'
 
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
+  mapId: string
 }
 
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
-  ({ selectedPlace, className }, ref) => {
+  ({ selectedPlace, className, mapId }, ref) => {
     const [isLikePlace, setIsLikePlace] = useState(false)
     const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
 
@@ -39,8 +39,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
     const handleLikePlace = async () => {
       try {
-        const mapId = await getMapId()
-        if (!mapId) throw new Error('잘못된 접근입니다.')
+        if (!mapId) return
 
         setIsLikePlace(true)
         await api.place.mapId.placeId.like.put({
@@ -57,8 +56,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
     const handleUnLikePlace = async () => {
       try {
-        const mapId = await getMapId()
-        if (!mapId) throw new Error('잘못된 접근입니다.')
+        if (!mapId) return
 
         setIsLikePlace(false)
         await api.place.mapId.placeId.like.delete({

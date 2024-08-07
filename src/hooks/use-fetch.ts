@@ -2,18 +2,25 @@ import { useState, useEffect, useCallback } from 'react'
 
 import { APIError } from '@/models/interface'
 import type { ResponseWithMessage } from '@/types/api'
+import { deleteCookie } from '@/app/actions'
+import { revalidate as revalidateRoute } from '@/utils/api/route'
 
 const cache: Record<string, any> = {}
+const loadingMap: Record<string, boolean> = {}
 
 const useFetch = <T>(
   queryFn: () => Promise<ResponseWithMessage<T>>,
-  options?: { onLoadEnd?: (data: T) => void; initialData?: T; key?: string[] },
+  options?: {
+    onLoadEnd?: (data: T) => void
+    initialData?: T
+    key?: string[]
+    enabled?: boolean
+  },
 ) => {
   const [data, setData] = useState<T | null>(options?.initialData || null)
-  const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
-  const cacheKey = options?.key?.join('') ?? queryFn.toString()
+  const apiKey = options?.key?.join('') ?? queryFn.toString()
 
   const revalidate = useCallback((key: string[] | string) => {
     const targetKey = typeof key === 'string' ? key : key.join('')
@@ -34,34 +41,40 @@ const useFetch = <T>(
     }
 
     const fetchData = async () => {
-      if (cache[cacheKey]) {
-        setData(cache[cacheKey])
-        handleLoadEnd(cache[cacheKey])
-
-        setLoading(false)
-
+      if (typeof options?.enabled === 'boolean' && !options.enabled) return
+      if (cache[apiKey]) {
+        setData(cache[apiKey])
+        handleLoadEnd(cache[apiKey])
         return
       }
+      if (loadingMap[apiKey]) return
 
       try {
+        loadingMap[apiKey] = true
         const response = await queryFn()
 
         setData(response.data)
         handleLoadEnd(response.data)
-        cache[cacheKey] = response.data
+        cache[apiKey] = response.data
       } catch (err) {
-        if (err instanceof APIError) setError(err.message)
-        else setError('예상치 못한 오류가 발생했습니다.')
+        if (err instanceof APIError) {
+          if (err.status === 401) {
+            revalidateRoute('token')
+            deleteCookie('Authorization')
+          }
+          setError(err.message)
+        } else {
+          setError('예상치 못한 오류가 발생했습니다.')
+        }
       } finally {
-        setLoading(false)
+        loadingMap[apiKey] = false
       }
     }
 
     fetchData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [apiKey, options, options?.enabled, queryFn])
 
-  return { data, loading, error, revalidate, clear }
+  return { data, loading: loadingMap[apiKey], error, revalidate, clear }
 }
 
 export default useFetch

@@ -2,7 +2,6 @@
 
 import PlaceListItem from '@/components/place/place-list-item'
 import type { ClassName } from '@/models/interface'
-import { getMapId } from '@/services/map-id'
 import type { SearchPlace } from '@/types/api/place'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
@@ -14,11 +13,13 @@ import useUserGeoLocation from '@/hooks/use-user-geo-location'
 
 interface ResultSearchListBoxProps extends ClassName {
   places: SearchPlace[]
+  mapId: string
 }
 
 const ResultSearchListBox = ({
   className,
   places,
+  mapId,
 }: ResultSearchListBoxProps) => {
   const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
   const userLocation = useUserGeoLocation()
@@ -26,8 +27,6 @@ const ResultSearchListBox = ({
 
   const handleLikePlace = async (placeId: SearchPlace['placeId']) => {
     try {
-      const mapId = await getMapId()
-
       if (!mapId) return
       await api.place.mapId.placeId.like.put({ placeId, mapId })
     } catch (error) {}

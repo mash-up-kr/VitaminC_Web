@@ -1,4 +1,4 @@
-import { type FC, useEffect, useMemo } from 'react'
+import { type FC, useEffect, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import Icon from '../common/icon'
@@ -28,58 +28,82 @@ const iconSize = {
   height: 54,
 } as const
 
-const createBaseIcon = (
-  IconComponent: FC<any>,
-  size: { width: number; height: number },
-): HTMLElement => {
-  const svgContainer = document.createElement('div')
-  svgContainer.style.width = '100%'
-  svgContainer.style.height = '100%'
-  const root = createRoot(svgContainer)
-  root.render(<IconComponent width={size.width} height={size.height} />)
-  return svgContainer
+const BaseIcon = ({
+  IconComponent,
+  size,
+}: {
+  IconComponent: FC<any>
+  size: { width: number; height: number }
+}) => {
+  return <IconComponent width={size.width} height={size.height} />
 }
 
-const createSavedFlagIcon = () => {
-  const svgContainer = document.createElement('div')
-  svgContainer.style.width = '31px'
-  svgContainer.style.height = '21px'
-  svgContainer.style.position = 'absolute'
-  svgContainer.style.top = '-8px'
-  svgContainer.style.right = '-5px'
-  const root = createRoot(svgContainer)
-  root.render(<Icon type="pickFlag" className="w-full h-full" />)
-  return svgContainer
+const SavedFlagIcon = ({
+  size,
+}: {
+  size: { width: number; height: number }
+}) => {
+  return (
+    <div
+      style={{
+        width: size.width,
+        height: size.height,
+        position: 'absolute',
+        top: '-8px',
+        right: '-5px',
+      }}
+    >
+      <Icon type="pickFlag" className="w-full h-full" />
+    </div>
+  )
 }
 
-const createMarkerContent = (
-  type: MarkerProps['type'],
-  size: { width: number; height: number },
-  isSaved: boolean,
-  className?: string,
-): HTMLElement => {
-  const IconComponent = icons[type]
+const MarkerContent = ({
+  type,
+  size,
+  isSaved,
+  className,
+  onClick,
+}: {
+  type: IconKey
+  size: { width: number; height: number }
+  isSaved: boolean
+  className?: string
+  onClick?: VoidFunction
+}) => {
+  const svgContainerRef = useRef<HTMLDivElement>(null)
 
-  const container = document.createElement('button')
-  container.className = className ?? ''
-  container.style.position = 'relative'
-  container.style.width = `${size.width}px`
-  container.style.height = `${size.height}px`
-  container.style.display = 'flex'
-  container.style.alignItems = 'center'
-  container.style.justifyContent = 'center'
+  useEffect(() => {
+    if (svgContainerRef.current) {
+      const root = createRoot(svgContainerRef.current)
+      const IconComponent = icons[type]
+      if (IconComponent) {
+        root.render(
+          <button
+            type="button"
+            className={className ?? ''}
+            style={{
+              position: 'relative',
+              width: `${size.width}px`,
+              height: `${size.height}px`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onClick={onClick}
+          >
+            <BaseIcon IconComponent={IconComponent} size={size} />
+            {isSaved && <SavedFlagIcon size={{ width: 31, height: 21 }} />}
+          </button>,
+        )
+      }
+      return () => {
+        root.unmount()
+      }
+    }
+  }, [type, size, isSaved, className, onClick])
 
-  if (IconComponent) {
-    const baseIcon = createBaseIcon(IconComponent, size)
-    container.appendChild(baseIcon)
-  }
-
-  if (isSaved) {
-    const savedIcon = createSavedFlagIcon()
-    container.appendChild(savedIcon)
-  }
-
-  return container
+  return <div ref={svgContainerRef}></div>
 }
 
 const Marker = ({
@@ -92,31 +116,38 @@ const Marker = ({
 }: MarkerProps) => {
   const { map } = useKakaoMap()
 
-  const overlay = useMemo(() => {
-    const position = new kakao.maps.LatLng(latitude, longitude)
-    const content = createMarkerContent(type, iconSize, isSaved, className)
-
-    if (onClick) content.onclick = onClick
-
-    const KakaoCustomOverlay = new kakao.maps.CustomOverlay({
-      position,
-      content,
-      clickable: true,
-      xAnchor: 0.5,
-      yAnchor: 1.2,
-    })
-    return KakaoCustomOverlay
-  }, [onClick, className, isSaved, latitude, longitude, type])
-
   useEffect(() => {
     if (!map) return
+    const overlay = (() => {
+      const position = new kakao.maps.LatLng(latitude, longitude)
+      const content = document.createElement('div')
+      const root = createRoot(content)
+      root.render(
+        <MarkerContent
+          type={type}
+          isSaved={isSaved}
+          className={className}
+          size={iconSize}
+          onClick={onClick}
+        />,
+      )
+
+      const KakaoCustomOverlay = new kakao.maps.CustomOverlay({
+        position,
+        content,
+        clickable: true,
+        xAnchor: 0.5,
+        yAnchor: 1.2,
+      })
+      return KakaoCustomOverlay
+    })()
 
     overlay.setMap(map)
 
     return () => {
       overlay.setMap(null)
     }
-  }, [map, overlay])
+  }, [className, isSaved, latitude, longitude, map, onClick, type])
 
   return null
 }

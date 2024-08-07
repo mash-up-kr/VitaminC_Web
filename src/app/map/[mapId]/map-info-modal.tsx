@@ -94,6 +94,8 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
   }
 
   useEffect(() => {
+    if (!isOpen) return
+
     const getMapData = async () => {
       try {
         const { data } = await api.maps.id.get(currentMapId)
@@ -108,7 +110,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
     }
 
     getMapData()
-  }, [currentMapId])
+  }, [currentMapId, isOpen])
 
   return (
     <>

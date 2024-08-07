@@ -2,10 +2,10 @@ import type { ChangeEvent } from 'react'
 
 import SearchInput from '@/components/search-input'
 import useSafeRouter from '@/hooks/use-safe-router'
-import { getMapId } from '@/services/map-id'
 
 interface SearchFormProps {
   value: string
+  mapId: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   onResetValue: VoidFunction
   onSubmit: (formData: FormData) => void
@@ -13,6 +13,7 @@ interface SearchFormProps {
 
 const SearchForm = ({
   value,
+  mapId,
   onChange,
   onSubmit,
   onResetValue,
@@ -21,7 +22,6 @@ const SearchForm = ({
 
   const handleClickPrev = async () => {
     try {
-      const mapId = await getMapId()
       router.push(`/map/${mapId}`)
     } catch (err) {
       router.push('/intro')

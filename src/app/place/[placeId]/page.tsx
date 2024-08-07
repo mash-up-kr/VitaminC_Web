@@ -9,25 +9,28 @@ import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import LoadingIndicator from '@/components/loading-indicator'
+import useFetch from '@/hooks/use-fetch'
 
 const PlaceDetail = ({ params }: { params?: { placeId?: number } }) => {
-  const [place, setPlace] = useState<PlaceDetailType | null>(null)
+  const [mapId, setMapId] = useState('')
+  const { data: place } = useFetch<PlaceDetailType>(
+    () =>
+      api.place.mapId.kakao.kakaoPlaceId.get({
+        mapId,
+        kakaoPlaceId: params?.placeId ?? -1,
+      }),
+    { enabled: !!mapId && !!params?.placeId },
+  )
 
   useEffect(() => {
     ;(async () => {
       try {
-        const mapId = await getMapId()
+        const validMapId = await getMapId()
 
-        if (!mapId || !params?.placeId) {
+        if (!validMapId) {
           throw new Error('잘못된 접근입니다.')
         }
-
-        const response = await api.place.mapId.kakao.kakaoPlaceId.get({
-          mapId,
-          kakaoPlaceId: params.placeId,
-        })
-
-        setPlace(response.data)
+        setMapId(validMapId)
       } catch (error) {
         if (error instanceof APIError) {
           notify.error(error.message)
@@ -36,9 +39,13 @@ const PlaceDetail = ({ params }: { params?: { placeId?: number } }) => {
         notify.error('예상치 못한 오류가 발생했습니다. ')
       }
     })()
-  }, [params?.placeId])
+  }, [mapId])
 
-  return <>{place ? <PlaceBox place={place} /> : <LoadingIndicator />}</>
+  return (
+    <>
+      {place ? <PlaceBox place={place} mapId={mapId} /> : <LoadingIndicator />}
+    </>
+  )
 }
 
 export default PlaceDetail

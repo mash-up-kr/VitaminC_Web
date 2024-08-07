@@ -4,19 +4,19 @@ import cn from '@/utils/cn'
 
 import { useEffect, useState } from 'react'
 
-import { Icon, Typography } from '../common'
+import { Icon, Typography } from '@/components/common'
 import BoardingDivider from './boarding-divider'
 import BoardingBottom from './boarding-bottom'
 import BoardingMembers from './boarding-members'
 import { BoardingInfoPassProps, InvitingBoardingPassProps } from './types'
 import BottomModal from '../BottomModal'
-import { notify } from '../common/custom-toast'
+import { notify } from '@/components/common/custom-toast'
 import { api } from '@/utils/api'
 import { APIError } from '@/models/interface'
-import { User } from '@/models/user.interface'
-import Modal from '../common/Modal/Modal'
+import Modal from '@/components/common/Modal/Modal'
 import InvitingBoardingPass from './inviting-boarding-pass'
 import useSafeRouter from '@/hooks/use-safe-router'
+import useFetch from '@/hooks/use-fetch'
 
 const ShareButton = ({
   isInvited,
@@ -63,18 +63,19 @@ const BoardingInfoPass = ({
   members,
   creator,
 }: BoardingInfoPassProps) => {
+  const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
+
   const [isOpenInviteBoardingPass, setIsOpenInvitedBoardingPass] =
     useState(false)
   const [isInvited, setIsInvited] = useState(false)
   const [isExitModalOpen, setIsExitModalOpen] = useState(false)
-  const [userId, setUserId] = useState<User['id']>(-1)
   const [mapInviteInfo, setMapInviteInfo] =
     useState<InvitingBoardingPassProps>()
 
   const router = useSafeRouter()
 
   const isMyBoard = members.some(
-    (member) => member.id === userId && member.role === 'ADMIN',
+    (member) => user && user.id === member.id && member.role === 'ADMIN',
   )
 
   const handleExitMap = async () => {
@@ -138,21 +139,6 @@ const BoardingInfoPass = ({
     setIsInvited(false)
   }, [mapId])
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const { data } = await api.users.me.get()
-        setUserId(data.id)
-      } catch (error) {
-        if (error instanceof APIError) {
-          notify.error(error.message)
-        }
-      }
-    }
-
-    getUserData()
-  }, [])
-
   return (
     <>
       <div className={cn('flex flex-col w-full', className)}>
@@ -188,7 +174,11 @@ const BoardingInfoPass = ({
 
         <BoardingDivider />
 
-        <BoardingMembers members={members} creator={creator} userId={userId} />
+        <BoardingMembers
+          members={members}
+          creator={creator}
+          userId={user?.id || -1}
+        />
 
         <div className="flex justify-center bg-neutral-600 pb-5 mt-[-0.5px]">
           {isMyBoard ? (

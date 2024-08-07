@@ -16,7 +16,6 @@ import FilterModalBody, { type CategoryType } from './filter-modal-body'
 import useMeasure from '@/hooks/use-measure'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 import BottomSheet from '@/components/bottom-sheet'
-import { APIError } from '@/models/interface'
 import MapInfoModal from './map-info-modal'
 import { BOTTOM_SHEET_STATE } from '@/components/bottom-sheet/constants'
 import { TagItem } from '@/types/api/maps'
@@ -37,8 +36,16 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const {
     data: userData,
     loading,
-    error,
+    error: userError,
   } = useFetch(api.users.me.get, { key: ['user'] })
+  const { data: mapData, error: mapError } = useFetch(
+    () => api.maps.id.get(mapId),
+    { key: ['map'] },
+  )
+  const { data: places, error: placesError } = useFetch(
+    () => api.place.mapId.get(mapId),
+    { key: ['places'], enabled: !!userData && !!mapData },
+  )
 
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
@@ -46,11 +53,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const [selectedFilterNames, setSelectedFilterNames] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
 
-  const [places, setPlaces] = useState<PlaceType[]>([])
   const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
-
-  const [mapname, setMapname] = useState<string>('')
 
   const [bottomRef, bottomBounds] = useMeasure()
 
@@ -59,6 +63,9 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     [],
   )
 
+  const mapname = mapData?.name || ''
+
+  const error = userError || mapError || placesError
   if (error) {
     notify.error(error)
   }
@@ -121,37 +128,10 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     if (mapId !== mapIdFromCookie) {
       updateMapIdCookie(mapId)
     }
-
-    const getPlaceList = async () => {
-      try {
-        if (!userData) return
-
-        const { data: placeList } = await api.place.mapId.get(mapId)
-        setPlaces(placeList)
-      } catch (err) {
-        if (err instanceof APIError) {
-          notify.error(err.message)
-        }
-      }
-    }
-
-    const getMapname = async () => {
-      try {
-        const { data } = await api.maps.id.get(mapId)
-        setMapname(data.name)
-      } catch (err) {
-        if (err instanceof APIError) {
-          notify.error(err.message)
-        }
-      }
-    }
-
-    getMapname()
-    getPlaceList()
-  }, [mapId, userData])
+  }, [mapId])
 
   useEffect(() => {
-    if (!userData) return
+    if (!userData || !places) return
     setFilteredPlace(
       places.filter((place) => {
         const matchesCategory =
@@ -225,7 +205,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         topOfBottomBounds={bottomBounds.top}
       />
 
-      {!!places.length &&
+      {!!places?.length &&
         (selectedPlace === null ? (
           <>
             <BottomSheet
@@ -233,6 +213,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
               body={
                 <PlaceListBottomSheet
                   places={filteredPlace}
+                  mapId={mapId}
                   selectedFilter={selectedFilterNames}
                   onClickFilterButton={handleFilterModalOpen}
                 />
@@ -263,6 +244,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         ) : (
           <PlaceMapPopup
             ref={bottomRef}
+            mapId={mapId}
             className="absolute bottom-5 px-5"
             selectedPlace={selectedPlace}
           />

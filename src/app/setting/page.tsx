@@ -1,18 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { AccessibleIconButton, Avatar, Icon, Typography } from '@/components'
 import BottomModal from '@/components/BottomModal'
-import { User } from '@/models/user.interface'
-import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import useSafeRouter from '@/hooks/use-safe-router'
+import useFetch from '@/hooks/use-fetch'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
-  const [userData, setUserData] = useState<User>()
+  const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
   const router = useSafeRouter()
 
   const handleCloseSignupModal = () => {
@@ -27,20 +26,6 @@ const Setting = () => {
       notify.error('로그아웃에 실패했습니다. ')
     }
   }
-
-  useEffect(() => {
-    const getUserId = async () => {
-      try {
-        const { data } = await api.users.me.get()
-        setUserData(data)
-      } catch (error) {
-        if (error instanceof APIError) {
-          notify.error(error.message)
-        }
-      }
-    }
-    getUserId()
-  }, [])
 
   return (
     <>
@@ -63,9 +48,9 @@ const Setting = () => {
 
         <div className="px-5 flex flex-col">
           <div className="flex gap-2 pt-3 pb-1 items-center">
-            <Avatar value={userData?.nickname ?? ''} />
+            <Avatar value={user?.nickname ?? ''} />
             <Typography as="span" size="body1">
-              {userData?.nickname}
+              {user?.nickname}
             </Typography>
           </div>
 

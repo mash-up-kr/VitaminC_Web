@@ -13,14 +13,13 @@ import { APIError, IntroStep } from '@/models/interface'
 import { inviteCodeStorage } from '@/utils/storage'
 
 import { useIsServer } from '@/hooks/use-is-server'
-import { getUser } from '@/services/user'
 import { getMapId } from '@/services/map-id'
-import { parseJSON } from '@/utils/api/parse-json'
-import type { Token } from '@/models/user.interface'
-import type { ResponseWithMessage } from '@/types/api'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
+import { fetchData } from '@/utils/api/route'
+import useFetch from '@/hooks/use-fetch'
+import { Token } from '@/models/user.interface'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -55,31 +54,36 @@ const Intro = () => {
   const isServer = useIsServer()
   const router = useSafeRouter()
 
-  const inviteCode = inviteCodeStorage.getValueOrNull()
-
-  const [isLoading, setLoading] = useState(true)
+  const [Loading, setLoading] = useState(true)
   const [authorization, setAuthorization] = useState(false)
-  const [nickname, setNickname] = useState<string | undefined>()
   const [mapId, setMapId] = useState<string | undefined>()
+
+  const { data: user, loading: userLoading } = useFetch(api.users.me.get, {
+    key: ['user'],
+    enabled: authorization,
+  })
+
+  const isLoading = Loading || userLoading
+  const nickname = user?.nickname
+  const inviteCode = inviteCodeStorage.getValueOrNull()
 
   useEffect(() => {
     const getCurrentState = async () => {
+      setLoading(true)
+
       try {
         if (!authorization) {
-          const response = await fetch('/api/token')
-          const { data } = await parseJSON<ResponseWithMessage<Token>>(response)
+          const data = await fetchData<Token>('/api/token', {
+            key: ['token'],
+          })
           const token = data.token
-
           setAuthorization(!!token)
         }
 
-        if (!nickname) {
-          const user = await getUser()
-          setNickname(user?.nickname)
+        if (nickname) {
+          const existingMapId = await getMapId()
+          setMapId(existingMapId)
         }
-
-        const existingMapId = await getMapId()
-        setMapId(existingMapId)
       } catch {
       } finally {
         setLoading(false)
@@ -97,7 +101,9 @@ const Intro = () => {
   }
 
   const getInitialStep = useMemo(() => {
-    if (!authorization) {
+    if (isLoading) {
+      return IntroStep.LOADING
+    } else if (!authorization) {
       return IntroStep.LOGIN
     } else if (!nickname) {
       return IntroStep.NICKNAME
@@ -106,7 +112,7 @@ const Intro = () => {
     } else {
       return IntroStep.INVITE
     }
-  }, [authorization, nickname, mapId])
+  }, [isLoading, authorization, nickname, mapId])
 
   useEffect(() => {
     setStep(getInitialStep)

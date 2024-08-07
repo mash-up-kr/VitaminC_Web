@@ -29,31 +29,29 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
 
   useEffect(() => {
     ;(async () => {
-      const data = await getMapId()
-
-      if (!data) {
-        throw new Error('잘못된 접근입니다.')
-      }
-      setMapId(data)
-    })()
-  }, [])
-
-  useEffect(() => {
-    ;(async () => {
-      if (!mapId) return
       const bounds = mapBoundSessionStorage.getValueOrNull()
+
       try {
+        let validMapId = mapId
+        if (!validMapId) {
+          validMapId = (await getMapId()) || ''
+          if (!validMapId) {
+            throw new Error('잘못된 접근입니다.')
+          }
+          setMapId(validMapId)
+        }
+
         const { data } = await api.search.places.get({
           q: query,
           rect: formatBoundToRect(bounds),
-          mapId,
+          mapId: validMapId,
         })
         setPlaces(data)
       } catch {
-        notify.error('예상치 못한 오류가 발생했습니다.')
+        notify.error('잘못된 접근입니다.')
       }
     })()
-  }, [query, mapId])
+  }, [mapId, query])
 
   return (
     <div className={cn('w-full min-h-dvh relative', className)}>
@@ -89,7 +87,11 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
           )}
         </>
       ) : (
-        <ResultSearchListBox places={places} className="absolute top-[60px]" />
+        <ResultSearchListBox
+          mapId={mapId}
+          places={places}
+          className="absolute top-[60px]"
+        />
       )}
     </div>
   )

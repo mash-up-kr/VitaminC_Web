@@ -10,11 +10,11 @@ import { notify } from '@/components/common/custom-toast'
 import SearchInput from '@/components/search-input'
 import type { TagItem } from '@/types/api/maps'
 import { api } from '@/utils/api'
-import { getMapId } from '@/services/map-id'
 
 interface HashTagListProps extends ClassName {
   defaultTags: TagItem[]
   selectedTags: TagItem[]
+  mapId: string
   onClickTag: (tag: TagItem) => void
 }
 
@@ -22,6 +22,7 @@ const HashTagList = ({
   defaultTags,
   className,
   selectedTags,
+  mapId,
   onClickTag,
 }: HashTagListProps) => {
   const [customTag, setCustomTag] = useState<string>('')
@@ -30,7 +31,6 @@ const HashTagList = ({
 
   const addTagToServer = async (name: string) => {
     try {
-      const mapId = await getMapId()
       if (!mapId) return
 
       const response = await api.maps.id.tag.post({ id: mapId, name })
