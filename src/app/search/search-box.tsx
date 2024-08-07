@@ -97,12 +97,12 @@ const SearchBox = () => {
         setMapId(validMapId)
       }
 
-      const res = await api.search.places.get({
+      const { data } = await api.search.places.get({
         q: query,
         rect: formatBoundToRect(mapBounds),
         mapId: validMapId,
       })
-      setSuggestedPlaces(res.data)
+      setSuggestedPlaces(data)
     } catch (err) {
       notify.error('잘못된 접근입니다.')
     }
