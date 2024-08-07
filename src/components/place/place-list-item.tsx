@@ -67,7 +67,7 @@ const PlaceListItem = ({
         </div>
 
         <div className="flex items-center gap-2">
-          {rating && (
+          {rating > 0 && (
             <div className="flex gap-0.5 items-center">
               <Icon type={getStarByScore(rating)} size="sm" fill="yellow-100" />
               <Typography as="span" size="h6" color="neutral-100">
