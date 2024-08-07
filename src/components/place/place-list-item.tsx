@@ -6,8 +6,10 @@ import IconChip from '../icon-chip'
 import { getStarByScore } from '@/utils/score'
 import { categoryIcons } from '@/models/map.interface'
 import { roundOnePoint } from '@/utils/number'
+import { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
 
-interface PlaceListItemProps extends PlaceProps {
+interface PlaceListItemProps extends PlaceProps, ClassName {
   rating: number
   images?: string[]
 }
@@ -23,11 +25,15 @@ const PlaceListItem = ({
   images,
   pick,
   tags,
+  className,
 }: PlaceListItemProps) => {
   return (
     <Link
       href={`/place/${placeId}`}
-      className="bg-neutral-700 w-full py-4 flex flex-col gap-3.5 "
+      className={cn(
+        'bg-neutral-700 w-full py-4 flex flex-col gap-3.5',
+        className,
+      )}
     >
       {images && (
         <div className="flex flex-nowrap box-border gap-2 max-x-[335px] items-center overflow-x-scroll no-scrollbar">
@@ -67,7 +73,7 @@ const PlaceListItem = ({
         </div>
 
         <div className="flex items-center gap-2">
-          {rating && (
+          {rating > 0 && (
             <div className="flex gap-0.5 items-center">
               <Icon type={getStarByScore(rating)} size="sm" fill="yellow-100" />
               <Typography as="span" size="h6" color="neutral-100">

@@ -74,8 +74,8 @@ const PlaceListBottomSheet = ({
   }, [places])
 
   return (
-    <div className="flex flex-col px-5">
-      <div>
+    <>
+      <div className="px-5 sticky top-0 left-0 h-[40px] z-10 bg-[#212124] shadow-[rgba(33,33,36,1)_0px_1px_8px_8px]">
         <FilterButton
           numOfSelectedFilter={
             (selectedFilter?.category.length ?? 0) +
@@ -87,7 +87,7 @@ const PlaceListBottomSheet = ({
           필터
         </FilterButton>
       </div>
-      <ul className="flex flex-col">
+      <ul className="flex flex-col px-5">
         {placeList.map((place) => (
           <PlaceListItem
             key={`bottom-sheet-${place.place.kakaoPlace.id}`}
@@ -112,10 +112,11 @@ const PlaceListBottomSheet = ({
                 handleLike(place)
               },
             }}
+            className="first:pt-0"
           />
         ))}
       </ul>
-    </div>
+    </>
   )
 }
 

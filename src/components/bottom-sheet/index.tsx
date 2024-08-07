@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useState } from 'react'
+import { forwardRef, ReactNode, useId, useRef, useState } from 'react'
 import { motion, useDragControls } from 'framer-motion'
 import type { PanInfo } from 'framer-motion'
 
@@ -8,6 +8,8 @@ import type { BottomSheetState, BottomSheetStateNum } from './types'
 import { BOTTOM_SHEET_STATE, BOTTOM_SHEET_STATE_MAP } from './constants'
 import { clamp } from '@/utils/number'
 import { toBottomSheetState } from '@/utils/bottom-sheet'
+import { useClickOutside } from '@/hooks/use-click-outside'
+import { mergeRefs } from '@/utils/merge-refs'
 
 interface BottomSheetProps {
   body: ReactNode
@@ -16,6 +18,9 @@ interface BottomSheetProps {
 
 const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
   ({ body, state = BOTTOM_SHEET_STATE.Collapsed }, ref) => {
+    const bottomSheetId = useId()
+    const bottomSheetRef = useRef<HTMLDivElement>(null)
+
     const [prevState, setPrevState] = useState(state)
     const [bottomSheetState, setBottomSheetState] =
       useState<BottomSheetState>(state)
@@ -49,6 +54,15 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           return defaultHeight - headerHeight
       }
     }
+
+    useClickOutside(bottomSheetRef, (event) => {
+      if (event.target instanceof HTMLElement) {
+        if (event.target.id !== bottomSheetId) {
+          return
+        }
+      }
+      setBottomSheetState(BOTTOM_SHEET_STATE.Collapsed)
+    })
 
     const isOverThreshold = (info: PanInfo) => {
       const OFFSET_THRESHOLD = 50
@@ -90,7 +104,8 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       <>
         {/* container */}
         <motion.div
-          ref={ref}
+          id={bottomSheetId}
+          ref={mergeRefs([bottomSheetRef, ref])}
           className="fixed max-w-[420px] w-full z-10 bg-[#212124] rounded-t-[14px] pb-[24px] will-change-transform text-white"
           onPointerDown={(e) => dragControls.start(e)}
           initial="default"

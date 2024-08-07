@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
+import debounce from 'lodash.debounce'
+
 import useMount from './use-mount'
 import useEventListener from './use-event-listener'
 
@@ -26,6 +28,8 @@ type Options = {
   scroll?: boolean
   offsetSize?: boolean
 }
+
+const DEBOUNCE_WAIT = 250
 
 // 스크롤 offset을 담은 배열 생성
 const findScrollContainers = (
@@ -107,10 +111,16 @@ const useMeasure = (
     }
   }, [setBounds, offsetSize, mounted])
 
+  const debouncedHandleChange = useCallback(() => {
+    debounce(() => {
+      handleChange()
+    }, DEBOUNCE_WAIT)()
+  }, [handleChange])
+
   const removeListeners = useCallback(() => {
     if (state.current.scrollContainers) {
       state.current.scrollContainers.forEach((element) =>
-        element.removeEventListener('scroll', handleChange, true),
+        element.removeEventListener('scroll', debouncedHandleChange, true),
       )
       state.current.scrollContainers = null
     }
@@ -119,23 +129,23 @@ const useMeasure = (
       state.current.resizeObserver.disconnect()
       state.current.resizeObserver = null
     }
-  }, [handleChange])
+  }, [debouncedHandleChange])
 
   const addListeners = useCallback(() => {
     if (!state.current.element) return
 
-    state.current.resizeObserver = new ResizeObserver(handleChange)
+    state.current.resizeObserver = new ResizeObserver(debouncedHandleChange)
     state.current.resizeObserver!.observe(state.current.element)
 
     if (scroll && state.current.scrollContainers) {
       state.current.scrollContainers.forEach((scrollContainer) =>
-        scrollContainer.addEventListener('scroll', handleChange, {
+        scrollContainer.addEventListener('scroll', debouncedHandleChange, {
           capture: true,
           passive: true,
         }),
       )
     }
-  }, [scroll, handleChange])
+  }, [scroll, debouncedHandleChange])
 
   // 크기를 측정할 DOM에 접근하기 위한 ref
   const ref = (node: HTMLOrSVGElement | null) => {
@@ -148,19 +158,19 @@ const useMeasure = (
 
   useEventListener({
     type: 'scroll',
-    listener: handleChange,
+    listener: debouncedHandleChange,
     options: {
       capture: true,
       passive: true,
     },
     enabled: Boolean(scroll),
   })
-  useEventListener({ type: 'resize', listener: handleChange })
+  useEventListener({ type: 'resize', listener: debouncedHandleChange })
 
   useEffect(() => {
     removeListeners()
     addListeners()
-  }, [scroll, handleChange, removeListeners, addListeners])
+  }, [scroll, debouncedHandleChange, removeListeners, addListeners])
 
   useEffect(() => {
     return () => {
@@ -168,7 +178,7 @@ const useMeasure = (
     }
   }, [removeListeners])
 
-  return [ref, bounds, handleChange]
+  return [ref, bounds, debouncedHandleChange]
 }
 
 export default useMeasure
