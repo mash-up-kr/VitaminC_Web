@@ -15,7 +15,6 @@ import CurrentPositionSearchButton from './kakao-map/current-position-search-but
 
 interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
   extends ClassName {
-  mode?: 'search' | 'map'
   places?: T[]
   selectedPlace?: T | null
   topOfBottomBounds?: number
@@ -49,7 +48,6 @@ const getMarkerType = (
 }
 
 const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
-  mode = 'map',
   className,
   selectedPlace,
   places = [],
@@ -111,7 +109,7 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
             )
           })}
           <GpsButton topOfBottomBounds={topOfBottomBounds} />
-          {mode === 'search' && isShowCurrentPositionSearch && (
+          {isShowCurrentPositionSearch && (
             <CurrentPositionSearchButton
               className="absolute left-1/2 -translate-x-1/2 top-[76px] z-[100]"
               onClick={(map) => fetchPlaceByCurrentPosition?.(map)}
