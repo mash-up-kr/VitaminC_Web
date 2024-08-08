@@ -31,6 +31,14 @@ export const getDiffDateText = (startDate: Date, endDate: Date): number => {
   return diffDay + 1
 }
 
+export const getTimeDiff = (startDate: Date, endDate: Date): number => {
+  if (endDate.getTime() < startDate.getTime()) {
+    throw new DateOrderError()
+  }
+
+  return endDate.getTime() - startDate.getTime()
+}
+
 export const formatDate = (date: Date) => {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
