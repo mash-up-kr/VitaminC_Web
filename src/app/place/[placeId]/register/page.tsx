@@ -25,11 +25,11 @@ const PlaceRegister = ({ params }: { params?: { placeId?: number } }) => {
         }
         setMapId(validMapId)
 
-        const { data: tagData } = await api.maps.id.tag.get(mapId)
+        const { data: tagData } = await api.maps.id.tag.get(validMapId)
         setTags(tagData)
         const { data: placeData } =
           await api.place.mapId.kakao.kakaoPlaceId.get({
-            mapId,
+            mapId: validMapId,
             kakaoPlaceId: params.placeId,
           })
         setPlace(placeData)

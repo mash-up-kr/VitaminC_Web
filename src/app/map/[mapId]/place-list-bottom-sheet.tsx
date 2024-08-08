@@ -75,7 +75,7 @@ const PlaceListBottomSheet = ({
 
   return (
     <>
-      <div className="px-5 sticky top-0 left-0 h-[40px] z-10 bg-[#212124] shadow-[rgba(33,33,36,1)_0px_1px_8px_8px]">
+      <div className="sticky top-[-1px] left-0 h-[38px] pt-[1px] px-5 z-10 bg-[#212124] shadow-[rgba(33,33,36,1)_0px_1px_4px_4px]">
         <FilterButton
           numOfSelectedFilter={
             (selectedFilter?.category.length ?? 0) +
@@ -112,7 +112,7 @@ const PlaceListBottomSheet = ({
                 handleLike(place)
               },
             }}
-            className="first:pt-0"
+            className="first:pt-2"
           />
         ))}
       </ul>
