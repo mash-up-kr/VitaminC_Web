@@ -6,11 +6,12 @@ import { allowUserPositionStorage } from '@/utils/storage'
 
 /**
  * navigator.geolocation를 사용할 수 없거나 위치 정보 공유를 거절하는 경우
- * 사용하는 위도, 경도값 서울 중구로 설정함
+ * 사용하는 위도, 경도값 서울 강남으로 설정함
  */
+// 37.49878379556736 127.02766127247847
 const INITIAL_LATITUDE_LONGITUDE = {
-  latitude: 37.561,
-  longitude: 126.9996,
+  latitude: 37.49878379556736,
+  longitude: 127.02766127247847,
 }
 
 const useUserGeoLocation = () => {
