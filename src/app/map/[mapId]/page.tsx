@@ -79,7 +79,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }
 
   const handleFilterModalOpen = () => {
-    setIsFilterModalOpen((prev) => !prev)
+    setIsFilterModalOpen(true)
+  }
+
+  const handleFilterModalClose = () => {
+    setIsFilterModalOpen(false)
   }
 
   const resetFilter = () => {
@@ -236,8 +240,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
               isOpen={isFilterModalOpen}
               cancelMessage="초기화"
               confirmMessage="적용"
-              onClose={handleFilterModalOpen}
-              onConfirm={handleFilterModalOpen}
+              onClose={handleFilterModalClose}
+              onConfirm={handleFilterModalClose}
               onCancel={resetFilter}
             />
           </>
