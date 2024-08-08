@@ -31,28 +31,12 @@ export const getDiffDateText = (startDate: Date, endDate: Date): number => {
   return diffDay + 1
 }
 
-interface Time {
-  hh: number
-  mm: number
-  ss: number
-}
-
-export const getTimeDiff = (startDate: Date, endDate: Date): Time => {
+export const getTimeDiff = (startDate: Date, endDate: Date): number => {
   if (endDate.getTime() < startDate.getTime()) {
     throw new DateOrderError()
   }
 
-  const diff = endDate.getTime() - startDate.getTime()
-
-  let ms = diff
-  const hh = Math.floor(ms / 1000 / 60 / 60)
-  ms -= hh * 1000 * 60 * 60
-  const mm = Math.floor(ms / 1000 / 60)
-  ms -= mm * 1000 * 60
-  const ss = Math.floor(ms / 1000)
-  ms -= ss * 1000
-
-  return { hh, mm, ss }
+  return endDate.getTime() - startDate.getTime()
 }
 
 export const formatDate = (date: Date) => {

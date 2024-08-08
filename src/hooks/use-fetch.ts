@@ -9,7 +9,7 @@ import { getTimeDiff } from '@/utils/date'
 const cache: Record<string, { data: any; timestamp: Date }> = {}
 const loadingMap: Record<string, boolean> = {}
 
-const CACHE_TIME = 5 // 5분
+const CACHE_TIME = 5 * 60 * 1000 // 5분
 
 const useFetch = <T>(
   queryFn?: () => Promise<ResponseWithMessage<T>>,
@@ -47,8 +47,8 @@ const useFetch = <T>(
     const fetchData = async () => {
       if (typeof options?.enabled === 'boolean' && !options.enabled) return
       if (cacheKey && cache[cacheKey]?.data) {
-        const { mm } = getTimeDiff(cache[cacheKey].timestamp, new Date())
-        const isExpired = mm >= CACHE_TIME
+        const ms = getTimeDiff(cache[cacheKey].timestamp, new Date())
+        const isExpired = ms >= CACHE_TIME
         if (!isExpired) {
           setData(cache[cacheKey].data)
           handleLoadEnd(cache[cacheKey].data)
