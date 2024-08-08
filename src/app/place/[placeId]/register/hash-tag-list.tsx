@@ -11,6 +11,8 @@ import SearchInput from '@/components/search-input'
 import type { TagItem } from '@/types/api/maps'
 import { api } from '@/utils/api'
 
+const MAX_TAG_LENGTH = 16
+
 interface HashTagListProps extends ClassName {
   defaultTags: TagItem[]
   selectedTags: TagItem[]
@@ -50,6 +52,10 @@ const HashTagList = ({
     const isAlreadyExist = tags.find((tag) => tag.name === name)
     if (isAlreadyExist) {
       notify.error('이미 있는 태그입니다.')
+      return
+    }
+    if (name.length > MAX_TAG_LENGTH) {
+      notify.error('태그가 너무 깁니다.')
       return
     }
     addTagToServer(name)
@@ -105,7 +111,7 @@ const HashTagList = ({
             ref={(node) => node?.focus()}
             value={customTag}
             placeholder="식당과 관련된 맛, 분위기... 등등 을 적어보세요"
-            maxLength={255}
+            maxLength={MAX_TAG_LENGTH}
             rightIcon={{
               icon: { type: 'delete', size: 'xl' },
               label: '입력된 사용자 태그 지우기',
