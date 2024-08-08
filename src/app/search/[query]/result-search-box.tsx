@@ -65,8 +65,8 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   const handleCenterChangeMap = (map: kakao.maps.Map) => {
     if (!map) return
 
-    setCenter(null)
-
+    const nextCenter = map.getCenter()
+    setCenter({ lat: nextCenter.getLat(), lng: nextCenter.getLng() })
     const { southEast, northWest } = getCorners(map.getBounds())
     setUserMapBound({
       latitude1: northWest.latitude,
