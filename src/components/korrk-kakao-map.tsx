@@ -11,13 +11,18 @@ import {
 import cn from '@/utils/cn'
 import { removeAllSpaces } from '@/utils/category'
 import type { IconKey } from './common/icon'
+import CurrentPositionSearchButton from './kakao-map/current-position-search-button'
 
 interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
   extends ClassName {
   places?: T[]
   selectedPlace?: T | null
   topOfBottomBounds?: number
+  isShowCurrentPositionSearch?: boolean
+  fetchPlaceByCurrentPosition?: (map: kakao.maps.Map) => void
   onClickMap: Parameters<typeof KakaoMap>[0]['onClick']
+  onDragMap?: Parameters<typeof KakaoMap>[0]['onDrag']
+  onCenterChangeMap?: Parameters<typeof KakaoMap>[0]['onCenterChanged']
   onClickPlace: (place: T) => void
 }
 
@@ -47,8 +52,12 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
   selectedPlace,
   places = [],
   topOfBottomBounds = 0,
+  isShowCurrentPositionSearch,
   onClickMap,
   onClickPlace,
+  onDragMap,
+  onCenterChangeMap,
+  fetchPlaceByCurrentPosition,
 }: KorrkKakaoMapProps<T>) => {
   return (
     <>
@@ -58,7 +67,12 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
           className,
         )}
       >
-        <KakaoMap className="w-[calc(100%+40px)] h-screen" onClick={onClickMap}>
+        <KakaoMap
+          className="w-[calc(100%+40px)] h-screen"
+          onClick={onClickMap}
+          onDrag={onDragMap}
+          onCenterChanged={onCenterChangeMap}
+        >
           {places.map((place) => {
             const isPlace = isPlaceType(place)
             const isSearchPlaceType = isSearchPlace(place)
@@ -95,6 +109,12 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
             )
           })}
           <GpsButton topOfBottomBounds={topOfBottomBounds} />
+          {isShowCurrentPositionSearch && (
+            <CurrentPositionSearchButton
+              className="absolute left-1/2 -translate-x-1/2 top-[76px] z-[100]"
+              onClick={(map) => fetchPlaceByCurrentPosition?.(map)}
+            />
+          )}
         </KakaoMap>
       </div>
     </>

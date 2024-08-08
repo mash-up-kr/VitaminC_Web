@@ -1,3 +1,4 @@
+import ArrowClockwise from './ArrowClockwise.svg'
 import Bar from './Bar.svg'
 import Cafe from './Cafe.svg'
 import CaretDown from './CaretDown.svg'
@@ -68,6 +69,7 @@ import 피자 from './피자.svg'
 import 호프 from './호프.svg'
 
 export const icons = {
+  arrowClockwise: ArrowClockwise,
   bar: Bar,
   cafe: Cafe,
   caretDown: CaretDown,
