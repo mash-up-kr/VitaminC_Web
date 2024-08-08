@@ -101,7 +101,11 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
     useKakaoEvent(map, 'dragstart', onDragStart)
     useKakaoEvent(map, 'drag', onDrag)
     useKakaoEvent(map, 'dragend', () => saveMapBoundWithEvent(onDragEnd))
-    useKakaoEvent(map, 'center_changed', onCenterChanged)
+    useKakaoEvent(map, 'center_changed', () => {
+      if (map) {
+        onCenterChanged?.(map)
+      }
+    })
     useKakaoEvent(map, 'zoom_changed', () =>
       saveMapBoundWithTargetEvent(onZoomChanged),
     )

@@ -11,13 +11,16 @@ import {
 import cn from '@/utils/cn'
 import { removeAllSpaces } from '@/utils/category'
 import type { IconKey } from './common/icon'
+import CurrentPositionSearchButton from './kakao-map/current-position-search-button'
 
 interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
   extends ClassName {
+  mode?: 'search' | 'map'
   places?: T[]
   selectedPlace?: T | null
-  center?: Parameters<typeof KakaoMap>[0]['center']
   topOfBottomBounds?: number
+  isShowCurrentPositionSearch?: boolean
+  fetchPlaceByCurrentPosition?: (map: kakao.maps.Map) => void
   onClickMap: Parameters<typeof KakaoMap>[0]['onClick']
   onDragMap?: Parameters<typeof KakaoMap>[0]['onDrag']
   onCenterChangeMap?: Parameters<typeof KakaoMap>[0]['onCenterChanged']
@@ -46,15 +49,17 @@ const getMarkerType = (
 }
 
 const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
+  mode = 'map',
   className,
   selectedPlace,
   places = [],
   topOfBottomBounds = 0,
-  center,
+  isShowCurrentPositionSearch,
   onClickMap,
   onClickPlace,
   onDragMap,
   onCenterChangeMap,
+  fetchPlaceByCurrentPosition,
 }: KorrkKakaoMapProps<T>) => {
   return (
     <>
@@ -66,7 +71,6 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
       >
         <KakaoMap
           className="w-[calc(100%+40px)] h-screen"
-          center={center}
           onClick={onClickMap}
           onDrag={onDragMap}
           onCenterChanged={onCenterChangeMap}
@@ -107,6 +111,12 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
             )
           })}
           <GpsButton topOfBottomBounds={topOfBottomBounds} />
+          {mode === 'search' && isShowCurrentPositionSearch && (
+            <CurrentPositionSearchButton
+              className="absolute left-1/2 -translate-x-1/2 top-[76px] z-[100]"
+              onClick={(map) => fetchPlaceByCurrentPosition?.(map)}
+            />
+          )}
         </KakaoMap>
       </div>
     </>

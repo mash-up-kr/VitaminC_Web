@@ -17,7 +17,6 @@ import { api } from '@/utils/api'
 import { formatBoundToRect } from '@/utils/location'
 import { getMapId } from '@/services/map-id'
 import ResultPlaceMapPopup from './result-place-map-popup'
-import CurrentPositionSearchButton from '@/components/kakao-map/current-position-search-button'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { getCorners } from '@/utils/map'
 
@@ -25,14 +24,33 @@ interface ResultSearchBoxProps extends ClassName {
   query: string
 }
 
+const isWithinBounds = (
+  userLocation: { latitude: number; longitude: number },
+  bounds: {
+    latitude1: number
+    longitude1: number
+    latitude2: number
+    longitude2: number
+  },
+): boolean => {
+  const minLatitude = Math.min(bounds.latitude1, bounds.latitude2)
+  const maxLatitude = Math.max(bounds.latitude1, bounds.latitude2)
+  const minLongitude = Math.min(bounds.longitude1, bounds.longitude2)
+  const maxLongitude = Math.max(bounds.longitude1, bounds.longitude2)
+
+  return (
+    userLocation.latitude >= minLatitude &&
+    userLocation.latitude <= maxLatitude &&
+    userLocation.longitude >= minLongitude &&
+    userLocation.longitude <= maxLongitude
+  )
+}
+
 const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   const [isMapView, setIsMapView] = useState(false)
   const [mapId, setMapId] = useState('')
   const [places, setPlaces] = useState<SearchPlace[]>([])
   const [selectedPlace, setSelectedPlace] = useState<SearchPlace | null>(null)
-  const [center, setCenter] = useState<{ lat: number; lng: number } | null>(
-    null,
-  )
   const [userMapBound, setUserMapBound] = useState<{
     latitude1: number
     longitude1: number
@@ -41,12 +59,12 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   } | null>(null)
   const [isShowCurrentPositionSearch, setIsShowCurrentPositionSearch] =
     useState(false)
-  const isAllowUserPosition = allowUserPositionStorage.getValueOrNull()
-  const userPosition = useUserGeoLocation()
+  const isAllowUserLocation = allowUserPositionStorage.getValueOrNull()
+  const userLocation = useUserGeoLocation()
 
   const [bottomRef, bottomBounds] = useMeasure()
 
-  const handleClickSearchOnCurrentPosition = async () => {
+  const handleClickSearchOnCurrentPosition = async (map: kakao.maps.Map) => {
     if (!mapId) return
 
     try {
@@ -55,7 +73,11 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
         rect: formatBoundToRect(userMapBound),
         mapId,
       })
-      setCenter({ lat: userPosition.latitude, lng: userPosition.longitude })
+      const location = new window.kakao.maps.LatLng(
+        userLocation.latitude,
+        userLocation.longitude,
+      )
+      map.setCenter(location)
       setPlaces(data)
     } catch {
       notify.error('잘못된 접근입니다.')
@@ -65,22 +87,15 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   const handleCenterChangeMap = (map: kakao.maps.Map) => {
     if (!map) return
 
-    const nextCenter = map.getCenter()
-    setCenter({ lat: nextCenter.getLat(), lng: nextCenter.getLng() })
     const { southEast, northWest } = getCorners(map.getBounds())
-    setUserMapBound({
+    const bounds = {
       latitude1: northWest.latitude,
       longitude1: northWest.longitude,
       latitude2: southEast.latitude,
       longitude2: southEast.longitude,
-    })
-    // 사용자 position이 bound 안 벗어난지 검사
-    if (
-      userPosition.latitude > northWest.latitude ||
-      userPosition.latitude < southEast.latitude ||
-      userPosition.longitude < northWest.longitude ||
-      userPosition.longitude > southEast.longitude
-    ) {
+    }
+    setUserMapBound(bounds)
+    if (isWithinBounds(userLocation, bounds)) {
       setIsShowCurrentPositionSearch(false)
       return
     }
@@ -122,21 +137,18 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
         onToggleView={() => setIsMapView((prev) => !prev)}
         className="absolute h-[60px] z-[100]"
       />
-      {isAllowUserPosition && isShowCurrentPositionSearch && (
-        <CurrentPositionSearchButton
-          className="absolute left-1/2 -translate-x-1/2 top-[76px]"
-          onClick={handleClickSearchOnCurrentPosition}
-        />
-      )}
 
       {isMapView ? (
         <>
           <KorrkKakaoMap<SearchPlace>
+            mode="search"
             places={places}
             selectedPlace={selectedPlace}
             topOfBottomBounds={bottomBounds.top}
-            center={center}
             className="absolute top-0 left-0 w-[calc(100%+40px)] mx-[-20px] h-dvh z-[50]"
+            isShowCurrentPositionSearch={
+              !!isAllowUserLocation && isShowCurrentPositionSearch
+            }
             onClickMap={() => setSelectedPlace(null)}
             onClickPlace={(place) => {
               if (place.kakaoId === selectedPlace?.kakaoId) {
@@ -146,6 +158,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
               }
             }}
             onCenterChangeMap={handleCenterChangeMap}
+            fetchPlaceByCurrentPosition={handleClickSearchOnCurrentPosition}
           />
           {selectedPlace && (
             <ResultPlaceMapPopup
