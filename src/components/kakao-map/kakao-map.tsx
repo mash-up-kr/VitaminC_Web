@@ -7,6 +7,7 @@ import { mergeRefs } from '@/utils/merge-refs'
 import useKakaoMapInstance from './use-kakao-map-instance'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { mapBoundSessionStorage } from '@/utils/storage'
+import { getCorners } from '@/utils/map'
 
 type TargetEventListener = (target: kakao.maps.Map) => void
 type MouseEventListener = (mouseEvent: kakao.maps.event.MouseEvent) => void
@@ -16,7 +17,7 @@ interface KakaoMapProps {
   center?: {
     lat: number
     lng: number
-  }
+  } | null
   level?: number
   maxLevel?: number
   minLevel?: number
@@ -32,26 +33,6 @@ interface KakaoMapProps {
 }
 
 const DEFAULT_ZOOM = 3
-
-const getCorners = (bounds: kakao.maps.LatLngBounds) => {
-  const northEast = bounds.getNorthEast()
-  const southWest = bounds.getSouthWest()
-
-  const northWest = {
-    latitude: northEast.getLat(),
-    longitude: southWest.getLng(),
-  }
-
-  const southEast = {
-    latitude: southWest.getLat(),
-    longitude: northEast.getLng(),
-  }
-
-  return {
-    northWest,
-    southEast,
-  }
-}
 
 const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
   (
@@ -87,6 +68,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
     const saveMapBound = useCallback(() => {
       if (saveBoundInSession && map?.getBounds()) {
         const { southEast, northWest } = getCorners(map.getBounds())
+
         mapBoundSessionStorage.set({
           latitude1: northWest.latitude,
           longitude1: northWest.longitude,

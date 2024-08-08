@@ -16,8 +16,11 @@ interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
   extends ClassName {
   places?: T[]
   selectedPlace?: T | null
+  center?: Parameters<typeof KakaoMap>[0]['center']
   topOfBottomBounds?: number
   onClickMap: Parameters<typeof KakaoMap>[0]['onClick']
+  onDragMap?: Parameters<typeof KakaoMap>[0]['onDrag']
+  onCenterChangeMap?: Parameters<typeof KakaoMap>[0]['onCenterChanged']
   onClickPlace: (place: T) => void
 }
 
@@ -47,8 +50,11 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
   selectedPlace,
   places = [],
   topOfBottomBounds = 0,
+  center,
   onClickMap,
   onClickPlace,
+  onDragMap,
+  onCenterChangeMap,
 }: KorrkKakaoMapProps<T>) => {
   return (
     <>
@@ -58,7 +64,13 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
           className,
         )}
       >
-        <KakaoMap className="w-[calc(100%+40px)] h-screen" onClick={onClickMap}>
+        <KakaoMap
+          className="w-[calc(100%+40px)] h-screen"
+          center={center}
+          onClick={onClickMap}
+          onDrag={onDragMap}
+          onCenterChanged={onCenterChangeMap}
+        >
           {places.map((place) => {
             const isPlace = isPlaceType(place)
             const isSearchPlaceType = isSearchPlace(place)
