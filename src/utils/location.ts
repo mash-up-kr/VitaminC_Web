@@ -11,7 +11,7 @@ export const formatBoundToRect = (
     return defaultRect ?? '127.02598800275543,37.50079626026492'
   }
 
-  return `${bound.longitude1},${bound.latitude1},${bound.longitude2},${bound.latitude1}`
+  return `${bound.longitude2},${bound.latitude2},${bound.longitude1},${bound.latitude1}`
 }
 
 export const deg2rad = (deg: number): number => deg * (Math.PI / 180)
