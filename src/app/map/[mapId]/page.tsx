@@ -40,11 +40,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   } = useFetch(api.users.me.get, { key: ['user'] })
   const { data: mapData, error: mapError } = useFetch(
     () => api.maps.id.get(mapId),
-    { key: ['map'] },
+    { key: ['map', mapId] },
   )
   const { data: places, error: placesError } = useFetch(
     () => api.place.mapId.get(mapId),
-    { key: ['places'], enabled: !!userData && !!mapData },
+    { key: ['places', mapId], enabled: !!userData && !!mapData },
   )
 
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
