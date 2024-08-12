@@ -85,7 +85,7 @@ const useFetch = <T>(
 
     fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiKey, cacheKey, options?.enabled, queryFn])
+  }, [apiKey, cacheKey, options?.enabled])
 
   return { data, loading: loadingMap[apiKey], error, revalidate, clear }
 }
