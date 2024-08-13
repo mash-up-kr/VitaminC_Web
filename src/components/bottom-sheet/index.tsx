@@ -106,7 +106,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
         <motion.div
           id={bottomSheetId}
           ref={mergeRefs([bottomSheetRef, ref])}
-          className="fixed bottom-0 max-w-[420px] w-full z-10 bg-[#212124] rounded-t-[14px] will-change-transform text-white"
+          className="fixed max-w-[420px] w-full z-10 bg-[#212124] rounded-t-[14px] pb-[24px] will-change-transform text-white"
           onPointerDown={(e) => dragControls.start(e)}
           initial="default"
           animate={bottomSheetState}
