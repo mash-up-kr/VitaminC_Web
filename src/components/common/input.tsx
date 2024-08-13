@@ -12,9 +12,14 @@ interface InputProps
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ placeholder, value, onChange, maxLength = 6, ...props }, ref) => {
+  (
+    { placeholder, value, onChange, minLength = 0, maxLength, ...props },
+    ref,
+  ) => {
     const { num, offset } = countCharacters(value)
-    const error = num > maxLength
+    const errorMinLength = minLength && value && num < minLength
+    const errorMaxLength = maxLength && num > maxLength
+    const error = errorMinLength || errorMaxLength
 
     return (
       <div className="w-full relative">
@@ -31,7 +36,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             placeholder={placeholder ?? `최대 ${maxLength}글자`}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            maxLength={maxLength + offset}
+            {...(maxLength && { maxLength: maxLength + offset })}
           />
 
           <AccessibleIconButton
@@ -50,7 +55,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <div className="mt-1 flex gap-1">
             <Icon type="infoCircle" fill="orange-400" aria-hidden />
             <Typography size="body3" className="text-orange-400">
-              최대 {maxLength}자까지 입력할 수 있어요.
+              {errorMinLength
+                ? `최소 ${minLength}자 이상 입력해야 해요`
+                : errorMaxLength && `최대 ${maxLength}자까지 입력할 수 있어요.`}
             </Typography>
           </div>
         )}
