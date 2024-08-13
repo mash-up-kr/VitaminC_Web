@@ -17,9 +17,9 @@ const SearchInputVariants = cva<{
           'bg-neutral-600 outline-none outline-offset-0 focus:outline-1 focus:outline-neutral-300 focus-outline-offset-1',
       },
       size: {
-        sm: 'p-3 pr-[50px]',
-        md: 'p-4 pr-[50px]',
-        lg: 'p-5 pr-[50px]',
+        sm: 'p-3',
+        md: 'p-4',
+        lg: 'p-5',
       },
     },
     defaultVariants: {

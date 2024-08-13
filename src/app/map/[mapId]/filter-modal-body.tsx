@@ -50,7 +50,7 @@ const FilterModalBody = ({
   }, [])
 
   return (
-    <div>
+    <>
       <div className="flex flex-col gap-3 py-5">
         <Typography size="h6" color="neutral-300">
           분류
@@ -93,7 +93,7 @@ const FilterModalBody = ({
           ))}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -30,7 +30,7 @@ const PlaceTopInformation = ({
         className,
       )}
     >
-      {category && (
+      {category && categoryIconCode && (
         <IconChip
           icon={{ type: categoryIcons[categoryIconCode] }}
           label={category}
