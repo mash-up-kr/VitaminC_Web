@@ -86,24 +86,29 @@ const SearchBox = () => {
     setQuery(search)
   }, [search])
 
-  const getSuggestPlaces = useCallback(async () => {
-    if (!query) return
-
-    try {
-      setIsLoading(true)
-      let validMapId = mapId
-      if (!validMapId) {
-        validMapId = (await getMapId()) || ''
+  useEffect(() => {
+    const fetchMapId = async () => {
+      if (!mapId) {
+        const validMapId = (await getMapId()) || ''
         if (!validMapId) {
           throw new Error('잘못된 접근입니다.')
         }
         setMapId(validMapId)
       }
+    }
+    fetchMapId()
+  }, [])
+
+  const getSuggestPlaces = useCallback(async () => {
+    if (!query || !mapId) return
+
+    try {
+      setIsLoading(true)
 
       const { data } = await api.search.places.get({
         q: query,
         rect: formatBoundToRect(mapBounds),
-        mapId: validMapId,
+        mapId,
       })
       setSuggestedPlaces(data)
     } catch (err) {
