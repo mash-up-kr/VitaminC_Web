@@ -135,7 +135,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           <div
             className="transition-all duration-300 select-none overflow-y-scroll overscroll-contain no-scrollbar"
             style={{
-              height: Math.min(bodyHeight(), windowHeight * 0.7 - headerHeight),
+              height: bodyHeight(),
             }}
             aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
           >
