@@ -106,12 +106,14 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
         <motion.div
           id={bottomSheetId}
           ref={mergeRefs([bottomSheetRef, ref])}
-          className="fixed max-w-[420px] w-full z-10 bg-[#212124] rounded-t-[14px] pb-[24px] will-change-transform text-white"
+          className="fixed bottom-0 max-w-[420px] w-full z-10 bg-[#212124] rounded-t-[14px] will-change-transform text-white"
           onPointerDown={(e) => dragControls.start(e)}
           initial="default"
           animate={bottomSheetState}
           variants={{
-            expanded: { top: `calc(100vh - ${expandedHeight}px)` },
+            expanded: {
+              top: `calc(100vh - ${Math.min(expandedHeight, windowHeight * 0.7)}px)`,
+            },
             default: { top: `calc(100vh - ${defaultHeight}px)` },
             collapsed: { top: `calc(100vh - ${headerHeight}px)` },
           }}
@@ -132,7 +134,9 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           {/* body */}
           <div
             className="transition-all duration-300 select-none overflow-y-scroll overscroll-contain no-scrollbar"
-            style={{ height: bodyHeight() }}
+            style={{
+              height: Math.min(bodyHeight(), windowHeight * 0.7 - headerHeight),
+            }}
             aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
           >
             {/* content */}
