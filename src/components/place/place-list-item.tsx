@@ -8,9 +8,11 @@ import { categoryIcons } from '@/models/map.interface'
 import { roundOnePoint } from '@/utils/number'
 import { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
+import type { TagItem } from '@/types/api/maps'
 
-interface PlaceListItemProps extends PlaceProps, ClassName {
+interface PlaceListItemProps extends Omit<PlaceProps, 'tags'>, ClassName {
   rating: number
+  tags?: string[] | TagItem[]
   images?: string[]
 }
 
