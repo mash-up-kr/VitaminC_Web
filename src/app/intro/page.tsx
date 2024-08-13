@@ -141,7 +141,9 @@ const Intro = () => {
           const { data } = await api.maps.inviteLinks.get(inviteCode)
 
           inviteCodeStorage.remove()
+
           router.push(`/map/${data.map.id}`)
+          notify.success(`${data.map.name} 지도에 오신 걸 환영합니다!`)
         } catch (error) {
           if (error instanceof APIError) {
             notify.error(error.message)
