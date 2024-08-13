@@ -67,6 +67,10 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
     }
     setMapBound(bounds)
     setIsShowCurrentPositionSearch(true)
+    setCenter({
+      lat: (bounds.latitude1 + bounds.latitude2) / 2,
+      lng: (bounds.longitude1 + bounds.longitude2) / 2,
+    })
   }
 
   useEffect(() => {
