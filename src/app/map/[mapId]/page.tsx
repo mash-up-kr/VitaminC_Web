@@ -17,7 +17,6 @@ import useMeasure from '@/hooks/use-measure'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 import BottomSheet from '@/components/bottom-sheet'
 import MapInfoModal from './map-info-modal'
-import { BOTTOM_SHEET_STATE } from '@/components/bottom-sheet/constants'
 import { TagItem } from '@/types/api/maps'
 import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 import useFetch from '@/hooks/use-fetch'
@@ -221,11 +220,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
                   selectedFilter={selectedFilterNames}
                   onClickFilterButton={handleFilterModalOpen}
                 />
-              }
-              state={
-                filteredPlace.length
-                  ? BOTTOM_SHEET_STATE.Default
-                  : BOTTOM_SHEET_STATE.Collapsed
               }
             />
             <BottomModal
