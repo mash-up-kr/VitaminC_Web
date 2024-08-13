@@ -59,6 +59,7 @@ const ResultSearchListBox = ({
               distance={
                 isAllowPosition ? formatDistance(diffDistance) : undefined
               }
+              tags={place.tags}
               pick={
                 typeof place.createdBy !== 'undefined'
                   ? {

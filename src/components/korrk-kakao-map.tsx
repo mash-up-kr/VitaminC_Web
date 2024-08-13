@@ -16,6 +16,7 @@ import CurrentPositionSearchButton from './kakao-map/current-position-search-but
 interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
   extends ClassName {
   places?: T[]
+  center?: Parameters<typeof KakaoMap>[0]['center']
   selectedPlace?: T | null
   topOfBottomBounds?: number
   isShowCurrentPositionSearch?: boolean
@@ -50,6 +51,7 @@ const getMarkerType = (
 const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
   className,
   selectedPlace,
+  center,
   places = [],
   topOfBottomBounds = 0,
   isShowCurrentPositionSearch,
@@ -68,7 +70,8 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
         )}
       >
         <KakaoMap
-          className="w-[calc(100%+40px)] h-screen"
+          className="w-[calc(100%+40px)] h-dvh"
+          center={center}
           onClick={onClickMap}
           onDrag={onDragMap}
           onCenterChanged={onCenterChangeMap}
