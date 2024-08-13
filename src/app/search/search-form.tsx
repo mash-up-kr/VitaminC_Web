@@ -21,11 +21,7 @@ const SearchForm = ({
   const router = useSafeRouter()
 
   const handleClickPrev = async () => {
-    try {
-      router.push(`/map/${mapId}`)
-    } catch (err) {
-      router.push('/intro')
-    }
+    router.push(`/map/${mapId}`)
   }
 
   return (

@@ -25,6 +25,9 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   const [mapId, setMapId] = useState('')
   const [places, setPlaces] = useState<SearchPlace[]>([])
   const [selectedPlace, setSelectedPlace] = useState<SearchPlace | null>(null)
+  const [center, setCenter] = useState<{ lat: number; lng: number } | null>(
+    null,
+  )
   const [mapBound, setMapBound] = useState<{
     latitude1: number
     longitude1: number
@@ -87,6 +90,12 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
         })
         setPlaces(data)
         setIsShowCurrentPositionSearch(false)
+        if (bounds) {
+          setCenter({
+            lat: (bounds.latitude1 + bounds.latitude2) / 2,
+            lng: (bounds.longitude1 + bounds.longitude2) / 2,
+          })
+        }
       } catch {
         notify.error('잘못된 접근입니다.')
       }
@@ -108,6 +117,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             places={places}
             selectedPlace={selectedPlace}
             topOfBottomBounds={bottomBounds.top}
+            center={center}
             className="absolute top-0 left-0 w-[calc(100%+40px)] mx-[-20px] h-dvh z-[50]"
             isShowCurrentPositionSearch={isShowCurrentPositionSearch}
             onClickMap={() => setSelectedPlace(null)}
