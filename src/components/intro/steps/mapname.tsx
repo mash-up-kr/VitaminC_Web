@@ -49,6 +49,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
           </Typography>
           <div className="flex items-center gap-3">
             <Input
+              ref={(node) => node?.focus()}
               value={mapname}
               onChange={handleChange}
               minLength={MIN_LENGTH}

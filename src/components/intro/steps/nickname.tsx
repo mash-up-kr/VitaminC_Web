@@ -46,6 +46,7 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
           </Typography>
           <div className="flex items-center gap-3">
             <Input
+              ref={(node) => node?.focus()}
               value={nickname}
               onChange={handleChange}
               minLength={MIN_LENGTH}
