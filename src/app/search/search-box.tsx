@@ -15,6 +15,7 @@ import type { SearchPlace } from '@/types/api/place'
 import { getMapId } from '@/services/map-id'
 import { notify } from '@/components/common/custom-toast'
 import EmptyResultBox from './empty-result-box'
+import LoadingIndicator from '@/components/loading-indicator'
 
 const SearchBox = () => {
   const router = useSafeRouter()
@@ -28,10 +29,11 @@ const SearchBox = () => {
   )
   const [mapId, setMapId] = useState<string>('')
   const [query, setQuery] = useState(search)
+  const [isLoading, setIsLoading] = useState(false)
   const [suggestedPlaces, setSuggestedPlaces] = useState<SearchPlace[]>([])
   const isShowRecentKeywords =
-    query === '' && !!recentKeywords.length && search === ''
-  const isShowSuggestionPlaces = !isShowRecentKeywords
+    query === '' && !!recentKeywords.length && search === '' && !isLoading
+  const isShowSuggestionPlaces = !isShowRecentKeywords && !isLoading
 
   const createQueryString = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -88,6 +90,7 @@ const SearchBox = () => {
     if (!query) return
 
     try {
+      setIsLoading(true)
       let validMapId = mapId
       if (!validMapId) {
         validMapId = (await getMapId()) || ''
@@ -105,6 +108,8 @@ const SearchBox = () => {
       setSuggestedPlaces(data)
     } catch (err) {
       notify.error('잘못된 접근입니다.')
+    } finally {
+      setIsLoading(false)
     }
   }, [mapBounds, mapId, query])
 
@@ -127,6 +132,8 @@ const SearchBox = () => {
         onResetValue={handleResetQuery}
         onSubmit={searchByKeyword}
       />
+
+      {isLoading && <LoadingIndicator />}
 
       {isShowRecentKeywords && (
         <RecentKeywords
