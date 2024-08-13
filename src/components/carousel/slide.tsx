@@ -2,6 +2,8 @@
 
 import { type CSSProperties, useCallback, useEffect, useRef } from 'react'
 import { type PanInfo, animate, motion, useMotionValue } from 'framer-motion'
+import Lottie from 'lottie-react'
+
 import cn from '@/utils/cn'
 import type { Item } from './types'
 import { Typography } from '@/components/common'
@@ -118,19 +120,29 @@ const Slide = ({
             item.title
           )}
 
-          <img
-            draggable={false}
-            alt={
-              item.title && typeof item.title === 'string'
-                ? item.title
-                : `슬라이드 ${index + 1}`
-            }
-            className={cn(
-              'w-full h-full snap-always',
-              getObjectFitClass(objectFit),
-            )}
-            src={item.src}
-          />
+          {typeof item.src === 'string' ? (
+            <img
+              draggable={false}
+              alt={
+                item.title && typeof item.title === 'string'
+                  ? item.title
+                  : `슬라이드 ${index + 1}`
+              }
+              className={cn(
+                'w-full h-full snap-always',
+                getObjectFitClass(objectFit),
+              )}
+              src={item.src}
+            />
+          ) : (
+            <Lottie
+              animationData={item.src}
+              className={cn(
+                'w-full h-full snap-always',
+                getObjectFitClass(objectFit),
+              )}
+            />
+          )}
 
           {typeof item.caption === 'string' ? (
             <Typography
