@@ -41,10 +41,13 @@ body {
     transform: translateY(-50%);
   }
 
-  .placeholder-center::-webkit-input-placeholder {
-    position: relative;
-    top: 0;
-    transform: translateY(0);
+  /* Target webkit (Safari & iOS Chrome) */
+  @supports (hanging-punctuation: first) and (font: -apple-system-body) and
+    (-webkit-appearance: none) {
+    .placeholder-center::placeholder {
+      top: 0;
+      transform: translateY(0);
+    }
   }
 
   .darkmode img {
