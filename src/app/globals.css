@@ -35,14 +35,17 @@ body {
     scrollbar-width: none; /* Firefox */
   }
 
-  @media screen and (min-width: 1024px) {
-    .placeholder-center::placeholder {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+  .placeholder-center::placeholder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
+  .placeholder-center::-webkit-input-placeholder {
+    position: relative;
+    top: 0;
+    transform: translateY(0);
+  }
 
   .darkmode img {
     filter: hue-rotate(180deg) invert(85%);
