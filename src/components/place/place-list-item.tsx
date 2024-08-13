@@ -50,7 +50,7 @@ const PlaceListItem = ({
         </div>
       )}
 
-      {category && (
+      {category && categoryIconCode && (
         <IconChip
           icon={{ type: categoryIcons[categoryIconCode] }}
           label={category}
