@@ -111,9 +111,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           initial="default"
           animate={bottomSheetState}
           variants={{
-            expanded: {
-              top: `calc(100vh - ${Math.min(expandedHeight, windowHeight * 0.7)}px)`,
-            },
+            expanded: { top: `calc(100vh - ${expandedHeight}px)` },
             default: { top: `calc(100vh - ${defaultHeight}px)` },
             collapsed: { top: `calc(100vh - ${headerHeight}px)` },
           }}
