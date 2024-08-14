@@ -36,7 +36,7 @@ const MapList = ({
   const hasOwnerMap = maps?.some((map) => map.role === 'ADMIN')
 
   if (error) {
-    notify.error('지도 목록을 가지고 오는데 에러가 발생했습니다. ')
+    notify.error('지도 목록을 가져오지 못했습니다.')
   }
 
   return (

@@ -21,7 +21,7 @@ const useFetch = <T>(
   },
 ) => {
   const [data, setData] = useState<T | null>(options?.initialData || null)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<APIError | null>(null)
 
   const cacheKey = options?.key?.join('')
   const apiKey = options?.key?.join('') ?? queryFn?.toString() ?? ''
@@ -74,9 +74,17 @@ const useFetch = <T>(
             revalidateRoute('token')
             deleteCookie('Authorization')
           }
-          setError(err.message)
+          setError({
+            name: 'API Error',
+            message: err.message,
+            status: err.status,
+          })
         } else {
-          setError('예상치 못한 오류가 발생했습니다.')
+          setError({
+            name: 'Unexpected Error',
+            message: '예상치 못한 오류가 발생했습니다.',
+            status: 418,
+          })
         }
       } finally {
         loadingMap[apiKey] = false

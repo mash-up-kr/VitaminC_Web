@@ -66,7 +66,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
   const error = userError || mapError || placesError
   if (error) {
-    notify.error(error)
+    notify.error(error.message)
   }
 
   const handleClickPlace = (place: PlaceType) => {
