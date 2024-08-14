@@ -4,41 +4,30 @@ import { useEffect, useState } from 'react'
 
 import { AccessibleIconButton, Avatar, Icon, Typography } from '@/components'
 import BottomModal from '@/components/BottomModal'
-import { deleteCookie } from '../actions'
-import { AUTHORIZATION } from '@/constants/cookie'
 import { User } from '@/models/user.interface'
 import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import useSafeRouter from '@/hooks/use-safe-router'
+import useFetch from '@/hooks/use-fetch'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
-  const [userData, setUserData] = useState<User>()
   const router = useSafeRouter()
+  const { data: userData } = useFetch(() => api.users.me.get())
 
   const handleCloseSignupModal = () => {
     setIsOpenSignupModal(false)
   }
 
-  const handleSignout = () => {
-    deleteCookie(AUTHORIZATION)
-    router.refresh()
-  }
-
-  useEffect(() => {
-    const getUserId = async () => {
-      try {
-        const { data } = await api.users.me.get()
-        setUserData(data)
-      } catch (error) {
-        if (error instanceof APIError) {
-          notify.error(error.message)
-        }
-      }
+  const handleSignout = async () => {
+    try {
+      await fetch('/api/token', { method: 'DELETE' })
+      router.replace('/intro')
+    } catch (error) {
+      notify.error('로그아웃에 실패했습니다. ')
     }
-    getUserId()
-  }, [])
+  }
 
   return (
     <>
