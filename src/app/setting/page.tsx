@@ -1,11 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { AccessibleIconButton, Avatar, Icon, Typography } from '@/components'
 import BottomModal from '@/components/BottomModal'
-import { User } from '@/models/user.interface'
-import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import useSafeRouter from '@/hooks/use-safe-router'
