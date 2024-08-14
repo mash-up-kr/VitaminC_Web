@@ -111,7 +111,9 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
               />
             )
           })}
+
           <GpsButton topOfBottomBounds={topOfBottomBounds} />
+
           {isShowCurrentPositionSearch && (
             <CurrentPositionSearchButton
               className="absolute left-1/2 -translate-x-1/2 top-[76px] z-[100]"

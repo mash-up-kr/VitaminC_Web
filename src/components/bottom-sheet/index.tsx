@@ -111,9 +111,9 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           initial="default"
           animate={bottomSheetState}
           variants={{
-            expanded: { top: `calc(100vh - ${expandedHeight}px)` },
-            default: { top: `calc(100vh - ${defaultHeight}px)` },
-            collapsed: { top: `calc(100vh - ${headerHeight}px)` },
+            expanded: { top: `calc(100dvh - ${expandedHeight}px)` },
+            default: { top: `calc(100dvh - ${defaultHeight}px)` },
+            collapsed: { top: `calc(100dvh - ${headerHeight}px)` },
           }}
           transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
           drag="y"

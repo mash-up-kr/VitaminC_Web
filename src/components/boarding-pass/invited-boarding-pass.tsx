@@ -9,6 +9,7 @@ import { Button } from '@/components/common'
 import BoardingBottom from './boarding-bottom'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { inviteCodeStorage } from '@/utils/storage'
+import { notify } from '@/components/common/custom-toast'
 
 const InvitedBoardingPass = ({
   className,
@@ -27,6 +28,7 @@ const InvitedBoardingPass = ({
       const res = await api.maps.inviteLinks.post(inviteCode)
       if (res.message === 'success') {
         router.push(`/map/${mapId}`)
+        notify.success(`${mapName} 지도에 오신 걸 환영합니다!`)
       }
     } catch (error) {
       if (error instanceof APIError) {
