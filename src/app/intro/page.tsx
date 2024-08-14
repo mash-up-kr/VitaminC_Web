@@ -13,7 +13,6 @@ import { APIError, IntroStep } from '@/models/interface'
 import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
 
 import { useIsServer } from '@/hooks/use-is-server'
-import { getMapId } from '@/services/map-id'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
@@ -52,15 +51,20 @@ const Intro = () => {
 
   const [loading, setLoading] = useState(true)
   const [authorization, setAuthorization] = useState(false)
-  const [mapId, setMapId] = useState<string | undefined>()
 
-  const { data: user, loading: userLoading } = useFetch(api.users.me.get, {
+  const { data: user, status: userStatus } = useFetch(api.users.me.get, {
     key: ['user'],
     enabled: authorization,
   })
-
-  const isLoading = isServer || loading || userLoading
   const nickname = user?.nickname
+
+  const { data: maps, status: mapsStatus } = useFetch(api.maps.get, {
+    enabled: !!nickname,
+  })
+
+  const isLoading =
+    isServer || loading || userStatus === 'pending' || mapsStatus === 'pending'
+
   const inviteCode = inviteCodeStorage.getValueOrNull()
   const onboarding = onboardingStorage.getValueOrNull()
 
@@ -76,11 +80,6 @@ const Intro = () => {
           const token = data.token
           setAuthorization(!!token)
         }
-
-        if (nickname) {
-          const existingMapId = await getMapId()
-          setMapId(existingMapId)
-        }
       } catch {
       } finally {
         setLoading(false)
@@ -88,7 +87,7 @@ const Intro = () => {
     }
 
     getCurrentState()
-  }, [authorization, nickname])
+  }, [authorization])
 
   const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
 
@@ -104,14 +103,14 @@ const Intro = () => {
       return IntroStep.LOGIN
     } else if (!nickname) {
       return IntroStep.NICKNAME
-    } else if (!mapId) {
+    } else if (!maps?.length) {
       return IntroStep.NEW_MAP
     } else if (onboarding) {
       return IntroStep.INVITE
     } else {
       return IntroStep.FORBIDDEN
     }
-  }, [isLoading, authorization, nickname, mapId, onboarding])
+  }, [isLoading, authorization, nickname, maps, onboarding])
 
   useEffect(() => {
     if (initialStep === IntroStep.FORBIDDEN) {
