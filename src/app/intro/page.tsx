@@ -50,7 +50,7 @@ const Intro = () => {
   const isServer = useIsServer()
   const router = useSafeRouter()
 
-  const [Loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
   const [authorization, setAuthorization] = useState(false)
   const [mapId, setMapId] = useState<string | undefined>()
 
@@ -59,7 +59,7 @@ const Intro = () => {
     enabled: authorization,
   })
 
-  const isLoading = Loading || userLoading
+  const isLoading = isServer || loading || userLoading
   const nickname = user?.nickname
   const inviteCode = inviteCodeStorage.getValueOrNull()
 
@@ -159,13 +159,7 @@ const Intro = () => {
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
       <Header />
-      {isLoading || isServer ? (
-        <div className="text-white flex-1 flex items-center justify-center">
-          <LoadingIndicator />
-        </div>
-      ) : (
-        <Step step={step} goNextStep={goNextStep} />
-      )}
+      <Step step={step} goNextStep={goNextStep} />
     </div>
   )
 }
