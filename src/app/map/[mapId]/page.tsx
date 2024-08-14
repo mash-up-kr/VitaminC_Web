@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { Avatar, Icon, Typography } from '@/components'
 import Tooltip from '@/components/tooltip'
 import Link from 'next/link'
-import { visitedMapIdsStorage } from '@/utils/storage'
+import { onboardingStorage, visitedMapIdsStorage } from '@/utils/storage'
 import SearchAnchorBox from './search-anchor-box'
 import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import { api } from '@/utils/api'
@@ -125,6 +125,12 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       tags: [...prev.tags, value],
     }))
   }
+
+  useEffect(() => {
+    if (onboardingStorage.getValueOrNull()) {
+      onboardingStorage.remove()
+    }
+  }, [])
 
   useEffect(() => {
     const mapIdFromCookie = getMapIdFromCookie()

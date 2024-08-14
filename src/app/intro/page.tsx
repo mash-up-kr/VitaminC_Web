@@ -10,7 +10,7 @@ import Invite from '@/components/intro/steps/invite'
 import Header from '@/components/intro/header'
 import LoadingIndicator from '@/components/loading-indicator'
 import { APIError, IntroStep } from '@/models/interface'
-import { inviteCodeStorage } from '@/utils/storage'
+import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
 
 import { useIsServer } from '@/hooks/use-is-server'
 import { getMapId } from '@/services/map-id'
@@ -62,6 +62,7 @@ const Intro = () => {
   const isLoading = isServer || loading || userLoading
   const nickname = user?.nickname
   const inviteCode = inviteCodeStorage.getValueOrNull()
+  const onboarding = onboardingStorage.getValueOrNull()
 
   useEffect(() => {
     const getCurrentState = async () => {
@@ -96,7 +97,7 @@ const Intro = () => {
     setStep(nextStep)
   }
 
-  const getInitialStep = useMemo(() => {
+  const initialStep = useMemo(() => {
     if (isLoading) {
       return IntroStep.LOADING
     } else if (!authorization) {
@@ -105,14 +106,21 @@ const Intro = () => {
       return IntroStep.NICKNAME
     } else if (!mapId) {
       return IntroStep.NEW_MAP
-    } else {
+    } else if (onboarding) {
       return IntroStep.INVITE
+    } else {
+      return IntroStep.FORBIDDEN
     }
-  }, [isLoading, authorization, nickname, mapId])
+  }, [isLoading, authorization, nickname, mapId, onboarding])
 
   useEffect(() => {
-    setStep(getInitialStep)
-  }, [getInitialStep])
+    if (initialStep === IntroStep.FORBIDDEN) {
+      router.replace('/')
+    } else {
+      setStep(initialStep)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialStep])
 
   useEffect(() => {
     if (step >= IntroStep.NEW_MAP && !!inviteCode) {
