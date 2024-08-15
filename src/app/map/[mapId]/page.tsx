@@ -41,10 +41,14 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     () => api.maps.id.get(mapId),
     { key: ['map', mapId] },
   )
-  const { data: places, error: placesError } = useFetch(
-    () => api.place.mapId.get(mapId),
-    { key: ['places', mapId], enabled: !!userData && !!mapData },
-  )
+  const {
+    data: places,
+    error: placesError,
+    clear: clearOldPlacedata,
+  } = useFetch(() => api.place.mapId.get(mapId), {
+    key: ['places', mapId],
+    enabled: !!userData && !!mapData,
+  })
 
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
@@ -75,6 +79,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       return
     }
     setSelectedPlace(place)
+    clearOldPlacedata()
   }
 
   const handleFilterModalOpen = () => {
@@ -225,6 +230,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
                   mapId={mapId}
                   selectedFilter={selectedFilterNames}
                   onClickFilterButton={handleFilterModalOpen}
+                  onrRefreshOldPlace={clearOldPlacedata}
                 />
               }
             />
