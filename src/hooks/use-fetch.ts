@@ -35,55 +35,58 @@ const useFetch = <T>(
     }
   }, [])
 
+  const handleLoadEnd = (payload: T) => {
+    if (options?.onLoadEnd) {
+      options.onLoadEnd(payload)
+    }
+  }
+
+  const fetchData = async () => {
+    if (!queryFn) return
+
+    try {
+      fetching[apiKey] = true
+
+      const response = await queryFn()
+
+      setData(response.data)
+      handleLoadEnd(response.data)
+
+      if (cacheKey) {
+        cache[cacheKey] = { data: response.data, timestamp: new Date() }
+      }
+    } catch (err) {
+      if (err instanceof APIError) {
+        if (err.status === 401) {
+          revalidateRoute('token')
+          deleteCookie('Authorization')
+          window.location.reload()
+        }
+        setError({
+          name: 'API Error',
+          message: err.message,
+          status: err.status,
+        })
+      } else {
+        setError({
+          name: 'Unexpected Error',
+          message: '예상치 못한 오류가 발생했습니다.',
+          status: 418,
+        })
+      }
+    } finally {
+      fetching[apiKey] = false
+    }
+  }
+
   const clear = useCallback(() => {
     Object.assign(cache, {})
-  }, [])
+    if (disabled) return
+    fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [disabled])
 
   useEffect(() => {
-    const handleLoadEnd = (payload: T) => {
-      if (options?.onLoadEnd) {
-        options.onLoadEnd(payload)
-      }
-    }
-
-    const fetchData = async () => {
-      if (!queryFn) return
-
-      try {
-        fetching[apiKey] = true
-
-        const response = await queryFn()
-
-        setData(response.data)
-        handleLoadEnd(response.data)
-
-        if (cacheKey) {
-          cache[cacheKey] = { data: response.data, timestamp: new Date() }
-        }
-      } catch (err) {
-        if (err instanceof APIError) {
-          if (err.status === 401) {
-            revalidateRoute('token')
-            deleteCookie('Authorization')
-            window.location.reload()
-          }
-          setError({
-            name: 'API Error',
-            message: err.message,
-            status: err.status,
-          })
-        } else {
-          setError({
-            name: 'Unexpected Error',
-            message: '예상치 못한 오류가 발생했습니다.',
-            status: 418,
-          })
-        }
-      } finally {
-        fetching[apiKey] = false
-      }
-    }
-
     const getData = async () => {
       if (disabled) return
 
@@ -112,6 +115,7 @@ const useFetch = <T>(
     status: data ? 'success' : error ? 'error' : disabled ? 'idle' : 'pending',
     revalidate,
     clear,
+    refetch: fetchData,
   }
 }
 
