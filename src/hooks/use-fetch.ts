@@ -81,6 +81,7 @@ const useFetch = <T>(
 
   const clear = useCallback(() => {
     Object.assign(cache, {})
+
     if (disabled) return
     fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
