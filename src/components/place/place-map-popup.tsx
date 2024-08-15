@@ -85,8 +85,6 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     useEffect(() => {
       if (!user) return
       setIsLikePlace(selectedPlace.likedUserIds.includes(user.id))
-      console.log('user', user.id)
-      console.log('selectedPlace.likedUserIds', selectedPlace.likedUserIds)
     }, [user, selectedPlace])
 
     return (
