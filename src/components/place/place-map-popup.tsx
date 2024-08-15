@@ -95,12 +95,8 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           <div className="flex gap-2 justify-between">
             <div className="flex flex-col justify-between w-full">
               <div className="flex flex-col gap-1 ">
-                <div className="flex gap-1.5 items-end">
-                  <Typography
-                    as="h2"
-                    size="h4"
-                    className="text-ellipsis text-nowrap overflow-hidden"
-                  >
+                <div className="flex gap-1.5 items-center">
+                  <Typography as="h2" size="h4" className="truncate">
                     {kakaoPlace.name}
                   </Typography>
                   <Typography as="span" size="body3" color="neutral-400">
@@ -116,7 +112,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                         size="sm"
                         fill="yellow-100"
                       />
-                      <Typography as="span" size="body3" color="neutral-300">
+                      <Typography as="span" size="h6" color="neutral-100">
                         {roundOnePoint(kakaoPlace.score)}
                       </Typography>
                     </div>
