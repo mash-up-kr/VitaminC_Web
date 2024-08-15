@@ -92,14 +92,19 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           ref={ref}
           className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4 z-10"
         >
-          <div className="flex gap-2 justify-between">
-            <div className="flex flex-col justify-between w-full">
-              <div className="flex flex-col gap-1 ">
-                <div className="flex gap-1.5 items-center">
+          <div className="flex gap-2 justify-between overflow-hidden">
+            <div className="flex flex-col justify-between overflow-hidden">
+              <div className="flex flex-col gap-1 overflow-hidden">
+                <div className="flex gap-1.5 items-center overflow-hidden">
                   <Typography as="h2" size="h4" className="truncate">
                     {kakaoPlace.name}
                   </Typography>
-                  <Typography as="span" size="body3" color="neutral-400">
+                  <Typography
+                    as="span"
+                    className="shrink-0"
+                    size="body3"
+                    color="neutral-400"
+                  >
                     {kakaoPlace.category}
                   </Typography>
                 </div>
@@ -146,7 +151,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
             {kakaoPlace.mainPhotoUrl && (
               <img
-                className="rounded-md w-20 h-20"
+                className="rounded-md min-w-20 w-20 h-20"
                 src={kakaoPlace.mainPhotoUrl}
                 alt="식당"
               />
