@@ -21,7 +21,7 @@ const Setting = () => {
   const handleSignout = async () => {
     try {
       await fetch('/api/token', { method: 'DELETE' })
-      router.replace('/intro')
+      window.location.reload()
     } catch (error) {
       notify.error('로그아웃에 실패했습니다. ')
     }
