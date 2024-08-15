@@ -7,6 +7,7 @@ import type { IntroActionDispatch } from '@/app/intro/page'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { countCharacters } from '@/utils/string'
+import { onboardingStorage } from '@/utils/storage'
 
 const MIN_LENGTH = 2
 const MAX_LENGTH = 6
@@ -16,6 +17,8 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
   const handleChange = (value: string) => {
     setNickname(value)
   }
+
+  onboardingStorage.set('true')
 
   const handleClick = async () => {
     try {

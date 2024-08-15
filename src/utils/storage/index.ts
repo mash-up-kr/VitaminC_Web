@@ -32,3 +32,6 @@ export const allowUserPositionStorage = new LocalStorageManager<boolean>(
   ALLOW_USER_POSITION,
   false,
 )
+
+export const ONBOARDING = '@@onboarding'
+export const onboardingStorage = new LocalStorageManager<string>(ONBOARDING)

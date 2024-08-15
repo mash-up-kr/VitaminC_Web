@@ -10,10 +10,9 @@ import Invite from '@/components/intro/steps/invite'
 import Header from '@/components/intro/header'
 import LoadingIndicator from '@/components/loading-indicator'
 import { APIError, IntroStep } from '@/models/interface'
-import { inviteCodeStorage } from '@/utils/storage'
+import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
 
 import { useIsServer } from '@/hooks/use-is-server'
-import { getMapId } from '@/services/map-id'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
@@ -50,18 +49,24 @@ const Intro = () => {
   const isServer = useIsServer()
   const router = useSafeRouter()
 
-  const [Loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
   const [authorization, setAuthorization] = useState(false)
-  const [mapId, setMapId] = useState<string | undefined>()
 
-  const { data: user, loading: userLoading } = useFetch(api.users.me.get, {
+  const { data: user, status: userStatus } = useFetch(api.users.me.get, {
     key: ['user'],
     enabled: authorization,
   })
-
-  const isLoading = Loading || userLoading
   const nickname = user?.nickname
+
+  const { data: maps, status: mapsStatus } = useFetch(api.maps.get, {
+    enabled: !!nickname,
+  })
+
+  const isLoading =
+    isServer || loading || userStatus === 'pending' || mapsStatus === 'pending'
+
   const inviteCode = inviteCodeStorage.getValueOrNull()
+  const onboarding = onboardingStorage.getValueOrNull()
 
   useEffect(() => {
     const getCurrentState = async () => {
@@ -75,11 +80,6 @@ const Intro = () => {
           const token = data.token
           setAuthorization(!!token)
         }
-
-        if (nickname) {
-          const existingMapId = await getMapId()
-          setMapId(existingMapId)
-        }
       } catch {
       } finally {
         setLoading(false)
@@ -87,7 +87,7 @@ const Intro = () => {
     }
 
     getCurrentState()
-  }, [authorization, nickname])
+  }, [authorization])
 
   const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
 
@@ -96,23 +96,30 @@ const Intro = () => {
     setStep(nextStep)
   }
 
-  const getInitialStep = useMemo(() => {
+  const initialStep = useMemo(() => {
     if (isLoading) {
       return IntroStep.LOADING
     } else if (!authorization) {
       return IntroStep.LOGIN
     } else if (!nickname) {
       return IntroStep.NICKNAME
-    } else if (!mapId) {
+    } else if (!maps?.length) {
       return IntroStep.NEW_MAP
-    } else {
+    } else if (onboarding) {
       return IntroStep.INVITE
+    } else {
+      return IntroStep.FORBIDDEN
     }
-  }, [isLoading, authorization, nickname, mapId])
+  }, [isLoading, authorization, nickname, maps, onboarding])
 
   useEffect(() => {
-    setStep(getInitialStep)
-  }, [getInitialStep])
+    if (initialStep === IntroStep.FORBIDDEN) {
+      router.replace('/')
+    } else {
+      setStep(initialStep)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialStep])
 
   useEffect(() => {
     if (step >= IntroStep.NEW_MAP && !!inviteCode) {
@@ -159,13 +166,7 @@ const Intro = () => {
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
       <Header />
-      {isLoading || isServer ? (
-        <div className="text-white flex-1 flex items-center justify-center">
-          <LoadingIndicator />
-        </div>
-      ) : (
-        <Step step={step} goNextStep={goNextStep} />
-      )}
+      <Step step={step} goNextStep={goNextStep} />
     </div>
   )
 }

@@ -29,19 +29,19 @@ const MapList = ({
 }) => {
   const {
     data: maps,
-    loading,
+    isFetching,
     error,
   } = useFetch(api.maps.get, { initialData: [] })
   const router = useSafeRouter()
   const hasOwnerMap = maps?.some((map) => map.role === 'ADMIN')
 
   if (error) {
-    notify.error('지도 목록을 가지고 오는데 에러가 발생했습니다. ')
+    notify.error('지도 목록을 가져오지 못했습니다.')
   }
 
   return (
     <div className="pt-4 pl-5 flex gap-2 justify-start items-center overflow-x-scroll no-scrollbar">
-      {loading && (
+      {isFetching && (
         <ChipButton
           className="py-2 rounded-full flex-shrink-0 bg-transparent"
           fontSize="body1"
@@ -62,7 +62,7 @@ const MapList = ({
           {map.name}
         </ChipButton>
       ))}
-      {!loading && !hasOwnerMap && (
+      {!isFetching && !hasOwnerMap && (
         <ChipButton
           className="px-6 py-2 rounded-full flex-shrink-0"
           onClick={() => router.push('/map/create')}

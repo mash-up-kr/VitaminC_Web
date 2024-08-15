@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { Avatar, Icon, Typography } from '@/components'
 import Tooltip from '@/components/tooltip'
 import Link from 'next/link'
-import { visitedMapIdsStorage } from '@/utils/storage'
+import { onboardingStorage, visitedMapIdsStorage } from '@/utils/storage'
 import SearchAnchorBox from './search-anchor-box'
 import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import { api } from '@/utils/api'
@@ -34,7 +34,7 @@ const INITIAL_FILTER_IDS = {
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const {
     data: userData,
-    loading,
+    isFetching,
     error: userError,
   } = useFetch(api.users.me.get, { key: ['user'] })
   const { data: mapData, error: mapError } = useFetch(
@@ -66,7 +66,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
   const error = userError || mapError || placesError
   if (error) {
-    notify.error(error)
+    notify.error(error.message)
   }
 
   const handleClickPlace = (place: PlaceType) => {
@@ -127,6 +127,12 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }
 
   useEffect(() => {
+    if (onboardingStorage.getValueOrNull()) {
+      onboardingStorage.remove()
+    }
+  }, [])
+
+  useEffect(() => {
     const mapIdFromCookie = getMapIdFromCookie()
     if (mapId !== mapIdFromCookie) {
       updateMapIdCookie(mapId)
@@ -176,7 +182,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             <Icon type="caretDown" size="lg" />
           </button>
           <Link href="/setting">
-            <Avatar value={userData?.nickname ?? ''} loading={loading} />
+            <Avatar value={userData?.nickname ?? ''} loading={isFetching} />
           </Link>
         </div>
         <Tooltip
