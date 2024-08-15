@@ -34,7 +34,7 @@ const INITIAL_FILTER_IDS = {
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const {
     data: userData,
-    loading,
+    isFetching,
     error: userError,
   } = useFetch(api.users.me.get, { key: ['user'] })
   const { data: mapData, error: mapError } = useFetch(
@@ -182,7 +182,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             <Icon type="caretDown" size="lg" />
           </button>
           <Link href="/setting">
-            <Avatar value={userData?.nickname ?? ''} loading={loading} />
+            <Avatar value={userData?.nickname ?? ''} loading={isFetching} />
           </Link>
         </div>
         <Tooltip

@@ -107,8 +107,7 @@ const useFetch = <T>(
 
   return {
     data,
-    loading: fetching[apiKey], // fetching으로 대체 예정
-    fetching: fetching[apiKey] ?? false,
+    isFetching: fetching[apiKey] ?? false,
     error,
     status: data ? 'success' : error ? 'error' : disabled ? 'idle' : 'pending',
     revalidate,
