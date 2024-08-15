@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import { Typography, PickChip, TagList, LikeButton, Icon } from '@/components'
@@ -81,6 +81,13 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
       numOfLikes: getNumOfLike(),
       onClickLike: isLikePlace ? handleUnLikePlace : handleLikePlace,
     }
+
+    useEffect(() => {
+      if (!user) return
+      setIsLikePlace(selectedPlace.likedUserIds.includes(user.id))
+      console.log('user', user.id)
+      console.log('selectedPlace.likedUserIds', selectedPlace.likedUserIds)
+    }, [user, selectedPlace])
 
     return (
       <div
