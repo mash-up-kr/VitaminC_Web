@@ -5,9 +5,14 @@ import type { PlaceProps } from './types'
 import IconChip from '../icon-chip'
 import { getStarByScore } from '@/utils/score'
 import { categoryIcons } from '@/models/map.interface'
+import { roundOnePoint } from '@/utils/number'
+import { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
+import type { TagItem } from '@/types/api/maps'
 
-interface PlaceListItemProps extends PlaceProps {
+interface PlaceListItemProps extends Omit<PlaceProps, 'tags'>, ClassName {
   rating: number
+  tags?: string[] | TagItem[]
   images?: string[]
 }
 
@@ -18,14 +23,19 @@ const PlaceListItem = ({
   name,
   address,
   rating,
+  distance,
   images,
   pick,
   tags,
+  className,
 }: PlaceListItemProps) => {
   return (
     <Link
       href={`/place/${placeId}`}
-      className="bg-neutral-700 w-full py-4 flex flex-col gap-3.5 "
+      className={cn(
+        'bg-neutral-700 w-full py-4 flex flex-col gap-3.5',
+        className,
+      )}
     >
       {images && (
         <div className="flex flex-nowrap box-border gap-2 max-x-[335px] items-center overflow-x-scroll no-scrollbar">
@@ -40,7 +50,7 @@ const PlaceListItem = ({
         </div>
       )}
 
-      {category && (
+      {category && categoryIconCode && (
         <IconChip
           icon={{ type: categoryIcons[categoryIconCode] }}
           label={category}
@@ -49,7 +59,7 @@ const PlaceListItem = ({
 
       <div className="flex flex-col gap-2 ">
         <div className="flex items-center justify-between">
-          <Typography as="h2" size="h4" className="w-[194px]">
+          <Typography as="h2" size="h4" className="w-[194px] flex-1">
             {name}
           </Typography>
           {pick && (
@@ -65,13 +75,27 @@ const PlaceListItem = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex gap-0.5 items-center">
-            <Icon type={getStarByScore(rating)} size="sm" fill="yellow-100" />
-            <Typography as="span" size="h6" color="neutral-100">
-              {rating}
+          {rating > 0 && (
+            <div className="flex gap-0.5 items-center">
+              <Icon type={getStarByScore(rating)} size="sm" fill="yellow-100" />
+              <Typography as="span" size="h6" color="neutral-100">
+                {roundOnePoint(rating)}
+              </Typography>
+            </div>
+          )}
+
+          {distance && (
+            <Typography as="span" size="h6" color="neutral-300">
+              {distance}
             </Typography>
-          </div>
-          <Typography as="span" size="body3" color="neutral-300">
+          )}
+
+          <Typography
+            as="span"
+            size="body3"
+            color="neutral-300"
+            className="truncate"
+          >
             {address}
           </Typography>
         </div>

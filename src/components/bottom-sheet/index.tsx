@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useState } from 'react'
+import { forwardRef, ReactNode, useId, useRef, useState } from 'react'
 import { motion, useDragControls } from 'framer-motion'
 import type { PanInfo } from 'framer-motion'
 
@@ -8,6 +8,8 @@ import type { BottomSheetState, BottomSheetStateNum } from './types'
 import { BOTTOM_SHEET_STATE, BOTTOM_SHEET_STATE_MAP } from './constants'
 import { clamp } from '@/utils/number'
 import { toBottomSheetState } from '@/utils/bottom-sheet'
+import { useClickOutside } from '@/hooks/use-click-outside'
+import { mergeRefs } from '@/utils/merge-refs'
 
 interface BottomSheetProps {
   body: ReactNode
@@ -16,6 +18,9 @@ interface BottomSheetProps {
 
 const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
   ({ body, state = BOTTOM_SHEET_STATE.Collapsed }, ref) => {
+    const bottomSheetId = useId()
+    const bottomSheetRef = useRef<HTMLDivElement>(null)
+
     const [prevState, setPrevState] = useState(state)
     const [bottomSheetState, setBottomSheetState] =
       useState<BottomSheetState>(state)
@@ -49,6 +54,15 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           return defaultHeight - headerHeight
       }
     }
+
+    useClickOutside(bottomSheetRef, (event) => {
+      if (event.target instanceof HTMLElement) {
+        if (event.target.id !== bottomSheetId) {
+          return
+        }
+      }
+      setBottomSheetState(BOTTOM_SHEET_STATE.Collapsed)
+    })
 
     const isOverThreshold = (info: PanInfo) => {
       const OFFSET_THRESHOLD = 50
@@ -90,15 +104,16 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       <>
         {/* container */}
         <motion.div
-          ref={ref}
+          id={bottomSheetId}
+          ref={mergeRefs([bottomSheetRef, ref])}
           className="fixed max-w-[420px] w-full z-10 bg-[#212124] rounded-t-[14px] pb-[24px] will-change-transform text-white"
           onPointerDown={(e) => dragControls.start(e)}
           initial="default"
           animate={bottomSheetState}
           variants={{
-            expanded: { top: `calc(100vh - ${expandedHeight}px)` },
-            default: { top: `calc(100vh - ${defaultHeight}px)` },
-            collapsed: { top: `calc(100vh - ${headerHeight}px)` },
+            expanded: { top: `calc(100dvh - ${expandedHeight}px)` },
+            default: { top: `calc(100dvh - ${defaultHeight}px)` },
+            collapsed: { top: `calc(100dvh - ${headerHeight}px)` },
           }}
           transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
           drag="y"
@@ -117,7 +132,9 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           {/* body */}
           <div
             className="transition-all duration-300 select-none overflow-y-scroll overscroll-contain no-scrollbar"
-            style={{ height: bodyHeight() }}
+            style={{
+              height: bodyHeight(),
+            }}
             aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
           >
             {/* content */}

@@ -15,6 +15,7 @@ import type { SearchPlace } from '@/types/api/place'
 import { getMapId } from '@/services/map-id'
 import { notify } from '@/components/common/custom-toast'
 import EmptyResultBox from './empty-result-box'
+import LoadingIndicator from '@/components/loading-indicator'
 
 const SearchBox = () => {
   const router = useSafeRouter()
@@ -26,11 +27,13 @@ const SearchBox = () => {
   const [recentKeywords, setRecentKeywords] = useState(
     recentSearchStorage.getValueOrNull() ?? [],
   )
+  const [mapId, setMapId] = useState<string>('')
   const [query, setQuery] = useState(search)
+  const [isLoading, setIsLoading] = useState(false)
   const [suggestedPlaces, setSuggestedPlaces] = useState<SearchPlace[]>([])
   const isShowRecentKeywords =
-    query === '' && !!recentKeywords.length && search === ''
-  const isShowSuggestionPlaces = !isShowRecentKeywords
+    query === '' && !!recentKeywords.length && search === '' && !isLoading
+  const isShowSuggestionPlaces = !isShowRecentKeywords && !isLoading
 
   const createQueryString = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -83,25 +86,37 @@ const SearchBox = () => {
     setQuery(search)
   }, [search])
 
+  useEffect(() => {
+    const fetchMapId = async () => {
+      if (!mapId) {
+        const validMapId = (await getMapId()) || ''
+        if (!validMapId) {
+          throw new Error('잘못된 접근입니다.')
+        }
+        setMapId(validMapId)
+      }
+    }
+    fetchMapId()
+  }, [])
+
   const getSuggestPlaces = useCallback(async () => {
-    if (!query) return
+    if (!query || !mapId) return
 
     try {
-      const mapId = await getMapId()
+      setIsLoading(true)
 
-      if (!mapId) {
-        throw new Error('잘못된 접근입니다.')
-      }
-      const res = await api.search.places.get({
+      const { data } = await api.search.places.get({
         q: query,
         rect: formatBoundToRect(mapBounds),
         mapId,
       })
-      setSuggestedPlaces(res.data)
+      setSuggestedPlaces(data)
     } catch (err) {
       notify.error('잘못된 접근입니다.')
+    } finally {
+      setIsLoading(false)
     }
-  }, [mapBounds, query])
+  }, [mapBounds, mapId, query])
 
   useEffect(() => {
     const debounceGetSuggestPlaces = debounce(getSuggestPlaces, 500)
@@ -117,10 +132,13 @@ const SearchBox = () => {
     <div className="w-full min-h-dvh bg-neutral-700 px-5 py-2">
       <SearchForm
         value={query}
+        mapId={mapId}
         onChange={(e) => setQuery(e.target.value)}
         onResetValue={handleResetQuery}
         onSubmit={searchByKeyword}
       />
+
+      {isLoading && <LoadingIndicator />}
 
       {isShowRecentKeywords && (
         <RecentKeywords

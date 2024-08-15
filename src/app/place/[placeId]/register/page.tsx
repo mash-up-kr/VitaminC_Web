@@ -13,20 +13,23 @@ import LoadingIndicator from '@/components/loading-indicator'
 const PlaceRegister = ({ params }: { params?: { placeId?: number } }) => {
   const [place, setPlace] = useState<PlaceDetail | null>(null)
   const [tags, setTags] = useState<TagItem[]>([])
+  const [mapId, setMapId] = useState<string>('')
 
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const mapId = await getMapId()
+        const validMapId = await getMapId()
 
-        if (!mapId || !params?.placeId) {
+        if (!validMapId || !params?.placeId) {
           throw new Error('잘못된 접근입니다.')
         }
-        const { data: tagData } = await api.maps.id.tag.get(mapId)
+        setMapId(validMapId)
+
+        const { data: tagData } = await api.maps.id.tag.get(validMapId)
         setTags(tagData)
         const { data: placeData } =
           await api.place.mapId.kakao.kakaoPlaceId.get({
-            mapId,
+            mapId: validMapId,
             kakaoPlaceId: params.placeId,
           })
         setPlace(placeData)
@@ -39,11 +42,15 @@ const PlaceRegister = ({ params }: { params?: { placeId?: number } }) => {
       }
     }
     fetchTags()
-  }, [params?.placeId])
+  }, [mapId, params?.placeId])
 
   return (
     <>
-      {place ? <RegisterBox place={place} tags={tags} /> : <LoadingIndicator />}
+      {place ? (
+        <RegisterBox place={place} tags={tags} mapId={mapId} />
+      ) : (
+        <LoadingIndicator />
+      )}
     </>
   )
 }

@@ -1,15 +1,16 @@
-import { PlaceType, SearchPlace } from '@/types/api/place'
+import type { PlaceType, SearchPlace } from '@/types/api/place'
 
 export const convertSearchPlaceToPlaceType = (
   searchPlace: SearchPlace,
 ): PlaceType => {
   return {
     ...searchPlace,
-    likedUserIds: [],
+    likedUserIds: searchPlace.likedUserIds ?? [],
     createdBy: {
       id: -1,
       nickname: '',
     },
+    tags: searchPlace.tags?.map((tag) => ({ name: tag })),
     place: {
       id: searchPlace.kakaoId,
       kakaoPlace: {

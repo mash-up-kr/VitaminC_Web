@@ -4,11 +4,11 @@ import { useMemo, useState, useEffect } from 'react'
 import { Avatar, Icon, Typography } from '@/components'
 import Tooltip from '@/components/tooltip'
 import Link from 'next/link'
-import { visitedMapIdsStorage } from '@/utils/storage'
+import { onboardingStorage, visitedMapIdsStorage } from '@/utils/storage'
 import SearchAnchorBox from './search-anchor-box'
 import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import { api } from '@/utils/api'
-import type { PlaceType } from '@/types/api/place'
+import { type PlaceType } from '@/types/api/place'
 import { notify } from '@/components/common/custom-toast'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import BottomModal from '@/components/BottomModal'
@@ -16,9 +16,7 @@ import FilterModalBody, { type CategoryType } from './filter-modal-body'
 import useMeasure from '@/hooks/use-measure'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 import BottomSheet from '@/components/bottom-sheet'
-import { APIError } from '@/models/interface'
 import MapInfoModal from './map-info-modal'
-import { BOTTOM_SHEET_STATE } from '@/components/bottom-sheet/constants'
 import { TagItem } from '@/types/api/maps'
 import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 import useFetch from '@/hooks/use-fetch'
@@ -34,7 +32,19 @@ const INITIAL_FILTER_IDS = {
 }
 
 const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
-  const { data: userData, loading, error } = useFetch(api.users.me.get)
+  const {
+    data: userData,
+    isFetching,
+    error: userError,
+  } = useFetch(api.users.me.get, { key: ['user'] })
+  const { data: mapData, error: mapError } = useFetch(
+    () => api.maps.id.get(mapId),
+    { key: ['map', mapId] },
+  )
+  const { data: places, error: placesError } = useFetch(
+    () => api.place.mapId.get(mapId),
+    { key: ['places', mapId], enabled: !!userData && !!mapData },
+  )
 
   const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
@@ -42,11 +52,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const [selectedFilterNames, setSelectedFilterNames] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
 
-  const [places, setPlaces] = useState<PlaceType[]>([])
   const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
-
-  const [mapname, setMapname] = useState<string>('')
 
   const [bottomRef, bottomBounds] = useMeasure()
 
@@ -55,8 +62,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     [],
   )
 
+  const mapname = mapData?.name || ''
+
+  const error = userError || mapError || placesError
   if (error) {
-    notify.error(error)
+    notify.error(error.message)
   }
 
   const handleClickPlace = (place: PlaceType) => {
@@ -68,7 +78,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }
 
   const handleFilterModalOpen = () => {
-    setIsFilterModalOpen((prev) => !prev)
+    setIsFilterModalOpen(true)
+  }
+
+  const handleFilterModalClose = () => {
+    setIsFilterModalOpen(false)
   }
 
   const resetFilter = () => {
@@ -113,39 +127,20 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   }
 
   useEffect(() => {
+    if (onboardingStorage.getValueOrNull()) {
+      onboardingStorage.remove()
+    }
+  }, [])
+
+  useEffect(() => {
     const mapIdFromCookie = getMapIdFromCookie()
     if (mapId !== mapIdFromCookie) {
       updateMapIdCookie(mapId)
     }
-
-    const getPlaceList = async () => {
-      try {
-        const { data: placeList } = await api.place.mapId.get(mapId)
-        setPlaces(placeList)
-      } catch (err) {
-        if (err instanceof APIError) {
-          notify.error(err.message)
-        }
-      }
-    }
-
-    const getMapname = async () => {
-      try {
-        const { data } = await api.maps.id.get(mapId)
-        setMapname(data.name)
-      } catch (err) {
-        if (err instanceof APIError) {
-          notify.error(err.message)
-        }
-      }
-    }
-
-    getMapname()
-    getPlaceList()
   }, [mapId])
 
   useEffect(() => {
-    if (!userData) return
+    if (!userData || !places) return
     setFilteredPlace(
       places.filter((place) => {
         const matchesCategory =
@@ -187,7 +182,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             <Icon type="caretDown" size="lg" />
           </button>
           <Link href="/setting">
-            <Avatar value={userData?.nickname ?? ''} loading={loading} />
+            <Avatar value={userData?.nickname ?? ''} loading={isFetching} />
           </Link>
         </div>
         <Tooltip
@@ -201,7 +196,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             ])
           }}
         >
-          <SearchAnchorBox mapId={mapId} />
+          <SearchAnchorBox />
         </Tooltip>
       </header>
 
@@ -211,7 +206,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         onClose={() => setIsMapInfoOpen(false)}
       />
 
-      <KorrkKakaoMap
+      <KorrkKakaoMap<PlaceType>
         places={filteredPlace}
         selectedPlace={selectedPlace}
         onClickMap={() => setSelectedPlace(null)}
@@ -219,7 +214,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         topOfBottomBounds={bottomBounds.top}
       />
 
-      {!!places.length &&
+      {!!places?.length &&
         (selectedPlace === null ? (
           <>
             <BottomSheet
@@ -227,18 +222,15 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
               body={
                 <PlaceListBottomSheet
                   places={filteredPlace}
+                  mapId={mapId}
                   selectedFilter={selectedFilterNames}
                   onClickFilterButton={handleFilterModalOpen}
                 />
               }
-              state={
-                filteredPlace.length
-                  ? BOTTOM_SHEET_STATE.Default
-                  : BOTTOM_SHEET_STATE.Collapsed
-              }
             />
             <BottomModal
               title="보고 싶은 맛집을 선택해주세요"
+              layoutClassName="max-h-[70dvh]"
               body={
                 <FilterModalBody
                   mapId={mapId}
@@ -249,14 +241,15 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
               isOpen={isFilterModalOpen}
               cancelMessage="초기화"
               confirmMessage="적용"
-              onClose={handleFilterModalOpen}
-              onConfirm={handleFilterModalOpen}
+              onClose={handleFilterModalClose}
+              onConfirm={handleFilterModalClose}
               onCancel={resetFilter}
             />
           </>
         ) : (
           <PlaceMapPopup
             ref={bottomRef}
+            mapId={mapId}
             className="absolute bottom-5 px-5"
             selectedPlace={selectedPlace}
           />

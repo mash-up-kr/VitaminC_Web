@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import debounce from 'lodash.debounce'
+import useEventListener from './use-event-listener'
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect'
 
 interface Size {
   width: number
@@ -9,25 +12,31 @@ interface Size {
 const MIN_WIDTH = 320
 const MIN_HEIGHT = 568
 
+const DEBOUNCE_WAIT = 250
+
 const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState<Size>({
     width: MIN_WIDTH,
     height: MIN_HEIGHT,
   })
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
-    }
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    })
+  }
 
-    window.addEventListener('resize', handleResize)
+  const debouncedHandleResize = () => {
+    debounce(() => {
+      handleResize()
+    }, DEBOUNCE_WAIT)()
+  }
 
+  useEventListener({ type: 'resize', listener: debouncedHandleResize })
+
+  useIsomorphicLayoutEffect(() => {
     handleResize()
-
-    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   return windowSize

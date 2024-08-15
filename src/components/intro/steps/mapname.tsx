@@ -11,6 +11,7 @@ import { RECENT_MAP_ID } from '@/constants/cookie'
 import { countCharacters } from '@/utils/string'
 
 const MIN_LENGTH = 2
+const MAX_LENGTH = 8
 
 const Mapname = ({ goNextStep }: IntroActionDispatch) => {
   const [mapname, setMapname] = useState('')
@@ -47,7 +48,13 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
             지도 이름은
           </Typography>
           <div className="flex items-center gap-3">
-            <Input value={mapname} onChange={handleChange} maxLength={8} />
+            <Input
+              ref={(node) => node?.focus()}
+              value={mapname}
+              onChange={handleChange}
+              minLength={MIN_LENGTH}
+              maxLength={MAX_LENGTH}
+            />
             <Typography size="h1" color="neutral-000">
               로
             </Typography>

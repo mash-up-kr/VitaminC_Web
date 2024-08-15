@@ -4,6 +4,7 @@ import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 import { categoryIcons } from '@/models/map.interface'
+import { roundOnePoint } from '@/utils/number'
 
 interface PlaceTopInformationProps extends PlaceProps, ClassName {
   rating: number
@@ -19,6 +20,7 @@ const PlaceTopInformation = ({
   rating,
   pick,
   tags,
+  distance,
   className,
 }: PlaceTopInformationProps) => {
   return (
@@ -28,7 +30,7 @@ const PlaceTopInformation = ({
         className,
       )}
     >
-      {category && (
+      {category && categoryIconCode && (
         <IconChip
           icon={{ type: categoryIcons[categoryIconCode] }}
           label={category}
@@ -53,12 +55,20 @@ const PlaceTopInformation = ({
         </div>
 
         <div className="flex items-center gap-[7px]">
-          <div className="flex gap-0.5 items-center">
-            <Icon type="starFilled" size="sm" fill="yellow-100" />
-            <Typography as="span" size="body3" color="neutral-300">
-              {rating}
+          {rating > 0 && (
+            <div className="flex gap-0.5 items-center">
+              <Icon type="starFilled" size="sm" fill="yellow-100" />
+              <Typography as="span" size="h6" color="neutral-100">
+                {roundOnePoint(rating)}
+              </Typography>
+            </div>
+          )}
+
+          {distance && (
+            <Typography as="span" size="h6" color="neutral-300">
+              {distance}
             </Typography>
-          </div>
+          )}
           <Typography as="span" size="body3" color="neutral-300">
             {address}
           </Typography>

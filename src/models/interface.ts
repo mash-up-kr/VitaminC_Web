@@ -52,7 +52,8 @@ export interface MutatedAt {
 
 /* Intro */
 export enum IntroStep {
-  LOADING = -1,
+  FORBIDDEN = -1,
+  LOADING,
   LOGIN,
   NICKNAME,
   NEW_MAP,

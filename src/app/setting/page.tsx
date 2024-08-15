@@ -11,8 +11,8 @@ import useFetch from '@/hooks/use-fetch'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
+  const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
   const router = useSafeRouter()
-  const { data: userData } = useFetch(() => api.users.me.get())
 
   const handleCloseSignupModal = () => {
     setIsOpenSignupModal(false)
@@ -48,9 +48,9 @@ const Setting = () => {
 
         <div className="px-5 flex flex-col">
           <div className="flex gap-2 pt-3 pb-1 items-center">
-            <Avatar value={userData?.nickname ?? ''} />
+            <Avatar value={user?.nickname ?? ''} />
             <Typography as="span" size="body1">
-              {userData?.nickname}
+              {user?.nickname}
             </Typography>
           </div>
 

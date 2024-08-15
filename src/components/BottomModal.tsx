@@ -7,6 +7,7 @@ import type { ClassName } from '@/models/interface'
 
 interface BottomModalLayoutProps extends ClassName {
   title: string
+  scrollable?: boolean
   body?: string | ReactNode
   cancelMessage?: string
   confirmMessage: string
@@ -19,6 +20,7 @@ const BottomModalLayout = ({
   title,
   body,
   className,
+  scrollable,
   cancelMessage,
   confirmMessage,
   layout,
@@ -49,7 +51,12 @@ const BottomModalLayout = ({
           {body}
         </Typography>
       ) : (
-        <div className="w-full max-h-[70dvh] overflow-y-scroll no-scrollbar">
+        <div
+          className={cn(
+            'w-full',
+            scrollable && 'overflow-y-scroll no-scrollbar',
+          )}
+        >
           {body}
         </div>
       )}
@@ -72,8 +79,10 @@ const BottomModalLayout = ({
   )
 }
 
-interface BottomModalProps extends BottomModalLayoutProps {
+interface BottomModalProps extends BottomModalLayoutProps, ClassName {
   layout?: 'confirm' | 'alert'
+  scrollable?: boolean
+  layoutClassName?: string
   isOpen: Parameters<typeof Modal>[0]['isOpen']
   onClose: Parameters<typeof Modal>[0]['onClose']
 }
@@ -82,8 +91,11 @@ const BottomModal = ({
   isOpen,
   title,
   body,
+  className,
+  layoutClassName,
   confirmMessage,
   cancelMessage,
+  scrollable = true,
   layout = 'confirm',
   onClose,
   onCancel,
@@ -97,12 +109,17 @@ const BottomModal = ({
       animate={{ bottom: 0, opacity: 1 }}
       exit={{ bottom: '-50%', opacity: 0.2 }}
       delayTiming={500}
-      className="w-full max-w-[420px] top-auto bottom-0 translate-y-0"
+      className={cn(
+        'w-full max-w-[420px] top-auto bottom-0 translate-y-0',
+        className,
+      )}
     >
       <BottomModalLayout
         title={title}
         body={body}
         layout={layout}
+        scrollable={scrollable}
+        className={layoutClassName}
         cancelMessage={cancelMessage}
         confirmMessage={confirmMessage}
         onCancel={onCancel}

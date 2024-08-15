@@ -50,12 +50,12 @@ const maps = {
         client.secure.get(`/maps/${id}/tag`, { tags: ['tag', id] }),
       post: ({
         id,
-        content,
+        name,
       }: {
         id: MapInfo['id']
-        content: string
+        name: string
       }): Promise<ResponseWithMessage<TagItem>> =>
-        client.secure.post(`/maps/${id}/tag`, { content }),
+        client.secure.post(`/maps/${id}/tag`, { name }),
     },
     inviteLinks: {
       post: (id: MapInfo['id']): Promise<ResponseWithMessage<InviteLink>> =>

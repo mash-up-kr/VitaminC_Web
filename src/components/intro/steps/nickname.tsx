@@ -7,14 +7,18 @@ import type { IntroActionDispatch } from '@/app/intro/page'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { countCharacters } from '@/utils/string'
+import { onboardingStorage } from '@/utils/storage'
 
 const MIN_LENGTH = 2
+const MAX_LENGTH = 6
 
 const Nickname = ({ goNextStep }: IntroActionDispatch) => {
   const [nickname, setNickname] = useState('')
   const handleChange = (value: string) => {
     setNickname(value)
   }
+
+  onboardingStorage.set('true')
 
   const handleClick = async () => {
     try {
@@ -24,7 +28,7 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
       goNextStep()
     } catch (err) {
       if (err instanceof Error && err.message) {
-        return notify.error(err.message)
+        notify.error(err.message)
       }
     }
   }
@@ -44,7 +48,13 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
             저는 닉네임
           </Typography>
           <div className="flex items-center gap-3">
-            <Input value={nickname} onChange={handleChange} />
+            <Input
+              ref={(node) => node?.focus()}
+              value={nickname}
+              onChange={handleChange}
+              minLength={MIN_LENGTH}
+              maxLength={MAX_LENGTH}
+            />
             <Typography size="h1" color="neutral-000">
               로
             </Typography>

@@ -10,11 +10,13 @@ import { notify } from '@/components/common/custom-toast'
 import SearchInput from '@/components/search-input'
 import type { TagItem } from '@/types/api/maps'
 import { api } from '@/utils/api'
-import { getMapId } from '@/services/map-id'
+
+const MAX_TAG_LENGTH = 16
 
 interface HashTagListProps extends ClassName {
   defaultTags: TagItem[]
   selectedTags: TagItem[]
+  mapId: string
   onClickTag: (tag: TagItem) => void
 }
 
@@ -22,18 +24,18 @@ const HashTagList = ({
   defaultTags,
   className,
   selectedTags,
+  mapId,
   onClickTag,
 }: HashTagListProps) => {
   const [customTag, setCustomTag] = useState<string>('')
   const [tags, setTags] = useState<TagItem[]>(defaultTags)
   const [isOpenCustomTagModal, setIsOpenCustomModalTag] = useState(false)
 
-  const addTagToServer = async (content: string) => {
+  const addTagToServer = async (name: string) => {
     try {
-      const mapId = await getMapId()
       if (!mapId) return
 
-      const response = await api.maps.id.tag.post({ id: mapId, content })
+      const response = await api.maps.id.tag.post({ id: mapId, name })
       setTags((prev) => [...prev, response.data])
     } catch (error) {
       if (error instanceof APIError) {
@@ -50,6 +52,10 @@ const HashTagList = ({
     const isAlreadyExist = tags.find((tag) => tag.name === name)
     if (isAlreadyExist) {
       notify.error('이미 있는 태그입니다.')
+      return
+    }
+    if (name.length > MAX_TAG_LENGTH) {
+      notify.error('태그가 너무 깁니다.')
       return
     }
     addTagToServer(name)
@@ -99,12 +105,13 @@ const HashTagList = ({
 
       <BottomModal
         title="나만의 태그를 만들어보세요"
+        scrollable={false}
         body={
           <SearchInput
             ref={(node) => node?.focus()}
             value={customTag}
             placeholder="식당과 관련된 맛, 분위기... 등등 을 적어보세요"
-            maxLength={255}
+            maxLength={MAX_TAG_LENGTH}
             rightIcon={{
               icon: { type: 'delete', size: 'xl' },
               label: '입력된 사용자 태그 지우기',

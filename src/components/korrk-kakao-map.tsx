@@ -2,17 +2,29 @@ import type { ClassName } from '@/models/interface'
 import GpsButton from './kakao-map/gps-button'
 import KakaoMap from './kakao-map/kakao-map'
 import Marker from './kakao-map/marker'
-import type { PlaceType } from '@/types/api/place'
+import {
+  isPlaceType,
+  isSearchPlace,
+  type PlaceType,
+  type SearchPlace,
+} from '@/types/api/place'
 import cn from '@/utils/cn'
 import { removeAllSpaces } from '@/utils/category'
 import type { IconKey } from './common/icon'
+import CurrentPositionSearchButton from './kakao-map/current-position-search-button'
 
-interface KorrkKakaoMapProps extends ClassName {
-  places?: PlaceType[]
-  selectedPlace?: PlaceType | null
+interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
+  extends ClassName {
+  places?: T[]
+  center?: Parameters<typeof KakaoMap>[0]['center']
+  selectedPlace?: T | null
   topOfBottomBounds?: number
+  isShowCurrentPositionSearch?: boolean
+  fetchPlaceByCurrentPosition?: (map: kakao.maps.Map) => void
   onClickMap: Parameters<typeof KakaoMap>[0]['onClick']
-  onClickPlace: (place: PlaceType) => void
+  onDragMap?: Parameters<typeof KakaoMap>[0]['onDrag']
+  onCenterChangeMap?: Parameters<typeof KakaoMap>[0]['onCenterChanged']
+  onClickPlace: (place: T) => void
 }
 
 const getMarkerType = (
@@ -36,14 +48,19 @@ const getMarkerType = (
   return isPick ? 'selectedRestaurant' : 'restaurant'
 }
 
-const KorrkKakaoMap = ({
+const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
   className,
   selectedPlace,
+  center,
   places = [],
   topOfBottomBounds = 0,
+  isShowCurrentPositionSearch,
   onClickMap,
   onClickPlace,
-}: KorrkKakaoMapProps) => {
+  onDragMap,
+  onCenterChangeMap,
+  fetchPlaceByCurrentPosition,
+}: KorrkKakaoMapProps<T>) => {
   return (
     <>
       <div
@@ -52,21 +69,57 @@ const KorrkKakaoMap = ({
           className,
         )}
       >
-        <KakaoMap className="w-[calc(100%+40px)] h-screen" onClick={onClickMap}>
-          {places.map((place) => (
-            <Marker
-              key={place.place.id}
-              latitude={place.place.y}
-              longitude={place.place.x}
-              isSaved={place.likedUserIds?.length !== 0}
-              type={getMarkerType(
-                place.place.kakaoPlace.category,
-                selectedPlace?.place.id === place.place.id,
-              )}
-              onClick={() => onClickPlace(place)}
-            />
-          ))}
+        <KakaoMap
+          className="w-[calc(100%+40px)] h-dvh"
+          center={center}
+          onClick={onClickMap}
+          onDrag={onDragMap}
+          onCenterChanged={onCenterChangeMap}
+        >
+          {places.map((place) => {
+            const isPlace = isPlaceType(place)
+            const isSearchPlaceType = isSearchPlace(place)
+
+            const isSelected = (() => {
+              if (isPlace && isPlaceType(selectedPlace)) {
+                return selectedPlace.place.id === place.place.id
+              }
+              if (isSearchPlaceType && isSearchPlace(selectedPlace)) {
+                return selectedPlace.kakaoId === place.kakaoId
+              }
+              return false
+            })()
+
+            const type = getMarkerType(
+              isSearchPlaceType
+                ? place.category
+                : place.place.kakaoPlace.category,
+              isSelected,
+            )
+            return (
+              <Marker
+                key={isSearchPlaceType ? place.kakaoId : place.place.id}
+                latitude={isSearchPlaceType ? place.y : place.place.y}
+                longitude={isSearchPlaceType ? place.x : place.place.x}
+                isSaved={
+                  isSearchPlaceType
+                    ? place.isRegisteredPlace
+                    : !!place.createdBy
+                }
+                type={type}
+                onClick={() => onClickPlace(place)}
+              />
+            )
+          })}
+
           <GpsButton topOfBottomBounds={topOfBottomBounds} />
+
+          {isShowCurrentPositionSearch && (
+            <CurrentPositionSearchButton
+              className="absolute left-1/2 -translate-x-1/2 top-[76px] z-[100]"
+              onClick={(map) => fetchPlaceByCurrentPosition?.(map)}
+            />
+          )}
         </KakaoMap>
       </div>
     </>

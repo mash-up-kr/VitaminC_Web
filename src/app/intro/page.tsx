@@ -10,17 +10,15 @@ import Invite from '@/components/intro/steps/invite'
 import Header from '@/components/intro/header'
 import LoadingIndicator from '@/components/loading-indicator'
 import { APIError, IntroStep } from '@/models/interface'
-import { inviteCodeStorage } from '@/utils/storage'
+import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
 
 import { useIsServer } from '@/hooks/use-is-server'
-import { getUser } from '@/services/user'
-import { getMapId } from '@/services/map-id'
-import { parseJSON } from '@/utils/api/parse-json'
-import type { Token } from '@/models/user.interface'
-import type { ResponseWithMessage } from '@/types/api'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
+import { fetchData } from '@/utils/api/route'
+import useFetch from '@/hooks/use-fetch'
+import { Token } from '@/models/user.interface'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -43,11 +41,7 @@ const Step = ({ step, goNextStep }: StepProps) => {
     case IntroStep.INVITE:
       return <Invite />
     default:
-      return (
-        <div className="text-white flex-1 flex items-center justify-center">
-          <LoadingIndicator />
-        </div>
-      )
+      return <LoadingIndicator />
   }
 }
 
@@ -55,31 +49,37 @@ const Intro = () => {
   const isServer = useIsServer()
   const router = useSafeRouter()
 
-  const inviteCode = inviteCodeStorage.getValueOrNull()
-
-  const [isLoading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
   const [authorization, setAuthorization] = useState(false)
-  const [nickname, setNickname] = useState<string | undefined>()
-  const [mapId, setMapId] = useState<string | undefined>()
+
+  const { data: user, status: userStatus } = useFetch(api.users.me.get, {
+    key: ['user'],
+    enabled: authorization,
+  })
+  const nickname = user?.nickname
+
+  const { data: maps, status: mapsStatus } = useFetch(api.maps.get, {
+    enabled: !!nickname,
+  })
+
+  const isLoading =
+    isServer || loading || userStatus === 'pending' || mapsStatus === 'pending'
+
+  const inviteCode = inviteCodeStorage.getValueOrNull()
+  const onboarding = onboardingStorage.getValueOrNull()
 
   useEffect(() => {
     const getCurrentState = async () => {
+      setLoading(true)
+
       try {
         if (!authorization) {
-          const response = await fetch('/api/token')
-          const { data } = await parseJSON<ResponseWithMessage<Token>>(response)
+          const data = await fetchData<Token>('/api/token', {
+            key: ['token'],
+          })
           const token = data.token
-
           setAuthorization(!!token)
         }
-
-        if (!nickname) {
-          const user = await getUser()
-          setNickname(user?.nickname)
-        }
-
-        const existingMapId = await getMapId()
-        setMapId(existingMapId)
       } catch {
       } finally {
         setLoading(false)
@@ -87,7 +87,7 @@ const Intro = () => {
     }
 
     getCurrentState()
-  }, [authorization, nickname])
+  }, [authorization])
 
   const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
 
@@ -96,21 +96,30 @@ const Intro = () => {
     setStep(nextStep)
   }
 
-  const getInitialStep = useMemo(() => {
-    if (!authorization) {
+  const initialStep = useMemo(() => {
+    if (isLoading) {
+      return IntroStep.LOADING
+    } else if (!authorization) {
       return IntroStep.LOGIN
     } else if (!nickname) {
       return IntroStep.NICKNAME
-    } else if (!mapId) {
+    } else if (!maps?.length) {
       return IntroStep.NEW_MAP
-    } else {
+    } else if (onboarding) {
       return IntroStep.INVITE
+    } else {
+      return IntroStep.FORBIDDEN
     }
-  }, [authorization, nickname, mapId])
+  }, [isLoading, authorization, nickname, maps, onboarding])
 
   useEffect(() => {
-    setStep(getInitialStep)
-  }, [getInitialStep])
+    if (initialStep === IntroStep.FORBIDDEN) {
+      router.replace('/')
+    } else {
+      setStep(initialStep)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialStep])
 
   useEffect(() => {
     if (step >= IntroStep.NEW_MAP && !!inviteCode) {
@@ -139,7 +148,9 @@ const Intro = () => {
           const { data } = await api.maps.inviteLinks.get(inviteCode)
 
           inviteCodeStorage.remove()
+
           router.push(`/map/${data.map.id}`)
+          notify.success(`${data.map.name} 지도에 오신 걸 환영합니다!`)
         } catch (error) {
           if (error instanceof APIError) {
             notify.error(error.message)
@@ -155,13 +166,7 @@ const Intro = () => {
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
       <Header />
-      {isLoading || isServer ? (
-        <div className="text-white flex-1 flex items-center justify-center">
-          <LoadingIndicator />
-        </div>
-      ) : (
-        <Step step={step} goNextStep={goNextStep} />
-      )}
+      <Step step={step} goNextStep={goNextStep} />
     </div>
   )
 }

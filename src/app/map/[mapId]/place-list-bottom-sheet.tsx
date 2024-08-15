@@ -3,27 +3,31 @@
 import { FilterButton } from '@/components'
 import PlaceListItem from '@/components/place/place-list-item'
 import { useEffect, useState } from 'react'
-import { User } from '@/models/user.interface'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { APIError } from '@/models/interface'
-import { getMapId } from '@/services/map-id'
 import type { PlaceType } from '@/types/api/place'
 import type { FilterIdsType } from './page'
+import useFetch from '@/hooks/use-fetch'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[]
+  mapId: string
   selectedFilter?: FilterIdsType
   onClickFilterButton: VoidFunction
 }
 
 const PlaceListBottomSheet = ({
   places,
+  mapId,
   selectedFilter,
   onClickFilterButton,
 }: PlaceListBottomSheetProps) => {
   const [placeList, setPlaceList] = useState<PlaceType[]>(places)
-  const [userId, setUserId] = useState<User['id']>()
+  const { data: user } = useFetch(api.users.me.get, {
+    key: ['user'],
+  })
+  const userId = user?.id
 
   const getIsLike = (place: PlaceType): boolean => {
     if (typeof userId === 'undefined') return false
@@ -35,8 +39,6 @@ const PlaceListBottomSheet = ({
   const handleLike = async (place: PlaceType) => {
     if (!userId) return
     try {
-      const mapId = await getMapId()
-      if (!mapId) return
       setPlaceList((prevPlaces) =>
         prevPlaces.map((p) =>
           p.place.id === place.place.id
@@ -68,29 +70,12 @@ const PlaceListBottomSheet = ({
   }
 
   useEffect(() => {
-    const getUserId = async () => {
-      try {
-        const {
-          data: { id },
-        } = await api.users.me.get()
-        setUserId(id)
-      } catch (error) {
-        if (error instanceof APIError) {
-          notify.error(error.message)
-        }
-      }
-    }
-
-    getUserId()
-  }, [])
-
-  useEffect(() => {
     setPlaceList(places)
   }, [places])
 
   return (
-    <div className="flex flex-col px-5">
-      <div>
+    <>
+      <div className="sticky top-[-1px] left-0 h-[38px] pt-[1px] px-5 z-10 bg-[#212124] shadow-[rgba(33,33,36,1)_0px_1px_4px_4px]">
         <FilterButton
           numOfSelectedFilter={
             (selectedFilter?.category.length ?? 0) +
@@ -102,7 +87,7 @@ const PlaceListBottomSheet = ({
           필터
         </FilterButton>
       </div>
-      <ul className="flex flex-col">
+      <ul className="flex flex-col px-5">
         {placeList.map((place) => (
           <PlaceListItem
             key={`bottom-sheet-${place.place.kakaoPlace.id}`}
@@ -110,8 +95,6 @@ const PlaceListBottomSheet = ({
             address={place.place.kakaoPlace.address}
             name={place.place.kakaoPlace.name}
             rating={place.place.kakaoPlace.score ?? 0}
-            category={place.place.kakaoPlace.category}
-            categoryIconCode={place.place.kakaoPlace.categoryIconCode}
             images={place.place.kakaoPlace.menuList
               .map((menu) => menu.photo)
               .filter((photo) => !!photo)}
@@ -127,10 +110,11 @@ const PlaceListBottomSheet = ({
                 handleLike(place)
               },
             }}
+            className="first:pt-2"
           />
         ))}
       </ul>
-    </div>
+    </>
   )
 }
 

@@ -3,16 +3,16 @@
 import { Suspense } from 'react'
 
 import SearchBox from './search-box'
-import Spinner from '@/components/spinner'
 import { useIsServer } from '@/hooks/use-is-server'
+import LoadingIndicator from '@/components/loading-indicator'
 
 const Search = () => {
   const isServer = useIsServer()
 
-  if (isServer) return <Spinner />
+  if (isServer) return <LoadingIndicator />
 
   return (
-    <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<LoadingIndicator />}>
       <SearchBox />
     </Suspense>
   )

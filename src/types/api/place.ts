@@ -31,10 +31,24 @@ export interface SearchPlace {
   placeName: string
   address: string
   placeId: PlaceType['place']['id']
-  tags: TagItem[]
+  tags: string[]
   createdBy?: Creator
   score: number
   likedUserIds?: User['id'][]
+}
+
+export const isSearchPlace = (
+  place: PlaceType | SearchPlace | null | undefined,
+): place is SearchPlace => {
+  if (!place) return false
+  return 'isRegisteredPlace' in place
+}
+
+export const isPlaceType = (
+  place: PlaceType | SearchPlace | null | undefined,
+): place is PlaceType => {
+  if (!place) return false
+  return 'place' in place
 }
 
 export interface PlaceMenuItem {

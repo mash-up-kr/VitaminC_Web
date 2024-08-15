@@ -2,34 +2,33 @@
 
 import { useRouter } from 'next/navigation'
 import { useIsServer } from './use-is-server'
-import { getMapId } from '@/services/map-id'
+import { useRef } from 'react'
 
 const useSafeRouter = () => {
   const isServer = useIsServer()
   const router = useRouter()
+  const isBackRef = useRef(false)
 
   const safeBack = async (options?: { defaultHref?: string }) => {
     if (isServer) return
 
-    if (window.history.length > 1) {
-      router.back()
-    } else {
-      if (options?.defaultHref) {
-        router.push(options.defaultHref)
-        return
-      }
+    if (!isBackRef.current) {
+      isBackRef.current = true
 
-      try {
-        const page = await getMapId()
-        router.push(`/map/${page}`)
-      } catch (err) {
-        router.push('/intro')
-      }
+      router.replace((document.referrer || options?.defaultHref) ?? '/intro')
+      router.back()
+      return
     }
+  }
+
+  const push = (href: string) => {
+    isBackRef.current = false
+    router.push(href)
   }
 
   return {
     ...router,
+    push,
     safeBack,
   }
 }

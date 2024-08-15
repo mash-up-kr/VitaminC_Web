@@ -12,10 +12,10 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
   return (
     <div className={cn('bg-neutral-700', className)}>
       <div className="flex gap-[3px]">
-        <Typography size="h5" className="text-[#D5D5D5]">
+        <Typography size="body1" className="text-[#D5D5D5]">
           메뉴
         </Typography>
-        <Typography size="h5" className="text-[#0385FF]">
+        <Typography size="body1" className="text-[#0385FF]">
           {menuList.length}
         </Typography>
       </div>
@@ -23,7 +23,7 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
       <img
         src={mainPhotoUrl}
         alt="메인 음식"
-        className="max-w-full rounded-[6px] mt-[10px] object-fill"
+        className="max-w-full rounded-[6px] mt-[10px] object-cover"
       />
 
       <ul className="flex flex-col divide-y divide-neutral-600">
@@ -41,11 +41,13 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
               </Typography>
             </div>
 
-            <img
-              src={menu.photo || '/images/image-placeholder.png'}
-              alt={`${menu.menu}`}
-              className="w-[60px] h-[60px] rounded max-w-[60px] object-cover"
-            />
+            {menu.photo && (
+              <img
+                src={menu.photo}
+                alt={`${menu.menu}`}
+                className="w-[60px] h-[60px] rounded max-w-[60px] object-cover"
+              />
+            )}
           </li>
         ))}
       </ul>
