@@ -16,11 +16,11 @@ import { roundOnePoint } from '@/utils/number'
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
   mapId: string
-  onrRefreshOldPlace?: VoidFunction
+  onRefreshOldPlace?: VoidFunction
 }
 
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
-  ({ selectedPlace, className, mapId, onrRefreshOldPlace }, ref) => {
+  ({ selectedPlace, className, mapId, onRefreshOldPlace }, ref) => {
     const [isLikePlace, setIsLikePlace] = useState(false)
     const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
 
@@ -53,8 +53,8 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           notify.error(error.message)
         }
       } finally {
-        if (onrRefreshOldPlace) {
-          onrRefreshOldPlace()
+        if (onRefreshOldPlace) {
+          onRefreshOldPlace()
         }
       }
     }
@@ -74,8 +74,8 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           notify.error(error.message)
         }
       } finally {
-        if (onrRefreshOldPlace) {
-          onrRefreshOldPlace()
+        if (onRefreshOldPlace) {
+          onRefreshOldPlace()
         }
       }
     }

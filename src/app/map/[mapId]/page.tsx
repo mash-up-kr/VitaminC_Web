@@ -229,7 +229,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
                   mapId={mapId}
                   selectedFilter={selectedFilterNames}
                   onClickFilterButton={handleFilterModalOpen}
-                  onrRefreshOldPlace={clearOldPlacedata}
+                  onRefreshOldPlace={clearOldPlacedata}
                 />
               }
             />
@@ -257,7 +257,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             mapId={mapId}
             className="absolute bottom-5 px-5"
             selectedPlace={selectedPlace}
-            onrRefreshOldPlace={clearOldPlacedata}
+            onRefreshOldPlace={clearOldPlacedata}
           />
         ))}
     </div>

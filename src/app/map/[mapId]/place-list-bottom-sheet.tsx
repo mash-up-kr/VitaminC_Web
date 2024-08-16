@@ -15,7 +15,7 @@ interface PlaceListBottomSheetProps {
   mapId: string
   selectedFilter?: FilterIdsType
   onClickFilterButton: VoidFunction
-  onrRefreshOldPlace: VoidFunction
+  onRefreshOldPlace: VoidFunction
 }
 
 const PlaceListBottomSheet = ({
@@ -23,7 +23,7 @@ const PlaceListBottomSheet = ({
   mapId,
   selectedFilter,
   onClickFilterButton,
-  onrRefreshOldPlace,
+  onRefreshOldPlace,
 }: PlaceListBottomSheetProps) => {
   const [placeList, setPlaceList] = useState<PlaceType[]>(places)
   const { data: user } = useFetch(api.users.me.get, {
@@ -69,7 +69,7 @@ const PlaceListBottomSheet = ({
         notify.error(error.message)
       }
     } finally {
-      onrRefreshOldPlace()
+      onRefreshOldPlace()
     }
   }
 
