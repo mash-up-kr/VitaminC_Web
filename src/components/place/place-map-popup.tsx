@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import { Typography, PickChip, TagList, LikeButton, Icon } from '@/components'
@@ -16,10 +16,11 @@ import { roundOnePoint } from '@/utils/number'
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
   mapId: string
+  onRefreshOldPlace?: VoidFunction
 }
 
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
-  ({ selectedPlace, className, mapId }, ref) => {
+  ({ selectedPlace, className, mapId, onRefreshOldPlace }, ref) => {
     const [isLikePlace, setIsLikePlace] = useState(false)
     const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
 
@@ -51,6 +52,10 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
         if (error instanceof APIError || error instanceof Error) {
           notify.error(error.message)
         }
+      } finally {
+        if (onRefreshOldPlace) {
+          onRefreshOldPlace()
+        }
       }
     }
 
@@ -68,6 +73,10 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
         if (error instanceof APIError || error instanceof Error) {
           notify.error(error.message)
         }
+      } finally {
+        if (onRefreshOldPlace) {
+          onRefreshOldPlace()
+        }
       }
     }
 
@@ -76,11 +85,16 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     const pick = {
       isLiked: isLikePlace,
       isMyPick:
-        typeof selectedPlace.createdBy !== 'undefined' &&
+        typeof selectedPlace.createdBy != 'undefined' &&
         selectedPlace.createdBy.id === user?.id,
       numOfLikes: getNumOfLike(),
       onClickLike: isLikePlace ? handleUnLikePlace : handleLikePlace,
     }
+
+    useEffect(() => {
+      if (!user) return
+      setIsLikePlace(selectedPlace.likedUserIds.includes(user.id))
+    }, [user, selectedPlace])
 
     return (
       <div
@@ -93,17 +107,18 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4 z-10"
         >
           <div className="flex gap-2 justify-between">
-            <div className="flex flex-col justify-between w-full">
-              <div className="flex flex-col gap-1 ">
-                <div className="flex gap-1.5 items-end">
-                  <Typography
-                    as="h2"
-                    size="h4"
-                    className="text-ellipsis text-nowrap overflow-hidden"
-                  >
+            <div className="flex flex-col gap-2 justify-between overflow-hidden">
+              <div className="space-y-1">
+                <div className="flex gap-1.5 items-center">
+                  <Typography as="h2" size="h4" className="truncate">
                     {kakaoPlace.name}
                   </Typography>
-                  <Typography as="span" size="body3" color="neutral-400">
+                  <Typography
+                    as="span"
+                    className="shrink-0"
+                    size="body3"
+                    color="neutral-400"
+                  >
                     {kakaoPlace.category}
                   </Typography>
                 </div>
@@ -116,7 +131,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                         size="sm"
                         fill="yellow-100"
                       />
-                      <Typography as="span" size="body3" color="neutral-300">
+                      <Typography as="span" size="h6" color="neutral-100">
                         {roundOnePoint(kakaoPlace.score)}
                       </Typography>
                     </div>
@@ -150,7 +165,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
             {kakaoPlace.mainPhotoUrl && (
               <img
-                className="rounded-md w-20 h-20"
+                className="rounded-md min-w-20 w-20 h-20"
                 src={kakaoPlace.mainPhotoUrl}
                 alt="식당"
               />

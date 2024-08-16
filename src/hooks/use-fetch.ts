@@ -2,9 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 
 import { APIError } from '@/models/interface'
 import type { ResponseWithMessage } from '@/types/api'
-import { deleteCookie } from '@/app/actions'
-import { revalidate as revalidateRoute } from '@/utils/api/route'
 import { getTimeDiff } from '@/utils/date'
+import { handleSignout } from '@/services/user'
 
 const cache: Record<string, { data: any; timestamp: Date }> = {}
 const fetching: Record<string, boolean> = {}
@@ -35,55 +34,55 @@ const useFetch = <T>(
     }
   }, [])
 
+  const handleLoadEnd = (payload: T) => {
+    if (options?.onLoadEnd) {
+      options.onLoadEnd(payload)
+    }
+  }
+
+  const fetchData = async () => {
+    if (!queryFn) return
+
+    try {
+      fetching[apiKey] = true
+
+      const response = await queryFn()
+
+      setData(response.data)
+      handleLoadEnd(response.data)
+
+      if (cacheKey) {
+        cache[cacheKey] = { data: response.data, timestamp: new Date() }
+      }
+    } catch (err) {
+      if (err instanceof APIError) {
+        if (err.status === 401) {
+          await handleSignout()
+        }
+        setError({
+          name: 'API Error',
+          message: err.message,
+          status: err.status,
+        })
+      } else {
+        setError({
+          name: 'Unexpected Error',
+          message: '예상치 못한 오류가 발생했습니다.',
+          status: 418,
+        })
+      }
+    } finally {
+      fetching[apiKey] = false
+    }
+  }
+
   const clear = useCallback(() => {
-    Object.assign(cache, {})
+    Object.keys(cache).forEach((key: keyof typeof cache) => {
+      delete cache[key]
+    })
   }, [])
 
   useEffect(() => {
-    const handleLoadEnd = (payload: T) => {
-      if (options?.onLoadEnd) {
-        options.onLoadEnd(payload)
-      }
-    }
-
-    const fetchData = async () => {
-      if (!queryFn) return
-
-      try {
-        fetching[apiKey] = true
-
-        const response = await queryFn()
-
-        setData(response.data)
-        handleLoadEnd(response.data)
-
-        if (cacheKey) {
-          cache[cacheKey] = { data: response.data, timestamp: new Date() }
-        }
-      } catch (err) {
-        if (err instanceof APIError) {
-          if (err.status === 401) {
-            revalidateRoute('token')
-            deleteCookie('Authorization')
-            window.location.reload()
-          }
-          setError({
-            name: 'API Error',
-            message: err.message,
-            status: err.status,
-          })
-        } else {
-          setError({
-            name: 'Unexpected Error',
-            message: '예상치 못한 오류가 발생했습니다.',
-            status: 418,
-          })
-        }
-      } finally {
-        fetching[apiKey] = false
-      }
-    }
-
     const getData = async () => {
       if (disabled) return
 
@@ -112,6 +111,7 @@ const useFetch = <T>(
     status: data ? 'success' : error ? 'error' : disabled ? 'idle' : 'pending',
     revalidate,
     clear,
+    refetch: fetchData,
   }
 }
 
