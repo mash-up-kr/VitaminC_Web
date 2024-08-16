@@ -79,7 +79,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       return
     }
     setSelectedPlace(place)
-    clearOldPlacedata()
   }
 
   const handleFilterModalOpen = () => {

@@ -80,7 +80,9 @@ const useFetch = <T>(
   }
 
   const clear = useCallback(() => {
-    Object.assign(cache, {})
+    Object.keys(cache).forEach((key: keyof typeof cache) => {
+      delete cache[key]
+    })
 
     if (disabled) return
     fetchData()
