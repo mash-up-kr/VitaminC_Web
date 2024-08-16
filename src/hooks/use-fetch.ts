@@ -2,9 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 
 import { APIError } from '@/models/interface'
 import type { ResponseWithMessage } from '@/types/api'
-import { deleteCookie } from '@/app/actions'
-import { revalidate as revalidateRoute } from '@/utils/api/route'
 import { getTimeDiff } from '@/utils/date'
+import { handleSignout } from '@/services/user'
 
 const cache: Record<string, { data: any; timestamp: Date }> = {}
 const fetching: Record<string, boolean> = {}
@@ -58,9 +57,7 @@ const useFetch = <T>(
     } catch (err) {
       if (err instanceof APIError) {
         if (err.status === 401) {
-          revalidateRoute('token')
-          deleteCookie('Authorization')
-          window.location.reload()
+          await handleSignout()
         }
         setError({
           name: 'API Error',

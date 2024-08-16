@@ -5,9 +5,9 @@ import { useState } from 'react'
 import { AccessibleIconButton, Avatar, Icon, Typography } from '@/components'
 import BottomModal from '@/components/BottomModal'
 import { api } from '@/utils/api'
-import { notify } from '@/components/common/custom-toast'
 import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
+import { handleSignout } from '@/services/user'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
@@ -16,15 +16,6 @@ const Setting = () => {
 
   const handleCloseSignupModal = () => {
     setIsOpenSignupModal(false)
-  }
-
-  const handleSignout = async () => {
-    try {
-      await fetch('/api/token', { method: 'DELETE' })
-      window.location.reload()
-    } catch (error) {
-      notify.error('로그아웃에 실패했습니다. ')
-    }
   }
 
   return (
