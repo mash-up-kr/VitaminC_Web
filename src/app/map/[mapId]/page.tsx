@@ -257,6 +257,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             mapId={mapId}
             className="absolute bottom-5 px-5"
             selectedPlace={selectedPlace}
+            onrRefreshOldPlace={clearOldPlacedata}
           />
         ))}
     </div>

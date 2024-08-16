@@ -16,10 +16,11 @@ import { roundOnePoint } from '@/utils/number'
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
   mapId: string
+  onrRefreshOldPlace?: VoidFunction
 }
 
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
-  ({ selectedPlace, className, mapId }, ref) => {
+  ({ selectedPlace, className, mapId, onrRefreshOldPlace }, ref) => {
     const [isLikePlace, setIsLikePlace] = useState(false)
     const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
 
@@ -51,6 +52,10 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
         if (error instanceof APIError || error instanceof Error) {
           notify.error(error.message)
         }
+      } finally {
+        if (onrRefreshOldPlace) {
+          onrRefreshOldPlace()
+        }
       }
     }
 
@@ -68,6 +73,10 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
         if (error instanceof APIError || error instanceof Error) {
           notify.error(error.message)
         }
+      } finally {
+        if (onrRefreshOldPlace) {
+          onrRefreshOldPlace()
+        }
       }
     }
 
@@ -76,7 +85,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     const pick = {
       isLiked: isLikePlace,
       isMyPick:
-        typeof selectedPlace.createdBy !== 'undefined' &&
+        typeof selectedPlace.createdBy != 'undefined' &&
         selectedPlace.createdBy.id === user?.id,
       numOfLikes: getNumOfLike(),
       onClickLike: isLikePlace ? handleUnLikePlace : handleLikePlace,
