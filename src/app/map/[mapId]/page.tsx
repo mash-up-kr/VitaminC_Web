@@ -44,7 +44,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const {
     data: places,
     error: placesError,
-    clear: clearOldPlacedata,
+    refetch: clearOldPlacedata,
   } = useFetch(() => api.place.mapId.get(mapId), {
     key: ['places', mapId],
     enabled: !!userData && !!mapData,

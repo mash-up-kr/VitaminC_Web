@@ -83,11 +83,7 @@ const useFetch = <T>(
     Object.keys(cache).forEach((key: keyof typeof cache) => {
       delete cache[key]
     })
-
-    if (disabled) return
-    fetchData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [disabled])
+  }, [])
 
   useEffect(() => {
     const getData = async () => {
