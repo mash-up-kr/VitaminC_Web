@@ -2,11 +2,11 @@
 
 import { type CSSProperties, useCallback, useEffect, useRef } from 'react'
 import { type PanInfo, animate, motion, useMotionValue } from 'framer-motion'
-import Lottie from 'lottie-react'
 
 import cn from '@/utils/cn'
 import type { Item } from './types'
 import { Typography } from '@/components/common'
+import { Lottie } from '@/components/common/lottie'
 import useEventListener from '@/hooks/use-event-listener'
 
 interface SlideProps {
