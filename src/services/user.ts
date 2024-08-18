@@ -1,8 +1,9 @@
-import { revalidate as revalidateRoute } from '@/utils/api/route'
+import { fetchData, revalidate as revalidateRoute } from '@/utils/api/route'
 import { notify } from '@/components/common/custom-toast'
 
 export const handleSignout = async () => {
   try {
+    await fetchData('/api/token', { method: 'DELETE' })
     revalidateRoute('token')
     if (window.location.pathname !== '/intro') {
       window.location.replace('/intro')
