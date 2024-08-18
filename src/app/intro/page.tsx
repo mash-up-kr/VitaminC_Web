@@ -74,10 +74,10 @@ const Intro = () => {
 
       try {
         if (!authorization) {
-          const data = await fetchData<Token>('/api/token', {
+          const response = await fetchData<Token>('/api/token', {
             key: ['token'],
           })
-          const token = data.token
+          const token = response.data.token
           setAuthorization(!!token)
         }
       } catch {
@@ -99,7 +99,7 @@ const Intro = () => {
   const initialStep = useMemo(() => {
     if (isLoading) {
       return IntroStep.LOADING
-    } else if (!authorization) {
+    } else if (!user) {
       return IntroStep.LOGIN
     } else if (!nickname) {
       return IntroStep.NICKNAME
@@ -110,7 +110,7 @@ const Intro = () => {
     } else {
       return IntroStep.FORBIDDEN
     }
-  }, [isLoading, authorization, nickname, maps, onboarding])
+  }, [isLoading, user, nickname, maps, onboarding])
 
   useEffect(() => {
     if (initialStep === IntroStep.FORBIDDEN) {
