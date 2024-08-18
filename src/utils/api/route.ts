@@ -4,22 +4,32 @@ import { parseJSON } from './parse-json'
 
 const cache: Record<string, any> = {}
 
+interface Options extends RequestInit {
+  key?: string[]
+}
+
 export const fetchData = async <T>(
   url: string,
-  options?: { key?: string[] },
-): Promise<T> => {
+  options?: Options,
+): Promise<ResponseWithMessage<T>> => {
   const cacheKey = options?.key?.join('') ?? url
+  if (options?.key) {
+    delete options.key
+  }
 
   if (cache[cacheKey]) {
-    return cache[cacheKey]
+    return {
+      message: 'success',
+      data: cache[cacheKey],
+    }
   }
 
   try {
-    const response = await fetch(url)
-    const { data } = await parseJSON<ResponseWithMessage<T>>(response)
+    const response = await fetch(url, options)
+    const data = await parseJSON<ResponseWithMessage<T>>(response)
 
-    if (data) {
-      cache[cacheKey] = data
+    if (data.data) {
+      cache[cacheKey] = data.data
     }
 
     return data

@@ -7,10 +7,11 @@ const injectAuthTokenToConfig = async (config: RequestConfig) => {
   config.headers = config.headers || {}
 
   try {
-    const data = await fetchData<Token>('/api/token', {
+    const response = await fetchData<Token>('/api/token', {
       key: ['token'],
     })
-    const token = data.token
+
+    const token = response.data.token
     if (token) {
       config.headers.Authorization = token
     }
