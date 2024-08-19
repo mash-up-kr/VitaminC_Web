@@ -29,7 +29,7 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
     }
   }, [src])
 
-  return <img {...props} src={url ?? src} />
+  return <img {...props} src={url || src} />
 }
 
 export default ProxyImage
