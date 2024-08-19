@@ -32,7 +32,10 @@ export async function DELETE() {
     )
   }
 
-  cookieStore.delete(AUTHORIZATION)
+  cookieStore.set(AUTHORIZATION, '', {
+    maxAge: -1,
+    expires: new Date(Date.now() - 1),
+  })
 
   return NextResponse.json({ message: 'success', data: {} })
 }
