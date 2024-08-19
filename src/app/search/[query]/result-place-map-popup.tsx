@@ -3,7 +3,14 @@
 import { ForwardedRef, forwardRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 
-import { Typography, TagList, Icon, PickChip, LikeButton } from '@/components'
+import {
+  Typography,
+  TagList,
+  Icon,
+  PickChip,
+  LikeButton,
+  ProxyImage,
+} from '@/components'
 import { APIError, type ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 import type { PlaceDetail, SearchPlace } from '@/types/api/place'
@@ -181,7 +188,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
               </div>
 
               {place.mainPhotoUrl && (
-                <img
+                <ProxyImage
                   className="rounded-md w-20 h-20"
                   src={place.mainPhotoUrl}
                   alt="식당"
