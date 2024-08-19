@@ -114,7 +114,7 @@ const BoardingInfoPass = ({
       if (error instanceof APIError) {
         notify.error(error.message)
       } else {
-        notify.error('예상치 못한 에러가 발생했습니다. ')
+        notify.error('예상치 못한 에러가 발생했습니다.')
         setIsInvited(false)
       }
     }

@@ -38,7 +38,7 @@ const PlaceRegister = ({ params }: { params?: { placeId?: number } }) => {
           notify.error(error.message)
           return
         }
-        notify.error('예상치 못한 오류가 발생했습니다. ')
+        notify.error('예상치 못한 오류가 발생했습니다.')
       }
     }
     fetchTags()
