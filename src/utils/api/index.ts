@@ -143,9 +143,14 @@ const place = {
   },
 }
 
+const proxy = {
+  get: (url: string): Promise<any> => client.public.get(`/proxy?url=${url}`),
+}
+
 export const api = {
   users,
   maps,
   search,
   place,
+  proxy,
 } as const
