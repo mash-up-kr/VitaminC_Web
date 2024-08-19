@@ -6,19 +6,20 @@ import { motion } from 'framer-motion'
 import { Typography } from '@/components/common'
 import ConfirmCancelButton from '@/components/confirm-cancel-button'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
-import { InvitingBoardingPassProps } from '@/components/boarding-pass/types'
+import type { MapInviteInfo } from '@/components/boarding-pass/types'
 import { notify } from '@/components/common/custom-toast'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import { APIError } from '@/models/interface'
 import useSafeRouter from '@/hooks/use-safe-router'
+import { getMapInviteInfo } from '@/services/invitation'
 
 const Invite = () => {
   const router = useSafeRouter()
   const [mapId, setMapId] = useState<string | undefined>()
-  const [mapInviteInfo, setMapInviteInfo] = useState<
-    InvitingBoardingPassProps | undefined
-  >(undefined)
+  const [mapInviteInfo, setMapInviteInfo] = useState<MapInviteInfo | undefined>(
+    undefined,
+  )
   const [showInvitation, setShowInvitation] = useState(false)
 
   useEffect(() => {
@@ -47,34 +48,17 @@ const Invite = () => {
     setShowInvitation(!showInvitation)
   }
 
-  const getMapInviteInfo = async (inviteCode: string) => {
-    try {
-      const res = await api.maps.inviteLinks.get(inviteCode)
-      const data = res.data
-      setMapInviteInfo({
-        inviteCode: data.inviteLink.token,
-        expirationTime: new Date(data.inviteLink.expiresAt),
-        mapName: data.map.name,
-        creator: data.map.createBy,
-        numOfCrews: data.map.users.length,
-      })
-      handleShowInvitation()
-    } catch (error) {
-      if (error instanceof APIError) {
-        notify.error(error.message)
-      }
-    }
-  }
-
   const getMapInviteCode = async (id: string) => {
     try {
       const res = await api.maps.id.inviteLinks.post(id)
       const inviteCode = res.data.token
       if (inviteCode) {
-        getMapInviteInfo(inviteCode)
+        const info = await getMapInviteInfo(inviteCode)
+        setMapInviteInfo(info)
+        handleShowInvitation()
       }
     } catch (error) {
-      if (error instanceof APIError) {
+      if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
       }
     }

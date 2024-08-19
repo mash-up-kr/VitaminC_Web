@@ -17,6 +17,7 @@ import Modal from '@/components/common/Modal/Modal'
 import InvitingBoardingPass from './inviting-boarding-pass'
 import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
+import { getMapInviteInfo } from '@/services/invitation'
 
 const ShareButton = ({
   isInvited,
@@ -97,26 +98,7 @@ const BoardingInfoPass = ({
         notify.error(error.message)
         return
       }
-      notify.error('예상치 못한 에러가 발생했습니다. ')
-    }
-  }
-
-  const getMapInviteInfo = async (inviteCode: string) => {
-    try {
-      const res = await api.maps.inviteLinks.get(inviteCode)
-      const data = res.data
-      setMapInviteInfo({
-        inviteCode: data.inviteLink.token,
-        expirationTime: new Date(data.inviteLink.expiresAt),
-        mapName: data.map.name,
-        creator: data.map.createBy,
-        numOfCrews: data.map.users.length,
-      })
-      setIsOpenInvitedBoardingPass(true)
-    } catch (error) {
-      if (error instanceof APIError) {
-        notify.error(error.message)
-      }
+      notify.error('예상치 못한 에러가 발생했습니다.')
     }
   }
 
@@ -124,14 +106,17 @@ const BoardingInfoPass = ({
     try {
       const { data } = await api.maps.id.inviteLinks.post(mapId)
       setIsInvited(true)
-      getMapInviteInfo(data.token)
+
+      const info = await getMapInviteInfo(data.token)
+      setMapInviteInfo(info)
+      setIsOpenInvitedBoardingPass(true)
     } catch (error) {
       if (error instanceof APIError) {
         notify.error(error.message)
-        return
+      } else {
+        notify.error('예상치 못한 에러가 발생했습니다. ')
+        setIsInvited(false)
       }
-      notify.error('예상치 못한 에러가 발생했습니다. ')
-      setIsInvited(false)
     }
   }
 

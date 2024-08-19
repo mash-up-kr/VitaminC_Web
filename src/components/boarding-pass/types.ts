@@ -35,3 +35,6 @@ export interface InvitedBoardingPassProps extends InvitingBoardingPassProps {
   mapId: MapInfo['id']
   images?: string[]
 }
+
+export interface MapInviteInfo
+  extends Omit<InvitedBoardingPassProps, 'className'> {}
