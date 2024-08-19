@@ -56,7 +56,7 @@ const Invite = async ({
             mapName={mapInfo.name}
             creator={mapInfo.createBy}
             numOfCrews={mapInfo.users.length}
-            images={mapInviteInfo.placePreviewList}
+            images={mapInviteInfo.placePreviewList.filter((photo) => !!photo)}
           />
         </>
       )}
