@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState, type ImgHTMLAttributes } from 'react'
 import { api } from '@/utils/api'
 
