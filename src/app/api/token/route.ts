@@ -35,6 +35,9 @@ export async function DELETE() {
   cookieStore.set(AUTHORIZATION, '', {
     maxAge: -1,
     expires: new Date(Date.now() - 1),
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
   })
 
   return NextResponse.json({ message: 'success', data: {} })
