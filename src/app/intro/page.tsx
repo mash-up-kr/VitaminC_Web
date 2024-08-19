@@ -122,7 +122,7 @@ const Intro = () => {
   }, [initialStep])
 
   useEffect(() => {
-    if (step >= IntroStep.NEW_MAP && !!inviteCode) {
+    if (nickname && !!inviteCode) {
       setLoading(true)
 
       const boardMap = async () => {
@@ -161,7 +161,7 @@ const Intro = () => {
 
       enterMap()
     }
-  }, [inviteCode, router, step])
+  }, [inviteCode, nickname, router])
 
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
