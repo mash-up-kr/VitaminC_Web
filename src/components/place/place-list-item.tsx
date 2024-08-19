@@ -1,6 +1,13 @@
 import Link from 'next/link'
 
-import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
+import {
+  Typography,
+  PickChip,
+  LikeButton,
+  TagList,
+  Icon,
+  ProxyImage,
+} from '@/components'
 import type { PlaceProps } from './types'
 import IconChip from '../icon-chip'
 import { getStarByScore } from '@/utils/score'
@@ -40,9 +47,9 @@ const PlaceListItem = ({
       {images && (
         <div className="flex flex-nowrap box-border gap-2 max-x-[335px] items-center overflow-x-scroll no-scrollbar">
           {images.map((image, idx) => (
-            <img
+            <ProxyImage
               key={`${placeId}-${image}-${idx}`}
-              src={image || '/images/image-placeholder.png'}
+              src={image}
               className="w-[calc(33.4%-8px)] aspect-square rounded-md object-cover"
               alt={`${name}${idx}`}
             />

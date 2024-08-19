@@ -2,6 +2,7 @@ import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 import { Typography } from '../common'
 import type { PlaceDetail } from '@/types/api/place'
+import { ProxyImage } from '@/components'
 
 interface MenuListProps extends ClassName {
   mainPhotoUrl: string
@@ -20,7 +21,7 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
         </Typography>
       </div>
 
-      <img
+      <ProxyImage
         src={mainPhotoUrl}
         alt="메인 음식"
         className="max-w-full rounded-[6px] mt-[10px] object-cover"
@@ -42,7 +43,7 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
             </div>
 
             {menu.photo && (
-              <img
+              <ProxyImage
                 src={menu.photo}
                 alt={`${menu.menu}`}
                 className="w-[60px] h-[60px] rounded max-w-[60px] object-cover"

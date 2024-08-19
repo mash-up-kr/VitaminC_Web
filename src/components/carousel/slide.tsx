@@ -8,6 +8,7 @@ import type { Item } from './types'
 import { Typography } from '@/components/common'
 import { Lottie } from '@/components/common/lottie'
 import useEventListener from '@/hooks/use-event-listener'
+import { ProxyImage } from '@/components'
 
 interface SlideProps {
   items: Item[]
@@ -121,7 +122,7 @@ const Slide = ({
           )}
 
           {typeof item.src === 'string' ? (
-            <img
+            <ProxyImage
               draggable={false}
               alt={
                 item.title && typeof item.title === 'string'

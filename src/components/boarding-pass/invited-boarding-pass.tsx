@@ -10,6 +10,7 @@ import BoardingBottom from './boarding-bottom'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { inviteCodeStorage } from '@/utils/storage'
 import { notify } from '@/components/common/custom-toast'
+import { ProxyImage } from '@/components'
 
 const InvitedBoardingPass = ({
   className,
@@ -54,7 +55,7 @@ const InvitedBoardingPass = ({
       {images && (
         <div className="pt-[18px] px-[20px] w-full flex gap-[10px] bg-neutral-600 overflow-x-scroll no-scrollbar">
           {images.map((image, index) => (
-            <img
+            <ProxyImage
               key={`${index}-${image}`}
               src={image}
               className="w-[88px] h-[88px] max-w-[88px] rounded"

@@ -144,8 +144,14 @@ class HTTPClient {
         requestInit,
         options,
       )
-      const data = await parseJSON<T>(response)
-      return data
+
+      const contentType = response.headers.get('content-type')
+      if (contentType?.startsWith('application/json')) {
+        const data = await parseJSON<T>(response)
+        return data
+      } else {
+        return response as T
+      }
     } catch (error) {
       if (error instanceof APIError) {
         throw new APIError(error)
