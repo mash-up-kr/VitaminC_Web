@@ -22,12 +22,11 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
 
     convertImage()
 
-    return () => {
-      if (url) {
+    if (url) {
+      return () => {
         URL.revokeObjectURL(url)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [src])
 
   return <img {...props} src={url ?? src} />
