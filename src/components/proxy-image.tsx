@@ -20,14 +20,16 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
       } catch {}
     }
 
-    convertImage()
+    if (!url && src.startsWith('http')) {
+      convertImage()
+    }
 
     if (url) {
       return () => {
         URL.revokeObjectURL(url)
       }
     }
-  }, [src])
+  }, [src, url])
 
   return <img {...props} src={url || src} />
 }
