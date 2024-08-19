@@ -1,5 +1,5 @@
 import type { ClassName } from '@/models/interface'
-import type { MapMemberData } from '@/models/map.interface'
+import type { MapInfo, MapMemberData } from '@/models/map.interface'
 import type { Creator, User } from '@/models/user.interface'
 
 interface BoardingMembers {
@@ -14,8 +14,8 @@ export interface BoardingMembersProps
 }
 
 export interface BoardingInfoPassProps extends BoardingMembers, ClassName {
-  mapId: string
-  name: string
+  mapId: MapInfo['id']
+  mapName: MapInfo['name']
   day: number
   numOfPins: number
 }
@@ -23,7 +23,7 @@ export interface BoardingInfoPassProps extends BoardingMembers, ClassName {
 export interface InviteBoardingPass
   extends Omit<BoardingMembers, 'members'>,
     ClassName {
-  mapName: string
+  mapName: MapInfo['name']
   expirationTime: Date
 }
 
@@ -32,6 +32,6 @@ export interface InvitingBoardingPassProps extends InviteBoardingPass {
 }
 
 export interface InvitedBoardingPassProps extends InvitingBoardingPassProps {
-  mapId: string
+  mapId: MapInfo['id']
   images?: string[]
 }

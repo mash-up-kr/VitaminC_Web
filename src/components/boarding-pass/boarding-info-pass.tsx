@@ -56,7 +56,7 @@ const ExitButton = ({ onClickExit }: { onClickExit: VoidFunction }) => {
 const BoardingInfoPass = ({
   className,
   mapId,
-  name,
+  mapName,
   day,
   numOfPins,
   numOfCrews,
@@ -195,7 +195,7 @@ const BoardingInfoPass = ({
       </div>
       <BottomModal
         isOpen={isExitModalOpen}
-        title={`정말 ${name}지도를 나가시겠어요?`}
+        title={`정말 ${mapName}지도를 나가시겠어요?`}
         cancelMessage="아니요"
         confirmMessage="나가기"
         onClose={() => setIsExitModalOpen(false)}

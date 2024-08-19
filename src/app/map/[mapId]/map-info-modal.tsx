@@ -126,7 +126,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
               <BoardingInfoPass
                 className="px-5"
                 mapId={mapData.id}
-                name={mapData.name}
+                mapName={mapData.name}
                 day={getDiffDateText(new Date(mapData.createdAt), new Date())}
                 members={mapData.users}
                 numOfCrews={mapData.users.length}
