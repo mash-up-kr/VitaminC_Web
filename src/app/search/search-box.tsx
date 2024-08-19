@@ -97,7 +97,7 @@ const SearchBox = () => {
       }
     }
     fetchMapId()
-  }, [])
+  }, [mapId])
 
   const getSuggestPlaces = useCallback(async () => {
     if (!query || !mapId) return
