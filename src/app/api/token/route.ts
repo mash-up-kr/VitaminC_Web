@@ -33,11 +33,12 @@ export async function DELETE() {
   }
 
   cookieStore.set(AUTHORIZATION, '', {
-    maxAge: -1,
-    expires: new Date(Date.now() - 1),
     httpOnly: true,
-    secure: true,
     sameSite: 'none',
+    secure: true,
+    path: '/',
+    expires: new Date(Date.now() - 1),
+    domain: process.env.NODE_ENV === 'production' ? '.korrk.kr' : 'localhost',
   })
 
   return NextResponse.json({ message: 'success', data: {} })
