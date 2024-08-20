@@ -33,9 +33,9 @@ const FilterModalBody = ({
 
   const getIsCategorySelected = (type: CategoryType) => {
     if (type === 'all') {
-      return selectedFilterNames.category.length === 0
+      return selectedFilterNames.category === null
     }
-    return selectedFilterNames.category.includes(type)
+    return selectedFilterNames.category === type
   }
   useIsomorphicLayoutEffect(() => {
     const fetchTags = async () => {

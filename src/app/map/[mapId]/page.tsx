@@ -22,12 +22,12 @@ import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 import useFetch from '@/hooks/use-fetch'
 
 export interface FilterIdsType {
-  category: string[]
+  category: null | 'like' | 'pick'
   tags: TagItem['name'][]
 }
 
 const INITIAL_FILTER_IDS = {
-  category: [],
+  category: null,
   tags: [],
 }
 
@@ -98,21 +98,21 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     value: CategoryType | TagItem['name'],
   ) => {
     if (value === 'all') {
-      setSelectedFilterNames((prev) => ({ ...prev, category: [] }))
+      setSelectedFilterNames((prev) => ({ ...prev, category: null }))
       return
     }
 
     if (value === 'like' || value === 'pick') {
-      if (selectedFilterNames.category.includes(value)) {
+      if (selectedFilterNames.category === value) {
         setSelectedFilterNames((prev) => ({
           ...prev,
-          category: prev.category.filter((c) => c !== value),
+          category: null,
         }))
         return
       }
       setSelectedFilterNames((prev) => ({
         ...prev,
-        category: [...prev.category, value],
+        category: value,
       }))
       return
     }
@@ -147,16 +147,22 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     if (!userData || !places) return
     setFilteredPlace(
       places.filter((place) => {
-        const matchesCategory =
-          selectedFilterNames.category.length === 0 ||
-          selectedFilterNames.category.some((cat) => {
-            if (cat === 'like') {
-              return place.likedUserIds?.includes(userData.id)
-            } else if (cat === 'pick') {
-              return place.createdBy?.id === userData.id
-            }
-            return false
-          })
+        const checkMatchesCategory = () => {
+          if (selectedFilterNames.category === null) return true
+          if (
+            selectedFilterNames.category === 'like' &&
+            place.likedUserIds?.includes(userData.id)
+          )
+            return true
+          if (
+            selectedFilterNames.category === 'pick' &&
+            place.createdBy?.id === userData.id
+          )
+            return true
+
+          return false
+        }
+        const matchesCategory = checkMatchesCategory()
 
         const matchesTags =
           selectedFilterNames.tags.length === 0 ||
