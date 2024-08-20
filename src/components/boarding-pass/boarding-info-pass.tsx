@@ -18,6 +18,8 @@ import InvitingBoardingPass from './inviting-boarding-pass'
 import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
 import { getMapInviteInfo } from '@/services/invitation'
+import { sendedInviteCodesStorage } from '@/utils/storage'
+import { getIsExpiredTime } from '@/utils/date'
 
 const ShareButton = ({
   isInvited,
@@ -68,7 +70,7 @@ const BoardingInfoPass = ({
 
   const [isOpenInviteBoardingPass, setIsOpenInvitedBoardingPass] =
     useState(false)
-  const [isInvited, setIsInvited] = useState(false)
+
   const [isExitModalOpen, setIsExitModalOpen] = useState(false)
   const [mapInviteInfo, setMapInviteInfo] =
     useState<InvitingBoardingPassProps>()
@@ -78,6 +80,32 @@ const BoardingInfoPass = ({
   const isMyBoard = members.some(
     (member) => user && user.id === member.id && member.role === 'ADMIN',
   )
+
+  const isInvited = (sendedInviteCodesStorage.getValueOrNull() ?? []).some(
+    (code) => {
+      if (
+        code.mapId === mapId &&
+        !getIsExpiredTime(new Date(code.expiredTime))
+      ) {
+        return true
+      }
+      return false
+    },
+  )
+
+  const showInviteInfo = async (token: string) => {
+    try {
+      const info = await getMapInviteInfo(token)
+      setMapInviteInfo(info)
+      setIsOpenInvitedBoardingPass(true)
+    } catch (error) {
+      if (error instanceof APIError) {
+        notify.error(error.message)
+      } else {
+        notify.error('예상치 못한 에러가 발생했습니다.')
+      }
+    }
+  }
 
   const handleExitMap = async () => {
     try {
@@ -103,26 +131,32 @@ const BoardingInfoPass = ({
   }
 
   const handleIssuedInviteCode = async () => {
+    const inviteList = sendedInviteCodesStorage.getValueOrNull() ?? []
     try {
-      const { data } = await api.maps.id.inviteLinks.post(mapId)
-      setIsInvited(true)
+      if (isInvited) {
+        const inviteData = inviteList.filter((code) => code.mapId === mapId)[0]
 
-      const info = await getMapInviteInfo(data.token)
-      setMapInviteInfo(info)
-      setIsOpenInvitedBoardingPass(true)
+        showInviteInfo(inviteData.token)
+      } else {
+        const { data } = await api.maps.id.inviteLinks.post(mapId)
+        sendedInviteCodesStorage.set([
+          ...inviteList.filter((code) => code.mapId !== mapId),
+          {
+            expiredTime: new Date(data.expiresAt),
+            mapId: mapId,
+            token: data.token,
+          },
+        ])
+        showInviteInfo(data.token)
+      }
     } catch (error) {
       if (error instanceof APIError) {
         notify.error(error.message)
       } else {
         notify.error('예상치 못한 에러가 발생했습니다.')
-        setIsInvited(false)
       }
     }
   }
-
-  useEffect(() => {
-    setIsInvited(false)
-  }, [mapId])
 
   return (
     <>

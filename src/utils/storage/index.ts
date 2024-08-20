@@ -35,3 +35,12 @@ export const allowUserPositionStorage = new LocalStorageManager<boolean>(
 
 export const ONBOARDING = '@@onboarding'
 export const onboardingStorage = new LocalStorageManager<string>(ONBOARDING)
+
+export const SENDED_INVITE_CODES = '@@sended_invite_codes'
+export const sendedInviteCodesStorage = new SessionStorageManager<
+  {
+    mapId: string
+    token: string
+    expiredTime: Date
+  }[]
+>(SENDED_INVITE_CODES)
