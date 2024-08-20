@@ -9,7 +9,7 @@ import Mapname from '@/components/intro/steps/mapname'
 import Invite from '@/components/intro/steps/invite'
 import Header from '@/components/intro/header'
 import LoadingIndicator from '@/components/loading-indicator'
-import { APIError, IntroStep } from '@/models/interface'
+import { IntroStep } from '@/models/interface'
 import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
 
 import { useIsServer } from '@/hooks/use-is-server'
@@ -19,6 +19,7 @@ import { notify } from '@/components/common/custom-toast'
 import { fetchData } from '@/utils/api/route'
 import useFetch from '@/hooks/use-fetch'
 import { Token } from '@/models/user.interface'
+import { enterMap } from '@/services/invitation'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -122,46 +123,31 @@ const Intro = () => {
   }, [initialStep])
 
   useEffect(() => {
-    if (step >= IntroStep.NEW_MAP && !!inviteCode) {
-      setLoading(true)
+    if (nickname && !!inviteCode) {
+      const enterMapWithInviteCode = async () => {
+        setLoading(true)
 
-      const boardMap = async () => {
         try {
-          await api.maps.inviteLinks.post(inviteCode)
+          const data = await enterMap(inviteCode)
 
-          return true
-        } catch (error) {
-          if (error instanceof APIError && error.status === 409) {
-            return true
-          } else {
-            return false
+          if (!data) {
+            throw new Error('예상치 못한 오류가 발생했습니다.')
           }
-        }
-      }
-
-      const enterMap = async () => {
-        try {
-          const successBoardMap = await boardMap()
-
-          if (!successBoardMap) throw new Error('지도에 승선하지 못했습니다.')
-
-          const { data } = await api.maps.inviteLinks.get(inviteCode)
-
-          inviteCodeStorage.remove()
 
           router.push(`/map/${data.map.id}`)
           notify.success(`${data.map.name} 지도에 오신 걸 환영합니다!`)
         } catch (error) {
-          if (error instanceof APIError) {
+          if (error instanceof Error) {
             notify.error(error.message)
           }
+
           setLoading(false)
         }
       }
 
-      enterMap()
+      enterMapWithInviteCode()
     }
-  }, [inviteCode, router, step])
+  }, [inviteCode, nickname, router])
 
   return (
     <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
