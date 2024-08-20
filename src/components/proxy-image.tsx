@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ImgHTMLAttributes } from 'react'
 import { api } from '@/utils/api'
+import { useLazyImage } from '@/hooks/use-lazy-image'
 
 interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string
@@ -9,6 +10,7 @@ interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
 
 const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
   const [url, setUrl] = useState('')
+  const { ref, inView } = useLazyImage({ src: url, options: {} })
 
   useEffect(() => {
     const convertImage = async () => {
@@ -20,7 +22,7 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
       } catch {}
     }
 
-    if (!url && src.startsWith('http')) {
+    if (!url && inView && src.startsWith('http')) {
       convertImage()
     }
 
@@ -30,9 +32,9 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
         URL.revokeObjectURL(url)
       }
     }
-  }, [src, url])
+  }, [inView, src, url])
 
-  return <img {...props} src={url || src} />
+  return <img {...props} ref={ref} src={url || src} />
 }
 
 export default ProxyImage
