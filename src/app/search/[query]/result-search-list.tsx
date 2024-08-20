@@ -13,24 +13,15 @@ import useUserGeoLocation from '@/hooks/use-user-geo-location'
 
 interface ResultSearchListBoxProps extends ClassName {
   places: SearchPlace[]
-  mapId: string
 }
 
 const ResultSearchListBox = ({
   className,
   places,
-  mapId,
 }: ResultSearchListBoxProps) => {
   const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
   const userLocation = useUserGeoLocation()
   const isAllowPosition = allowUserPositionStorage.getValueOrNull()
-
-  const handleLikePlace = async (placeId: SearchPlace['placeId']) => {
-    try {
-      if (!mapId) return
-      await api.place.mapId.placeId.like.put({ placeId, mapId })
-    } catch (error) {}
-  }
 
   return (
     <ul
@@ -68,7 +59,7 @@ const ResultSearchListBox = ({
                         false,
                       numOfLikes: place.likedUserIds?.length ?? 0,
                       isMyPick: place.createdBy?.nickname === user?.nickname,
-                      onClickLike: () => handleLikePlace(place.placeId),
+                      onClickLike: () => {},
                     }
                   : undefined
               }

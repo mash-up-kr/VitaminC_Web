@@ -145,11 +145,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
           )}
         </>
       ) : (
-        <ResultSearchListBox
-          mapId={mapId}
-          places={places}
-          className="absolute top-[60px]"
-        />
+        <ResultSearchListBox places={places} className="absolute top-[60px]" />
       )}
     </div>
   )
