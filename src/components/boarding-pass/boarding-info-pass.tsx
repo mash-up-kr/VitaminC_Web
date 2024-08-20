@@ -2,7 +2,7 @@
 
 import cn from '@/utils/cn'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Icon, Typography } from '@/components/common'
 import BoardingDivider from './boarding-divider'
