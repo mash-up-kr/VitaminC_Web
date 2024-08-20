@@ -26,6 +26,7 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
 
     if (url) {
       return () => {
+        setUrl('')
         URL.revokeObjectURL(url)
       }
     }
