@@ -105,7 +105,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
           notify.error(error.message)
           return
         }
-        notify.error('지도 목록을 가지고 오는데 에러가 발생했습니다. ')
+        notify.error('지도 목록을 가지고 오는데 에러가 발생했습니다.')
       }
     }
 
@@ -126,7 +126,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
               <BoardingInfoPass
                 className="px-5"
                 mapId={mapData.id}
-                name={mapData.name}
+                mapName={mapData.name}
                 day={getDiffDateText(new Date(mapData.createdAt), new Date())}
                 members={mapData.users}
                 numOfCrews={mapData.users.length}

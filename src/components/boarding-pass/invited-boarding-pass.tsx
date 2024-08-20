@@ -2,7 +2,6 @@
 
 import cn from '@/utils/cn'
 import { InvitedBoardingPassProps } from './types'
-import { api } from '@/utils/api'
 import { APIError } from '@/models/interface'
 import InviteBoardingPassInfo from './invite-boarding-pass-info'
 import { Button } from '@/components/common'
@@ -11,6 +10,7 @@ import useSafeRouter from '@/hooks/use-safe-router'
 import { inviteCodeStorage } from '@/utils/storage'
 import { notify } from '@/components/common/custom-toast'
 import { ProxyImage } from '@/components'
+import { boardMap } from '@/services/invitation'
 
 const InvitedBoardingPass = ({
   className,
@@ -26,19 +26,20 @@ const InvitedBoardingPass = ({
 
   const handleClick = async () => {
     try {
-      const res = await api.maps.inviteLinks.post(inviteCode)
-      if (res.message === 'success') {
-        router.push(`/map/${mapId}`)
+      const data = await boardMap(inviteCode)
+
+      router.push(`/map/${mapId}`)
+      if (data === 'success') {
         notify.success(`${mapName} 지도에 오신 걸 환영합니다!`)
       }
     } catch (error) {
-      if (error instanceof APIError) {
-        if (error.status === 409) {
-          router.push(`/map/${mapId}`)
-        } else {
-          inviteCodeStorage.set(inviteCode)
-          router.push('/intro')
-        }
+      if (error instanceof APIError && error.status === 401) {
+        inviteCodeStorage.set(inviteCode)
+        router.push('/intro')
+      } else if (error instanceof Error) {
+        notify.error(error.message)
+      } else {
+        notify.error('예상치 못한 오류가 발생했습니다.')
       }
     }
   }
