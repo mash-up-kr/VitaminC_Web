@@ -224,48 +224,47 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         topOfBottomBounds={bottomBounds.top}
       />
 
-      {!!places?.length &&
-        (selectedPlace === null ? (
-          <>
-            <BottomSheet
-              ref={bottomRef}
-              body={
-                <PlaceListBottomSheet
-                  places={filteredPlace}
-                  mapId={mapId}
-                  selectedFilter={selectedFilterNames}
-                  onClickFilterButton={handleFilterModalOpen}
-                  onRefreshOldPlace={clearOldPlacedata}
-                />
-              }
-            />
-            <BottomModal
-              title="보고 싶은 맛집을 선택해주세요"
-              layoutClassName="max-h-[70dvh]"
-              body={
-                <FilterModalBody
-                  mapId={mapId}
-                  selectedFilterNames={selectedFilterNames}
-                  onChangeSelectedFilterNames={handleSelectedFilterChange}
-                />
-              }
-              isOpen={isFilterModalOpen}
-              cancelMessage="초기화"
-              confirmMessage="적용"
-              onClose={handleFilterModalClose}
-              onConfirm={handleFilterModalClose}
-              onCancel={resetFilter}
-            />
-          </>
-        ) : (
-          <PlaceMapPopup
+      {selectedPlace === null ? (
+        <>
+          <BottomSheet
             ref={bottomRef}
-            mapId={mapId}
-            className="absolute bottom-5 px-5"
-            selectedPlace={selectedPlace}
-            onRefreshOldPlace={clearOldPlacedata}
+            body={
+              <PlaceListBottomSheet
+                places={filteredPlace}
+                mapId={mapId}
+                selectedFilter={selectedFilterNames}
+                onClickFilterButton={handleFilterModalOpen}
+                onRefreshOldPlace={clearOldPlacedata}
+              />
+            }
           />
-        ))}
+          <BottomModal
+            title="보고 싶은 맛집을 선택해주세요"
+            layoutClassName="max-h-[70dvh]"
+            body={
+              <FilterModalBody
+                mapId={mapId}
+                selectedFilterNames={selectedFilterNames}
+                onChangeSelectedFilterNames={handleSelectedFilterChange}
+              />
+            }
+            isOpen={isFilterModalOpen}
+            cancelMessage="초기화"
+            confirmMessage="적용"
+            onClose={handleFilterModalClose}
+            onConfirm={handleFilterModalClose}
+            onCancel={resetFilter}
+          />
+        </>
+      ) : (
+        <PlaceMapPopup
+          ref={bottomRef}
+          mapId={mapId}
+          className="absolute bottom-5 px-5"
+          selectedPlace={selectedPlace}
+          onRefreshOldPlace={clearOldPlacedata}
+        />
+      )}
     </div>
   )
 }
