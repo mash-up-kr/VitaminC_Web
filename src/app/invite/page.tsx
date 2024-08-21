@@ -7,10 +7,8 @@ import { APIError } from '@/models/interface'
 const getInfo = async (inviteCode: string) => {
   try {
     const info = await getMapInviteInfo(inviteCode)
-    console.log('res>>>', info)
     return { info, isExpired: false }
   } catch (error) {
-    console.error('error>>>', error)
     if (error instanceof APIError && error.status === 410) {
       return { info: null, isExpired: true }
     }
@@ -35,7 +33,6 @@ const Invite = async ({
     )
 
   const { info: mapInviteInfo, isExpired } = await getInfo(inviteCode)
-  console.log('info>>>', mapInviteInfo)
 
   return (
     <div className="mx-5">
