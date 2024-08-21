@@ -2,6 +2,7 @@ import React from 'react'
 
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/next'
 
 import './globals.css'
 import { CustomToaster } from '@/components/common/custom-toast'
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${pretendard.className} ${pretendard.variable} flex justify-center items-start bg-neutral-800`}
       >
+        <Analytics />
         <Script
           async
           strategy="beforeInteractive"
