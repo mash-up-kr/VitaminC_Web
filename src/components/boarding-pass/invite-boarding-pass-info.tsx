@@ -2,7 +2,7 @@ import { SINGLE } from './constant'
 import { Typography } from '../common'
 import { InviteBoardingPass } from './types'
 import BoardingDivider from './boarding-divider'
-import { formatDate, getIsExpiredTime } from '../../utils/date'
+import { formatDate } from '../../utils/date'
 
 const InviteBoardingPassInfo = ({
   mapName,
@@ -10,7 +10,6 @@ const InviteBoardingPassInfo = ({
   numOfCrews,
   expirationTime,
 }: InviteBoardingPass) => {
-  const isExpired = getIsExpiredTime(expirationTime)
   return (
     <>
       <div className="pt-5 flex flex-col gap-1 justify-content items-center bg-neutral-600 rounded-t-3xl">
@@ -20,28 +19,26 @@ const InviteBoardingPassInfo = ({
         </Typography>
       </div>
 
-      {!isExpired && (
-        <div className="w-full pt-5 px-5 flex bg-neutral-600 mt-[-0.5px]">
-          <div className="flex flex-col gap-1 flex-1">
-            <Typography size="body4" color="neutral-300" className="text-left">
-              Flight
-            </Typography>
-            <Typography size="h4" color="neutral-000" className="text-left">
-              {mapName}
-            </Typography>
-          </div>
-          <div className="flex flex-col gap-1 flex-1 bg-neutral-600">
-            <Typography size="body4" color="neutral-300" className="text-left">
-              Crew
-            </Typography>
-            <Typography size="h4" color="neutral-000" className="text-left">
-              {numOfCrews === SINGLE
-                ? creator.nickname
-                : `${creator.nickname} 외 ${(numOfCrews - 1).toLocaleString()}명`}
-            </Typography>
-          </div>
+      <div className="w-full pt-5 px-5 flex bg-neutral-600 mt-[-0.5px]">
+        <div className="flex flex-col gap-1 flex-1">
+          <Typography size="body4" color="neutral-300" className="text-left">
+            Flight
+          </Typography>
+          <Typography size="h4" color="neutral-000" className="text-left">
+            {mapName}
+          </Typography>
         </div>
-      )}
+        <div className="flex flex-col gap-1 flex-1 bg-neutral-600">
+          <Typography size="body4" color="neutral-300" className="text-left">
+            Crew
+          </Typography>
+          <Typography size="h4" color="neutral-000" className="text-left">
+            {numOfCrews === SINGLE
+              ? creator.nickname
+              : `${creator.nickname} 외 ${(numOfCrews - 1).toLocaleString()}명`}
+          </Typography>
+        </div>
+      </div>
 
       <BoardingDivider />
 
@@ -49,15 +46,9 @@ const InviteBoardingPassInfo = ({
         <Typography size="body4" color="neutral-300" className="text-left">
           Boarding Time
         </Typography>
-        {isExpired ? (
-          <Typography size="body0" color="orange-300" className="text-left">
-            앗.. 탑승 시간이 지나버렸어요..
-          </Typography>
-        ) : (
-          <Typography size="h4" color="neutral-000" className="text-left">
-            {formatDate(expirationTime)}
-          </Typography>
-        )}
+        <Typography size="h4" color="neutral-000" className="text-left">
+          {formatDate(expirationTime)}
+        </Typography>
       </div>
     </>
   )

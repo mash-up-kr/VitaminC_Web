@@ -10,7 +10,6 @@ import useSafeRouter from '@/hooks/use-safe-router'
 import { inviteCodeStorage } from '@/utils/storage'
 import { notify } from '@/components/common/custom-toast'
 import { ProxyImage } from '@/components'
-import { getIsExpiredTime } from '@/utils/date'
 import { boardMap } from '@/services/invitation'
 
 const InvitedBoardingPass = ({
@@ -24,8 +23,6 @@ const InvitedBoardingPass = ({
   images,
 }: InvitedBoardingPassProps) => {
   const router = useSafeRouter()
-
-  const isExpired = getIsExpiredTime(expirationTime)
 
   const handleClick = async () => {
     try {
@@ -56,7 +53,7 @@ const InvitedBoardingPass = ({
         expirationTime={expirationTime}
       />
 
-      {!isExpired && images && (
+      {images && (
         <div className="pt-[18px] px-[20px] w-full flex gap-[10px] bg-neutral-600 overflow-x-scroll no-scrollbar">
           {images.map((image, index) => (
             <ProxyImage
@@ -70,7 +67,7 @@ const InvitedBoardingPass = ({
       )}
 
       <div className="px-[20px] bg-neutral-600 mt-[-0.5px]">
-        <Button className="my-5" disabled={isExpired} onClick={handleClick}>
+        <Button className="my-5" onClick={handleClick}>
           승선하기
         </Button>
       </div>
