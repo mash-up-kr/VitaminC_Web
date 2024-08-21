@@ -22,12 +22,12 @@ import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 import useFetch from '@/hooks/use-fetch'
 
 export interface FilterIdsType {
-  category: null | 'like' | 'pick'
+  category: CategoryType
   tags: TagItem['name'][]
 }
 
-const INITIAL_FILTER_IDS = {
-  category: null,
+const INITIAL_FILTER_IDS: FilterIdsType = {
+  category: 'all',
   tags: [],
 }
 
@@ -98,7 +98,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     value: CategoryType | TagItem['name'],
   ) => {
     if (value === 'all') {
-      setSelectedFilterNames((prev) => ({ ...prev, category: null }))
+      setSelectedFilterNames((prev) => ({ ...prev, category: 'all' }))
       return
     }
 
@@ -106,7 +106,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       if (selectedFilterNames.category === value) {
         setSelectedFilterNames((prev) => ({
           ...prev,
-          category: null,
+          category: 'all',
         }))
         return
       }
@@ -148,7 +148,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     setFilteredPlace(
       places.filter((place) => {
         const checkMatchesCategory = () => {
-          if (selectedFilterNames.category === null) return true
+          if (selectedFilterNames.category === 'all') return true
           if (
             selectedFilterNames.category === 'like' &&
             place.likedUserIds?.includes(userData.id)

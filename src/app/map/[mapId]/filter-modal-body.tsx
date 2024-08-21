@@ -33,7 +33,7 @@ const FilterModalBody = ({
 
   const getIsCategorySelected = (type: CategoryType) => {
     if (type === 'all') {
-      return selectedFilterNames.category === null
+      return selectedFilterNames.category === 'all'
     }
     return selectedFilterNames.category === type
   }
