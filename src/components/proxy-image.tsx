@@ -3,6 +3,7 @@
 import { useEffect, useState, type ImgHTMLAttributes } from 'react'
 import { api } from '@/utils/api'
 import { useLazyImage } from '@/hooks/use-lazy-image'
+import cn from '@/utils/cn'
 
 interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string
@@ -10,7 +11,7 @@ interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
 
 const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
   const [url, setUrl] = useState('')
-  const { ref, inView } = useLazyImage({ src: url, options: {} })
+  const { ref, inView, isLoading } = useLazyImage({ src: url, options: {} })
 
   useEffect(() => {
     const convertImage = async () => {
@@ -33,6 +34,19 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
       }
     }
   }, [inView, src, url])
+
+  if (isLoading) {
+    return (
+      <div className={cn('animate-pulse', props.className)}>
+        <div
+          className={cn(
+            'bg-[#353538] w-full h-full dark:bg-neutral-800',
+            props.className,
+          )}
+        />
+      </div>
+    )
+  }
 
   return <img {...props} ref={ref} src={url || src} />
 }

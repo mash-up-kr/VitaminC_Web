@@ -34,7 +34,7 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
         <ProxyImage
           src={mainPhotoUrl}
           alt="메인 음식"
-          className="max-w-full rounded-[6px] mt-[10px] object-cover"
+          className="max-w-full w-full h-[148px] rounded-[6px] mt-[10px] object-cover"
         />
       )}
 
