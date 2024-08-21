@@ -14,7 +14,6 @@ const BGColor = '#2B2E33'
 const SIZE_PADDING = 20 // 실제로 20px 줄여야 원하는 사이즈가 됨
 
 const QRCodeBox = forwardRef<QRCode, QRCodeBoxProps>(({ url, size }, ref) => {
-  console.log(url)
   return (
     <QRCode
       ref={ref}
@@ -22,9 +21,9 @@ const QRCodeBox = forwardRef<QRCode, QRCodeBoxProps>(({ url, size }, ref) => {
       size={size - SIZE_PADDING}
       removeQrCodeBehindLogo
       eyeRadius={6}
-      logoImage="/images/square.png"
-      logoWidth={36}
-      logoHeight={36}
+      logoImage="/images/QRLogo.png"
+      logoWidth={40}
+      logoHeight={40}
       fgColor={QRColor}
       eyeColor={QRColor}
       bgColor={BGColor}

@@ -40,7 +40,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
     place.x,
   )
 
-  const { data: user } = useFetch(api.users.me.get, {
+  const { data: user, revalidate } = useFetch(api.users.me.get, {
     key: ['user'],
   })
 
@@ -125,6 +125,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   const handleRegisterPlace = async () => {
     try {
       router.push(`/place/${place.kakaoId}/register`)
+      revalidate(['places', mapId])
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
