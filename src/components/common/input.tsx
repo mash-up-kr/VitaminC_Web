@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes} from 'react';
+import type { InputHTMLAttributes } from 'react'
 import { forwardRef } from 'react'
 
 import { Icon, Typography } from '@/components'
