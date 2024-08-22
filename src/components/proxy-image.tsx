@@ -40,7 +40,7 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
       <div className={cn('animate-pulse', props.className)}>
         <div
           className={cn(
-            'bg-[#353538] w-full h-full dark:bg-neutral-800',
+            'h-full w-full bg-[#353538] dark:bg-neutral-800',
             props.className,
           )}
         />

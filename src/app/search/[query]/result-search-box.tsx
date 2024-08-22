@@ -107,12 +107,12 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   }, [mapId, query])
 
   return (
-    <div className={cn('w-full min-h-dvh relative', className)}>
+    <div className={cn('relative min-h-dvh w-full', className)}>
       <ResultSearchInput
         value={query}
         isMapView={isMapView}
         onToggleView={() => setIsMapView((prev) => !prev)}
-        className="absolute h-[60px] z-[100]"
+        className="absolute z-[100] h-[60px]"
       />
 
       {isMapView ? (
@@ -122,7 +122,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             selectedPlace={selectedPlace}
             topOfBottomBounds={bottomBounds.top}
             center={center}
-            className="absolute top-0 left-0 w-[calc(100%+40px)] mx-[-20px] h-dvh z-[50]"
+            className="absolute left-0 top-0 z-[50] mx-[-20px] h-dvh w-[calc(100%+40px)]"
             isShowCurrentPositionSearch={isShowCurrentPositionSearch}
             onClickMap={() => setSelectedPlace(null)}
             onClickPlace={(place) => {

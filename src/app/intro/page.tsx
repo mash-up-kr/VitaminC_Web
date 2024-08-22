@@ -150,7 +150,7 @@ const Intro = () => {
   }, [inviteCode, nickname, router])
 
   return (
-    <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
+    <div className="flex h-dvh w-full flex-col justify-between bg-neutral-700">
       <Header />
       <Step step={step} goNextStep={goNextStep} />
     </div>

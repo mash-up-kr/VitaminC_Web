@@ -14,7 +14,7 @@ const SuggestPlaceList = ({ places, query }: SuggestPlaceListProps) => {
   const isAllowPosition = allowUserPositionStorage.getValueOrNull()
 
   return (
-    <ul className="flex flex-col space-y-[17px] divide-y divide-neutral-600 mx-[-20px]">
+    <ul className="mx-[-20px] flex flex-col space-y-[17px] divide-y divide-neutral-600">
       {places.map((place) => {
         const diffDistance = getDistance(
           userLocation.latitude,

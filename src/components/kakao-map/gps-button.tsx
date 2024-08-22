@@ -54,7 +54,7 @@ const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
         />
       )}
       <AccessibleIconButton
-        className={`absolute right-5 z-10 transition-all ease-in-out duration-300`}
+        className={`absolute right-5 z-10 transition-all duration-300 ease-in-out`}
         style={{
           bottom: `${gpsBottomPositionY}px`,
         }}

@@ -118,7 +118,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
     return (
       <div
         role="presentation"
-        className={cn('flex justify-center w-full', className)}
+        className={cn('flex w-full justify-center', className)}
       >
         {isLoading ? (
           <ResultPlacePopupSkeleton ref={ref as ForwardedRef<HTMLDivElement>} />
@@ -126,12 +126,12 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
           <Link
             href={`/place/${place.kakaoId}`}
             ref={ref as ForwardedRef<HTMLAnchorElement>}
-            className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4 z-10"
+            className="z-10 flex w-full flex-col gap-4 rounded-[10px] bg-neutral-700 p-5"
           >
-            <div className="flex gap-2 justify-between">
-              <div className="flex flex-col justify-between w-full">
-                <div className="flex flex-col gap-1 ">
-                  <div className="flex gap-1.5 items-end">
+            <div className="flex justify-between gap-2">
+              <div className="flex w-full flex-col justify-between">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-end gap-1.5">
                     <Typography as="h2" size="h4">
                       {place.name}
                     </Typography>
@@ -142,7 +142,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
 
                   <div className="flex gap-2">
                     {!!place.score && (
-                      <div className="flex gap-0.5 items-center">
+                      <div className="flex items-center gap-0.5">
                         <Icon
                           type={getStarByScore(place.score)}
                           size="sm"
@@ -157,7 +157,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
                       as="span"
                       size="body3"
                       color="neutral-300"
-                      className="text-ellipsis overflow-hidden"
+                      className="overflow-hidden text-ellipsis"
                     >
                       {place.address}
                     </Typography>
@@ -165,7 +165,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
                 </div>
 
                 {place.isRegisteredPlace && (
-                  <div className="flex gap-3 items-center">
+                  <div className="flex items-center gap-3">
                     <PickChip
                       isMyPick={
                         !!place.createdBy && place.createdBy.id === user?.id
@@ -190,7 +190,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
 
               {place.mainPhotoUrl && (
                 <ProxyImage
-                  className="rounded-md w-20 h-20"
+                  className="h-20 w-20 rounded-md"
                   src={place.mainPhotoUrl}
                   alt="식당"
                 />

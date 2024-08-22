@@ -9,7 +9,7 @@ const NewMap = ({ goNextStep }: IntroActionDispatch) => {
   return (
     <>
       <div className="flex-1">
-        <div className="pt-12 px-5 mb-[54px]">
+        <div className="mb-[54px] px-5 pt-12">
           <Typography
             size="h1"
             color="neutral-000"
@@ -19,12 +19,12 @@ const NewMap = ({ goNextStep }: IntroActionDispatch) => {
           </Typography>
         </div>
 
-        <div className="w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center">
           <img src="/images/intro-making-map.png" width="100%" alt="보물지도" />
         </div>
       </div>
 
-      <div className="p-5 w-full">
+      <div className="w-full p-5">
         <Button colorScheme="orange" onClick={handleClick}>
           지도 만들기
         </Button>

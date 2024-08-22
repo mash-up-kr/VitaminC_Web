@@ -5,10 +5,10 @@ const LoadingIndicator = () => {
   return (
     <div
       role="status"
-      className="bg-neutral-700 w-full h-dvh flex flex-col justify-center items-center"
+      className="flex h-dvh w-full flex-col items-center justify-center bg-neutral-700"
     >
       <img src="/images/treasure.png" width="100%" alt="보물지도" />
-      <Lottie animationData={LoadingLottie} className="w-1/3 h-[47px]" />
+      <Lottie animationData={LoadingLottie} className="h-[47px] w-1/3" />
     </div>
   )
 }

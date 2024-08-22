@@ -8,7 +8,7 @@ const BoardingDivider = ({ className }: BoardingDividerProps) => {
   return (
     <img
       src="/images/boarding-pass-divider.png"
-      className={cn('w-full max-h-[32px] my-[-0.5px]', className)}
+      className={cn('my-[-0.5px] max-h-[32px] w-full', className)}
       aria-hidden
     />
   )

@@ -96,7 +96,7 @@ const ResultSearchListBox = ({
   return (
     <ul
       className={cn(
-        'w-full h-fit max-h-[calc(100dvh-60px)] overflow-y-scroll divide-y divide-neutral-600 no-scrollbar',
+        'no-scrollbar h-fit max-h-[calc(100dvh-60px)] w-full divide-y divide-neutral-600 overflow-y-scroll',
         className,
       )}
     >

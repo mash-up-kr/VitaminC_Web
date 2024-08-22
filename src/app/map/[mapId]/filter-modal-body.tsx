@@ -55,7 +55,7 @@ const FilterModalBody = ({
         <Typography size="h6" color="neutral-300">
           분류
         </Typography>
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-3">
           {CATEGORY_LIST.map((category) => (
             <ChipButton
               key={category.type}
@@ -71,12 +71,12 @@ const FilterModalBody = ({
         <Typography size="h6" color="neutral-300">
           # 해시태그
         </Typography>
-        <div className="flex gap-3 items-center flex-wrap">
+        <div className="flex flex-wrap items-center gap-3">
           {tags.map((tag) => (
             <button
               key={`${mapId}-${tag.name}`}
               className={cn(
-                'flex h-[35px] items-center gap-1 w-fit rounded-[20px] px-[10px] py-2 transition-colors',
+                'flex h-[35px] w-fit items-center gap-1 rounded-[20px] px-[10px] py-2 transition-colors',
                 selectedFilterNames.tags.includes(tag.name)
                   ? 'bg-orange-400'
                   : 'bg-neutral-500',

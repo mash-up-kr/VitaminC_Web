@@ -75,7 +75,7 @@ const Invite = () => {
       {showInvitation && mapInviteInfo && (
         <>
           <motion.div
-            className="absolute top-0 left-0 w-full h-[100dvh] flex items-center px-5 bg-black bg-opacity-85"
+            className="absolute left-0 top-0 flex h-[100dvh] w-full items-center bg-black bg-opacity-85 px-5"
             onTap={handleShowInvitation}
           >
             <InvitingBoardingPass
@@ -90,11 +90,11 @@ const Invite = () => {
       )}
 
       <div className="flex-1">
-        <div className="py-12 px-5">
+        <div className="px-5 py-12">
           <Typography
             size="h1"
             color="neutral-000"
-            className="whitespace-pre-line mb-4"
+            className="mb-4 whitespace-pre-line"
           >
             {`항해를 같이할\n동료를 초대해보세요`}
           </Typography>
@@ -107,16 +107,16 @@ const Invite = () => {
           </Typography>
         </div>
 
-        <div className="w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center">
           <img
-            className="w-full h-[220px] object-fill"
+            className="h-[220px] w-full object-fill"
             src="/images/invitation.png"
             alt="초대장"
           />
         </div>
       </div>
 
-      <div className="p-5 w-full">
+      <div className="w-full p-5">
         <ConfirmCancelButton
           cancelLabel="홈으로"
           confirmLabel="초대장 보내기"

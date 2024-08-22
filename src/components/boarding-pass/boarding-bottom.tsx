@@ -8,7 +8,7 @@ const BoardingBottom = ({ className }: BoardingBottomProps) => {
   return (
     <img
       src="/images/boarding-pass-bottom.png"
-      className={cn('w-full max-h-[7px]', className)}
+      className={cn('max-h-[7px] w-full', className)}
       aria-hidden
     />
   )

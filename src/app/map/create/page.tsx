@@ -21,7 +21,7 @@ const Step = ({ step, goNextStep }: StepProps) => {
       return <Invite />
     default:
       return (
-        <div className="text-white flex-1 flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center text-white">
           <LoadingIndicator />
         </div>
       )
@@ -39,10 +39,10 @@ const MapCreate = () => {
   }
 
   return (
-    <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
+    <div className="flex h-dvh w-full flex-col justify-between bg-neutral-700">
       <Header />
       {isServer ? (
-        <div className="text-white flex-1 flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center text-white">
           <LoadingIndicator />
         </div>
       ) : (

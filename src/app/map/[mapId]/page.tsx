@@ -181,8 +181,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
   return (
     <div className="h-dvh">
-      <header className="absolute inset-x-5 z-50 top-4 flex flex-col gap-2">
-        <div className="w-full flex justify-between">
+      <header className="absolute inset-x-5 top-4 z-50 flex flex-col gap-2">
+        <div className="flex w-full justify-between">
           <button
             className="flex items-center"
             onClick={() => setIsMapInfoOpen(true)}

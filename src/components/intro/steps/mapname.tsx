@@ -35,7 +35,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
 
   return (
     <>
-      <div className="flex-1 relative mt-5">
+      <div className="relative mt-5 flex-1">
         <img src="/images/intro-polygon-top.png" width="100%" />
         <img
           className="relative top-[53px]"
@@ -43,7 +43,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
           width="100%"
         />
 
-        <div className="px-5 space-y-3 absolute top-[120px]">
+        <div className="absolute top-[120px] space-y-3 px-5">
           <Typography size="h1" color="neutral-000">
             지도 이름은
           </Typography>
@@ -65,7 +65,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
         </div>
       </div>
 
-      <div className="p-5 w-full">
+      <div className="w-full p-5">
         <Button
           colorScheme="orange"
           disabled={countCharacters(mapname).num < MIN_LENGTH}

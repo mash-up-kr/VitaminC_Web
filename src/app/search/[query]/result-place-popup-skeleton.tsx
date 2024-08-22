@@ -3,23 +3,23 @@ import { forwardRef } from 'react'
 const ResultPlacePopupSkeleton = forwardRef<HTMLDivElement>(({}, ref) => {
   return (
     <div
-      className="w-full h-[165px] rounded-[10px] bg-neutral-700 p-5 z-10"
+      className="z-10 h-[165px] w-full rounded-[10px] bg-neutral-700 p-5"
       ref={ref}
     >
-      <div className="flex flex-col gap-3 animate-pulse">
-        <div className="flex justify-between w-full">
+      <div className="flex animate-pulse flex-col gap-3">
+        <div className="flex w-full justify-between">
           <div className="flex flex-col gap-3">
-            <div className="w-[90px] h-[24px] bg-[#353538] rounded-md" />
+            <div className="h-[24px] w-[90px] rounded-md bg-[#353538]" />
 
-            <div className="w-[180px] h-[20px] bg-[#353538] rounded-md" />
+            <div className="h-[20px] w-[180px] rounded-md bg-[#353538]" />
 
-            <div className="w-[160px] h-[20px] bg-[#353538] rounded-md" />
+            <div className="h-[20px] w-[160px] rounded-md bg-[#353538]" />
           </div>
 
-          <div className="w-20 h-20 bg-[#353538] rounded-md" />
+          <div className="h-20 w-20 rounded-md bg-[#353538]" />
         </div>
 
-        <div className="w-full h-[20px] bg-[#353538] rounded-md" />
+        <div className="h-[20px] w-full rounded-md bg-[#353538]" />
       </div>
     </div>
   )

@@ -92,7 +92,7 @@ const Slide = ({
   return (
     <motion.div
       ref={containerRef}
-      className="flex h-full overflow-x-auto no-scrollbar snap-mandatory snap-x"
+      className="no-scrollbar flex h-full snap-x snap-mandatory overflow-x-auto"
     >
       {items.map((item, index) => (
         <motion.div
@@ -102,7 +102,7 @@ const Slide = ({
             right: `${activeIndex * 100}%`,
           }}
           key={`${index}${item.src}`}
-          className="shrink-0 w-full h-full flex flex-col justify-center items-center snap-always snap-center"
+          className="flex h-full w-full shrink-0 snap-center snap-always flex-col items-center justify-center"
           draggable
           drag="x"
           dragElastic={1}
@@ -130,7 +130,7 @@ const Slide = ({
                   : `슬라이드 ${index + 1}`
               }
               className={cn(
-                'w-full h-full snap-always',
+                'h-full w-full snap-always',
                 getObjectFitClass(objectFit),
               )}
               src={item.src}
@@ -139,7 +139,7 @@ const Slide = ({
             <Lottie
               animationData={item.src}
               className={cn(
-                'w-full h-full snap-always',
+                'h-full w-full snap-always',
                 getObjectFitClass(objectFit),
               )}
             />

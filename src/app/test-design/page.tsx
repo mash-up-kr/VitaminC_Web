@@ -11,7 +11,7 @@ const TestDesign = () => {
 
   return (
     <>
-      <div className="w-dvw h-dvh flex flex-col gap-[40px]">
+      <div className="flex h-dvh w-dvw flex-col gap-[40px]">
         <Input value={input} onChange={(value) => setInput(value)} />
 
         <button type="button" onClick={() => setIsOpenModal(true)}>

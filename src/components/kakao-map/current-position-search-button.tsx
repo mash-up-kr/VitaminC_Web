@@ -17,7 +17,7 @@ const CurrentPositionSearchButton = ({
     <button
       type="button"
       className={cn(
-        'w-fit py-[10px] px-5 rounded-[20px] bg-neutral-800',
+        'w-fit rounded-[20px] bg-neutral-800 px-5 py-[10px]',
         className,
       )}
       onClick={() => {
@@ -26,7 +26,7 @@ const CurrentPositionSearchButton = ({
         }
       }}
     >
-      <div className="flex gap-1 items-center justify-center">
+      <div className="flex items-center justify-center gap-1">
         <Icon type="arrowClockwise" size="sm" />
         <Typography size="body3" color="orange-300">
           현 지역에서 찾기

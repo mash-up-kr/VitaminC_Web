@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${pretendard.className} ${pretendard.variable} flex justify-center items-start bg-neutral-800`}
+        className={`${pretendard.className} ${pretendard.variable} flex items-start justify-center bg-neutral-800`}
       >
         <Analytics />
         <Script
@@ -47,7 +47,7 @@ export default function RootLayout({
           integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
           crossOrigin="anonymous"
         />
-        <main className="relative w-full max-w-[420px] min-h-dvh">
+        <main className="relative min-h-dvh w-full max-w-[420px]">
           {children}
           <CustomToaster />
         </main>

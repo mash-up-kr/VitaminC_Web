@@ -92,7 +92,7 @@ const PlaceListBottomSheet = ({
 
   return (
     <>
-      <div className="sticky top-[-1px] left-0 h-[38px] pt-[1px] px-5 z-10 bg-[#212124] shadow-[rgba(33,33,36,1)_0px_1px_4px_4px]">
+      <div className="sticky left-0 top-[-1px] z-10 h-[38px] bg-[#212124] px-5 pt-[1px] shadow-[rgba(33,33,36,1)_0px_1px_4px_4px]">
         <FilterButton
           numOfSelectedFilter={numOfSelectedFilter}
           icon={{ type: 'filter' }}

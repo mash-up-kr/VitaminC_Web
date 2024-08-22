@@ -106,7 +106,7 @@ const Modal = forwardRef(
         <Backdrop
           id={`dim-${portalId}`}
           className={cn(
-            'fixed top-0 left-0 right-0 bottom-0 z-[9995] bg-black opacity-[0.85]',
+            'fixed bottom-0 left-0 right-0 top-0 z-[9995] bg-black opacity-[0.85]',
             dimClassName,
           )}
           aria-hidden={!shouldCloseOnDimClick}
@@ -119,7 +119,7 @@ const Modal = forwardRef(
           aria-modal="true"
           tabIndex={-1}
           className={cn(
-            'fixed top-1/2 left-1/2 z-[9996] -translate-y-1/2 -translate-x-1/2',
+            'fixed left-1/2 top-1/2 z-[9996] -translate-x-1/2 -translate-y-1/2',
             className,
           )}
           aria-labelledby={ariaLabelledby}

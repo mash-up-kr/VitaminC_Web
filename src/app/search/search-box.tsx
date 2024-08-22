@@ -129,7 +129,7 @@ const SearchBox = () => {
   }, [getSuggestPlaces, query])
 
   return (
-    <div className="w-full min-h-dvh bg-neutral-700 px-5 py-2">
+    <div className="min-h-dvh w-full bg-neutral-700 px-5 py-2">
       <SearchForm
         value={query}
         mapId={mapId}

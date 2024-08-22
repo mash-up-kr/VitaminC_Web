@@ -53,7 +53,7 @@ const SavedFlagIcon = ({
         right: '-5px',
       }}
     >
-      <Icon type="pickFlag" className="w-full h-full" />
+      <Icon type="pickFlag" className="h-full w-full" />
     </div>
   )
 }

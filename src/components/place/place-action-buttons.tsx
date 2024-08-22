@@ -20,11 +20,11 @@ const PlaceActionButtons = ({
   return (
     <div
       className={cn(
-        'w-full h-[94px] flex gap-2 justify-center items-center',
+        'flex h-[94px] w-full items-center justify-center gap-2',
         className,
       )}
     >
-      <div className="min-w-[54px] min-h-[54px] rounded-full flex justify-center items-center bg-neutral-500">
+      <div className="flex min-h-[54px] min-w-[54px] items-center justify-center rounded-full bg-neutral-500">
         <AccessibleIconButton
           icon={{
             size: 'xl',

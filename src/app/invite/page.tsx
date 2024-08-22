@@ -38,7 +38,7 @@ const Invite = async ({
     <div className="mx-5">
       {isExpired ? (
         <>
-          <Typography size="h1" className="mt-12 mb-4 whitespace-pre-line">
+          <Typography size="h1" className="mb-4 mt-12 whitespace-pre-line">
             {`유효기간이 만료된\n초대입니다`}
           </Typography>
           <Typography size="body1" color="neutral-200" className="mb-12">

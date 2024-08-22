@@ -23,15 +23,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const error = errorMinLength || errorMaxLength
 
     return (
-      <div className="w-full relative">
-        <div className="w-full relative">
+      <div className="relative w-full">
+        <div className="relative w-full">
           <input
             {...props}
             className={cn(
-              `flex items-center w-full h-[54px] leading-none text-h1 text-orange-300 caret-orange-300 border-2 border-solid border-orange-300 rounded-full outline-none outline-offset-0 px-5 bg-transparent
-                placeholder:text-[20px] placeholder:font-normal placeholder-neutral-400 placeholder-center
-              `,
-              error && 'text-orange-400 border-orange-400',
+              `placeholder-center flex h-[54px] w-full items-center rounded-full border-2 border-solid border-orange-300 bg-transparent px-5 text-h1 leading-none text-orange-300 placeholder-neutral-400 caret-orange-300 outline-none outline-offset-0 placeholder:text-[20px] placeholder:font-normal`,
+              error && 'border-orange-400 text-orange-400',
             )}
             ref={ref}
             placeholder={placeholder ?? `최대 ${maxLength}글자`}
@@ -41,7 +39,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           />
 
           <AccessibleIconButton
-            className="absolute top-1/2 -translate-y-1/2 right-4"
+            className="absolute right-4 top-1/2 -translate-y-1/2"
             label="초기화"
             onClick={() => onChange('')}
             icon={{

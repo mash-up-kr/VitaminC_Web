@@ -76,7 +76,7 @@ const HashTagList = ({
               <li key={`${tag.name}-${tag.iconType}`}>
                 <button
                   className={cn(
-                    'flex h-[35px] items-center gap-1 w-fit rounded-[20px] px-[10px] py-2 transition-colors',
+                    'flex h-[35px] w-fit items-center gap-1 rounded-[20px] px-[10px] py-2 transition-colors',
                     isActive ? 'bg-orange-400' : 'bg-neutral-500',
                   )}
                   onClick={() => onClickTag(tag)}
@@ -96,7 +96,7 @@ const HashTagList = ({
             <AccessibleIconButton
               icon={{ type: 'plus', size: 'md' }}
               label="사용자 태그 추가"
-              className="w-[36px] min-h-[35px] h-full flex justify-center items-center bg-neutral-500 rounded-[20px]"
+              className="flex h-full min-h-[35px] w-[36px] items-center justify-center rounded-[20px] bg-neutral-500"
               onClick={() => setIsOpenCustomModalTag(true)}
             />
           </li>

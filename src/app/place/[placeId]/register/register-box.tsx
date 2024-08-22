@@ -68,15 +68,15 @@ const RegisterBox = ({
 
   return (
     <>
-      <div className="flex flex-col bg-neutral-700 min-h-dvh">
+      <div className="flex min-h-dvh flex-col bg-neutral-700">
         <AccessibleIconButton
           icon={{ type: 'caretLeft', size: 'xl' }}
           label="맛집 등록 취소하기"
-          className=" p-[10px] pt-4"
+          className="p-[10px] pt-4"
           onClick={() => setIsOpenBackModal(true)}
         />
 
-        <div className="flex pt-6 px-5">
+        <div className="flex px-5 pt-6">
           <Typography
             size="h1"
             color="neutral-000"

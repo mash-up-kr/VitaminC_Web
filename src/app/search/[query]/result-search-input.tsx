@@ -22,7 +22,7 @@ const ResultSearchInput = ({
   return (
     <div
       className={cn(
-        'w-full h-[60px] flex justify-center items-end gap-[10px]',
+        'flex h-[60px] w-full items-end justify-center gap-[10px]',
         className,
       )}
     >
@@ -30,10 +30,10 @@ const ResultSearchInput = ({
         href={`/search?search=${encodeURI(value)}`}
         aria-label={`${value}값을 가지고 검색 화면으로 이동`}
         className={cn(
-          'w-full flex items-center rounded-[6px] gap-[10px] py-[14px] px-[16px] transition-colors',
+          'flex w-full items-center gap-[10px] rounded-[6px] px-[16px] py-[14px] transition-colors',
           isMapView
             ? 'bg-neutral-700 outline outline-1 outline-neutral-500'
-            : 'bg-neutral-600 ',
+            : 'bg-neutral-600',
         )}
       >
         <AccessibleIconButton
@@ -53,10 +53,10 @@ const ResultSearchInput = ({
       <AccessibleIconButton
         icon={{ type: isMapView ? 'listView' : 'mapView', size: 'xl' }}
         className={cn(
-          'flex justify-center items-center w-[52px] h-[52px] p-[14px] rounded-[6px] transition-colors',
+          'flex h-[52px] w-[52px] items-center justify-center rounded-[6px] p-[14px] transition-colors',
           isMapView
             ? 'bg-neutral-700 outline outline-1 outline-neutral-500'
-            : 'bg-neutral-600 ',
+            : 'bg-neutral-600',
         )}
         label={isMapView ? '목록 화면으로 전환' : '지도 화면으로 전환'}
         onClick={onToggleView}

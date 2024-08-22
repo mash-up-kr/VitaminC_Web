@@ -40,10 +40,10 @@ const MapList = ({
   }
 
   return (
-    <div className="pt-4 pl-5 flex gap-2 justify-start items-center overflow-x-scroll no-scrollbar">
+    <div className="no-scrollbar flex items-center justify-start gap-2 overflow-x-scroll pl-5 pt-4">
       {isFetching && (
         <ChipButton
-          className="py-2 rounded-full flex-shrink-0 bg-transparent"
+          className="flex-shrink-0 rounded-full bg-transparent py-2"
           fontSize="body1"
         >
           <div className="flex items-center">
@@ -54,7 +54,7 @@ const MapList = ({
       {maps?.map((map) => (
         <ChipButton
           key={map.id}
-          className="px-6 py-2 rounded-full flex-shrink-0"
+          className="flex-shrink-0 rounded-full px-6 py-2"
           isActive={mapId === map.id}
           fontSize="body1"
           onClick={() => onClickMap(map.id)}
@@ -64,7 +64,7 @@ const MapList = ({
       ))}
       {!isFetching && !hasOwnerMap && (
         <ChipButton
-          className="px-6 py-2 rounded-full flex-shrink-0"
+          className="flex-shrink-0 rounded-full px-6 py-2"
           onClick={() => router.push('/map/create')}
           aria-label="지도 생성"
         >
@@ -115,7 +115,7 @@ const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
   return (
     <>
       <Modal
-        className="w-full max-w-[420px] top-0 translate-y-0"
+        className="top-0 w-full max-w-[420px] translate-y-0"
         isOpen={isOpen}
         onClose={handleCloseModal}
       >

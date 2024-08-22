@@ -14,9 +14,9 @@ const BoardingMembers = ({
   userId,
 }: BoardingMembersProps) => {
   return (
-    <ul className="w-full bg-neutral-600 max-h-[268px] overflow-y-scroll no-scrollbar">
+    <ul className="no-scrollbar max-h-[268px] w-full overflow-y-scroll bg-neutral-600">
       {members.map((member, index) => (
-        <li key={member.id} className="flex items-center px-4 h-[52px]">
+        <li key={member.id} className="flex h-[52px] items-center px-4">
           <Avatar
             me={member.id === userId}
             value={member.nickname}

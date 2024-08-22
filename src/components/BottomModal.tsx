@@ -30,7 +30,7 @@ const BottomModalLayout = ({
   return (
     <div
       className={cn(
-        'w-full top-auto bottom-0 translate-y-0 bg-neutral-700 rounded-t-[20px] px-5 pt-6 flex flex-col gap-3',
+        'bottom-0 top-auto flex w-full translate-y-0 flex-col gap-3 rounded-t-[20px] bg-neutral-700 px-5 pt-6',
         className,
       )}
     >
@@ -54,7 +54,7 @@ const BottomModalLayout = ({
         <div
           className={cn(
             'w-full',
-            scrollable && 'overflow-y-scroll no-scrollbar',
+            scrollable && 'no-scrollbar overflow-y-scroll',
           )}
         >
           {body}
@@ -62,7 +62,7 @@ const BottomModalLayout = ({
       )}
 
       {layout === 'confirm' ? (
-        <div className="w-full h-[94px] flex justify-center items-center gap-2">
+        <div className="flex h-[94px] w-full items-center justify-center gap-2">
           <Button colorScheme="neutral" onClick={onCancel}>
             {cancelMessage}
           </Button>
@@ -110,7 +110,7 @@ const BottomModal = ({
       exit={{ bottom: '-50%', opacity: 0.2 }}
       delayTiming={500}
       className={cn(
-        'w-full max-w-[420px] top-auto bottom-0 translate-y-0',
+        'bottom-0 top-auto w-full max-w-[420px] translate-y-0',
         className,
       )}
     >

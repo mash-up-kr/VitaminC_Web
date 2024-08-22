@@ -31,7 +31,7 @@ const ShareButton = ({
   return (
     <button
       type="button"
-      className="flex justify-center items-center gap-2 rounded-full border border-neutral-500 px-6 py-3"
+      className="flex items-center justify-center gap-2 rounded-full border border-neutral-500 px-6 py-3"
       onClick={onClickShare}
     >
       <Icon type="shareNetwork" size="md" />
@@ -46,7 +46,7 @@ const ExitButton = ({ onClickExit }: { onClickExit: VoidFunction }) => {
   return (
     <button
       type="button"
-      className="w-full h-[34px] flex justify-center items-center"
+      className="flex h-[34px] w-full items-center justify-center"
       onClick={onClickExit}
     >
       <Typography size="h5" color="neutral-500">
@@ -159,20 +159,20 @@ const BoardingInfoPass = ({
 
   return (
     <>
-      <div className={cn('flex flex-col w-full', className)}>
-        <div className="pt-5 flex flex-col gap-1 justify-content items-center bg-neutral-600 rounded-t-3xl">
+      <div className={cn('flex w-full flex-col', className)}>
+        <div className="justify-content flex flex-col items-center gap-1 rounded-t-3xl bg-neutral-600 pt-5">
           <img
             src="/images/ship.png"
             aria-hidden
-            className="w-[31px] h-[35px]"
+            className="h-[35px] w-[31px]"
           />
           <Typography size="h5" color="neutral-300">
             {day.toLocaleString()}일째 항해중
           </Typography>
         </div>
 
-        <div className="w-full pt-5 px-5 flex bg-neutral-600 mt-[-0.5px]">
-          <div className="flex flex-col gap-1 flex-1">
+        <div className="mt-[-0.5px] flex w-full bg-neutral-600 px-5 pt-5">
+          <div className="flex flex-1 flex-col gap-1">
             <Typography size="body4" color="neutral-300" className="text-left">
               Crew
             </Typography>
@@ -180,7 +180,7 @@ const BoardingInfoPass = ({
               {numOfCrews.toLocaleString()}명
             </Typography>
           </div>
-          <div className="flex flex-col gap-1 flex-1 bg-neutral-600">
+          <div className="flex flex-1 flex-col gap-1 bg-neutral-600">
             <Typography size="body4" color="neutral-300" className="text-left">
               Pins
             </Typography>
@@ -198,7 +198,7 @@ const BoardingInfoPass = ({
           userId={user?.id || -1}
         />
 
-        <div className="flex justify-center bg-neutral-600 pb-5 mt-[-0.5px]">
+        <div className="mt-[-0.5px] flex justify-center bg-neutral-600 pb-5">
           {isMyBoard ? (
             <ShareButton
               isInvited={isInvited}

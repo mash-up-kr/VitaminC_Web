@@ -60,10 +60,10 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       (rightIcon.icon.type === 'delete' && props.value)
 
     return (
-      <div className="w-full relative flex items-center">
+      <div className="relative flex w-full items-center">
         {leftIcon && (
           <AccessibleIconButton
-            className="absolute top-1/2 -translate-y-1/2 left-4"
+            className="absolute left-4 top-1/2 -translate-y-1/2"
             {...leftIcon}
           />
         )}
@@ -79,7 +79,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         />
         {isShowIcon && (
           <AccessibleIconButton
-            className="absolute top-1/2 -translate-y-1/2 right-4"
+            className="absolute right-4 top-1/2 -translate-y-1/2"
             {...rightIcon}
           />
         )}

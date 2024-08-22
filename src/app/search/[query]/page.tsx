@@ -7,7 +7,7 @@ const SearchResult = async ({ params }: { params?: { query?: string } }) => {
     redirect('/search')
   }
   return (
-    <div className="w-full min-h-dvh bg-neutral-700 px-5">
+    <div className="min-h-dvh w-full bg-neutral-700 px-5">
       <ResultSearchBox query={decodeURI(params.query)} />
     </div>
   )

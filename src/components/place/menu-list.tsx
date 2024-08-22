@@ -34,7 +34,7 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
         <ProxyImage
           src={mainPhotoUrl}
           alt="메인 음식"
-          className="max-w-full w-full h-[148px] rounded-[6px] mt-[10px] object-cover"
+          className="mt-[10px] h-[148px] w-full max-w-full rounded-[6px] object-cover"
         />
       )}
 
@@ -47,7 +47,7 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
           .map((menu) => (
             <li
               key={menu.menu}
-              className="flex flex-1 justify-between items-center min-h-[96px]"
+              className="flex min-h-[96px] flex-1 items-center justify-between"
             >
               <div className="flex flex-col gap-1">
                 <Typography size="h5" color="neutral-000">
@@ -62,14 +62,14 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
                 <ProxyImage
                   src={menu.photo}
                   alt={`${menu.menu}`}
-                  className="w-[60px] h-[60px] rounded max-w-[60px] object-cover"
+                  className="h-[60px] w-[60px] max-w-[60px] rounded object-cover"
                 />
               )}
             </li>
           ))}
       </ul>
       {!showMoreMenu && menuList.length > INITIAL_VISIBLE_MENU_LENGTH && (
-        <div className="w-full h-[71px] flex justify-center items-center border-t-[1px] border-neutral-600">
+        <div className="flex h-[71px] w-full items-center justify-center border-t-[1px] border-neutral-600">
           <ChipButton
             fontSize="body3"
             rightIcon={{ type: 'caretDown', size: 'sm', stroke: 'neutral-000' }}

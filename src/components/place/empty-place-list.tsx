@@ -10,7 +10,7 @@ const EmptyPlaceList = ({ className, message }: EmptyPlaceListProps) => {
   return (
     <div
       className={cn(
-        'flex flex-col gap-3 items-center justify-center pt-6 pb-32',
+        'flex flex-col items-center justify-center gap-3 pb-32 pt-6',
         className,
       )}
     >
@@ -18,7 +18,7 @@ const EmptyPlaceList = ({ className, message }: EmptyPlaceListProps) => {
       <Typography
         size="body4"
         color="neutral-200"
-        className="text-center whitespace-break-spaces"
+        className="whitespace-break-spaces text-center"
       >
         {message}
       </Typography>

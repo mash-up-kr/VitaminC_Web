@@ -16,16 +16,16 @@ const Indicator = ({
   return (
     <div
       className={cn(
-        'w-full h-[44px] flex justify-center items-center',
+        'flex h-[44px] w-full items-center justify-center',
         position === 'inside' && 'absolute bottom-[10px] z-[100]',
       )}
     >
-      <ul className="px-3 py-2 rounded-[50px] bg-[#BFBFBF] bg-opacity-[0.44] flex gap-2">
+      <ul className="flex gap-2 rounded-[50px] bg-[#BFBFBF] bg-opacity-[0.44] px-3 py-2">
         {[...Array(numOfSlides)].map((_, index) => (
-          <li key={index} className="h-2 w-2 flex">
+          <li key={index} className="flex h-2 w-2">
             <button
               className={cn(
-                'bg-black h-2 w-2 rounded-full',
+                'h-2 w-2 rounded-full bg-black',
                 index !== activeIndex && 'bg-opacity-30',
               )}
               aria-pressed={index === activeIndex}

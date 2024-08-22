@@ -63,7 +63,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
             </Typography>
             <Icon
               type="roundedTriangle"
-              className="absolute bottom-[calc(100%-6px)] left-5 w-[22px] h-[18px]"
+              className="absolute bottom-[calc(100%-6px)] left-5 h-[18px] w-[22px]"
             />
             <AccessibleIconButton
               label="닫기"

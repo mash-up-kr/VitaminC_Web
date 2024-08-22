@@ -26,7 +26,7 @@ const PlaceTopInformation = ({
   return (
     <section
       className={cn(
-        'bg-neutral-700 w-full py-4 flex flex-col gap-3.5',
+        'flex w-full flex-col gap-3.5 bg-neutral-700 py-4',
         className,
       )}
     >
@@ -37,7 +37,7 @@ const PlaceTopInformation = ({
         />
       )}
 
-      <div className="flex flex-col gap-2 ">
+      <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <Typography as="h2" size="h4" className="w-[194px]">
             {name}
@@ -56,7 +56,7 @@ const PlaceTopInformation = ({
 
         <div className="flex items-center gap-[7px]">
           {rating > 0 && (
-            <div className="flex gap-0.5 items-center">
+            <div className="flex items-center gap-0.5">
               <Icon type="starFilled" size="sm" fill="yellow-100" />
               <Typography as="span" size="h6" color="neutral-100">
                 {roundOnePoint(rating)}

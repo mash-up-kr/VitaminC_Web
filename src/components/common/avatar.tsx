@@ -52,7 +52,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
           <Typography
             size="h7"
             color="neutral-100"
-            className="absolute top-[-4px] right-[-4px] rounded-full w-5 h-5 bg-neutral-800 flex justify-center items-center"
+            className="absolute right-[-4px] top-[-4px] flex h-5 w-5 items-center justify-center rounded-full bg-neutral-800"
           >
             나
           </Typography>

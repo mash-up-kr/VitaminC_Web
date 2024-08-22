@@ -37,8 +37,8 @@ const Setting = () => {
           </Typography>
         </header>
 
-        <div className="px-5 flex flex-col">
-          <div className="flex gap-2 pt-3 pb-1 items-center">
+        <div className="flex flex-col px-5">
+          <div className="flex items-center gap-2 pb-1 pt-3">
             <Avatar value={user?.nickname ?? ''} />
             <Typography as="span" size="body1">
               {user?.nickname}
@@ -49,12 +49,12 @@ const Setting = () => {
             <Typography
               as="h2"
               size="body1"
-              className="flex items-end h-[43px] font-medium"
+              className="flex h-[43px] items-end font-medium"
             >
               일반
             </Typography>
 
-            <div className="h-[38px] flex items-end">
+            <div className="flex h-[38px] items-end">
               <button
                 className="flex gap-2"
                 onClick={() => setIsOpenSignupModal(true)}
