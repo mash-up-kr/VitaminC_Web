@@ -17,6 +17,7 @@ import cn from '@/utils/cn'
 import { formatBoundToRect } from '@/utils/location'
 import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'
+import type { MapInfo } from '@/models/map'
 
 interface ResultSearchBoxProps extends ClassName {
   query: string
@@ -76,6 +77,16 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   }
 
   useEffect(() => {
+    const searchOnKorea = async (validMapId: MapInfo['id']) => {
+      const { data } = await api.search.places.get({
+        q: query,
+        rect: formatBoundToRect(null),
+        mapId: validMapId,
+      })
+      setPlaces(data)
+      setIsShowCurrentPositionSearch(false)
+    }
+
     ;(async () => {
       const bounds = mapBoundSessionStorage.getValueOrNull()
 
@@ -101,6 +112,9 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             lat: (bounds.latitude1 + bounds.latitude2) / 2,
             lng: (bounds.longitude1 + bounds.longitude2) / 2,
           })
+        }
+        if (data.length === 0) {
+          await searchOnKorea(validMapId)
         }
       } catch {
         notify.error('잘못된 접근입니다.')
