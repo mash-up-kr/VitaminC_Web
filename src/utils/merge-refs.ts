@@ -1,4 +1,4 @@
-import type { MutableRefObject, LegacyRef, RefCallback } from 'react'
+import type { LegacyRef, MutableRefObject, RefCallback } from 'react'
 
 export const mergeRefs = <T = HTMLElement>(
   refs: (MutableRefObject<T> | LegacyRef<T>)[],

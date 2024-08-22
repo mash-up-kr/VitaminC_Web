@@ -1,21 +1,20 @@
 import Link from 'next/link'
 
-import {
-  Typography,
-  PickChip,
-  LikeButton,
-  TagList,
-  Icon,
-  ProxyImage,
-} from '@/components'
 import type { PlaceProps } from './types'
-import IconChip from '../icon-chip'
-import { getStarByScore } from '@/utils/score'
-import { categoryIcons } from '@/models/map.interface'
-import { roundOnePoint } from '@/utils/number'
-import { ClassName } from '@/models/interface'
+
+import Icon from '@/components/common/icon'
+import IconChip from '@/components/common/icon-chip'
+import ProxyImage from '@/components/common/proxy-image'
+import Typography from '@/components/common/typography'
+import LikeButton from '@/components/like-button'
+import PickChip from '@/components/pick-chip'
+import TagList from '@/components/tag-list'
+import type { TagItem } from '@/models/api/maps'
+import type { ClassName } from '@/models/common'
+import { categoryIcons } from '@/models/map'
 import cn from '@/utils/cn'
-import type { TagItem } from '@/types/api/maps'
+import { roundOnePoint } from '@/utils/number'
+import { getStarByScore } from '@/utils/score'
 
 interface PlaceListItemProps extends Omit<PlaceProps, 'tags'>, ClassName {
   rating: number
@@ -40,17 +39,17 @@ const PlaceListItem = ({
     <Link
       href={`/place/${placeId}`}
       className={cn(
-        'bg-neutral-700 w-full py-4 flex flex-col gap-3.5',
+        'flex w-full flex-col gap-3.5 bg-neutral-700 py-4',
         className,
       )}
     >
       {images && (
-        <div className="flex flex-nowrap box-border gap-2 max-x-[335px] items-center overflow-x-scroll no-scrollbar">
+        <div className="max-x-[335px] no-scrollbar box-border flex flex-nowrap items-center gap-2 overflow-x-scroll">
           {images.map((image, idx) => (
             <ProxyImage
               key={`${placeId}-${image}-${idx}`}
               src={image}
-              className="w-[calc(33.4%-8px)] aspect-square rounded-md object-cover"
+              className="aspect-square w-[calc(33.4%-8px)] rounded-md object-cover"
               alt={`${name}${idx}`}
             />
           ))}
@@ -64,7 +63,7 @@ const PlaceListItem = ({
         />
       )}
 
-      <div className="flex flex-col gap-2 ">
+      <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <Typography as="h2" size="h4" className="w-[194px] flex-1">
             {name}
@@ -83,7 +82,7 @@ const PlaceListItem = ({
 
         <div className="flex items-center gap-2">
           {rating > 0 && (
-            <div className="flex gap-0.5 items-center">
+            <div className="flex items-center gap-0.5">
               <Icon type={getStarByScore(rating)} size="sm" fill="yellow-100" />
               <Typography as="span" size="h6" color="neutral-100">
                 {roundOnePoint(rating)}

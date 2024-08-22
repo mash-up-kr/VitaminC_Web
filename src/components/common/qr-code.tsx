@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef } from 'react'
-import { QRCode } from 'react-qrcode-logo'
+import { QRCode as QRCodeLogo } from 'react-qrcode-logo'
 
 interface QRCodeBoxProps {
   url: string
@@ -13,9 +13,9 @@ const BGColor = '#2B2E33'
 
 const SIZE_PADDING = 20 // 실제로 20px 줄여야 원하는 사이즈가 됨
 
-const QRCodeBox = forwardRef<QRCode, QRCodeBoxProps>(({ url, size }, ref) => {
+const QRCode = forwardRef<QRCodeLogo, QRCodeBoxProps>(({ url, size }, ref) => {
   return (
-    <QRCode
+    <QRCodeLogo
       ref={ref}
       value={url}
       size={size - SIZE_PADDING}
@@ -31,6 +31,6 @@ const QRCodeBox = forwardRef<QRCode, QRCodeBoxProps>(({ url, size }, ref) => {
   )
 })
 
-QRCodeBox.displayName = 'qr-code'
+QRCode.displayName = 'qr-code'
 
-export default QRCodeBox
+export default QRCode

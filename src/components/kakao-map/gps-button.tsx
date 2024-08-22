@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import { AccessibleIconButton } from '@/components'
-import useWindowSize from '@/hooks/use-window-size'
+
 import { useKakaoMap } from './context'
 import GpsMarker from './gps-marker'
+
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
+import useWindowSize from '@/hooks/use-window-size'
 
 const BUTTON_OFFSET_Y = 16
 const BUTTON_HEIGHT = 11
@@ -54,7 +56,7 @@ const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
         />
       )}
       <AccessibleIconButton
-        className={`absolute right-5 z-10 transition-all ease-in-out duration-300`}
+        className={`absolute right-5 z-10 transition-all duration-300 ease-in-out`}
         style={{
           bottom: `${gpsBottomPositionY}px`,
         }}

@@ -1,7 +1,7 @@
+import type { MapInviteInfo } from '@/components/boarding-pass/types'
+import { APIError } from '@/models/api/index'
 import { api } from '@/utils/api'
 import { inviteCodeStorage } from '@/utils/storage'
-import { APIError } from '@/models/interface'
-import type { MapInviteInfo } from '@/components/boarding-pass/types'
 
 export const boardMap = async (inviteCode: string) => {
   try {

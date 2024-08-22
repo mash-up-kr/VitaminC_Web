@@ -1,15 +1,16 @@
 import { apiClientFactory } from './api-client-factory'
-import type { QueryParams } from '@/types/api/search'
-import type { ResponseWithMessage } from '@/types/api'
+
+import type { ResponseWithMessage } from '@/models/api'
+import type { TagItem } from '@/models/api/maps'
+import type { PlaceDetail, PlaceType, SearchPlace } from '@/models/api/place'
+import type { QueryParams } from '@/models/api/search'
 import type {
   InviteLink,
   MapInfo,
   MapInviteInfoResponseType,
   UserByMapInfo,
-} from '@/models/map.interface'
-import type { User } from '@/models/user.interface'
-import type { PlaceDetail, PlaceType, SearchPlace } from '@/types/api/place'
-import type { TagItem } from '@/types/api/maps'
+} from '@/models/map'
+import type { User } from '@/models/user'
 
 const client = {
   public: apiClientFactory({}),

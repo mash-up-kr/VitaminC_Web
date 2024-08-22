@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
-import { Chip } from '.'
+
+import Chip from '@/components/common/chip'
 
 interface PickChipProps {
   isMyPick: boolean

@@ -1,13 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+
 import { usePathname } from 'next/navigation'
 
-import { Button, Typography } from '@/components'
+import Button from '@/components/common/button'
+import LoadingIndicator from '@/components/common/loading-indicator'
+import Typography from '@/components/common/typography'
 import Header from '@/components/intro/header'
-import LoadingIndicator from '@/components/loading-indicator'
-import { getMapId } from '@/services/map-id'
 import useSafeRouter from '@/hooks/use-safe-router'
+import { getMapId } from '@/services/map-id'
 
 const NotFound = () => {
   const router = useSafeRouter()
@@ -48,14 +50,14 @@ const NotFound = () => {
   }
 
   return (
-    <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
+    <div className="flex h-dvh w-full flex-col justify-between bg-neutral-700">
       <Header />
       {isLoading ? (
         <LoadingIndicator />
       ) : (
         <>
           <div className="flex-1">
-            <div className="pt-12 px-5 mb-10 space-y-4">
+            <div className="mb-10 space-y-4 px-5 pt-12">
               <Typography size="body0-2" color="neutral-000">
                 앗... 길을 잃어버렸다..!
               </Typography>
@@ -70,7 +72,7 @@ const NotFound = () => {
             <img src="/images/404.png" width="100%" alt="길을 잃었어요" />
           </div>
 
-          <div className="p-5 w-full">
+          <div className="w-full p-5">
             <Button colorScheme="orange" onClick={handleClick}>
               홈으로 이동
             </Button>

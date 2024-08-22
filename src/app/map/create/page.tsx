@@ -2,14 +2,12 @@
 
 import { useState } from 'react'
 
-import NewMap from '@/components/intro/steps/new-map'
-import { IntroStep } from '@/models/interface'
-import LoadingIndicator from '@/components/loading-indicator'
-import Mapname from '@/components/intro/steps/mapname'
+import type { StepProps } from '@/app/intro/page'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import Header from '@/components/intro/header'
+import { Invite, Mapname, NewMap } from '@/components/intro/steps'
+import { IntroStep } from '@/constants/intro'
 import { useIsServer } from '@/hooks/use-is-server'
-import { StepProps } from '@/app/intro/page'
-import Invite from '@/components/intro/steps/invite'
 
 const Step = ({ step, goNextStep }: StepProps) => {
   switch (step) {
@@ -21,7 +19,7 @@ const Step = ({ step, goNextStep }: StepProps) => {
       return <Invite />
     default:
       return (
-        <div className="text-white flex-1 flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center text-white">
           <LoadingIndicator />
         </div>
       )
@@ -39,10 +37,10 @@ const MapCreate = () => {
   }
 
   return (
-    <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
+    <div className="flex h-dvh w-full flex-col justify-between bg-neutral-700">
       <Header />
       {isServer ? (
-        <div className="text-white flex-1 flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center text-white">
           <LoadingIndicator />
         </div>
       ) : (

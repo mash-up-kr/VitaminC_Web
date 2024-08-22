@@ -3,15 +3,18 @@
 import { useState } from 'react'
 
 import HashTagList from './hash-tag-list'
-import type { TagItem } from '@/types/api/maps'
-import type { PlaceDetail } from '@/types/api/place'
-import { AccessibleIconButton, Button, Typography } from '@/components'
-import { notify } from '@/components/common/custom-toast'
-import { APIError } from '@/models/interface'
-import { api } from '@/utils/api'
 import RegisterCancelModal from './register-cancel-modal'
-import get조사 from '@/utils/조사'
+
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import Button from '@/components/common/button'
+import { notify } from '@/components/common/custom-toast'
+import Typography from '@/components/common/typography'
 import useSafeRouter from '@/hooks/use-safe-router'
+import { APIError } from '@/models/api/index'
+import type { TagItem } from '@/models/api/maps'
+import type { PlaceDetail } from '@/models/api/place'
+import { api } from '@/utils/api'
+import get조사 from '@/utils/조사'
 
 const toTagNames = (tags: TagItem[]): TagItem['name'][] =>
   tags.map((tag) => tag.name)
@@ -68,15 +71,15 @@ const RegisterBox = ({
 
   return (
     <>
-      <div className="flex flex-col bg-neutral-700 min-h-dvh">
+      <div className="flex min-h-dvh flex-col bg-neutral-700">
         <AccessibleIconButton
           icon={{ type: 'caretLeft', size: 'xl' }}
           label="맛집 등록 취소하기"
-          className=" p-[10px] pt-4"
+          className="p-[10px] pt-4"
           onClick={() => setIsOpenBackModal(true)}
         />
 
-        <div className="flex pt-6 px-5">
+        <div className="flex px-5 pt-6">
           <Typography
             size="h1"
             color="neutral-000"

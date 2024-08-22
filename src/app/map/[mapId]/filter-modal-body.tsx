@@ -2,12 +2,15 @@
 
 import { useState } from 'react'
 
-import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
-import { FilterIdsType } from './page'
-import { api } from '@/utils/api'
-import { TagItem } from '@/types/api/maps'
+import type { FilterIdsType } from './page'
+
+import ChipButton from '@/components/common/chip-button'
 import { notify } from '@/components/common/custom-toast'
-import { ChipButton, Icon, Typography } from '@/components'
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
+import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import type { TagItem } from '@/models/api/maps'
+import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 
 interface FilterModalBodyProps {
@@ -55,7 +58,7 @@ const FilterModalBody = ({
         <Typography size="h6" color="neutral-300">
           분류
         </Typography>
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-3">
           {CATEGORY_LIST.map((category) => (
             <ChipButton
               key={category.type}
@@ -71,12 +74,12 @@ const FilterModalBody = ({
         <Typography size="h6" color="neutral-300">
           # 해시태그
         </Typography>
-        <div className="flex gap-3 items-center flex-wrap">
+        <div className="flex flex-wrap items-center gap-3">
           {tags.map((tag) => (
             <button
               key={`${mapId}-${tag.name}`}
               className={cn(
-                'flex h-[35px] items-center gap-1 w-fit rounded-[20px] px-[10px] py-2 transition-colors',
+                'flex h-[35px] w-fit items-center gap-1 rounded-[20px] px-[10px] py-2 transition-colors',
                 selectedFilterNames.tags.includes(tag.name)
                   ? 'bg-orange-400'
                   : 'bg-neutral-500',

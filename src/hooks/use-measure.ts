@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef, useCallback } from 'react'
-import debounce from 'lodash.debounce'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import useMount from './use-mount'
 import useEventListener from './use-event-listener'
+import useMount from './use-mount'
+import debounce from 'lodash.debounce'
 
 interface RectReadOnly {
   readonly x: number

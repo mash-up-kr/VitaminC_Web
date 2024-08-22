@@ -1,10 +1,11 @@
 import type { HTMLAttributes } from 'react'
 import { cloneElement, forwardRef } from 'react'
+
+import { icons } from './icons'
 import { cva } from 'class-variance-authority'
 
+import type { ColorKey } from '@/models/color'
 import cn from '@/utils/cn'
-import { icons } from './icons'
-import type { ColorKey } from '@/types/color'
 
 const IconVariants = cva<{
   size: Record<'sm' | 'md' | 'lg' | 'xl', string>

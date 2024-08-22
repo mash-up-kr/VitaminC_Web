@@ -1,9 +1,10 @@
 'use client'
 
-import { Input } from '@/components'
-import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
-import Modal from '@/components/common/Modal/Modal'
 import { useState } from 'react'
+
+import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
+import Input from '@/components/common/input'
+import Modal from '@/components/common/modal'
 
 const TestDesign = () => {
   const [input, setInput] = useState('')
@@ -11,7 +12,7 @@ const TestDesign = () => {
 
   return (
     <>
-      <div className="w-dvw h-dvh flex flex-col gap-[40px]">
+      <div className="flex h-dvh w-dvw flex-col gap-[40px]">
         <Input value={input} onChange={(value) => setInput(value)} />
 
         <button type="button" onClick={() => setIsOpenModal(true)}>

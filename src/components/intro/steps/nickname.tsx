@@ -2,12 +2,14 @@
 
 import { useState } from 'react'
 
-import { Button, Input, Typography } from '@/components/common'
 import type { IntroActionDispatch } from '@/app/intro/page'
-import { api } from '@/utils/api'
+import Button from '@/components/common/button'
 import { notify } from '@/components/common/custom-toast'
-import { countCharacters } from '@/utils/string'
+import Input from '@/components/common/input'
+import Typography from '@/components/common/typography'
+import { api } from '@/utils/api'
 import { onboardingStorage } from '@/utils/storage'
+import { countCharacters } from '@/utils/string'
 
 const MIN_LENGTH = 2
 const MAX_LENGTH = 6
@@ -35,7 +37,7 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
 
   return (
     <>
-      <div className="flex-1 relative mt-5">
+      <div className="relative mt-5 flex-1">
         <img src="/images/intro-polygon-top.png" width="100%" />
         <img
           className="relative top-[53px]"
@@ -43,7 +45,7 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
           width="100%"
         />
 
-        <div className="px-5 space-y-3 absolute top-[120px]">
+        <div className="absolute top-[120px] space-y-3 px-5">
           <Typography size="h1" color="neutral-000">
             저는 닉네임
           </Typography>
@@ -65,7 +67,7 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
         </div>
       </div>
 
-      <div className="p-5 w-full">
+      <div className="w-full p-5">
         <Button
           colorScheme="orange"
           disabled={countCharacters(nickname).num < MIN_LENGTH}

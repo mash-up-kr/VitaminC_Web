@@ -1,11 +1,13 @@
-import Link from 'next/link'
 import { forwardRef } from 'react'
 
+import Link from 'next/link'
+
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
+import type { SearchPlace } from '@/models/api/place'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
-import { Icon, Typography } from '@/components'
-import type { ClassName } from '@/models/interface'
 import { recentSearchStorage } from '@/utils/storage'
-import type { SearchPlace } from '@/types/api/place'
 
 interface PlaceAutoSearchItemProps extends ClassName {
   place: SearchPlace
@@ -33,13 +35,13 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
       <li ref={ref} className={cn('w-full', className)}>
         <Link
           href={`/place/${place.kakaoId}`}
-          className="w-full bg-neutral-700 h-fit flex pt-5 gap-2.5"
+          className="flex h-fit w-full gap-2.5 bg-neutral-700 pt-5"
           onClick={addRecentKeyword}
         >
           <Icon type="subtract" size="xl" />
-          <div className="w-full flex gap-3.5">
-            <div className="flex flex-col gap-1.5 flex-1">
-              <div className="flex flex-col gap-[3px] ">
+          <div className="flex w-full gap-3.5">
+            <div className="flex flex-1 flex-col gap-1.5">
+              <div className="flex flex-col gap-[3px]">
                 <Typography as="h2" size="h5">
                   {nameParts?.map((text) => {
                     return text === query ? (

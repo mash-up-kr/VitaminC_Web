@@ -1,7 +1,8 @@
 import { forwardRef } from 'react'
 import type { ButtonHTMLAttributes } from 'react'
 
-import { Icon, VisuallyHidden } from './common'
+import Icon from '@/components/common/icon'
+import VisuallyHidden from '@/components/common/visually-hidden'
 
 interface AccessibleIconButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {

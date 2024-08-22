@@ -1,6 +1,7 @@
 import type { MouseEvent } from 'react'
 
-import { ChipButton, Typography } from '@/components'
+import ChipButton from '@/components/common/chip-button'
+import Typography from '@/components/common/typography'
 
 interface RecentKeywordsProps {
   recentKeywords: string[]

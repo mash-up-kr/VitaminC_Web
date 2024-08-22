@@ -2,14 +2,17 @@
 
 import { useState } from 'react'
 
-import cn from '@/utils/cn'
-import { AccessibleIconButton, Icon, Typography } from '@/components'
-import { APIError, type ClassName } from '@/models/interface'
-import BottomModal from '@/components/BottomModal'
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import BottomModal from '@/components/common/bottom-modal'
 import { notify } from '@/components/common/custom-toast'
-import SearchInput from '@/components/search-input'
-import type { TagItem } from '@/types/api/maps'
+import Icon from '@/components/common/icon'
+import SearchInput from '@/components/common/search-input'
+import Typography from '@/components/common/typography'
+import { APIError } from '@/models/api'
+import type { TagItem } from '@/models/api/maps'
+import type { ClassName } from '@/models/common'
 import { api } from '@/utils/api'
+import cn from '@/utils/cn'
 
 const MAX_TAG_LENGTH = 16
 
@@ -76,7 +79,7 @@ const HashTagList = ({
               <li key={`${tag.name}-${tag.iconType}`}>
                 <button
                   className={cn(
-                    'flex h-[35px] items-center gap-1 w-fit rounded-[20px] px-[10px] py-2 transition-colors',
+                    'flex h-[35px] w-fit items-center gap-1 rounded-[20px] px-[10px] py-2 transition-colors',
                     isActive ? 'bg-orange-400' : 'bg-neutral-500',
                   )}
                   onClick={() => onClickTag(tag)}
@@ -96,7 +99,7 @@ const HashTagList = ({
             <AccessibleIconButton
               icon={{ type: 'plus', size: 'md' }}
               label="사용자 태그 추가"
-              className="w-[36px] min-h-[35px] h-full flex justify-center items-center bg-neutral-500 rounded-[20px]"
+              className="flex h-full min-h-[35px] w-[36px] items-center justify-center rounded-[20px] bg-neutral-500"
               onClick={() => setIsOpenCustomModalTag(true)}
             />
           </li>

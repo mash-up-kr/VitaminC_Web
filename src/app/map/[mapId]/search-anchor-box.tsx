@@ -1,10 +1,12 @@
-import { Icon, Typography } from '@/components'
 import Link from 'next/link'
+
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
 
 const SearchAnchorBox = () => {
   return (
     <Link
-      className="py-3.5 px-4 flex items-center justify-between bg-neutral-800 rounded-md border border-solid border-neutral-400"
+      className="flex items-center justify-between rounded-md border border-solid border-neutral-400 bg-neutral-800 px-4 py-3.5"
       href="/search"
     >
       <Typography size="body1" color="neutral-400">

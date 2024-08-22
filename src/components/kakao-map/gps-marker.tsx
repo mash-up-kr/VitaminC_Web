@@ -1,9 +1,10 @@
 import { type FC, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { icons } from '../common/icons'
 import { useKakaoMap } from './context'
-import type { ClassName } from '@/models/interface'
+
+import { icons } from '@/components/common/icons'
+import type { ClassName } from '@/models/common'
 
 interface GpsMarkerProps extends ClassName {
   latitude: number

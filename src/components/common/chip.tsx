@@ -1,9 +1,10 @@
 import { forwardRef } from 'react'
 import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
+
+import Typography, { type FontKey } from './typography'
 import { cva } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
-import Typography, { type FontKey } from './typography'
 
 const ChipVariants = cva<{
   colorScheme: Record<

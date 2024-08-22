@@ -1,16 +1,17 @@
 'use client'
 
-import cn from '@/utils/cn'
-import { InvitedBoardingPassProps } from './types'
-import { APIError } from '@/models/interface'
-import InviteBoardingPassInfo from './invite-boarding-pass-info'
-import { Button } from '@/components/common'
 import BoardingBottom from './boarding-bottom'
-import useSafeRouter from '@/hooks/use-safe-router'
-import { inviteCodeStorage } from '@/utils/storage'
+import InviteBoardingPassInfo from './invite-boarding-pass-info'
+import type { InvitedBoardingPassProps } from './types'
+
+import Button from '@/components/common/button'
 import { notify } from '@/components/common/custom-toast'
-import { ProxyImage } from '@/components'
+import ProxyImage from '@/components/common/proxy-image'
+import useSafeRouter from '@/hooks/use-safe-router'
+import { APIError } from '@/models/api/index'
 import { boardMap } from '@/services/invitation'
+import cn from '@/utils/cn'
+import { inviteCodeStorage } from '@/utils/storage'
 
 const InvitedBoardingPass = ({
   className,
@@ -45,7 +46,7 @@ const InvitedBoardingPass = ({
   }
 
   return (
-    <div className={cn('flex flex-col w-full', className)}>
+    <div className={cn('flex w-full flex-col', className)}>
       <InviteBoardingPassInfo
         mapName={mapName}
         creator={creator}
@@ -54,19 +55,19 @@ const InvitedBoardingPass = ({
       />
 
       {images && (
-        <div className="pt-[18px] px-[20px] w-full flex gap-[10px] bg-neutral-600 overflow-x-scroll no-scrollbar">
+        <div className="no-scrollbar flex w-full gap-[10px] overflow-x-scroll bg-neutral-600 px-[20px] pt-[18px]">
           {images.map((image, index) => (
             <ProxyImage
               key={`${index}-${image}`}
               src={image}
-              className="w-[88px] h-[88px] max-w-[88px] rounded"
+              className="h-[88px] w-[88px] max-w-[88px] rounded"
               alt={`음식사진 ${index + 1}`}
             />
           ))}
         </div>
       )}
 
-      <div className="px-[20px] bg-neutral-600 mt-[-0.5px]">
+      <div className="mt-[-0.5px] bg-neutral-600 px-[20px]">
         <Button className="my-5" onClick={handleClick}>
           승선하기
         </Button>

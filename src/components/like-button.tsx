@@ -2,7 +2,9 @@
 
 import { forwardRef } from 'react'
 import type { MouseEventHandler } from 'react'
-import { AccessibleIconButton, Typography } from '@/components'
+
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import Typography from '@/components/common/typography'
 
 interface LikeButtonProps {
   numOfLikes: number
@@ -40,7 +42,7 @@ const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
         <Typography
           size="body1"
           color="neutral-200"
-          className="font-medium min-w-[10px] text-center"
+          className="min-w-[10px] text-center font-medium"
         >
           {formatLike(numOfLikes)}
         </Typography>

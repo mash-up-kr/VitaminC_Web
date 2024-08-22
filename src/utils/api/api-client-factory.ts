@@ -1,7 +1,8 @@
 import HTTPClient from './http-client'
-import type { Interceptors, RequestConfig } from './types'
 import { fetchData } from './route'
-import { Token } from '@/models/user.interface'
+import type { Interceptors, RequestConfig } from './types'
+
+import type { Token } from '@/models/user'
 
 const injectAuthTokenToConfig = async (config: RequestConfig) => {
   config.headers = config.headers || {}

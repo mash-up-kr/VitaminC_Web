@@ -1,7 +1,9 @@
 import { forwardRef } from 'react'
 
-import { Icon, Typography } from './common'
-import type { ClassName } from '@/models/interface'
+import Icon from './icon'
+import Typography from './typography'
+
+import type { ClassName } from '@/models/common'
 
 interface IconChipProps extends ClassName {
   label: string
@@ -14,7 +16,7 @@ const IconChip = forwardRef<HTMLDivElement, IconChipProps>(
     return (
       <div
         ref={ref}
-        className="flex gap-1 justify-center items-center w-fit rounded-full px-[14px] py-2 bg-neutral-800"
+        className="flex w-fit items-center justify-center gap-1 rounded-full bg-neutral-800 px-[14px] py-2"
       >
         <Icon type={icon.type} size="lg" aria-hidden />
         <Typography size="body2" className="text-[#dcdcdc]">

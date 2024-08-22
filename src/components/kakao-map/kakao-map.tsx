@@ -1,13 +1,14 @@
 import { forwardRef, useCallback } from 'react'
 
-import cn from '@/utils/cn'
 import { KakaoMapProvider } from './context'
 import useKakaoEvent from './use-kakao-event'
-import { mergeRefs } from '@/utils/merge-refs'
 import useKakaoMapInstance from './use-kakao-map-instance'
+
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import { mapBoundSessionStorage } from '@/utils/storage'
+import cn from '@/utils/cn'
 import { getCorners } from '@/utils/map'
+import { mergeRefs } from '@/utils/merge-refs'
+import { mapBoundSessionStorage } from '@/utils/storage'
 
 type TargetEventListener = (target: kakao.maps.Map) => void
 type MouseEventListener = (mouseEvent: kakao.maps.event.MouseEvent) => void
@@ -114,7 +115,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       <>
         <section
           ref={mergeRefs([ref, container])}
-          className={cn('relative darkmode', className)}
+          className={cn('darkmode relative', className)}
         />
         {map && <KakaoMapProvider map={map}>{children}</KakaoMapProvider>}
       </>

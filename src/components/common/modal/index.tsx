@@ -7,13 +7,14 @@ import type {
 } from 'react'
 import { forwardRef, useEffect, useId, useRef } from 'react'
 
-import cn from '@/utils/cn'
-import Portal from './Portal'
-import type { ClassName } from '@/models/interface'
-import { mergeRefs } from '@/utils/merge-refs'
-import useEventListener from '@/hooks/use-event-listener'
+import Portal from './portal'
+
 import { useClickOutside } from '@/hooks/use-click-outside'
+import useEventListener from '@/hooks/use-event-listener'
 import useModalTransition from '@/hooks/use-modal-transition'
+import type { ClassName } from '@/models/common'
+import cn from '@/utils/cn'
+import { mergeRefs } from '@/utils/merge-refs'
 
 export interface ModalProps extends ClassName {
   children: ReactNode
@@ -106,7 +107,7 @@ const Modal = forwardRef(
         <Backdrop
           id={`dim-${portalId}`}
           className={cn(
-            'fixed top-0 left-0 right-0 bottom-0 z-[9995] bg-black opacity-[0.85]',
+            'fixed bottom-0 left-0 right-0 top-0 z-[9995] bg-black opacity-[0.85]',
             dimClassName,
           )}
           aria-hidden={!shouldCloseOnDimClick}
@@ -119,7 +120,7 @@ const Modal = forwardRef(
           aria-modal="true"
           tabIndex={-1}
           className={cn(
-            'fixed top-1/2 left-1/2 z-[9996] -translate-y-1/2 -translate-x-1/2',
+            'fixed left-1/2 top-1/2 z-[9996] -translate-x-1/2 -translate-y-1/2',
             className,
           )}
           aria-labelledby={ariaLabelledby}

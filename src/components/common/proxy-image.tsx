@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useState, type ImgHTMLAttributes } from 'react'
-import { api } from '@/utils/api'
+import { type ImgHTMLAttributes, useEffect, useState } from 'react'
+
 import { useLazyImage } from '@/hooks/use-lazy-image'
+import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 
 interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -40,7 +41,7 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
       <div className={cn('animate-pulse', props.className)}>
         <div
           className={cn(
-            'bg-[#353538] w-full h-full dark:bg-neutral-800',
+            'h-full w-full bg-[#353538] dark:bg-neutral-800',
             props.className,
           )}
         />

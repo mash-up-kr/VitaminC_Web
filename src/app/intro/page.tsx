@@ -2,24 +2,25 @@
 
 import { useEffect, useMemo, useState } from 'react'
 
-import Login from '@/components/intro/steps/login'
-import Nickname from '@/components/intro/steps/nickname'
-import NewMap from '@/components/intro/steps/new-map'
-import Mapname from '@/components/intro/steps/mapname'
-import Invite from '@/components/intro/steps/invite'
+import { notify } from '@/components/common/custom-toast'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import Header from '@/components/intro/header'
-import LoadingIndicator from '@/components/loading-indicator'
-import { IntroStep } from '@/models/interface'
-import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
-
+import {
+  Invite,
+  Login,
+  Mapname,
+  NewMap,
+  Nickname,
+} from '@/components/intro/steps'
+import { IntroStep } from '@/constants/intro'
+import useFetch from '@/hooks/use-fetch'
 import { useIsServer } from '@/hooks/use-is-server'
 import useSafeRouter from '@/hooks/use-safe-router'
-import { api } from '@/utils/api'
-import { notify } from '@/components/common/custom-toast'
-import { fetchData } from '@/utils/api/route'
-import useFetch from '@/hooks/use-fetch'
-import { Token } from '@/models/user.interface'
+import type { Token } from '@/models/user'
 import { enterMap } from '@/services/invitation'
+import { api } from '@/utils/api'
+import { fetchData } from '@/utils/api/route'
+import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -150,7 +151,7 @@ const Intro = () => {
   }, [inviteCode, nickname, router])
 
   return (
-    <div className="bg-neutral-700 h-dvh w-full flex flex-col justify-between">
+    <div className="flex h-dvh w-full flex-col justify-between bg-neutral-700">
       <Header />
       <Step step={step} goNextStep={goNextStep} />
     </div>

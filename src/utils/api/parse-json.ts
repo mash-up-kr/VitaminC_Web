@@ -1,4 +1,4 @@
-import { ParseJSONError } from '@/models/interface'
+import { ParseJSONError } from '@/models/api/index'
 
 export const parseJSON = async <T>(response: Response): Promise<T> => {
   try {

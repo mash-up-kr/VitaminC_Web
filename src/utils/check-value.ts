@@ -1,7 +1,8 @@
-import { setCookie } from '../app/actions'
 import { api } from './api'
-import { RECENT_MAP_ID } from '@/constants/cookie'
 import getCookie from './storage/cookie'
+
+import { setCookie } from '@/app/actions'
+import { RECENT_MAP_ID } from '@/constants/cookie'
 
 export const checkMapId = async () => {
   let mapId = getCookie(RECENT_MAP_ID)

@@ -1,11 +1,11 @@
 'use client'
 
-import { Chip } from '@/components'
+import Chip from '@/components/common/chip'
+import type { TagItem } from '@/models/api/maps'
+import type { PlaceType } from '@/models/api/place'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
-import type { ClassName } from '@/models/interface'
 import { changeSpaceToHyphen } from '@/utils/tags'
-import type { PlaceType } from '@/types/api/place'
-import type { TagItem } from '@/types/api/maps'
 
 interface TagListProps extends ClassName {
   placeId: PlaceType['place']['id']
@@ -18,7 +18,7 @@ const TagList = ({ placeId, tags, className }: TagListProps) => {
   return (
     <div
       className={cn(
-        'w-full max-w-full flex items-center gap-2 overflow-x-scroll no-scrollbar',
+        'no-scrollbar flex w-full max-w-full items-center gap-2 overflow-x-scroll',
         className,
       )}
     >

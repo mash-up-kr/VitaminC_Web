@@ -1,21 +1,23 @@
 'use client'
 
-import debounce from 'lodash.debounce'
 import { useCallback, useEffect, useState } from 'react'
+
 import { usePathname, useSearchParams } from 'next/navigation'
 
-import { api } from '@/utils/api'
-import SearchForm from './search-form'
+import EmptyResultBox from './empty-result-box'
 import RecentKeywords from './recent-keywords'
+import SearchForm from './search-form'
 import SuggestPlaceList from './suggest-place-list'
+import debounce from 'lodash.debounce'
+
+import { notify } from '@/components/common/custom-toast'
+import LoadingIndicator from '@/components/common/loading-indicator'
+import useSafeRouter from '@/hooks/use-safe-router'
+import type { SearchPlace } from '@/models/api/place'
+import { getMapId } from '@/services/map-id'
+import { api } from '@/utils/api'
 import { formatBoundToRect } from '@/utils/location'
 import { mapBoundSessionStorage, recentSearchStorage } from '@/utils/storage'
-import useSafeRouter from '@/hooks/use-safe-router'
-import type { SearchPlace } from '@/types/api/place'
-import { getMapId } from '@/services/map-id'
-import { notify } from '@/components/common/custom-toast'
-import EmptyResultBox from './empty-result-box'
-import LoadingIndicator from '@/components/loading-indicator'
 
 const SearchBox = () => {
   const router = useSafeRouter()
@@ -129,7 +131,7 @@ const SearchBox = () => {
   }, [getSuggestPlaces, query])
 
   return (
-    <div className="w-full min-h-dvh bg-neutral-700 px-5 py-2">
+    <div className="min-h-dvh w-full bg-neutral-700 px-5 py-2">
       <SearchForm
         value={query}
         mapId={mapId}

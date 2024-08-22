@@ -1,11 +1,11 @@
 import {
   BOTTOM_SHEET_STATE,
   BOTTOM_SHEET_STATE_MAP,
-} from '@/components/bottom-sheet/constants'
+} from '@/components/common/bottom-sheet/constants'
 import type {
   BottomSheetState,
   BottomSheetStateNum,
-} from '@/components/bottom-sheet/types'
+} from '@/components/common/bottom-sheet/types'
 
 export const toBottomSheetState = (
   value: BottomSheetStateNum,

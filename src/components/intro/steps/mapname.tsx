@@ -2,12 +2,14 @@
 
 import { useState } from 'react'
 
-import { Button, Input, Typography } from '@/components/common'
-import { IntroActionDispatch } from '@/app/intro/page'
-import { api } from '@/utils/api'
-import { notify } from '@/components/common/custom-toast'
 import { setCookie } from '@/app/actions'
+import type { IntroActionDispatch } from '@/app/intro/page'
+import Button from '@/components/common/button'
+import { notify } from '@/components/common/custom-toast'
+import Input from '@/components/common/input'
+import Typography from '@/components/common/typography'
 import { RECENT_MAP_ID } from '@/constants/cookie'
+import { api } from '@/utils/api'
 import { countCharacters } from '@/utils/string'
 
 const MIN_LENGTH = 2
@@ -35,7 +37,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
 
   return (
     <>
-      <div className="flex-1 relative mt-5">
+      <div className="relative mt-5 flex-1">
         <img src="/images/intro-polygon-top.png" width="100%" />
         <img
           className="relative top-[53px]"
@@ -43,7 +45,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
           width="100%"
         />
 
-        <div className="px-5 space-y-3 absolute top-[120px]">
+        <div className="absolute top-[120px] space-y-3 px-5">
           <Typography size="h1" color="neutral-000">
             지도 이름은
           </Typography>
@@ -65,7 +67,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
         </div>
       </div>
 
-      <div className="p-5 w-full">
+      <div className="w-full p-5">
         <Button
           colorScheme="orange"
           disabled={countCharacters(mapname).num < MIN_LENGTH}

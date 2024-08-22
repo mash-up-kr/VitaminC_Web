@@ -1,25 +1,30 @@
 'use client'
 
-import { useMemo, useState, useEffect } from 'react'
-import { Avatar, Icon, Typography } from '@/components'
-import Tooltip from '@/components/tooltip'
+import { useEffect, useMemo, useState } from 'react'
+
 import Link from 'next/link'
-import { onboardingStorage, visitedMapIdsStorage } from '@/utils/storage'
-import SearchAnchorBox from './search-anchor-box'
-import KorrkKakaoMap from '@/components/korrk-kakao-map'
-import { api } from '@/utils/api'
-import { type PlaceType } from '@/types/api/place'
-import { notify } from '@/components/common/custom-toast'
-import PlaceListBottomSheet from './place-list-bottom-sheet'
-import BottomModal from '@/components/BottomModal'
+
 import FilterModalBody, { type CategoryType } from './filter-modal-body'
-import useMeasure from '@/hooks/use-measure'
-import PlaceMapPopup from '@/components/place/place-map-popup'
-import BottomSheet from '@/components/bottom-sheet'
 import MapInfoModal from './map-info-modal'
-import { TagItem } from '@/types/api/maps'
-import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
+import PlaceListBottomSheet from './place-list-bottom-sheet'
+import SearchAnchorBox from './search-anchor-box'
+
+import Avatar from '@/components/common/avatar'
+import BottomModal from '@/components/common/bottom-modal'
+import BottomSheet from '@/components/common/bottom-sheet'
+import { notify } from '@/components/common/custom-toast'
+import Icon from '@/components/common/icon'
+import Tooltip from '@/components/common/tooltip'
+import Typography from '@/components/common/typography'
+import KorrkKakaoMap from '@/components/korrk-kakao-map'
+import PlaceMapPopup from '@/components/place/place-map-popup'
 import useFetch from '@/hooks/use-fetch'
+import useMeasure from '@/hooks/use-measure'
+import type { TagItem } from '@/models/api/maps'
+import type { PlaceType } from '@/models/api/place'
+import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
+import { api } from '@/utils/api'
+import { onboardingStorage, visitedMapIdsStorage } from '@/utils/storage'
 
 export interface FilterIdsType {
   category: CategoryType
@@ -166,7 +171,9 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
         const matchesTags =
           selectedFilterNames.tags.length === 0 ||
-          place.tags.some((tag) => selectedFilterNames.tags.includes(tag.name))
+          place.tags.some((tag: TagItem) =>
+            selectedFilterNames.tags.includes(tag.name),
+          )
 
         return matchesCategory && matchesTags
       }),
@@ -181,8 +188,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
   return (
     <div className="h-dvh">
-      <header className="absolute inset-x-5 z-50 top-4 flex flex-col gap-2">
-        <div className="w-full flex justify-between">
+      <header className="absolute inset-x-5 top-4 z-50 flex flex-col gap-2">
+        <div className="flex w-full justify-between">
           <button
             className="flex items-center"
             onClick={() => setIsMapInfoOpen(true)}

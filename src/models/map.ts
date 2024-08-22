@@ -1,6 +1,7 @@
+import type { DateTimeType, MutatedAt } from './api/index'
+import type { Creator, User } from './user'
+
 import type { IconKey } from '@/components/common/icon'
-import type { DateTimeType, MutatedAt } from './interface'
-import type { Creator, User } from './user.interface'
 
 type MapRole = 'ADMIN' | 'READ' | 'WRITE'
 

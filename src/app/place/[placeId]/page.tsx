@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react'
 
 import PlaceBox from './place-box'
-import type { PlaceDetail as PlaceDetailType } from '@/types/api/place'
+
 import { notify } from '@/components/common/custom-toast'
-import { APIError } from '@/models/interface'
-import { api } from '@/utils/api'
-import { getMapId } from '@/services/map-id'
-import LoadingIndicator from '@/components/loading-indicator'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import useFetch from '@/hooks/use-fetch'
+import { APIError } from '@/models/api/index'
+import type { PlaceDetail as PlaceDetailType } from '@/models/api/place'
+import { getMapId } from '@/services/map-id'
+import { api } from '@/utils/api'
 
 const PlaceDetail = ({ params }: { params?: { placeId?: number } }) => {
   const [mapId, setMapId] = useState('')

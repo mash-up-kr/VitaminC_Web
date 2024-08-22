@@ -1,15 +1,16 @@
 import Link from 'next/link'
 
-import { Icon, Typography } from '@/components/common'
-import { Carousel } from '@/components'
+import Carousel from '@/components/common/carousel'
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
 
 const KakaoLogin = () => {
   return (
     <Link href={`${process.env.NEXT_PUBLIC_API_ORIGIN}/auth/kakao`}>
-      <div className="bg-[#FEE500] w-full py-4 px-5 rounded-full flex items-center justify-center">
-        <div className="flex items-center w-fit space-x-[3px]">
+      <div className="flex w-full items-center justify-center rounded-full bg-[#FEE500] px-5 py-4">
+        <div className="flex w-fit items-center space-x-[3px]">
           <Icon type="kakaoLogo" size="lg" />
-          <Typography size="h4" className="text-black text-center w-full">
+          <Typography size="h4" className="w-full text-center text-black">
             카카오 로그인
           </Typography>
         </div>
@@ -20,7 +21,7 @@ const KakaoLogin = () => {
 
 const Title = ({ body, heading }: { body: string; heading: string }) => {
   return (
-    <div className="pt-12 px-5 h-[178px] text-center whitespace-pre-line">
+    <div className="h-[178px] whitespace-pre-line px-5 pt-12 text-center">
       <Typography size="body0-2" color="neutral-000">
         {body}
       </Typography>
@@ -71,7 +72,7 @@ const Login = () => {
           ]}
         />
       </div>
-      <div className="p-5 w-full">
+      <div className="w-full p-5">
         <KakaoLogin />
       </div>
     </>

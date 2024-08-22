@@ -2,23 +2,26 @@
 
 import { useEffect, useState } from 'react'
 
-import { AccessibleIconButton, Button, Carousel } from '@/components'
-import type { PlaceDetail } from '@/types/api/place'
-import PlaceTopInformation from './place-top-information'
-import PlaceDivider from '@/components/place/place-divider'
-import MenuList from '@/components/place/menu-list'
-import KakaoRating from '@/components/place/kakao-rating'
-import PlaceActionButtons from '@/components/place/place-action-buttons'
-import { APIError } from '@/models/interface'
-import { notify } from '@/components/common/custom-toast'
-import { api } from '@/utils/api'
 import PlaceDeleteModal from './place-delete-modal'
-import useSafeRouter from '@/hooks/use-safe-router'
+import PlaceTopInformation from './place-top-information'
+
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import Button from '@/components/common/button'
+import Carousel from '@/components/common/carousel'
+import { notify } from '@/components/common/custom-toast'
+import KakaoRating from '@/components/place/kakao-rating'
+import MenuList from '@/components/place/menu-list'
+import PlaceActionButtons from '@/components/place/place-action-buttons'
+import PlaceDivider from '@/components/place/place-divider'
 import useFetch from '@/hooks/use-fetch'
+import useSafeRouter from '@/hooks/use-safe-router'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import { allowUserPositionStorage } from '@/utils/storage'
+import { APIError } from '@/models/api/index'
+import type { PlaceDetail } from '@/models/api/place'
+import { api } from '@/utils/api'
 import { formatDistance, getDistance } from '@/utils/location'
 import { roundToNthDecimal } from '@/utils/number'
+import { allowUserPositionStorage } from '@/utils/storage'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -135,12 +138,12 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
 
   return (
     <>
-      <div className="relative flex flex-col bg-neutral-700 min-h-dvh">
-        <header className="absolute top-0 left-0 z-[100] w-full h-[60px] bg-gradient-to-t from-[rgba(33,33,36,0)] to-[rgba(33,33,36,0.6)]">
+      <div className="relative flex min-h-dvh flex-col bg-neutral-700">
+        <header className="absolute left-0 top-0 z-[100] h-[60px] w-full bg-gradient-to-t from-[rgba(33,33,36,0)] to-[rgba(33,33,36,0.6)]">
           <AccessibleIconButton
             icon={{ type: 'caretLeft', size: 'xl' }}
             label="뒤로 가기"
-            className="absolute top-[26px] left-[10px]"
+            className="absolute left-[10px] top-[26px]"
             onClick={() => router.safeBack()}
           />
         </header>
@@ -148,7 +151,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         <Carousel
           items={place.photoList.slice(0, 3).map((src) => ({ src }))}
           objectFit="cover"
-          className="mt-0 w-full h-[200px] min-h-[200px]"
+          className="mt-0 h-[200px] min-h-[200px] w-full"
           indicatorPosition="inside"
         />
 
@@ -187,7 +190,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         <KakaoRating
           rating={roundToNthDecimal(place.score, 2)}
           placeId={place.kakaoId}
-          className="py-5 px-5"
+          className="px-5 py-5"
         />
 
         <footer className="px-5">

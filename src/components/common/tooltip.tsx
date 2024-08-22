@@ -1,16 +1,19 @@
-import { HTMLAttributes, forwardRef } from 'react'
+import type { HTMLAttributes } from 'react'
+import { forwardRef } from 'react'
+
+import AccessibleIconButton from './accessible-icon-button'
+import Icon from './icon'
+import Typography from './typography'
+import type { VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
-import { VariantProps, cva } from 'class-variance-authority'
-import AccessibleIconButton from './accessible-icon-button'
-import Typography from './common/typography'
-import Icon from './common/icon'
 
 const TooltipVariants = cva<{
   color: Record<'orange' | 'neutral', string>
   size: Record<'sm' | 'md' | 'lg', string>
 }>(
-  `absolute whitespace-nowrap flex gap-2.5 items-center z-10 text-white rounded-full left-0 top-[calc(100%+20px)] 
+  `absolute whitespace-nowrap flex gap-2.5 items-center z-10 text-white rounded-full left-0 top-[calc(100%+20px)]
   `,
   {
     variants: {
@@ -61,7 +64,7 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
             </Typography>
             <Icon
               type="roundedTriangle"
-              className="absolute bottom-[calc(100%-6px)] left-5 w-[22px] h-[18px]"
+              className="absolute bottom-[calc(100%-6px)] left-5 h-[18px] w-[22px]"
             />
             <AccessibleIconButton
               label="닫기"

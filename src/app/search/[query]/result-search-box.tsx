@@ -1,20 +1,22 @@
 'use client'
+
 import { useEffect, useState } from 'react'
 
-import cn from '@/utils/cn'
-import type { ClassName } from '@/models/interface'
-import { notify } from '@/components/common/custom-toast'
-import ResultSearchListBox from './result-search-list'
-import ResultSearchInput from './result-search-input'
-import KorrkKakaoMap from '@/components/korrk-kakao-map'
-import { type SearchPlace } from '@/types/api/place'
-import useMeasure from '@/hooks/use-measure'
-import { mapBoundSessionStorage } from '@/utils/storage'
-import { api } from '@/utils/api'
-import { formatBoundToRect } from '@/utils/location'
-import { getMapId } from '@/services/map-id'
 import ResultPlaceMapPopup from './result-place-map-popup'
+import ResultSearchInput from './result-search-input'
+import ResultSearchListBox from './result-search-list'
+
+import { notify } from '@/components/common/custom-toast'
+import KorrkKakaoMap from '@/components/korrk-kakao-map'
+import useMeasure from '@/hooks/use-measure'
+import { type SearchPlace } from '@/models/api/place'
+import type { ClassName } from '@/models/common'
+import { getMapId } from '@/services/map-id'
+import { api } from '@/utils/api'
+import cn from '@/utils/cn'
+import { formatBoundToRect } from '@/utils/location'
 import { getCorners } from '@/utils/map'
+import { mapBoundSessionStorage } from '@/utils/storage'
 
 interface ResultSearchBoxProps extends ClassName {
   query: string
@@ -107,12 +109,12 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   }, [mapId, query])
 
   return (
-    <div className={cn('w-full min-h-dvh relative', className)}>
+    <div className={cn('relative min-h-dvh w-full', className)}>
       <ResultSearchInput
         value={query}
         isMapView={isMapView}
         onToggleView={() => setIsMapView((prev) => !prev)}
-        className="absolute h-[60px] z-[100]"
+        className="absolute z-[100] h-[60px]"
       />
 
       {isMapView ? (
@@ -122,7 +124,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             selectedPlace={selectedPlace}
             topOfBottomBounds={bottomBounds.top}
             center={center}
-            className="absolute top-0 left-0 w-[calc(100%+40px)] mx-[-20px] h-dvh z-[50]"
+            className="absolute left-0 top-0 z-[50] mx-[-20px] h-dvh w-[calc(100%+40px)]"
             isShowCurrentPositionSearch={isShowCurrentPositionSearch}
             onClickMap={() => setSelectedPlace(null)}
             onClickPlace={(place) => {

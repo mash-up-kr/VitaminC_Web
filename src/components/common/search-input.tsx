@@ -1,8 +1,11 @@
-import { InputHTMLAttributes, forwardRef } from 'react'
+import type { InputHTMLAttributes } from 'react'
+import { forwardRef } from 'react'
+
+import AccessibleIconButton from './accessible-icon-button'
+import type { VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
-import { VariantProps, cva } from 'class-variance-authority'
-import AccessibleIconButton from './accessible-icon-button'
 
 const SearchInputVariants = cva<{
   variant: Record<'outlined' | 'filled', string>
@@ -58,10 +61,10 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       (rightIcon.icon.type === 'delete' && props.value)
 
     return (
-      <div className="w-full relative flex items-center">
+      <div className="relative flex w-full items-center">
         {leftIcon && (
           <AccessibleIconButton
-            className="absolute top-1/2 -translate-y-1/2 left-4"
+            className="absolute left-4 top-1/2 -translate-y-1/2"
             {...leftIcon}
           />
         )}
@@ -77,7 +80,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         />
         {isShowIcon && (
           <AccessibleIconButton
-            className="absolute top-1/2 -translate-y-1/2 right-4"
+            className="absolute right-4 top-1/2 -translate-y-1/2"
             {...rightIcon}
           />
         )}

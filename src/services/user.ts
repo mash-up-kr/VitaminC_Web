@@ -1,5 +1,5 @@
-import { fetchData, revalidate as revalidateRoute } from '@/utils/api/route'
 import { notify } from '@/components/common/custom-toast'
+import { fetchData, revalidate as revalidateRoute } from '@/utils/api/route'
 
 export const handleSignout = async () => {
   try {

@@ -4,9 +4,10 @@ import { type CSSProperties, useEffect, useState } from 'react'
 
 import Indicator from './indicator'
 import Slide from './slide'
-import type { ClassName } from '@/models/interface'
-import cn from '@/utils/cn'
 import type { Item } from './types'
+
+import type { ClassName } from '@/models/common'
+import cn from '@/utils/cn'
 
 interface CarouselProps extends ClassName {
   items: Item[]

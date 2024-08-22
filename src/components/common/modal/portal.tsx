@@ -1,6 +1,6 @@
-import { createPortal } from 'react-dom'
 import { Children, useEffect, useState } from 'react'
 import type { PropsWithChildren, RefObject } from 'react'
+import { createPortal } from 'react-dom'
 
 import { useIsServer } from '@/hooks/use-is-server'
 

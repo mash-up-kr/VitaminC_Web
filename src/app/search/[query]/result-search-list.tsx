@@ -2,18 +2,19 @@
 
 import { useState } from 'react'
 
+import EmptyResultBox from '../empty-result-box'
+
 import PlaceListItem from '@/components/place/place-list-item'
-import type { ClassName } from '@/models/interface'
-import type { SearchPlace } from '@/types/api/place'
+import useFetch from '@/hooks/use-fetch'
+import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import useUserGeoLocation from '@/hooks/use-user-geo-location'
+import type { SearchPlace } from '@/models/api/place'
+import type { ClassName } from '@/models/common'
+import type { MapInfo } from '@/models/map'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
-import EmptyResultBox from '../empty-result-box'
-import useFetch from '@/hooks/use-fetch'
-import { allowUserPositionStorage } from '@/utils/storage'
 import { formatDistance, getDistance } from '@/utils/location'
-import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import type { MapInfo } from '@/models/map.interface'
-import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import { allowUserPositionStorage } from '@/utils/storage'
 
 interface ResultSearchListBoxProps extends ClassName {
   places: SearchPlace[]
@@ -96,7 +97,7 @@ const ResultSearchListBox = ({
   return (
     <ul
       className={cn(
-        'w-full h-fit max-h-[calc(100dvh-60px)] overflow-y-scroll divide-y divide-neutral-600 no-scrollbar',
+        'no-scrollbar h-fit max-h-[calc(100dvh-60px)] w-full divide-y divide-neutral-600 overflow-y-scroll',
         className,
       )}
     >

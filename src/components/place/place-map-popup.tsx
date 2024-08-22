@@ -1,24 +1,24 @@
 'use client'
 
 import { forwardRef, useEffect, useState } from 'react'
+
 import Link from 'next/link'
 
-import {
-  Typography,
-  PickChip,
-  TagList,
-  LikeButton,
-  Icon,
-  ProxyImage,
-} from '@/components'
-import { APIError, type ClassName } from '@/models/interface'
-import cn from '@/utils/cn'
-import type { PlaceType } from '@/types/api/place'
-import { api } from '@/utils/api'
-import { notify } from '../common/custom-toast'
-import { getStarByScore } from '@/utils/score'
+import { notify } from '@/components/common/custom-toast'
+import Icon from '@/components/common/icon'
+import ProxyImage from '@/components/common/proxy-image'
+import Typography from '@/components/common/typography'
+import LikeButton from '@/components/like-button'
+import PickChip from '@/components/pick-chip'
+import TagList from '@/components/tag-list'
 import useFetch from '@/hooks/use-fetch'
+import { APIError } from '@/models/api'
+import type { PlaceType } from '@/models/api/place'
+import type { ClassName } from '@/models/common'
+import { api } from '@/utils/api'
+import cn from '@/utils/cn'
 import { roundOnePoint } from '@/utils/number'
+import { getStarByScore } from '@/utils/score'
 
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
@@ -106,17 +106,17 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     return (
       <div
         role="presentation"
-        className={cn('flex justify-center w-full', className)}
+        className={cn('flex w-full justify-center', className)}
       >
         <Link
           href={`/place/${place.kakaoPlace.id}`}
           ref={ref}
-          className="w-full rounded-[10px] bg-neutral-700 p-5 flex flex-col gap-4 z-10"
+          className="z-10 flex w-full flex-col gap-4 rounded-[10px] bg-neutral-700 p-5"
         >
-          <div className="flex gap-2 justify-between">
-            <div className="flex flex-col gap-2 justify-between overflow-hidden">
+          <div className="flex justify-between gap-2">
+            <div className="flex flex-col justify-between gap-2 overflow-hidden">
               <div className="space-y-1">
-                <div className="flex gap-1.5 items-center">
+                <div className="flex items-center gap-1.5">
                   <Typography as="h2" size="h4" className="truncate">
                     {kakaoPlace.name}
                   </Typography>
@@ -132,7 +132,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
                 <div className="flex gap-2">
                   {!!kakaoPlace.score && (
-                    <div className="flex gap-0.5 items-center">
+                    <div className="flex items-center gap-0.5">
                       <Icon
                         type={getStarByScore(kakaoPlace.score)}
                         size="sm"
@@ -147,7 +147,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                     as="span"
                     size="body3"
                     color="neutral-300"
-                    className="text-ellipsis overflow-hidden"
+                    className="overflow-hidden text-ellipsis"
                   >
                     {kakaoPlace.address}
                   </Typography>
@@ -155,7 +155,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
               </div>
 
               {pick && (
-                <div className="flex gap-3 items-center">
+                <div className="flex items-center gap-3">
                   <PickChip isMyPick={pick.isMyPick} />
                   <LikeButton
                     numOfLikes={pick.numOfLikes}
@@ -172,7 +172,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
             {kakaoPlace.mainPhotoUrl && (
               <ProxyImage
-                className="rounded-md min-w-20 w-20 h-20"
+                className="h-20 w-20 min-w-20 rounded-md"
                 src={kakaoPlace.mainPhotoUrl}
                 alt="식당"
               />

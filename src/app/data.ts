@@ -1,4 +1,4 @@
-import { APIError } from '@/models/interface'
+import { APIError } from '@/models/api/index'
 
 const getDelay = async () => {
   try {

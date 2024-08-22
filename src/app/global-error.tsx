@@ -1,8 +1,10 @@
 'use client'
 
-import * as Sentry from '@sentry/nextjs'
-import NextError from 'next/error'
 import { useEffect } from 'react'
+
+import NextError from 'next/error'
+
+import * as Sentry from '@sentry/nextjs'
 
 const parseError = (error: Error): string => {
   return `웹팀 채찍 맞아라~~ 🦹🏿‍♀️👹🦹🏿

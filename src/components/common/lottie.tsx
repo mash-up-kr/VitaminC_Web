@@ -1,10 +1,12 @@
 import dynamic from 'next/dynamic'
-import { ClassName } from '@/models/interface'
+
 import type { LottieOptions } from 'lottie-react'
+
+import type { ClassName } from '@/models/common'
 
 interface LottieProps extends LottieOptions, ClassName {}
 
-export const Lottie = ({
+const Lottie = ({
   animationData,
   loop = true,
   className,
@@ -24,3 +26,5 @@ export const Lottie = ({
     />
   )
 }
+
+export default Lottie

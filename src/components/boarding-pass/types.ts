@@ -1,6 +1,6 @@
-import type { ClassName } from '@/models/interface'
-import type { MapInfo, MapMemberData } from '@/models/map.interface'
-import type { Creator, User } from '@/models/user.interface'
+import type { ClassName } from '@/models/common'
+import type { MapInfo, MapMemberData } from '@/models/map'
+import type { Creator, User } from '@/models/user'
 
 interface BoardingMembers {
   creator: Creator

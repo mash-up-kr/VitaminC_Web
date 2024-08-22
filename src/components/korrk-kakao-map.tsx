@@ -1,17 +1,18 @@
-import type { ClassName } from '@/models/interface'
+import type { IconKey } from './common/icon'
+import CurrentPositionSearchButton from './kakao-map/current-position-search-button'
 import GpsButton from './kakao-map/gps-button'
 import KakaoMap from './kakao-map/kakao-map'
 import Marker from './kakao-map/marker'
+
 import {
-  isPlaceType,
-  isSearchPlace,
   type PlaceType,
   type SearchPlace,
-} from '@/types/api/place'
-import cn from '@/utils/cn'
+  isPlaceType,
+  isSearchPlace,
+} from '@/models/api/place'
+import type { ClassName } from '@/models/common'
 import { removeAllSpaces } from '@/utils/category'
-import type { IconKey } from './common/icon'
-import CurrentPositionSearchButton from './kakao-map/current-position-search-button'
+import cn from '@/utils/cn'
 
 interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
   extends ClassName {
@@ -65,12 +66,12 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
     <>
       <div
         className={cn(
-          'w-full min-h-dvh flex flex-col justify-center items-center bg-neutral-700 px-5',
+          'flex min-h-dvh w-full flex-col items-center justify-center bg-neutral-700 px-5',
           className,
         )}
       >
         <KakaoMap
-          className="w-[calc(100%+40px)] h-dvh"
+          className="h-dvh w-[calc(100%+40px)]"
           center={center}
           onClick={onClickMap}
           onDrag={onDragMap}
@@ -116,7 +117,7 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
 
           {isShowCurrentPositionSearch && (
             <CurrentPositionSearchButton
-              className="absolute left-1/2 -translate-x-1/2 top-[76px] z-[100]"
+              className="absolute left-1/2 top-[76px] z-[100] -translate-x-1/2"
               onClick={(map) => fetchPlaceByCurrentPosition?.(map)}
             />
           )}
