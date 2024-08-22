@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import { Icon, Typography } from '@/components/common'
 import { Carousel } from '@/components'
+import { Icon, Typography } from '@/components/common'
 
 const KakaoLogin = () => {
   return (

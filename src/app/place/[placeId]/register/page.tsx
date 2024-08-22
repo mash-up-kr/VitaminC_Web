@@ -1,14 +1,16 @@
 'use client'
 
-import RegisterBox from './register-box'
 import { useEffect, useState } from 'react'
-import type { PlaceDetail } from '@/types/api/place'
-import type { TagItem } from '@/types/api/maps'
-import { api } from '@/utils/api'
+
+import RegisterBox from './register-box'
+
 import { notify } from '@/components/common/custom-toast'
-import { getMapId } from '@/services/map-id'
-import { APIError } from '@/models/interface'
 import LoadingIndicator from '@/components/loading-indicator'
+import { APIError } from '@/models/interface'
+import { getMapId } from '@/services/map-id'
+import type { TagItem } from '@/types/api/maps'
+import type { PlaceDetail } from '@/types/api/place'
+import { api } from '@/utils/api'
 
 const PlaceRegister = ({ params }: { params?: { placeId?: number } }) => {
   const [place, setPlace] = useState<PlaceDetail | null>(null)

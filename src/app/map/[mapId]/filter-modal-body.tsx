@@ -2,12 +2,13 @@
 
 import { useState } from 'react'
 
-import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 import type { FilterIdsType } from './page'
-import { api } from '@/utils/api'
-import type { TagItem } from '@/types/api/maps'
-import { notify } from '@/components/common/custom-toast'
+
 import { ChipButton, Icon, Typography } from '@/components'
+import { notify } from '@/components/common/custom-toast'
+import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import type { TagItem } from '@/types/api/maps'
+import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 
 interface FilterModalBodyProps {

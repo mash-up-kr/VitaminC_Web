@@ -1,6 +1,7 @@
 import { forwardRef } from 'react'
 
 import { Icon, Typography } from './common'
+
 import type { ClassName } from '@/models/interface'
 
 interface IconChipProps extends ClassName {

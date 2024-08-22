@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 
-import cn from '@/utils/cn'
 import { AccessibleIconButton, Icon, Typography } from '@/components'
-import { APIError, type ClassName } from '@/models/interface'
 import BottomModal from '@/components/BottomModal'
 import { notify } from '@/components/common/custom-toast'
 import SearchInput from '@/components/search-input'
+import { APIError, type ClassName } from '@/models/interface'
 import type { TagItem } from '@/types/api/maps'
 import { api } from '@/utils/api'
+import cn from '@/utils/cn'
 
 const MAX_TAG_LENGTH = 16
 

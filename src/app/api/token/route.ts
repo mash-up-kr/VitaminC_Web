@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
-import { AUTHORIZATION } from '@/constants/cookie'
 import { NextResponse } from 'next/server'
+
+import { AUTHORIZATION } from '@/constants/cookie'
 
 export async function GET() {
   const cookieStore = cookies()

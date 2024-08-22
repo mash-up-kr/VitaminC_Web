@@ -2,18 +2,19 @@
 
 import { useState } from 'react'
 
+import EmptyResultBox from '../empty-result-box'
+
 import PlaceListItem from '@/components/place/place-list-item'
+import useFetch from '@/hooks/use-fetch'
+import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import type { ClassName } from '@/models/interface'
+import type { MapInfo } from '@/models/map.interface'
 import type { SearchPlace } from '@/types/api/place'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
-import EmptyResultBox from '../empty-result-box'
-import useFetch from '@/hooks/use-fetch'
-import { allowUserPositionStorage } from '@/utils/storage'
 import { formatDistance, getDistance } from '@/utils/location'
-import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import type { MapInfo } from '@/models/map.interface'
-import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
+import { allowUserPositionStorage } from '@/utils/storage'
 
 interface ResultSearchListBoxProps extends ClassName {
   places: SearchPlace[]

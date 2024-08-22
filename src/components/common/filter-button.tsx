@@ -1,11 +1,12 @@
 import type { ButtonHTMLAttributes } from 'react'
 import { forwardRef } from 'react'
+
+import Icon from './icon'
+import Typography from './typography'
 import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
-import Icon from './icon'
-import Typography from './typography'
 
 const FilterButtonVariants = cva<{
   colorScheme: Record<'neutral' | 'orange', string>

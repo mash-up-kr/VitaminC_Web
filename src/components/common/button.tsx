@@ -1,9 +1,10 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react'
+import { type ButtonHTMLAttributes, forwardRef } from 'react'
+
+import Typography from './typography'
 import { cva } from 'class-variance-authority'
 
-import cn from '@/utils/cn'
-import Typography from './typography'
 import type { ColorKey } from '@/types/color'
+import cn from '@/utils/cn'
 
 const ButtonVariants = cva<{
   colorScheme: Record<'orange' | 'neutral', string>

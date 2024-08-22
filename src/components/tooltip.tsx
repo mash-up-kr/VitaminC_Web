@@ -1,12 +1,13 @@
 import type { HTMLAttributes } from 'react'
 import { forwardRef } from 'react'
 
-import cn from '@/utils/cn'
+import AccessibleIconButton from './accessible-icon-button'
+import Icon from './common/icon'
+import Typography from './common/typography'
 import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
-import AccessibleIconButton from './accessible-icon-button'
-import Typography from './common/typography'
-import Icon from './common/icon'
+
+import cn from '@/utils/cn'
 
 const TooltipVariants = cva<{
   color: Record<'orange' | 'neutral', string>

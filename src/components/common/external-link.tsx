@@ -1,7 +1,7 @@
-import cn from '@/utils/cn'
 import { type ReactNode, forwardRef } from 'react'
 
 import type { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
 
 interface ExternalLinkProps extends ClassName {
   url: string

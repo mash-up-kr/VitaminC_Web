@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+
 import { usePathname } from 'next/navigation'
 
 import { Button, Typography } from '@/components'
 import Header from '@/components/intro/header'
 import LoadingIndicator from '@/components/loading-indicator'
-import { getMapId } from '@/services/map-id'
 import useSafeRouter from '@/hooks/use-safe-router'
+import { getMapId } from '@/services/map-id'
 
 const NotFound = () => {
   const router = useSafeRouter()

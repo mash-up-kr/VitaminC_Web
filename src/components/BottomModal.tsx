@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react'
 
-import cn from '@/utils/cn'
-import Modal from './common/Modal/Modal'
 import { Button, Typography } from './common'
+import Modal from './common/Modal/Modal'
+
 import type { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
 
 interface BottomModalLayoutProps extends ClassName {
   title: string

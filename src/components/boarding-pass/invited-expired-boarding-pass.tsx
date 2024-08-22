@@ -1,11 +1,11 @@
 'use client'
 
-import cn from '@/utils/cn'
-
-import { Button, Typography } from '../common'
-import BoardingDivider from './boarding-divider'
-import BoardingBottom from './boarding-bottom'
 import type { ClassName } from '../../models/interface'
+import { Button, Typography } from '../common'
+import BoardingBottom from './boarding-bottom'
+import BoardingDivider from './boarding-divider'
+
+import cn from '@/utils/cn'
 
 const InvitedExpiredBoardingPass = ({ className }: ClassName) => {
   return (

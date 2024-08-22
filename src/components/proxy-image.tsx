@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useState, type ImgHTMLAttributes } from 'react'
-import { api } from '@/utils/api'
+import { type ImgHTMLAttributes, useEffect, useState } from 'react'
+
 import { useLazyImage } from '@/hooks/use-lazy-image'
+import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 
 interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {

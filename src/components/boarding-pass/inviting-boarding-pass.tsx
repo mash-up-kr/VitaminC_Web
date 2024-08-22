@@ -1,12 +1,13 @@
 'use client'
 
-import cn from '@/utils/cn'
-import { Button, QRCode } from '@/components/common'
 import BoardingBottom from './boarding-bottom'
 import BoardingDivider from './boarding-divider'
 import InviteBoardingPassInfo from './invite-boarding-pass-info'
 import type { InvitingBoardingPassProps } from './types'
+
+import { Button, QRCode } from '@/components/common'
 import useKakaoShare from '@/hooks/use-kakao-share'
+import cn from '@/utils/cn'
 
 const InvitingBoardingPass = ({
   className,

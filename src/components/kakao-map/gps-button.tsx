@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import { AccessibleIconButton } from '@/components'
-import useWindowSize from '@/hooks/use-window-size'
+
 import { useKakaoMap } from './context'
 import GpsMarker from './gps-marker'
+
+import { AccessibleIconButton } from '@/components'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
+import useWindowSize from '@/hooks/use-window-size'
 
 const BUTTON_OFFSET_Y = 16
 const BUTTON_HEIGHT = 11

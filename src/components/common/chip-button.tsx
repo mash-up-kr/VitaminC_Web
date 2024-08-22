@@ -1,13 +1,14 @@
 import type { ButtonHTMLAttributes } from 'react'
 import { forwardRef } from 'react'
-import type { VariantProps } from 'class-variance-authority'
-import { cva } from 'class-variance-authority'
 
-import cn from '@/utils/cn'
 import Icon from './icon'
 import type { FontKey } from './typography'
 import Typography from './typography'
+import type { VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
+
 import type { ColorKey } from '@/types/color'
+import cn from '@/utils/cn'
 
 const ChipButtonVariants = cva<{
   colorScheme: Record<'neutral' | 'orange', `bg-${ColorKey}`>

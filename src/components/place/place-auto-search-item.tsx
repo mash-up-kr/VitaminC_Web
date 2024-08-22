@@ -1,11 +1,12 @@
-import Link from 'next/link'
 import { forwardRef } from 'react'
 
-import cn from '@/utils/cn'
+import Link from 'next/link'
+
 import { Icon, Typography } from '@/components'
 import type { ClassName } from '@/models/interface'
-import { recentSearchStorage } from '@/utils/storage'
 import type { SearchPlace } from '@/types/api/place'
+import cn from '@/utils/cn'
+import { recentSearchStorage } from '@/utils/storage'
 
 interface PlaceAutoSearchItemProps extends ClassName {
   place: SearchPlace

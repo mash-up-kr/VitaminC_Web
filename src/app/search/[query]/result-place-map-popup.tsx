@@ -2,26 +2,28 @@
 
 import type { ForwardedRef } from 'react'
 import { forwardRef, useEffect, useState } from 'react'
+
 import Link from 'next/link'
 
+import ResultPlacePopupSkeleton from './result-place-popup-skeleton'
+
 import {
-  Typography,
-  TagList,
   Icon,
-  PickChip,
   LikeButton,
+  PickChip,
   ProxyImage,
+  TagList,
+  Typography,
 } from '@/components'
+import { notify } from '@/components/common/custom-toast'
+import useFetch from '@/hooks/use-fetch'
 import { APIError, type ClassName } from '@/models/interface'
-import cn from '@/utils/cn'
+import type { MapInfo } from '@/models/map.interface'
 import type { PlaceDetail, SearchPlace } from '@/types/api/place'
 import { api } from '@/utils/api'
-import { getStarByScore } from '@/utils/score'
-import useFetch from '@/hooks/use-fetch'
-import { notify } from '@/components/common/custom-toast'
-import type { MapInfo } from '@/models/map.interface'
-import ResultPlacePopupSkeleton from './result-place-popup-skeleton'
+import cn from '@/utils/cn'
 import { roundOnePoint } from '@/utils/number'
+import { getStarByScore } from '@/utils/score'
 
 interface ResultPlaceMapPopupProps extends ClassName {
   mapId: MapInfo['id']

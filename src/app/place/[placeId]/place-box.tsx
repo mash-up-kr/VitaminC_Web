@@ -2,23 +2,24 @@
 
 import { useEffect, useState } from 'react'
 
-import { AccessibleIconButton, Button, Carousel } from '@/components'
-import type { PlaceDetail } from '@/types/api/place'
-import PlaceTopInformation from './place-top-information'
-import PlaceDivider from '@/components/place/place-divider'
-import MenuList from '@/components/place/menu-list'
-import KakaoRating from '@/components/place/kakao-rating'
-import PlaceActionButtons from '@/components/place/place-action-buttons'
-import { APIError } from '@/models/interface'
-import { notify } from '@/components/common/custom-toast'
-import { api } from '@/utils/api'
 import PlaceDeleteModal from './place-delete-modal'
-import useSafeRouter from '@/hooks/use-safe-router'
+import PlaceTopInformation from './place-top-information'
+
+import { AccessibleIconButton, Button, Carousel } from '@/components'
+import { notify } from '@/components/common/custom-toast'
+import KakaoRating from '@/components/place/kakao-rating'
+import MenuList from '@/components/place/menu-list'
+import PlaceActionButtons from '@/components/place/place-action-buttons'
+import PlaceDivider from '@/components/place/place-divider'
 import useFetch from '@/hooks/use-fetch'
+import useSafeRouter from '@/hooks/use-safe-router'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import { allowUserPositionStorage } from '@/utils/storage'
+import { APIError } from '@/models/interface'
+import type { PlaceDetail } from '@/types/api/place'
+import { api } from '@/utils/api'
 import { formatDistance, getDistance } from '@/utils/location'
 import { roundToNthDecimal } from '@/utils/number'
+import { allowUserPositionStorage } from '@/utils/storage'
 
 interface PlaceBoxProps {
   place: PlaceDetail

@@ -2,9 +2,10 @@ import React from 'react'
 
 import type { Metadata } from 'next'
 import Script from 'next/script'
-import { Analytics } from '@vercel/analytics/next'
 
 import './globals.css'
+import { Analytics } from '@vercel/analytics/next'
+
 import { CustomToaster } from '@/components/common/custom-toast'
 import { pretendard } from '@/styles/fonts'
 

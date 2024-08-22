@@ -1,8 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useIsServer } from './use-is-server'
 import { useRef } from 'react'
+
+import { useRouter } from 'next/navigation'
+
+import { useIsServer } from './use-is-server'
 
 const useSafeRouter = () => {
   const isServer = useIsServer()

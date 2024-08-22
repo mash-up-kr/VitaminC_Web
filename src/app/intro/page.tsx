@@ -2,24 +2,23 @@
 
 import { useEffect, useMemo, useState } from 'react'
 
-import Login from '@/components/intro/steps/login'
-import Nickname from '@/components/intro/steps/nickname'
-import NewMap from '@/components/intro/steps/new-map'
-import Mapname from '@/components/intro/steps/mapname'
-import Invite from '@/components/intro/steps/invite'
+import { notify } from '@/components/common/custom-toast'
 import Header from '@/components/intro/header'
+import Invite from '@/components/intro/steps/invite'
+import Login from '@/components/intro/steps/login'
+import Mapname from '@/components/intro/steps/mapname'
+import NewMap from '@/components/intro/steps/new-map'
+import Nickname from '@/components/intro/steps/nickname'
 import LoadingIndicator from '@/components/loading-indicator'
-import { IntroStep } from '@/models/interface'
-import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
-
+import useFetch from '@/hooks/use-fetch'
 import { useIsServer } from '@/hooks/use-is-server'
 import useSafeRouter from '@/hooks/use-safe-router'
-import { api } from '@/utils/api'
-import { notify } from '@/components/common/custom-toast'
-import { fetchData } from '@/utils/api/route'
-import useFetch from '@/hooks/use-fetch'
+import { IntroStep } from '@/models/interface'
 import type { Token } from '@/models/user.interface'
 import { enterMap } from '@/services/invitation'
+import { api } from '@/utils/api'
+import { fetchData } from '@/utils/api/route'
+import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction

@@ -1,9 +1,10 @@
 'use client'
 
+import { useState } from 'react'
+
 import { Input } from '@/components'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 import Modal from '@/components/common/Modal/Modal'
-import { useState } from 'react'
 
 const TestDesign = () => {
   const [input, setInput] = useState('')

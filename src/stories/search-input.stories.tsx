@@ -1,5 +1,6 @@
-import SearchInput from '@/components/search-input'
 import type { Meta, StoryObj } from '@storybook/react'
+
+import SearchInput from '@/components/search-input'
 
 export default {
   title: 'Components/SearchInput',

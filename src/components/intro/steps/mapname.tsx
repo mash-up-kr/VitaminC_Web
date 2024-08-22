@@ -2,12 +2,12 @@
 
 import { useState } from 'react'
 
-import { Button, Input, Typography } from '@/components/common'
-import type { IntroActionDispatch } from '@/app/intro/page'
-import { api } from '@/utils/api'
-import { notify } from '@/components/common/custom-toast'
 import { setCookie } from '@/app/actions'
+import type { IntroActionDispatch } from '@/app/intro/page'
+import { Button, Input, Typography } from '@/components/common'
+import { notify } from '@/components/common/custom-toast'
 import { RECENT_MAP_ID } from '@/constants/cookie'
+import { api } from '@/utils/api'
 import { countCharacters } from '@/utils/string'
 
 const MIN_LENGTH = 2

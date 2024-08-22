@@ -1,4 +1,3 @@
-import { APIError } from '@/models/interface'
 import { parseJSON } from './parse-json'
 import type {
   HTTPMethod,
@@ -7,6 +6,8 @@ import type {
   RequestConfig,
   RequestOptions,
 } from './types'
+
+import { APIError } from '@/models/interface'
 
 class HTTPClient {
   private baseUrl: string

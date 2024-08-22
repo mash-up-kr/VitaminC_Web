@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 
-import NewMap from '@/components/intro/steps/new-map'
-import { IntroStep } from '@/models/interface'
-import LoadingIndicator from '@/components/loading-indicator'
-import Mapname from '@/components/intro/steps/mapname'
-import Header from '@/components/intro/header'
-import { useIsServer } from '@/hooks/use-is-server'
 import type { StepProps } from '@/app/intro/page'
+import Header from '@/components/intro/header'
 import Invite from '@/components/intro/steps/invite'
+import Mapname from '@/components/intro/steps/mapname'
+import NewMap from '@/components/intro/steps/new-map'
+import LoadingIndicator from '@/components/loading-indicator'
+import { useIsServer } from '@/hooks/use-is-server'
+import { IntroStep } from '@/models/interface'
 
 const Step = ({ step, goNextStep }: StepProps) => {
   switch (step) {

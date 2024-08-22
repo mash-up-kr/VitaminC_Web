@@ -1,14 +1,15 @@
 'use client'
 
 import { type CSSProperties, useCallback, useEffect, useRef } from 'react'
+
+import type { Item } from './types'
 import { type PanInfo, animate, motion, useMotionValue } from 'framer-motion'
 
-import cn from '@/utils/cn'
-import type { Item } from './types'
+import { ProxyImage } from '@/components'
 import { Typography } from '@/components/common'
 import { Lottie } from '@/components/common/lottie'
 import useEventListener from '@/hooks/use-event-listener'
-import { ProxyImage } from '@/components'
+import cn from '@/utils/cn'
 
 interface SlideProps {
   items: Item[]

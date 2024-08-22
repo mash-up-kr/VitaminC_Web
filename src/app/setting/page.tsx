@@ -4,10 +4,10 @@ import { useState } from 'react'
 
 import { AccessibleIconButton, Avatar, Icon, Typography } from '@/components'
 import BottomModal from '@/components/BottomModal'
-import { api } from '@/utils/api'
-import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
+import useSafeRouter from '@/hooks/use-safe-router'
 import { handleSignout } from '@/services/user'
+import { api } from '@/utils/api'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)

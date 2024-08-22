@@ -1,4 +1,4 @@
-import type { HTMLAttributes, ElementType } from 'react'
+import type { ElementType, HTMLAttributes } from 'react'
 
 interface VisuallyHiddenProps extends HTMLAttributes<HTMLSpanElement> {
   as?: ElementType

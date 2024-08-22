@@ -1,20 +1,22 @@
 'use client'
+
 import { useEffect, useState } from 'react'
 
-import cn from '@/utils/cn'
-import type { ClassName } from '@/models/interface'
-import { notify } from '@/components/common/custom-toast'
-import ResultSearchListBox from './result-search-list'
-import ResultSearchInput from './result-search-input'
-import KorrkKakaoMap from '@/components/korrk-kakao-map'
-import { type SearchPlace } from '@/types/api/place'
-import useMeasure from '@/hooks/use-measure'
-import { mapBoundSessionStorage } from '@/utils/storage'
-import { api } from '@/utils/api'
-import { formatBoundToRect } from '@/utils/location'
-import { getMapId } from '@/services/map-id'
 import ResultPlaceMapPopup from './result-place-map-popup'
+import ResultSearchInput from './result-search-input'
+import ResultSearchListBox from './result-search-list'
+
+import { notify } from '@/components/common/custom-toast'
+import KorrkKakaoMap from '@/components/korrk-kakao-map'
+import useMeasure from '@/hooks/use-measure'
+import type { ClassName } from '@/models/interface'
+import { getMapId } from '@/services/map-id'
+import { type SearchPlace } from '@/types/api/place'
+import { api } from '@/utils/api'
+import cn from '@/utils/cn'
+import { formatBoundToRect } from '@/utils/location'
 import { getCorners } from '@/utils/map'
+import { mapBoundSessionStorage } from '@/utils/storage'
 
 interface ResultSearchBoxProps extends ClassName {
   query: string

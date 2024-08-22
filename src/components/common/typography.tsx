@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
 import type { ElementType, HTMLAttributes } from 'react'
+
 import { cva } from 'class-variance-authority'
 
 import type { ColorKey } from '@/types/color'

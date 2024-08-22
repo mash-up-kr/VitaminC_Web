@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
-import cn from '@/utils/cn'
-import type { ClassName } from '@/models/interface'
 import { AccessibleIconButton, Typography } from '@/components'
 import useSafeRouter from '@/hooks/use-safe-router'
+import type { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
 
 interface ResultSearchInputProps extends ClassName {
   value: string

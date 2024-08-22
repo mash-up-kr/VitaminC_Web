@@ -1,5 +1,5 @@
-import cn from '@/utils/cn'
 import type { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
 
 interface PlaceDividerProps extends ClassName {}
 

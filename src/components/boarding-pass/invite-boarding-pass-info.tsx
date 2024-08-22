@@ -1,8 +1,8 @@
-import { SINGLE } from './constant'
-import { Typography } from '../common'
-import type { InviteBoardingPass } from './types'
-import BoardingDivider from './boarding-divider'
 import { formatDate } from '../../utils/date'
+import { Typography } from '../common'
+import BoardingDivider from './boarding-divider'
+import { SINGLE } from './constant'
+import type { InviteBoardingPass } from './types'
 
 const InviteBoardingPassInfo = ({
   mapName,

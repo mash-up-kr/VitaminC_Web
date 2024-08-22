@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-import type { LocationType } from '@/types/map/map'
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect'
+
+import type { LocationType } from '@/types/map/map'
 import { allowUserPositionStorage } from '@/utils/storage'
 
 /**

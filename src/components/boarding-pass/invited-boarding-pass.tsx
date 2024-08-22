@@ -1,16 +1,17 @@
 'use client'
 
-import cn from '@/utils/cn'
-import type { InvitedBoardingPassProps } from './types'
-import { APIError } from '@/models/interface'
-import InviteBoardingPassInfo from './invite-boarding-pass-info'
-import { Button } from '@/components/common'
 import BoardingBottom from './boarding-bottom'
-import useSafeRouter from '@/hooks/use-safe-router'
-import { inviteCodeStorage } from '@/utils/storage'
-import { notify } from '@/components/common/custom-toast'
+import InviteBoardingPassInfo from './invite-boarding-pass-info'
+import type { InvitedBoardingPassProps } from './types'
+
 import { ProxyImage } from '@/components'
+import { Button } from '@/components/common'
+import { notify } from '@/components/common/custom-toast'
+import useSafeRouter from '@/hooks/use-safe-router'
+import { APIError } from '@/models/interface'
 import { boardMap } from '@/services/invitation'
+import cn from '@/utils/cn'
+import { inviteCodeStorage } from '@/utils/storage'
 
 const InvitedBoardingPass = ({
   className,

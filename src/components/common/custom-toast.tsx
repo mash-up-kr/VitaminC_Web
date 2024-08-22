@@ -1,4 +1,5 @@
-import toast, { Toaster, type ToastOptions } from 'react-hot-toast'
+import toast, { type ToastOptions, Toaster } from 'react-hot-toast'
+
 import Icon from './icon'
 import Typography from './typography'
 

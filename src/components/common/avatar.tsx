@@ -1,8 +1,10 @@
-import { cva } from 'class-variance-authority'
-import { forwardRef, type RefObject } from 'react'
-import Typography from './typography'
-import cn from '@/utils/cn'
+import { type RefObject, forwardRef } from 'react'
+
 import Spinner from '../spinner'
+import Typography from './typography'
+import { cva } from 'class-variance-authority'
+
+import cn from '@/utils/cn'
 
 const AvatarVariants = cva<{
   colorScheme: Record<

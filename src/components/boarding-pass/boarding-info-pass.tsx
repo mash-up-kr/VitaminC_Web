@@ -1,25 +1,25 @@
 'use client'
 
-import cn from '@/utils/cn'
-
 import { useState } from 'react'
 
-import { Icon, Typography } from '@/components/common'
-import BoardingDivider from './boarding-divider'
-import BoardingBottom from './boarding-bottom'
-import BoardingMembers from './boarding-members'
-import type { BoardingInfoPassProps, InvitingBoardingPassProps } from './types'
 import BottomModal from '../BottomModal'
-import { notify } from '@/components/common/custom-toast'
-import { api } from '@/utils/api'
-import { APIError } from '@/models/interface'
-import Modal from '@/components/common/Modal/Modal'
+import BoardingBottom from './boarding-bottom'
+import BoardingDivider from './boarding-divider'
+import BoardingMembers from './boarding-members'
 import InvitingBoardingPass from './inviting-boarding-pass'
-import useSafeRouter from '@/hooks/use-safe-router'
+import type { BoardingInfoPassProps, InvitingBoardingPassProps } from './types'
+
+import { Icon, Typography } from '@/components/common'
+import Modal from '@/components/common/Modal/Modal'
+import { notify } from '@/components/common/custom-toast'
 import useFetch from '@/hooks/use-fetch'
+import useSafeRouter from '@/hooks/use-safe-router'
+import { APIError } from '@/models/interface'
 import { getMapInviteInfo } from '@/services/invitation'
-import { sendedInviteCodesStorage } from '@/utils/storage'
+import { api } from '@/utils/api'
+import cn from '@/utils/cn'
 import { getIsExpiredTime } from '@/utils/date'
+import { sendedInviteCodesStorage } from '@/utils/storage'
 
 const ShareButton = ({
   isInvited,

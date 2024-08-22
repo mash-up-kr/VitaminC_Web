@@ -1,16 +1,17 @@
 import type { ReactNode } from 'react'
 import { forwardRef, useId, useRef, useState } from 'react'
+
+import { BOTTOM_SHEET_STATE, BOTTOM_SHEET_STATE_MAP } from './constants'
+import type { BottomSheetState, BottomSheetStateNum } from './types'
 import { motion, useDragControls } from 'framer-motion'
 import type { PanInfo } from 'framer-motion'
 
+import { useClickOutside } from '@/hooks/use-click-outside'
 import useMeasure from '@/hooks/use-measure'
 import useWindowSize from '@/hooks/use-window-size'
-import type { BottomSheetState, BottomSheetStateNum } from './types'
-import { BOTTOM_SHEET_STATE, BOTTOM_SHEET_STATE_MAP } from './constants'
-import { clamp } from '@/utils/number'
 import { toBottomSheetState } from '@/utils/bottom-sheet'
-import { useClickOutside } from '@/hooks/use-click-outside'
 import { mergeRefs } from '@/utils/merge-refs'
+import { clamp } from '@/utils/number'
 
 interface BottomSheetProps {
   body: ReactNode

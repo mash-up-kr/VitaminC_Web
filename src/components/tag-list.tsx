@@ -1,11 +1,11 @@
 'use client'
 
 import { Chip } from '@/components'
-import cn from '@/utils/cn'
 import type { ClassName } from '@/models/interface'
-import { changeSpaceToHyphen } from '@/utils/tags'
-import type { PlaceType } from '@/types/api/place'
 import type { TagItem } from '@/types/api/maps'
+import type { PlaceType } from '@/types/api/place'
+import cn from '@/utils/cn'
+import { changeSpaceToHyphen } from '@/utils/tags'
 
 interface TagListProps extends ClassName {
   placeId: PlaceType['place']['id']

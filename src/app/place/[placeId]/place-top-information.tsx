@@ -1,9 +1,9 @@
+import { Icon, LikeButton, PickChip, TagList, Typography } from '@/components'
 import IconChip from '@/components/icon-chip'
 import type { PlaceProps } from '@/components/place/types'
-import { Typography, PickChip, LikeButton, TagList, Icon } from '@/components'
 import type { ClassName } from '@/models/interface'
-import cn from '@/utils/cn'
 import { categoryIcons } from '@/models/map.interface'
+import cn from '@/utils/cn'
 import { roundOnePoint } from '@/utils/number'
 
 interface PlaceTopInformationProps extends PlaceProps, ClassName {

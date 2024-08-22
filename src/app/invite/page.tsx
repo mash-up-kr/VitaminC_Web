@@ -1,8 +1,8 @@
 import { Typography } from '@/components'
 import InvitedBoardingPass from '@/components/boarding-pass/invited-boarding-pass'
 import InvitedExpiredBoardingPass from '@/components/boarding-pass/invited-expired-boarding-pass'
-import { getMapInviteInfo } from '@/services/invitation'
 import { APIError } from '@/models/interface'
+import { getMapInviteInfo } from '@/services/invitation'
 
 const getInfo = async (inviteCode: string) => {
   try {

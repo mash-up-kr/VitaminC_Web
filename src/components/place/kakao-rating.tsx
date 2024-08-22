@@ -1,8 +1,9 @@
+import { ExternalLink, Icon, Typography } from '../common'
+
+import type { ClassName } from '@/models/interface'
+import type { PlaceType } from '@/types/api/place'
 import cn from '@/utils/cn'
 import { roundToNthDecimal } from '@/utils/number'
-import type { ClassName } from '@/models/interface'
-import { ExternalLink, Icon, Typography } from '../common'
-import type { PlaceType } from '@/types/api/place'
 
 interface KakaoRatingProps extends ClassName {
   rating: number

@@ -1,6 +1,7 @@
-import type { IconKey } from '@/components/common/icon'
 import type { DateTimeType, MutatedAt } from './interface'
 import type { Creator, User } from './user.interface'
+
+import type { IconKey } from '@/components/common/icon'
 
 type MapRole = 'ADMIN' | 'READ' | 'WRITE'
 

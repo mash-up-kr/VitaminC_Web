@@ -1,5 +1,6 @@
-import type { CategoryIcon } from '@/models/map.interface'
 import type { PlaceMenuItem } from '../api/place'
+
+import type { CategoryIcon } from '@/models/map.interface'
 
 export interface KakaoPlaceItem {
   address_name: string // "서울 강남구 역삼동 669-17"

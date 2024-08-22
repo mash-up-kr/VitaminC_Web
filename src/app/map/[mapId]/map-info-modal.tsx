@@ -6,13 +6,13 @@ import { ChipButton, Icon } from '@/components'
 import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
 import Modal from '@/components/common/Modal/Modal'
 import { notify } from '@/components/common/custom-toast'
+import Spinner from '@/components/spinner'
+import useFetch from '@/hooks/use-fetch'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { APIError } from '@/models/interface'
 import type { MapInfo } from '@/models/map.interface'
 import { api } from '@/utils/api'
 import { getDiffDateText } from '@/utils/date'
-import useFetch from '@/hooks/use-fetch'
-import Spinner from '@/components/spinner'
 
 interface MapInfoModalProps {
   mapId: string

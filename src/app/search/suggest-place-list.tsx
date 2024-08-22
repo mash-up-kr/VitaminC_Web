@@ -1,8 +1,8 @@
-import { formatDistance, getDistance } from '@/utils/location'
-import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import PlaceAutoSearchItem from '@/components/place/place-auto-search-item'
-import { allowUserPositionStorage } from '@/utils/storage'
+import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import type { SearchPlace } from '@/types/api/place'
+import { formatDistance, getDistance } from '@/utils/location'
+import { allowUserPositionStorage } from '@/utils/storage'
 
 interface SuggestPlaceListProps {
   places: SearchPlace[]

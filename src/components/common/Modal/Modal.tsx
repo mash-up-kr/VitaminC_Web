@@ -7,13 +7,14 @@ import type {
 } from 'react'
 import { forwardRef, useEffect, useId, useRef } from 'react'
 
-import cn from '@/utils/cn'
 import Portal from './Portal'
-import type { ClassName } from '@/models/interface'
-import { mergeRefs } from '@/utils/merge-refs'
-import useEventListener from '@/hooks/use-event-listener'
+
 import { useClickOutside } from '@/hooks/use-click-outside'
+import useEventListener from '@/hooks/use-event-listener'
 import useModalTransition from '@/hooks/use-modal-transition'
+import type { ClassName } from '@/models/interface'
+import cn from '@/utils/cn'
+import { mergeRefs } from '@/utils/merge-refs'
 
 export interface ModalProps extends ClassName {
   children: ReactNode

@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import debounce from 'lodash.debounce'
+
 import useEventListener from './use-event-listener'
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect'
+import debounce from 'lodash.debounce'
 
 interface Size {
   width: number

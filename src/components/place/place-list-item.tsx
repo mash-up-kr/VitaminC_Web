@@ -1,21 +1,22 @@
 import Link from 'next/link'
 
-import {
-  Typography,
-  PickChip,
-  LikeButton,
-  TagList,
-  Icon,
-  ProxyImage,
-} from '@/components'
-import type { PlaceProps } from './types'
 import IconChip from '../icon-chip'
-import { getStarByScore } from '@/utils/score'
-import { categoryIcons } from '@/models/map.interface'
-import { roundOnePoint } from '@/utils/number'
+import type { PlaceProps } from './types'
+
+import {
+  Icon,
+  LikeButton,
+  PickChip,
+  ProxyImage,
+  TagList,
+  Typography,
+} from '@/components'
 import type { ClassName } from '@/models/interface'
-import cn from '@/utils/cn'
+import { categoryIcons } from '@/models/map.interface'
 import type { TagItem } from '@/types/api/maps'
+import cn from '@/utils/cn'
+import { roundOnePoint } from '@/utils/number'
+import { getStarByScore } from '@/utils/score'
 
 interface PlaceListItemProps extends Omit<PlaceProps, 'tags'>, ClassName {
   rating: number
