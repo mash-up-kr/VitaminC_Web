@@ -1,7 +1,7 @@
 'use client'
 
 import cn from '@/utils/cn'
-import { InvitedBoardingPassProps } from './types'
+import type { InvitedBoardingPassProps } from './types'
 import { APIError } from '@/models/interface'
 import InviteBoardingPassInfo from './invite-boarding-pass-info'
 import { Button } from '@/components/common'

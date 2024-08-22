@@ -8,7 +8,7 @@ import LoadingIndicator from '@/components/loading-indicator'
 import Mapname from '@/components/intro/steps/mapname'
 import Header from '@/components/intro/header'
 import { useIsServer } from '@/hooks/use-is-server'
-import { StepProps } from '@/app/intro/page'
+import type { StepProps } from '@/app/intro/page'
 import Invite from '@/components/intro/steps/invite'
 
 const Step = ({ step, goNextStep }: StepProps) => {

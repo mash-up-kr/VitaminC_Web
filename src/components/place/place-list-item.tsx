@@ -13,7 +13,7 @@ import IconChip from '../icon-chip'
 import { getStarByScore } from '@/utils/score'
 import { categoryIcons } from '@/models/map.interface'
 import { roundOnePoint } from '@/utils/number'
-import { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 import type { TagItem } from '@/types/api/maps'
 

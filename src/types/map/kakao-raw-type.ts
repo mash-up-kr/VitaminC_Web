@@ -1,4 +1,4 @@
-import { CategoryIcon } from '@/models/map.interface'
+import type { CategoryIcon } from '@/models/map.interface'
 import type { PlaceMenuItem } from '../api/place'
 
 export interface KakaoPlaceItem {

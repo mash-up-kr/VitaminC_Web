@@ -3,7 +3,7 @@
 import { useState } from 'react'
 
 import { Button, Input, Typography } from '@/components/common'
-import { IntroActionDispatch } from '@/app/intro/page'
+import type { IntroActionDispatch } from '@/app/intro/page'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { setCookie } from '@/app/actions'

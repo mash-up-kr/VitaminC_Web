@@ -5,7 +5,7 @@ import { Button, QRCode } from '@/components/common'
 import BoardingBottom from './boarding-bottom'
 import BoardingDivider from './boarding-divider'
 import InviteBoardingPassInfo from './invite-boarding-pass-info'
-import { InvitingBoardingPassProps } from './types'
+import type { InvitingBoardingPassProps } from './types'
 import useKakaoShare from '@/hooks/use-kakao-share'
 
 const InvitingBoardingPass = ({

@@ -1,6 +1,7 @@
 'use client'
 
-import { ForwardedRef, forwardRef, useEffect, useState } from 'react'
+import type { ForwardedRef} from 'react';
+import { forwardRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import {

@@ -2,8 +2,8 @@
 
 import RegisterBox from './register-box'
 import { useEffect, useState } from 'react'
-import { PlaceDetail } from '@/types/api/place'
-import { TagItem } from '@/types/api/maps'
+import type { PlaceDetail } from '@/types/api/place'
+import type { TagItem } from '@/types/api/maps'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { getMapId } from '@/services/map-id'

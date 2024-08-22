@@ -1,7 +1,9 @@
-import { InputHTMLAttributes, forwardRef } from 'react'
+import type { InputHTMLAttributes} from 'react';
+import { forwardRef } from 'react'
 
 import cn from '@/utils/cn'
-import { VariantProps, cva } from 'class-variance-authority'
+import type { VariantProps} from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 import AccessibleIconButton from './accessible-icon-button'
 
 const SearchInputVariants = cva<{

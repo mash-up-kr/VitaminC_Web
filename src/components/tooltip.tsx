@@ -1,7 +1,9 @@
-import { HTMLAttributes, forwardRef } from 'react'
+import type { HTMLAttributes} from 'react';
+import { forwardRef } from 'react'
 
 import cn from '@/utils/cn'
-import { VariantProps, cva } from 'class-variance-authority'
+import type { VariantProps} from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 import AccessibleIconButton from './accessible-icon-button'
 import Typography from './common/typography'
 import Icon from './common/icon'

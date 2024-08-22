@@ -1,5 +1,5 @@
 import { Button, Typography } from '@/components/common'
-import { IntroActionDispatch } from '@/app/intro/page'
+import type { IntroActionDispatch } from '@/app/intro/page'
 
 const NewMap = ({ goNextStep }: IntroActionDispatch) => {
   const handleClick = () => {

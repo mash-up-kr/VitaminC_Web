@@ -1,6 +1,6 @@
 import { SINGLE } from './constant'
 import { Typography } from '../common'
-import { InviteBoardingPass } from './types'
+import type { InviteBoardingPass } from './types'
 import BoardingDivider from './boarding-divider'
 import { formatDate } from '../../utils/date'
 

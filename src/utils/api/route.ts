@@ -1,5 +1,5 @@
 import { APIError } from '@/models/interface'
-import { ResponseWithMessage } from '@/types/api'
+import type { ResponseWithMessage } from '@/types/api'
 import { parseJSON } from './parse-json'
 
 const cache: Record<string, any> = {}

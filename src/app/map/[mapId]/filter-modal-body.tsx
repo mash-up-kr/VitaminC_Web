@@ -3,9 +3,9 @@
 import { useState } from 'react'
 
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
-import { FilterIdsType } from './page'
+import type { FilterIdsType } from './page'
 import { api } from '@/utils/api'
-import { TagItem } from '@/types/api/maps'
+import type { TagItem } from '@/types/api/maps'
 import { notify } from '@/components/common/custom-toast'
 import { ChipButton, Icon, Typography } from '@/components'
 import cn from '@/utils/cn'

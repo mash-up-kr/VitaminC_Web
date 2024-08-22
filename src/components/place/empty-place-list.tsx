@@ -1,4 +1,4 @@
-import { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/interface'
 import { Typography } from '..'
 import cn from '@/utils/cn'
 

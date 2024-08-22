@@ -1,5 +1,5 @@
 import { Avatar, Chip, Typography } from '../common'
-import { BoardingMembersProps } from './types'
+import type { BoardingMembersProps } from './types'
 const memberColors = [
   'coral',
   'dark-blue',

@@ -1,4 +1,4 @@
-import { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 import AccessibleIconButton from '../accessible-icon-button'
 import { Button } from '../common'

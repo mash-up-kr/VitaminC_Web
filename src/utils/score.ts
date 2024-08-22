@@ -1,4 +1,4 @@
-import { IconKey } from '@/components/common/icon'
+import type { IconKey } from '@/components/common/icon'
 
 const getStarByScore = (score: number): IconKey => {
   if (score > 4) return 'starFilled'

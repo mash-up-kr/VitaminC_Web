@@ -1,6 +1,6 @@
-import { CategoryIcon, MapInfo } from '@/models/map.interface'
-import { KakaoPlaceDetail } from '../map/kakao-raw-type'
-import { TagItem } from './maps'
+import type { CategoryIcon, MapInfo } from '@/models/map.interface'
+import type { KakaoPlaceDetail } from '../map/kakao-raw-type'
+import type { TagItem } from './maps'
 import type { Creator, User } from '@/models/user.interface'
 
 export interface PlaceType {

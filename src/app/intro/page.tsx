@@ -18,7 +18,7 @@ import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import { fetchData } from '@/utils/api/route'
 import useFetch from '@/hooks/use-fetch'
-import { Token } from '@/models/user.interface'
+import type { Token } from '@/models/user.interface'
 import { enterMap } from '@/services/invitation'
 
 export interface IntroActionDispatch {

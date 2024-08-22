@@ -1,4 +1,5 @@
-import { InputHTMLAttributes, forwardRef } from 'react'
+import type { InputHTMLAttributes} from 'react';
+import { forwardRef } from 'react'
 
 import { Icon, Typography } from '@/components'
 import AccessibleIconButton from '@/components/accessible-icon-button'

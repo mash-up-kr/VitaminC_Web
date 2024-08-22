@@ -17,7 +17,7 @@ import useMeasure from '@/hooks/use-measure'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 import BottomSheet from '@/components/bottom-sheet'
 import MapInfoModal from './map-info-modal'
-import { TagItem } from '@/types/api/maps'
+import type { TagItem } from '@/types/api/maps'
 import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 import useFetch from '@/hooks/use-fetch'
 
