@@ -38,6 +38,7 @@
       {
         "case": "kebabCase"
       }
-    ]
+    ],
+    "import/no-cycle": "error"
   }
 }
