@@ -121,7 +121,7 @@ const SearchBox = () => {
   }, [mapBounds, mapId, query])
 
   useEffect(() => {
-    const debounceGetSuggestPlaces = debounce(getSuggestPlaces, 500)
+    const debounceGetSuggestPlaces = debounce(getSuggestPlaces, 200)
 
     debounceGetSuggestPlaces()
 
