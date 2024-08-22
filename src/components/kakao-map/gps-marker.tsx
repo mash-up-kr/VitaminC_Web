@@ -1,9 +1,9 @@
 import { type FC, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { icons } from '../common/icons'
 import { useKakaoMap } from './context'
 
+import { icons } from '@/components/common/icons'
 import type { ClassName } from '@/models/interface'
 
 interface GpsMarkerProps extends ClassName {

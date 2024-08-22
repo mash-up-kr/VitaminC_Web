@@ -4,8 +4,6 @@ import { forwardRef, useEffect, useState } from 'react'
 
 import Link from 'next/link'
 
-import { notify } from '../common/custom-toast'
-
 import {
   Icon,
   LikeButton,
@@ -14,6 +12,7 @@ import {
   TagList,
   Typography,
 } from '@/components'
+import { notify } from '@/components/common/custom-toast'
 import useFetch from '@/hooks/use-fetch'
 import { APIError, type ClassName } from '@/models/interface'
 import type { PlaceType } from '@/types/api/place'

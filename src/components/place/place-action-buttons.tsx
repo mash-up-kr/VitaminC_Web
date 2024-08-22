@@ -1,6 +1,6 @@
 import AccessibleIconButton from '../accessible-icon-button'
-import { Button } from '../common'
 
+import { Button } from '@/components/common'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 

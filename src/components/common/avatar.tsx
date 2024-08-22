@@ -1,9 +1,9 @@
 import { type RefObject, forwardRef } from 'react'
 
-import Spinner from '../spinner'
 import Typography from './typography'
 import { cva } from 'class-variance-authority'
 
+import Spinner from '@/components/spinner'
 import cn from '@/utils/cn'
 
 const AvatarVariants = cva<{

@@ -1,6 +1,6 @@
-import { Icon, Typography } from '../common'
 import { useKakaoMap } from './context'
 
+import { Icon, Typography } from '@/components/common'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 

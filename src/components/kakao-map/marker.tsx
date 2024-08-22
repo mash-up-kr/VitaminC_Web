@@ -1,11 +1,11 @@
 import { type FC, useEffect, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import Icon from '../common/icon'
-import type { IconKey } from '../common/icon'
-import { icons } from '../common/icons'
 import { useKakaoMap } from './context'
 
+import Icon from '@/components/common/icon'
+import type { IconKey } from '@/components/common/icon'
+import { icons } from '@/components/common/icons'
 import type { ClassName } from '@/models/interface'
 
 interface MarkerProps extends ClassName {

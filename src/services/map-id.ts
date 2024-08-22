@@ -1,7 +1,6 @@
-import { APIError } from '../models/interface'
-
 import { setCookie } from '@/app/actions'
 import { RECENT_MAP_ID } from '@/constants/cookie'
+import { APIError } from '@/models/interface'
 import { api } from '@/utils/api'
 import getCookie from '@/utils/storage/cookie'
 
