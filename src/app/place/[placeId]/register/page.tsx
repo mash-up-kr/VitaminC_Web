@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import RegisterBox from './register-box'
 
 import { notify } from '@/components/common/custom-toast'
-import LoadingIndicator from '@/components/loading-indicator'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import { APIError } from '@/models/interface'
 import { getMapId } from '@/services/map-id'
 import type { TagItem } from '@/types/api/maps'

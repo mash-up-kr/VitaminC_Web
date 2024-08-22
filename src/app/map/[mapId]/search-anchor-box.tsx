@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
-import { Icon, Typography } from '@/components'
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
 
 const SearchAnchorBox = () => {
   return (

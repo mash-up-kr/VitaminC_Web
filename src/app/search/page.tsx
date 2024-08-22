@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 
 import SearchBox from './search-box'
 
-import LoadingIndicator from '@/components/loading-indicator'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import { useIsServer } from '@/hooks/use-is-server'
 
 const Search = () => {

@@ -6,7 +6,7 @@ import type { ClassName } from '@/models/interface'
 
 interface LottieProps extends LottieOptions, ClassName {}
 
-export const Lottie = ({
+const Lottie = ({
   animationData,
   loop = true,
   className,
@@ -26,3 +26,5 @@ export const Lottie = ({
     />
   )
 }
+
+export default Lottie

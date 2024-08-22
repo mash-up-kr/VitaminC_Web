@@ -3,7 +3,8 @@
 import BoardingBottom from './boarding-bottom'
 import BoardingDivider from './boarding-divider'
 
-import { Button, Typography } from '@/components/common'
+import Button from '@/components/common/button'
+import Typography from '@/components/common/typography'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
 

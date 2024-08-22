@@ -7,15 +7,13 @@ import Link from 'next/link'
 
 import ResultPlacePopupSkeleton from './result-place-popup-skeleton'
 
-import {
-  Icon,
-  LikeButton,
-  PickChip,
-  ProxyImage,
-  TagList,
-  Typography,
-} from '@/components'
 import { notify } from '@/components/common/custom-toast'
+import Icon from '@/components/common/icon'
+import ProxyImage from '@/components/common/proxy-image'
+import Typography from '@/components/common/typography'
+import LikeButton from '@/components/like-button'
+import PickChip from '@/components/pick-chip'
+import TagList from '@/components/tag-list'
 import useFetch from '@/hooks/use-fetch'
 import { APIError, type ClassName } from '@/models/interface'
 import type { MapInfo } from '@/models/map.interface'

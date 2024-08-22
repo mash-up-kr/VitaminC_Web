@@ -1,8 +1,10 @@
 import type { InputHTMLAttributes } from 'react'
 import { forwardRef } from 'react'
 
-import { Icon, Typography } from '@/components'
-import AccessibleIconButton from '@/components/accessible-icon-button'
+import AccessibleIconButton from './accessible-icon-button'
+import Icon from './icon'
+import Typography from './typography'
+
 import cn from '@/utils/cn'
 import { countCharacters } from '@/utils/string'
 

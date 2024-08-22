@@ -1,4 +1,6 @@
-import { ExternalLink, Icon, Typography } from '@/components/common'
+import ExternalLink from '@/components/common/external-link'
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
 import type { ClassName } from '@/models/interface'
 import type { PlaceType } from '@/types/api/place'
 import cn from '@/utils/cn'

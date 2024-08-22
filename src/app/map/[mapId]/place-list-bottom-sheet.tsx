@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 
 import type { FilterIdsType } from './page'
 
-import { FilterButton } from '@/components'
 import { notify } from '@/components/common/custom-toast'
+import FilterButton from '@/components/common/filter-button'
 import EmptyPlaceList from '@/components/place/empty-place-list'
 import PlaceListItem from '@/components/place/place-list-item'
 import useFetch from '@/hooks/use-fetch'

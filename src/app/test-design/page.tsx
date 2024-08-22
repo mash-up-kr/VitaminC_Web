@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 
-import { Input } from '@/components'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
-import Modal from '@/components/common/Modal/Modal'
+import Input from '@/components/common/input'
+import Modal from '@/components/common/modal'
 
 const TestDesign = () => {
   const [input, setInput] = useState('')

@@ -1,6 +1,5 @@
-import LoadingLottie from '../../public/lotties/loading.json'
-
-import { Lottie } from '@/components/common/lottie'
+import LoadingLottie from '../../../public/lotties/loading.json'
+import Lottie from './lottie'
 
 const LoadingIndicator = () => {
   return (

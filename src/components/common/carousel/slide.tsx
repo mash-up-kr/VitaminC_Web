@@ -2,12 +2,12 @@
 
 import { type CSSProperties, useCallback, useEffect, useRef } from 'react'
 
+import Lottie from '../lottie'
+import ProxyImage from '../proxy-image'
+import Typography from '../typography'
 import type { Item } from './types'
 import { type PanInfo, animate, motion, useMotionValue } from 'framer-motion'
 
-import { ProxyImage } from '@/components'
-import { Typography } from '@/components/common'
-import { Lottie } from '@/components/common/lottie'
 import useEventListener from '@/hooks/use-event-listener'
 import cn from '@/utils/cn'
 

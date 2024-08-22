@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import PlaceBox from './place-box'
 
 import { notify } from '@/components/common/custom-toast'
-import LoadingIndicator from '@/components/loading-indicator'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import useFetch from '@/hooks/use-fetch'
 import { APIError } from '@/models/interface'
 import { getMapId } from '@/services/map-id'

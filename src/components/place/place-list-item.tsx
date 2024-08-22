@@ -1,16 +1,14 @@
 import Link from 'next/link'
 
-import IconChip from '../icon-chip'
 import type { PlaceProps } from './types'
 
-import {
-  Icon,
-  LikeButton,
-  PickChip,
-  ProxyImage,
-  TagList,
-  Typography,
-} from '@/components'
+import Icon from '@/components/common/icon'
+import IconChip from '@/components/common/icon-chip'
+import ProxyImage from '@/components/common/proxy-image'
+import Typography from '@/components/common/typography'
+import LikeButton from '@/components/like-button'
+import PickChip from '@/components/pick-chip'
+import TagList from '@/components/tag-list'
 import type { ClassName } from '@/models/interface'
 import { categoryIcons } from '@/models/map.interface'
 import type { TagItem } from '@/types/api/maps'

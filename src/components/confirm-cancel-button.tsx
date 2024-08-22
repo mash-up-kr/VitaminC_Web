@@ -1,5 +1,4 @@
-import { Button } from './common'
-
+import Button from '@/components/common/button'
 import cn from '@/utils/cn'
 
 interface ConfirmCancelButtonProps {

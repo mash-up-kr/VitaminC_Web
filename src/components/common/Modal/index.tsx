@@ -7,7 +7,7 @@ import type {
 } from 'react'
 import { forwardRef, useEffect, useId, useRef } from 'react'
 
-import Portal from './Portal'
+import Portal from './portal'
 
 import { useClickOutside } from '@/hooks/use-click-outside'
 import useEventListener from '@/hooks/use-event-listener'

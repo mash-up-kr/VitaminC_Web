@@ -2,16 +2,17 @@
 
 import { useState } from 'react'
 
-import BottomModal from '../BottomModal'
 import BoardingBottom from './boarding-bottom'
 import BoardingDivider from './boarding-divider'
 import BoardingMembers from './boarding-members'
 import InvitingBoardingPass from './inviting-boarding-pass'
 import type { BoardingInfoPassProps, InvitingBoardingPassProps } from './types'
 
-import { Icon, Typography } from '@/components/common'
-import Modal from '@/components/common/Modal/Modal'
+import BottomModal from '@/components/common/bottom-modal'
 import { notify } from '@/components/common/custom-toast'
+import Icon from '@/components/common/icon'
+import Modal from '@/components/common/modal'
+import Typography from '@/components/common/typography'
 import useFetch from '@/hooks/use-fetch'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { APIError } from '@/models/interface'

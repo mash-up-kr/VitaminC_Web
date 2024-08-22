@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react'
 
-import SearchInput from '@/components/search-input'
+import SearchInput from '@/components/common/search-input'
 import useSafeRouter from '@/hooks/use-safe-router'
 
 interface SearchFormProps {

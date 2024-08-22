@@ -5,7 +5,8 @@ import BoardingDivider from './boarding-divider'
 import InviteBoardingPassInfo from './invite-boarding-pass-info'
 import type { InvitingBoardingPassProps } from './types'
 
-import { Button, QRCode } from '@/components/common'
+import Button from '@/components/common/button'
+import QRCode from '@/components/common/qr-code'
 import useKakaoShare from '@/hooks/use-kakao-share'
 import cn from '@/utils/cn'
 

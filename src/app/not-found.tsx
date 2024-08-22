@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 
 import { usePathname } from 'next/navigation'
 
-import { Button, Typography } from '@/components'
+import Button from '@/components/common/button'
+import LoadingIndicator from '@/components/common/loading-indicator'
+import Typography from '@/components/common/typography'
 import Header from '@/components/intro/header'
-import LoadingIndicator from '@/components/loading-indicator'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { getMapId } from '@/services/map-id'
 

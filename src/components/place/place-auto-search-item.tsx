@@ -2,7 +2,8 @@ import { forwardRef } from 'react'
 
 import Link from 'next/link'
 
-import { Icon, Typography } from '@/components'
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
 import type { ClassName } from '@/models/interface'
 import type { SearchPlace } from '@/types/api/place'
 import cn from '@/utils/cn'

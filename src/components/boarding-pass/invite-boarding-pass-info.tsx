@@ -2,7 +2,7 @@ import BoardingDivider from './boarding-divider'
 import { SINGLE } from './constant'
 import type { InviteBoardingPass } from './types'
 
-import { Typography } from '@/components/common'
+import Typography from '@/components/common/typography'
 import { formatDate } from '@/utils/date'
 
 const InviteBoardingPassInfo = ({

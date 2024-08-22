@@ -11,7 +11,7 @@ import SuggestPlaceList from './suggest-place-list'
 import debounce from 'lodash.debounce'
 
 import { notify } from '@/components/common/custom-toast'
-import LoadingIndicator from '@/components/loading-indicator'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { getMapId } from '@/services/map-id'
 import type { SearchPlace } from '@/types/api/place'

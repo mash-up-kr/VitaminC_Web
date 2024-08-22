@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
-import { AccessibleIconButton, Typography } from '@/components'
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import Typography from '@/components/common/typography'
 import useSafeRouter from '@/hooks/use-safe-router'
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'

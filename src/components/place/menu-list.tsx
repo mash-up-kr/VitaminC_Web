@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 
-import { ProxyImage } from '@/components'
-import { ChipButton, Typography } from '@/components/common'
+import ChipButton from '@/components/common/chip-button'
+import ProxyImage from '@/components/common/proxy-image'
+import Typography from '@/components/common/typography'
 import type { ClassName } from '@/models/interface'
 import type { PlaceDetail } from '@/types/api/place'
 import cn from '@/utils/cn'

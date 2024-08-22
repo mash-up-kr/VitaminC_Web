@@ -2,7 +2,7 @@ import { BOTTOM_SHEET_STATE } from './constants'
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
 import type { Meta, StoryObj } from '@storybook/react'
 
-import BottomSheet from '@/components/bottom-sheet/index'
+import BottomSheet from '@/components/common/bottom-sheet/index'
 
 const meta = {
   title: 'DesignSystem/BottomSheet',

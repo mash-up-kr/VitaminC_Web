@@ -2,8 +2,8 @@ import type { HTMLAttributes } from 'react'
 import { forwardRef } from 'react'
 
 import AccessibleIconButton from './accessible-icon-button'
-import Icon from './common/icon'
-import Typography from './common/typography'
+import Icon from './icon'
+import Typography from './typography'
 import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 
@@ -13,7 +13,7 @@ const TooltipVariants = cva<{
   color: Record<'orange' | 'neutral', string>
   size: Record<'sm' | 'md' | 'lg', string>
 }>(
-  `absolute whitespace-nowrap flex gap-2.5 items-center z-10 text-white rounded-full left-0 top-[calc(100%+20px)] 
+  `absolute whitespace-nowrap flex gap-2.5 items-center z-10 text-white rounded-full left-0 top-[calc(100%+20px)]
   `,
   {
     variants: {

@@ -3,11 +3,9 @@
 import { useState } from 'react'
 
 import type { StepProps } from '@/app/intro/page'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import Header from '@/components/intro/header'
-import Invite from '@/components/intro/steps/invite'
-import Mapname from '@/components/intro/steps/mapname'
-import NewMap from '@/components/intro/steps/new-map'
-import LoadingIndicator from '@/components/loading-indicator'
+import { Invite, Mapname, NewMap } from '@/components/intro/steps'
 import { useIsServer } from '@/hooks/use-is-server'
 import { IntroStep } from '@/models/interface'
 

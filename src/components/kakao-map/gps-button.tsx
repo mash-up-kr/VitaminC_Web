@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useKakaoMap } from './context'
 import GpsMarker from './gps-marker'
 
-import { AccessibleIconButton } from '@/components'
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import useWindowSize from '@/hooks/use-window-size'
 

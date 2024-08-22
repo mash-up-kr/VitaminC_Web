@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 
-import { AccessibleIconButton, Icon, Typography } from '@/components'
-import BottomModal from '@/components/BottomModal'
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import BottomModal from '@/components/common/bottom-modal'
 import { notify } from '@/components/common/custom-toast'
-import SearchInput from '@/components/search-input'
+import Icon from '@/components/common/icon'
+import SearchInput from '@/components/common/search-input'
+import Typography from '@/components/common/typography'
 import { APIError, type ClassName } from '@/models/interface'
 import type { TagItem } from '@/types/api/maps'
 import { api } from '@/utils/api'

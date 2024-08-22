@@ -1,6 +1,6 @@
 'use client'
 
-import { Chip } from '@/components'
+import Chip from '@/components/common/chip'
 import type { ClassName } from '@/models/interface'
 import type { TagItem } from '@/types/api/maps'
 import type { PlaceType } from '@/types/api/place'

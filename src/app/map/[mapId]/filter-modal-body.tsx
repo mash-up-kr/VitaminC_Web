@@ -4,8 +4,10 @@ import { useState } from 'react'
 
 import type { FilterIdsType } from './page'
 
-import { ChipButton, Icon, Typography } from '@/components'
+import ChipButton from '@/components/common/chip-button'
 import { notify } from '@/components/common/custom-toast'
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 import type { TagItem } from '@/types/api/maps'
 import { api } from '@/utils/api'

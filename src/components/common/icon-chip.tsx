@@ -1,6 +1,7 @@
 import { forwardRef } from 'react'
 
-import { Icon, Typography } from './common'
+import Icon from './icon'
+import Typography from './typography'
 
 import type { ClassName } from '@/models/interface'
 

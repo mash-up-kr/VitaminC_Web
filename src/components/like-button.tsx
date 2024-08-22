@@ -3,7 +3,8 @@
 import { forwardRef } from 'react'
 import type { MouseEventHandler } from 'react'
 
-import { AccessibleIconButton, Typography } from '@/components'
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import Typography from '@/components/common/typography'
 
 interface LikeButtonProps {
   numOfLikes: number

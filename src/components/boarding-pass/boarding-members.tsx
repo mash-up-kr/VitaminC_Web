@@ -1,6 +1,8 @@
 import type { BoardingMembersProps } from './types'
 
-import { Avatar, Chip, Typography } from '@/components/common'
+import Avatar from '@/components/common/avatar'
+import Chip from '@/components/common/chip'
+import Typography from '@/components/common/typography'
 
 const memberColors = [
   'coral',

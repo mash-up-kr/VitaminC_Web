@@ -1,4 +1,4 @@
-import BottomModal from '@/components/BottomModal'
+import BottomModal from '@/components/common/bottom-modal'
 
 interface PlaceDeleteModalProps {
   name?: string

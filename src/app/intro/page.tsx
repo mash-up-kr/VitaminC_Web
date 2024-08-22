@@ -3,13 +3,15 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import { notify } from '@/components/common/custom-toast'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import Header from '@/components/intro/header'
-import Invite from '@/components/intro/steps/invite'
-import Login from '@/components/intro/steps/login'
-import Mapname from '@/components/intro/steps/mapname'
-import NewMap from '@/components/intro/steps/new-map'
-import Nickname from '@/components/intro/steps/nickname'
-import LoadingIndicator from '@/components/loading-indicator'
+import {
+  Invite,
+  Login,
+  Mapname,
+  NewMap,
+  Nickname,
+} from '@/components/intro/steps'
 import useFetch from '@/hooks/use-fetch'
 import { useIsServer } from '@/hooks/use-is-server'
 import useSafeRouter from '@/hooks/use-safe-router'

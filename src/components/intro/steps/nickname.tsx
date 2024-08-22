@@ -3,8 +3,10 @@
 import { useState } from 'react'
 
 import type { IntroActionDispatch } from '@/app/intro/page'
-import { Button, Input, Typography } from '@/components/common'
+import Button from '@/components/common/button'
 import { notify } from '@/components/common/custom-toast'
+import Input from '@/components/common/input'
+import Typography from '@/components/common/typography'
 import { api } from '@/utils/api'
 import { onboardingStorage } from '@/utils/storage'
 import { countCharacters } from '@/utils/string'

@@ -2,8 +2,11 @@
 
 import { useState } from 'react'
 
-import { AccessibleIconButton, Avatar, Icon, Typography } from '@/components'
-import BottomModal from '@/components/BottomModal'
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import Avatar from '@/components/common/avatar'
+import BottomModal from '@/components/common/bottom-modal'
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
 import useFetch from '@/hooks/use-fetch'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { handleSignout } from '@/services/user'

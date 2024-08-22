@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { ChipButton } from '@/components'
+import ChipButton from '@/components/common/chip-button'
 import { icons } from '@/components/common/icons'
 
 const meta: Meta<typeof ChipButton> = {

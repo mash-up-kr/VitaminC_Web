@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { AccessibleIconButton } from '@/components'
+import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import { icons } from '@/components/common/icons'
 
 const meta: Meta<typeof AccessibleIconButton> = {

@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react'
 
-import { ChipButton, Icon } from '@/components'
 import BoardingInfoPass from '@/components/boarding-pass/boarding-info-pass'
-import Modal from '@/components/common/Modal/Modal'
+import ChipButton from '@/components/common/chip-button'
 import { notify } from '@/components/common/custom-toast'
-import Spinner from '@/components/spinner'
+import Icon from '@/components/common/icon'
+import Modal from '@/components/common/modal'
+import Spinner from '@/components/common/spinner'
 import useFetch from '@/hooks/use-fetch'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { APIError } from '@/models/interface'

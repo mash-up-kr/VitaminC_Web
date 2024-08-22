@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
 
-import { Button, Typography } from './common'
-import Modal from './common/Modal/Modal'
+import Button from './button'
+import Modal from './modal'
+import Typography from './typography'
 
 import type { ClassName } from '@/models/interface'
 import cn from '@/utils/cn'
