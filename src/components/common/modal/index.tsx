@@ -12,7 +12,7 @@ import Portal from './portal'
 import { useClickOutside } from '@/hooks/use-click-outside'
 import useEventListener from '@/hooks/use-event-listener'
 import useModalTransition from '@/hooks/use-modal-transition'
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 import { mergeRefs } from '@/utils/merge-refs'
 

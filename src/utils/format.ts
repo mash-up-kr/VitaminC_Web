@@ -1,4 +1,4 @@
-import type { PlaceType, SearchPlace } from '@/types/api/place'
+import type { PlaceType, SearchPlace } from '@/models/api/place'
 
 export const convertSearchPlaceToPlaceType = (
   searchPlace: SearchPlace,

@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { useKakaoMap } from './context'
 
 import { icons } from '@/components/common/icons'
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 
 interface GpsMarkerProps extends ClassName {
   latitude: number

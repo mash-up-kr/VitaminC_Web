@@ -6,8 +6,8 @@ import type { StepProps } from '@/app/intro/page'
 import LoadingIndicator from '@/components/common/loading-indicator'
 import Header from '@/components/intro/header'
 import { Invite, Mapname, NewMap } from '@/components/intro/steps'
+import { IntroStep } from '@/constants/intro'
 import { useIsServer } from '@/hooks/use-is-server'
-import { IntroStep } from '@/models/interface'
 
 const Step = ({ step, goNextStep }: StepProps) => {
   switch (step) {

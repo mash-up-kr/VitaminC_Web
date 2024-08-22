@@ -1,9 +1,9 @@
 'use client'
 
 import Chip from '@/components/common/chip'
-import type { ClassName } from '@/models/interface'
-import type { TagItem } from '@/types/api/maps'
-import type { PlaceType } from '@/types/api/place'
+import type { TagItem } from '@/models/api/maps'
+import type { PlaceType } from '@/models/api/place'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 import { changeSpaceToHyphen } from '@/utils/tags'
 

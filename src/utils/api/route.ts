@@ -1,7 +1,7 @@
 import { parseJSON } from './parse-json'
 
-import { APIError } from '@/models/interface'
-import type { ResponseWithMessage } from '@/types/api'
+import type { ResponseWithMessage } from '@/models/api'
+import { APIError } from '@/models/api/index'
 
 const cache: Record<string, any> = {}
 

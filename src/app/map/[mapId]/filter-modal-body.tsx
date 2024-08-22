@@ -9,7 +9,7 @@ import { notify } from '@/components/common/custom-toast'
 import Icon from '@/components/common/icon'
 import Typography from '@/components/common/typography'
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
-import type { TagItem } from '@/types/api/maps'
+import type { TagItem } from '@/models/api/maps'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 

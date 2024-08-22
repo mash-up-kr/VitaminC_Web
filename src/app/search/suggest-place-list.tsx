@@ -1,6 +1,6 @@
 import PlaceAutoSearchItem from '@/components/place/place-auto-search-item'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import type { SearchPlace } from '@/types/api/place'
+import type { SearchPlace } from '@/models/api/place'
 import { formatDistance, getDistance } from '@/utils/location'
 import { allowUserPositionStorage } from '@/utils/storage'
 

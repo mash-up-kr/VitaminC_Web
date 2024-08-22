@@ -1,6 +1,6 @@
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import Button from '@/components/common/button'
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 
 interface PlaceActionButtonsProps extends ClassName {

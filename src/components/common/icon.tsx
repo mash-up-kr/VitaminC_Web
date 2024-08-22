@@ -4,7 +4,7 @@ import { cloneElement, forwardRef } from 'react'
 import { icons } from './icons'
 import { cva } from 'class-variance-authority'
 
-import type { ColorKey } from '@/types/color'
+import type { ColorKey } from '@/models/color'
 import cn from '@/utils/cn'
 
 const IconVariants = cva<{

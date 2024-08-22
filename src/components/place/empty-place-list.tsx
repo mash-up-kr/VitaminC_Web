@@ -1,5 +1,5 @@
 import Typography from '@/components/common/typography'
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 
 interface EmptyPlaceListProps extends ClassName {

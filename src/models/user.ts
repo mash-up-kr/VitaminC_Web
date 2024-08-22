@@ -1,4 +1,3 @@
-/* User */
 type UserRole = 'ADMIN' | 'USER'
 type Provider = 'KAKAO'
 export interface User {

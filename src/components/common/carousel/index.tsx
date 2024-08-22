@@ -6,7 +6,7 @@ import Indicator from './indicator'
 import Slide from './slide'
 import type { Item } from './types'
 
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 
 interface CarouselProps extends ClassName {

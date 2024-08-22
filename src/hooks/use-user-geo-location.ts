@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect'
 
-import type { LocationType } from '@/types/map/map'
+import type { LocationType } from '@/models/kakao-map'
 import { allowUserPositionStorage } from '@/utils/storage'
 
 /**

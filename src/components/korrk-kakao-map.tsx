@@ -4,13 +4,13 @@ import GpsButton from './kakao-map/gps-button'
 import KakaoMap from './kakao-map/kakao-map'
 import Marker from './kakao-map/marker'
 
-import type { ClassName } from '@/models/interface'
 import {
   type PlaceType,
   type SearchPlace,
   isPlaceType,
   isSearchPlace,
-} from '@/types/api/place'
+} from '@/models/api/place'
+import type { ClassName } from '@/models/common'
 import { removeAllSpaces } from '@/utils/category'
 import cn from '@/utils/cn'
 

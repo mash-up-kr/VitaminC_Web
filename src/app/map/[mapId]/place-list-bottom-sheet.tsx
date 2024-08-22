@@ -9,8 +9,8 @@ import FilterButton from '@/components/common/filter-button'
 import EmptyPlaceList from '@/components/place/empty-place-list'
 import PlaceListItem from '@/components/place/place-list-item'
 import useFetch from '@/hooks/use-fetch'
-import { APIError } from '@/models/interface'
-import type { PlaceType } from '@/types/api/place'
+import { APIError } from '@/models/api/index'
+import type { PlaceType } from '@/models/api/place'
 import { api } from '@/utils/api'
 
 interface PlaceListBottomSheetProps {

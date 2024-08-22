@@ -1,5 +1,5 @@
-import type { TagItem } from '@/types/api/maps'
-import type { PlaceType } from '@/types/api/place'
+import type { TagItem } from '@/models/api/maps'
+import type { PlaceType } from '@/models/api/place'
 
 const changeSpaceToHyphen = (name: string) => {
   if (typeof name !== 'string' || name === '') return

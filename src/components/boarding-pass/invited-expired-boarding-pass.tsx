@@ -5,7 +5,7 @@ import BoardingDivider from './boarding-divider'
 
 import Button from '@/components/common/button'
 import Typography from '@/components/common/typography'
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 
 const InvitedExpiredBoardingPass = ({ className }: ClassName) => {

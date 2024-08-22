@@ -1,4 +1,4 @@
-import type { PlaceType } from '@/types/api/place'
+import type { PlaceType } from '@/models/api/place'
 
 export const PLACE_LIST_DATA: PlaceType[] = [
   {

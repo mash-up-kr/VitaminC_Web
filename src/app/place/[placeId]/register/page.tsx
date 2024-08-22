@@ -6,10 +6,10 @@ import RegisterBox from './register-box'
 
 import { notify } from '@/components/common/custom-toast'
 import LoadingIndicator from '@/components/common/loading-indicator'
-import { APIError } from '@/models/interface'
+import { APIError } from '@/models/api/index'
+import type { TagItem } from '@/models/api/maps'
+import type { PlaceDetail } from '@/models/api/place'
 import { getMapId } from '@/services/map-id'
-import type { TagItem } from '@/types/api/maps'
-import type { PlaceDetail } from '@/types/api/place'
 import { api } from '@/utils/api'
 
 const PlaceRegister = ({ params }: { params?: { placeId?: number } }) => {

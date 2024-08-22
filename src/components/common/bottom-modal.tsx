@@ -4,7 +4,7 @@ import Button from './button'
 import Modal from './modal'
 import Typography from './typography'
 
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 
 interface BottomModalLayoutProps extends ClassName {

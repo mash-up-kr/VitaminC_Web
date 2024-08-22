@@ -1,8 +1,8 @@
 import type { MouseEventHandler } from 'react'
 
-import type { CategoryIcon } from '@/models/map.interface'
-import type { TagItem } from '@/types/api/maps'
-import type { PlaceType } from '@/types/api/place'
+import type { TagItem } from '@/models/api/maps'
+import type { PlaceType } from '@/models/api/place'
+import type { CategoryIcon } from '@/models/map'
 
 export interface PlaceProps {
   placeId: PlaceType['place']['id']

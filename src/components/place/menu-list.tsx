@@ -5,8 +5,8 @@ import { useState } from 'react'
 import ChipButton from '@/components/common/chip-button'
 import ProxyImage from '@/components/common/proxy-image'
 import Typography from '@/components/common/typography'
-import type { ClassName } from '@/models/interface'
-import type { PlaceDetail } from '@/types/api/place'
+import type { PlaceDetail } from '@/models/api/place'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 
 interface MenuListProps extends ClassName {

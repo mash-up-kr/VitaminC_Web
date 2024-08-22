@@ -7,9 +7,9 @@ import PlaceBox from './place-box'
 import { notify } from '@/components/common/custom-toast'
 import LoadingIndicator from '@/components/common/loading-indicator'
 import useFetch from '@/hooks/use-fetch'
-import { APIError } from '@/models/interface'
+import { APIError } from '@/models/api/index'
+import type { PlaceDetail as PlaceDetailType } from '@/models/api/place'
 import { getMapId } from '@/services/map-id'
-import type { PlaceDetail as PlaceDetailType } from '@/types/api/place'
 import { api } from '@/utils/api'
 
 const PlaceDetail = ({ params }: { params?: { placeId?: number } }) => {

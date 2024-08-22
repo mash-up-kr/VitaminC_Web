@@ -12,11 +12,11 @@ import {
   NewMap,
   Nickname,
 } from '@/components/intro/steps'
+import { IntroStep } from '@/constants/intro'
 import useFetch from '@/hooks/use-fetch'
 import { useIsServer } from '@/hooks/use-is-server'
 import useSafeRouter from '@/hooks/use-safe-router'
-import { IntroStep } from '@/models/interface'
-import type { Token } from '@/models/user.interface'
+import type { Token } from '@/models/user'
 import { enterMap } from '@/services/invitation'
 import { api } from '@/utils/api'
 import { fetchData } from '@/utils/api/route'

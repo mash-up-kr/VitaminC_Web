@@ -20,9 +20,9 @@ import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import PlaceMapPopup from '@/components/place/place-map-popup'
 import useFetch from '@/hooks/use-fetch'
 import useMeasure from '@/hooks/use-measure'
+import type { TagItem } from '@/models/api/maps'
+import type { PlaceType } from '@/models/api/place'
 import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
-import type { TagItem } from '@/types/api/maps'
-import { type PlaceType } from '@/types/api/place'
 import { api } from '@/utils/api'
 import { onboardingStorage, visitedMapIdsStorage } from '@/utils/storage'
 
@@ -171,7 +171,9 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
         const matchesTags =
           selectedFilterNames.tags.length === 0 ||
-          place.tags.some((tag) => selectedFilterNames.tags.includes(tag.name))
+          place.tags.some((tag: TagItem) =>
+            selectedFilterNames.tags.includes(tag.name),
+          )
 
         return matchesCategory && matchesTags
       }),

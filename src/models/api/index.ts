@@ -1,4 +1,8 @@
-/* API */
+export interface ResponseWithMessage<T> {
+  message: 'success'
+  data: T
+}
+
 export interface APIErrorType {}
 
 class ErrorNameMessage extends Error {
@@ -33,11 +37,6 @@ export interface ResponseOk {
   message: string
 }
 
-/* ClassName */
-export interface ClassName {
-  className?: string
-}
-
 export type DateType =
   `${number}${number}-${number}${number}-${number}${number}`
 export type TimeType =
@@ -48,15 +47,4 @@ export type DateTimeType =
 export interface MutatedAt {
   createdAt: DateTimeType
   updatedAt: DateTimeType
-}
-
-/* Intro */
-export enum IntroStep {
-  FORBIDDEN = -1,
-  LOADING,
-  LOGIN,
-  NICKNAME,
-  NEW_MAP,
-  MAPNAME,
-  INVITE,
 }

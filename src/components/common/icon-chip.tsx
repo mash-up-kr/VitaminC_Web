@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 import Icon from './icon'
 import Typography from './typography'
 
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 
 interface IconChipProps extends ClassName {
   label: string

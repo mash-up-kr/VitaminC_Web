@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 
 import type { LottieOptions } from 'lottie-react'
 
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 
 interface LottieProps extends LottieOptions, ClassName {}
 

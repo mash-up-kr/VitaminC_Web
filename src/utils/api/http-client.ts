@@ -7,7 +7,7 @@ import type {
   RequestOptions,
 } from './types'
 
-import { APIError } from '@/models/interface'
+import { APIError } from '@/models/api/index'
 
 class HTTPClient {
   private baseUrl: string

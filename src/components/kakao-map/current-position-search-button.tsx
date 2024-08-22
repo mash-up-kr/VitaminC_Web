@@ -2,7 +2,7 @@ import { useKakaoMap } from './context'
 
 import Icon from '@/components/common/icon'
 import Typography from '@/components/common/typography'
-import type { ClassName } from '@/models/interface'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 
 interface CurrentPositionSearchButtonProps extends ClassName {

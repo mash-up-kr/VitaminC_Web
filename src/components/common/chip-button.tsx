@@ -7,7 +7,7 @@ import Typography from './typography'
 import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 
-import type { ColorKey } from '@/types/color'
+import type { ColorKey } from '@/models/color'
 import cn from '@/utils/cn'
 
 const ChipButtonVariants = cva<{
