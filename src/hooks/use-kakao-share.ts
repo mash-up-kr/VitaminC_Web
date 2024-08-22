@@ -22,7 +22,8 @@ const useKakaoShare = () => {
       content: {
         title: '맛집 보물을 찾는 여정에 함께 할래?',
         description: `${formatDate(expiredDate)}까지 참여할 수 있어요`,
-        imageUrl: 'https://kr.object.ncloudstorage.com/korrk-image/korrk.png',
+        imageUrl:
+          'https://kr.object.ncloudstorage.com/korrk-image/korrk-map.png',
         link: {
           webUrl: `${window.location.origin}/invite?code=${inviteLinkToken}`,
           mobileWebUrl: `${window.location.origin}/invite?code=${inviteLinkToken}`,

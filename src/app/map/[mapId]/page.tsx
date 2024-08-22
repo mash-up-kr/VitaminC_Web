@@ -22,12 +22,12 @@ import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 import useFetch from '@/hooks/use-fetch'
 
 export interface FilterIdsType {
-  category: string[]
+  category: CategoryType
   tags: TagItem['name'][]
 }
 
-const INITIAL_FILTER_IDS = {
-  category: [],
+const INITIAL_FILTER_IDS: FilterIdsType = {
+  category: 'all',
   tags: [],
 }
 
@@ -98,21 +98,21 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     value: CategoryType | TagItem['name'],
   ) => {
     if (value === 'all') {
-      setSelectedFilterNames((prev) => ({ ...prev, category: [] }))
+      setSelectedFilterNames((prev) => ({ ...prev, category: 'all' }))
       return
     }
 
     if (value === 'like' || value === 'pick') {
-      if (selectedFilterNames.category.includes(value)) {
+      if (selectedFilterNames.category === value) {
         setSelectedFilterNames((prev) => ({
           ...prev,
-          category: prev.category.filter((c) => c !== value),
+          category: 'all',
         }))
         return
       }
       setSelectedFilterNames((prev) => ({
         ...prev,
-        category: [...prev.category, value],
+        category: value,
       }))
       return
     }
@@ -147,16 +147,22 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     if (!userData || !places) return
     setFilteredPlace(
       places.filter((place) => {
-        const matchesCategory =
-          selectedFilterNames.category.length === 0 ||
-          selectedFilterNames.category.some((cat) => {
-            if (cat === 'like') {
-              return place.likedUserIds?.includes(userData.id)
-            } else if (cat === 'pick') {
-              return place.createdBy?.id === userData.id
-            }
-            return false
-          })
+        const checkMatchesCategory = () => {
+          if (selectedFilterNames.category === 'all') return true
+          if (
+            selectedFilterNames.category === 'like' &&
+            place.likedUserIds?.includes(userData.id)
+          )
+            return true
+          if (
+            selectedFilterNames.category === 'pick' &&
+            place.createdBy?.id === userData.id
+          )
+            return true
+
+          return false
+        }
+        const matchesCategory = checkMatchesCategory()
 
         const matchesTags =
           selectedFilterNames.tags.length === 0 ||
@@ -218,48 +224,47 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         topOfBottomBounds={bottomBounds.top}
       />
 
-      {!!places?.length &&
-        (selectedPlace === null ? (
-          <>
-            <BottomSheet
-              ref={bottomRef}
-              body={
-                <PlaceListBottomSheet
-                  places={filteredPlace}
-                  mapId={mapId}
-                  selectedFilter={selectedFilterNames}
-                  onClickFilterButton={handleFilterModalOpen}
-                  onRefreshOldPlace={clearOldPlacedata}
-                />
-              }
-            />
-            <BottomModal
-              title="보고 싶은 맛집을 선택해주세요"
-              layoutClassName="max-h-[70dvh]"
-              body={
-                <FilterModalBody
-                  mapId={mapId}
-                  selectedFilterNames={selectedFilterNames}
-                  onChangeSelectedFilterNames={handleSelectedFilterChange}
-                />
-              }
-              isOpen={isFilterModalOpen}
-              cancelMessage="초기화"
-              confirmMessage="적용"
-              onClose={handleFilterModalClose}
-              onConfirm={handleFilterModalClose}
-              onCancel={resetFilter}
-            />
-          </>
-        ) : (
-          <PlaceMapPopup
+      {selectedPlace === null ? (
+        <>
+          <BottomSheet
             ref={bottomRef}
-            mapId={mapId}
-            className="absolute bottom-5 px-5"
-            selectedPlace={selectedPlace}
-            onRefreshOldPlace={clearOldPlacedata}
+            body={
+              <PlaceListBottomSheet
+                places={filteredPlace}
+                mapId={mapId}
+                selectedFilter={selectedFilterNames}
+                onClickFilterButton={handleFilterModalOpen}
+                onRefreshOldPlace={clearOldPlacedata}
+              />
+            }
           />
-        ))}
+          <BottomModal
+            title="보고 싶은 맛집을 선택해주세요"
+            layoutClassName="max-h-[70dvh]"
+            body={
+              <FilterModalBody
+                mapId={mapId}
+                selectedFilterNames={selectedFilterNames}
+                onChangeSelectedFilterNames={handleSelectedFilterChange}
+              />
+            }
+            isOpen={isFilterModalOpen}
+            cancelMessage="초기화"
+            confirmMessage="적용"
+            onClose={handleFilterModalClose}
+            onConfirm={handleFilterModalClose}
+            onCancel={resetFilter}
+          />
+        </>
+      ) : (
+        <PlaceMapPopup
+          ref={bottomRef}
+          mapId={mapId}
+          className="absolute bottom-5 px-5"
+          selectedPlace={selectedPlace}
+          onRefreshOldPlace={clearOldPlacedata}
+        />
+      )}
     </div>
   )
 }

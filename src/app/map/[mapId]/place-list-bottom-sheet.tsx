@@ -9,6 +9,7 @@ import { APIError } from '@/models/interface'
 import type { PlaceType } from '@/types/api/place'
 import type { FilterIdsType } from './page'
 import useFetch from '@/hooks/use-fetch'
+import EmptyPlaceList from '@/components/place/empty-place-list'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[]
@@ -30,6 +31,9 @@ const PlaceListBottomSheet = ({
     key: ['user'],
   })
   const userId = user?.id
+  const numOfSelectedFilter =
+    (selectedFilter?.category !== 'all' ? 1 : 0) +
+    (selectedFilter?.tags.length ?? 0)
 
   const getIsLike = (place: PlaceType): boolean => {
     if (typeof userId === 'undefined') return false
@@ -77,47 +81,57 @@ const PlaceListBottomSheet = ({
     setPlaceList(places)
   }, [places])
 
+  if (numOfSelectedFilter === 0 && !placeList.length) {
+    return (
+      <EmptyPlaceList
+        className="pt-16"
+        message={`등록한 맛집이 없어요\n맛집을 검색하고 저장해보세요`}
+      />
+    )
+  }
+
   return (
     <>
       <div className="sticky top-[-1px] left-0 h-[38px] pt-[1px] px-5 z-10 bg-[#212124] shadow-[rgba(33,33,36,1)_0px_1px_4px_4px]">
         <FilterButton
-          numOfSelectedFilter={
-            (selectedFilter?.category.length ?? 0) +
-            (selectedFilter?.tags.length ?? 0)
-          }
+          numOfSelectedFilter={numOfSelectedFilter}
           icon={{ type: 'filter' }}
           onClick={onClickFilterButton}
         >
           필터
         </FilterButton>
       </div>
-      <ul className="flex flex-col px-5">
-        {placeList.map((place) => (
-          <PlaceListItem
-            key={`bottom-sheet-${place.place.kakaoPlace.id}`}
-            placeId={place.place.kakaoPlace.id}
-            address={place.place.kakaoPlace.address}
-            name={place.place.kakaoPlace.name}
-            rating={place.place.kakaoPlace.score ?? 0}
-            images={place.place.kakaoPlace.menuList
-              .map((menu) => menu.photo)
-              .filter((photo) => !!photo)}
-            tags={place.tags}
-            pick={{
-              isLiked: getIsLike(place),
-              isMyPick: place.createdBy?.id === userId,
-              numOfLikes: place.likedUserIds?.length || 0,
+      {placeList.length > 0 ? (
+        <ul className="flex flex-col px-5">
+          {placeList.map((place) => (
+            <PlaceListItem
+              key={`bottom-sheet-${place.place.kakaoPlace.id}`}
+              placeId={place.place.kakaoPlace.id}
+              address={place.place.kakaoPlace.address}
+              name={place.place.kakaoPlace.name}
+              rating={place.place.kakaoPlace.score ?? 0}
+              images={place.place.kakaoPlace.menuList
+                .map((menu) => menu.photo)
+                .filter((photo) => !!photo)}
+              tags={place.tags}
+              pick={{
+                isLiked: getIsLike(place),
+                isMyPick: place.createdBy?.id === userId,
+                numOfLikes: place.likedUserIds?.length || 0,
 
-              onClickLike: (e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                handleLike(place)
-              },
-            }}
-            className="first:pt-2"
-          />
-        ))}
-      </ul>
+                onClickLike: (e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  handleLike(place)
+                },
+              }}
+              className="first:pt-2"
+            />
+          ))}
+        </ul>
+      ) : (
+        <EmptyPlaceList message="해당 음식점이 없어요" />
+      )}
     </>
   )
 }

@@ -1,15 +1,18 @@
 import { Typography } from '@/components'
 import InvitedBoardingPass from '@/components/boarding-pass/invited-boarding-pass'
 import InvitedExpiredBoardingPass from '@/components/boarding-pass/invited-expired-boarding-pass'
-import type { MapInviteInfo } from '@/components/boarding-pass/types'
 import { getMapInviteInfo } from '@/services/invitation'
+import { APIError } from '@/models/interface'
 
 const getInfo = async (inviteCode: string) => {
   try {
     const info = await getMapInviteInfo(inviteCode)
-    return info
-  } catch (err) {
-    return undefined
+    return { info, isExpired: false }
+  } catch (error) {
+    if (error instanceof APIError && error.status === 410) {
+      return { info: null, isExpired: true }
+    }
+    return { info: null, isExpired: undefined }
   }
 }
 
@@ -22,11 +25,14 @@ const Invite = async ({
 }) => {
   const inviteCode = searchParams?.code
 
-  if (!inviteCode) return <>초대장이 존재하지 않습니다.</>
+  if (!inviteCode)
+    return (
+      <Typography size="h1" className="mx-5">
+        초대장이 존재하지 않습니다.
+      </Typography>
+    )
 
-  const mapInviteInfo: MapInviteInfo | undefined = await getInfo(inviteCode)
-
-  const isExpired = !mapInviteInfo || !mapInviteInfo.expirationTime
+  const { info: mapInviteInfo, isExpired } = await getInfo(inviteCode)
 
   return (
     <div className="mx-5">
@@ -40,7 +46,7 @@ const Invite = async ({
           </Typography>
           <InvitedExpiredBoardingPass />
         </>
-      ) : (
+      ) : mapInviteInfo ? (
         <>
           <Typography size="h1" className="my-12">
             맛집 지도에 초대되었어요
@@ -56,6 +62,8 @@ const Invite = async ({
             images={mapInviteInfo.images?.filter((photo) => !!photo)}
           />
         </>
+      ) : (
+        <Typography size="h1">문제가 발생했어요</Typography>
       )}
     </div>
   )
