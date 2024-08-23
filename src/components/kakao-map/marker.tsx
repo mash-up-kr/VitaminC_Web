@@ -1,4 +1,4 @@
-import { type FC, useEffect, useRef } from 'react'
+import { type FC, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import { useKakaoMap } from './context'
@@ -87,6 +87,7 @@ const MarkerContent = ({
               position: 'relative',
               width: `${size.width}px`,
               height: `${size.height}px`,
+              margin: '-74px 0px 0px -34px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -116,12 +117,16 @@ const Marker = ({
   onClick,
 }: MarkerProps) => {
   const { map } = useKakaoMap()
+  const overlayRef = useRef<kakao.maps.CustomOverlay | null>(null)
+  const [prevType, setPrevType] = useState(type)
 
   useEffect(() => {
     if (!map) return
-    const overlay = (() => {
+
+    if (!overlayRef.current || prevType !== type) {
       const position = new kakao.maps.LatLng(latitude, longitude)
       const content = document.createElement('div')
+      content.style.margin = '0px 0px 0px -11px'
       const root = createRoot(content)
       root.render(
         <MarkerContent
@@ -133,22 +138,25 @@ const Marker = ({
         />,
       )
 
-      const KakaoCustomOverlay = new kakao.maps.CustomOverlay({
+      overlayRef.current = new kakao.maps.CustomOverlay({
         position,
         content,
         clickable: true,
         xAnchor: 0.5,
         yAnchor: 1.2,
       })
-      return KakaoCustomOverlay
-    })()
+      overlayRef.current.setMap(map)
+      setPrevType(type)
+    }
 
-    overlay.setMap(map)
+    overlayRef.current.setMap(map)
 
     return () => {
-      overlay.setMap(null)
+      if (overlayRef.current) {
+        overlayRef.current.setMap(null)
+      }
     }
-  }, [className, isSaved, latitude, longitude, map, onClick, type])
+  }, [className, isSaved, latitude, longitude, map, onClick, prevType, type])
 
   return null
 }
