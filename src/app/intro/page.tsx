@@ -70,6 +70,55 @@ const Intro = () => {
   const inviteCode = inviteCodeStorage.getValueOrNull()
   const onboarding = onboardingStorage.getValueOrNull()
 
+  const enterMapWithInviteCode = async () => {
+    if (!inviteCode) return
+
+    setLoading(true)
+
+    try {
+      const data = await enterMap(inviteCode)
+
+      if (!data) {
+        throw new Error('예상치 못한 오류가 발생했습니다.')
+      }
+
+      router.push(`/map/${data.map.id}`)
+      notify.success(`${data.map.name} 지도에 오신 걸 환영합니다!`)
+    } catch (error) {
+      if (error instanceof Error) {
+        notify.error(error.message)
+      }
+
+      setLoading(false)
+    }
+  }
+
+  const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
+
+  const goNextStep = () => {
+    if (step === IntroStep.NICKNAME && inviteCode) {
+      enterMapWithInviteCode()
+    } else {
+      setStep(step + 1)
+    }
+  }
+
+  const initialStep = useMemo(() => {
+    if (isLoading) {
+      return IntroStep.LOADING
+    } else if (!user) {
+      return IntroStep.LOGIN
+    } else if (!nickname) {
+      return IntroStep.NICKNAME
+    } else if (!maps?.length) {
+      return IntroStep.NEW_MAP
+    } else if (onboarding) {
+      return IntroStep.INVITE
+    } else {
+      return IntroStep.FORBIDDEN
+    }
+  }, [isLoading, user, nickname, maps, onboarding])
+
   useEffect(() => {
     const getCurrentState = async () => {
       setLoading(true)
@@ -91,64 +140,16 @@ const Intro = () => {
     getCurrentState()
   }, [authorization])
 
-  const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
-
-  const goNextStep = () => {
-    const nextStep: IntroStep = Math.min(step + 1, IntroStep.INVITE)
-    setStep(nextStep)
-  }
-
-  const initialStep = useMemo(() => {
-    if (isLoading) {
-      return IntroStep.LOADING
-    } else if (!user) {
-      return IntroStep.LOGIN
-    } else if (!nickname) {
-      return IntroStep.NICKNAME
-    } else if (!maps?.length) {
-      return IntroStep.NEW_MAP
-    } else if (onboarding) {
-      return IntroStep.INVITE
-    } else {
-      return IntroStep.FORBIDDEN
-    }
-  }, [isLoading, user, nickname, maps, onboarding])
-
   useEffect(() => {
     if (initialStep === IntroStep.FORBIDDEN) {
       router.replace('/')
+    } else if (nickname && !!inviteCode) {
+      enterMapWithInviteCode()
     } else {
       setStep(initialStep)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialStep])
-
-  useEffect(() => {
-    if (nickname && !!inviteCode) {
-      const enterMapWithInviteCode = async () => {
-        setLoading(true)
-
-        try {
-          const data = await enterMap(inviteCode)
-
-          if (!data) {
-            throw new Error('예상치 못한 오류가 발생했습니다.')
-          }
-
-          router.push(`/map/${data.map.id}`)
-          notify.success(`${data.map.name} 지도에 오신 걸 환영합니다!`)
-        } catch (error) {
-          if (error instanceof Error) {
-            notify.error(error.message)
-          }
-
-          setLoading(false)
-        }
-      }
-
-      enterMapWithInviteCode()
-    }
-  }, [inviteCode, nickname, router])
 
   return (
     <div className="flex h-dvh w-full flex-col justify-between bg-neutral-700">
