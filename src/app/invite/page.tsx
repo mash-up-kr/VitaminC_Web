@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 
 import InvitedBoardingPass from '@/components/boarding-pass/invited-boarding-pass'
 import InvitedExpiredBoardingPass from '@/components/boarding-pass/invited-expired-boarding-pass'
 import type { MapInviteInfo } from '@/components/boarding-pass/types'
+import LoadingIndicator from '@/components/common/loading-indicator'
 import Typography from '@/components/common/typography'
 import { APIError } from '@/models/api/index'
 import { getMapInviteInfo } from '@/services/invitation'
@@ -38,12 +39,15 @@ const Invite = () => {
     getInfo()
   }, [inviteCode])
 
-  if (!inviteCode)
+  if (!inviteCode) {
     return (
-      <Typography size="h1" className="mx-5">
-        초대장이 존재하지 않습니다.
-      </Typography>
+      <div className="my-12">
+        <Typography size="h1" className="mx-5">
+          초대장이 존재하지 않습니다.
+        </Typography>
+      </div>
     )
+  }
 
   return (
     <div className="mx-5">
@@ -74,10 +78,18 @@ const Invite = () => {
           />
         </>
       ) : (
-        <Typography size="h1">문제가 발생했어요</Typography>
+        <LoadingIndicator />
       )}
     </div>
   )
 }
 
-export default Invite
+const InvitePage = () => {
+  return (
+    <Suspense fallback={<LoadingIndicator />}>
+      <Invite />
+    </Suspense>
+  )
+}
+
+export default InvitePage
