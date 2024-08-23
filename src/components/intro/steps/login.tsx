@@ -19,14 +19,11 @@ const KakaoLogin = () => {
   )
 }
 
-const Title = ({ body, heading }: { body: string; heading: string }) => {
+const Title = ({ body }: { body: string }) => {
   return (
-    <div className="h-[178px] whitespace-pre-line px-5 pt-12 text-center">
+    <div className="whitespace-pre-line px-5 pb-12 pt-6 text-center">
       <Typography size="body0-2" color="neutral-000">
         {body}
-      </Typography>
-      <Typography size="h1" color="neutral-000">
-        {heading}
       </Typography>
     </div>
   )
@@ -40,32 +37,29 @@ const Login = () => {
           objectFit="cover"
           items={[
             {
-              src: '/images/intro-lost-map.png',
+              src: '/images/intro-lost-map.gif',
               title: (
                 <Title
                   key="title1"
-                  body="보물섬으로 가는 지도를"
-                  heading="잃어버렸어..."
+                  body={`보물섬으로 가는 지도를\n잃어버렸어...`}
                 />
               ),
             },
             {
-              src: '/images/intro-find-treasure.png',
+              src: '/images/intro-find-treasure.gif',
               title: (
                 <Title
                   key="title2"
-                  body="맛집으로 지도를 채우면"
-                  heading={`보물섬으로 가는 길이\n나온다던데!`}
+                  body={`맛집으로 지도를 채우면\n보물섬이 나온다던데!`}
                 />
               ),
             },
             {
-              src: '/images/intro-lets-go.png',
+              src: '/images/intro-lets-go.gif',
               title: (
                 <Title
                   key="title3"
-                  body="혼자서는 못할것 같아"
-                  heading="함께 채워볼래?"
+                  body={`혼자서는 못할것 같아\n함께 채워볼래?`}
                 />
               ),
             },
