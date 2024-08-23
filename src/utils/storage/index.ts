@@ -4,6 +4,7 @@ import { SessionStorageManager } from './session-storage'
 export const AUTH_KEY = '@@auth-token'
 export const authTokenStorage = new LocalStorageManager<string>(AUTH_KEY)
 
+// TODO: 카카오 다중 로그인을 관리할거라면 id가 따로 들어가야 한다.
 export const RECENT_SEARCH_KEYWORD_KEY = '@@recent-search-keyword-key'
 export const recentSearchStorage = new LocalStorageManager<string[]>(
   RECENT_SEARCH_KEYWORD_KEY,
