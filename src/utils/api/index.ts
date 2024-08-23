@@ -36,6 +36,9 @@ const users = {
         client.public.get(`/users/check/nickname?nickname=${nickname}`),
     },
   },
+  id: {
+    get: (id: User['id']): Promise<ResponseWithMessage<Omit<User, 'role'>>> => client.secure.get(`/users/${id}`)
+  }
 }
 
 const maps = {
