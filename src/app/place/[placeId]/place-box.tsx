@@ -29,7 +29,8 @@ interface PlaceBoxProps {
 }
 
 const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
-  const { data: createdUser} = useFetch(() => api.users.id.get(place.createdBy?.id ?? -1))
+  let createdById = place.createdBy?.id ?? -1
+  const { data: createdUser} = useFetch(() => api.users.id.get(createdById), {enabled: createdById !== -1})
   const [isLikePlace, setIsLikePlace] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isRecentlyLike, setIsRecentlyLike] = useState<boolean | null>(null)
