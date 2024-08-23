@@ -7,6 +7,7 @@ import Button from '@/components/common/button'
 import { notify } from '@/components/common/custom-toast'
 import Input from '@/components/common/input'
 import Typography from '@/components/common/typography'
+import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
 import { onboardingStorage } from '@/utils/storage'
 import { countCharacters } from '@/utils/string'
@@ -15,6 +16,8 @@ const MIN_LENGTH = 2
 const MAX_LENGTH = 6
 
 const Nickname = ({ goNextStep }: IntroActionDispatch) => {
+  const { revalidate } = useFetch()
+
   const [nickname, setNickname] = useState('')
   const handleChange = (value: string) => {
     setNickname(value)
@@ -26,6 +29,8 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
     try {
       await api.users.check.nickname.get(nickname)
       await api.users.me.patch(nickname)
+
+      revalidate('user')
 
       goNextStep()
     } catch (err) {

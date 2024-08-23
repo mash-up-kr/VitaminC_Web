@@ -38,7 +38,7 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
           className="flex h-fit w-full gap-2.5 bg-neutral-700 pt-5"
           onClick={addRecentKeyword}
         >
-          <Icon type="subtract" size="xl" />
+          <Icon type="subtract" size="xl" className="min-w-[22px]" />
           <div className="flex w-full gap-3.5">
             <div className="flex flex-1 flex-col gap-1.5">
               <div className="flex flex-col gap-[3px]">
@@ -56,8 +56,12 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
                     )
                   })}
                 </Typography>
-                <Typography size="body3" color="neutral-300">
-                  {place.address}
+                <Typography
+                  size="body3"
+                  color="neutral-300"
+                  className="max-w-[272px] truncate"
+                >
+                  {place.address ? place.address : '장소 정보 없음'}
                 </Typography>
               </div>
             </div>
@@ -67,7 +71,7 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
                 as="span"
                 size="body4"
                 color="neutral-400"
-                className="text-right"
+                className="whitespace-nowrap text-right"
               >
                 {place.category}
               </Typography>

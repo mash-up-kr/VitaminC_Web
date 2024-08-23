@@ -6,6 +6,8 @@ import GpsMarker from './gps-marker'
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import useWindowSize from '@/hooks/use-window-size'
+import { getCorners } from '@/utils/map'
+import { mapBoundSessionStorage } from '@/utils/storage'
 
 const BUTTON_OFFSET_Y = 16
 const BUTTON_HEIGHT = 11
@@ -29,6 +31,16 @@ const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
         userLocation.longitude,
       )
       map.setCenter(location)
+      if (map.getBounds()) {
+        const { southEast, northWest } = getCorners(map.getBounds())
+
+        mapBoundSessionStorage.set({
+          latitude1: northWest.latitude,
+          longitude1: northWest.longitude,
+          latitude2: southEast.latitude,
+          longitude2: southEast.longitude,
+        })
+      }
     }
 
     setGpsMode((prev) => !prev)

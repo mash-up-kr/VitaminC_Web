@@ -55,12 +55,18 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
     },
     ref,
   ) => {
+    const bounds = mapBoundSessionStorage.getValueOrNull()
+    const boundsCenter = !!bounds && {
+      lat: (bounds.latitude1 + bounds.latitude2) / 2,
+      lng: (bounds.longitude1 + bounds.longitude2) / 2,
+    }
     const userLocation = useUserGeoLocation()
+    const userLocationCenter = {
+      lat: userLocation.latitude,
+      lng: userLocation.longitude,
+    }
     const { map, container } = useKakaoMapInstance({
-      center: center || {
-        lat: userLocation.latitude,
-        lng: userLocation.longitude,
-      },
+      center: center || boundsCenter || userLocationCenter,
       level,
       maxLevel,
       minLevel,

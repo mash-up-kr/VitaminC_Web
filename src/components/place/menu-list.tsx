@@ -56,7 +56,7 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
                   {menu.menu}
                 </Typography>
                 <Typography size="body3" color="neutral-200">
-                  {menu.price}원
+                  {menu.price ? `${menu.price}원` : '가격 정보 없음'}
                 </Typography>
               </div>
 

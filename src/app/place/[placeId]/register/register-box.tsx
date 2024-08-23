@@ -45,7 +45,7 @@ const RegisterBox = ({
       })
 
       notify.success('맛집 등록이 완료되었습니다.')
-      router.push(`/place/${place.kakaoId}`)
+      router.safeBack({ defaultHref: `/place/${place.kakaoId}` })
     } catch (error) {
       if (error instanceof APIError) {
         notify.error(error.message)

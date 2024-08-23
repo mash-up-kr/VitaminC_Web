@@ -40,6 +40,7 @@ const HashTagList = ({
 
       const response = await api.maps.id.tag.post({ id: mapId, name })
       setTags((prev) => [...prev, response.data])
+      onClickTag(response.data)
     } catch (error) {
       if (error instanceof APIError) {
         notify.error(error.message)

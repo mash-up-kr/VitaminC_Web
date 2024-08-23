@@ -29,8 +29,12 @@ interface PlaceBoxProps {
 }
 
 const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  let createdById = place.createdBy?.id ?? -1
+  const { data: createdUser } = useFetch(() => api.users.id.get(createdById), {
+    enabled: createdById !== -1,
+  })
   const [isLikePlace, setIsLikePlace] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isRecentlyLike, setIsRecentlyLike] = useState<boolean | null>(null)
   const router = useSafeRouter()
   const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
@@ -214,7 +218,8 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
       </div>
 
       <PlaceDeleteModal
-        name={place.createdBy?.nickname}
+        createdUser={createdUser}
+        likedUserIds={place.likedUserIds}
         numOfLike={place.likedUserIds?.length || 0}
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}

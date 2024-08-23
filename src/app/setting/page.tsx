@@ -1,25 +1,37 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import Avatar from '@/components/common/avatar'
 import BottomModal from '@/components/common/bottom-modal'
+import { notify } from '@/components/common/custom-toast'
 import Icon from '@/components/common/icon'
 import Typography from '@/components/common/typography'
-import useFetch from '@/hooks/use-fetch'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { handleSignout } from '@/services/user'
 import { api } from '@/utils/api'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
-  const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
+  // const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
   const router = useSafeRouter()
+  const [nickname, setNickname] = useState('')
 
   const handleCloseSignupModal = () => {
     setIsOpenSignupModal(false)
   }
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const res = await api.users.me.get()
+        setNickname(res.data.nickname ?? '')
+      } catch (error) {
+        notify.error('데이터를 받아오는 데 문제가 생겼습니다.')
+      }
+    })()
+  }, [])
 
   return (
     <>
@@ -42,9 +54,9 @@ const Setting = () => {
 
         <div className="flex flex-col px-5">
           <div className="flex items-center gap-2 pb-1 pt-3">
-            <Avatar value={user?.nickname ?? ''} />
+            <Avatar value={nickname ?? ''} />
             <Typography as="span" size="body1">
-              {user?.nickname}
+              {nickname}
             </Typography>
           </div>
 

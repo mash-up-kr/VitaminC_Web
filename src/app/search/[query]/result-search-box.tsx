@@ -11,6 +11,7 @@ import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import useMeasure from '@/hooks/use-measure'
 import { type SearchPlace } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
+import type { MapInfo } from '@/models/map'
 import { getMapId } from '@/services/map-id'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
@@ -76,6 +77,22 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   }
 
   useEffect(() => {
+    const moveCenterToFirstPlace = (searchResultPlaces: SearchPlace[]) => {
+      if (searchResultPlaces.length === 0) return
+      setCenter({ lat: searchResultPlaces[0].y, lng: searchResultPlaces[0].x })
+    }
+
+    const searchOnKorea = async (validMapId: MapInfo['id']) => {
+      const { data } = await api.search.places.get({
+        q: query,
+        rect: formatBoundToRect(null),
+        mapId: validMapId,
+      })
+      setPlaces(data)
+      setIsShowCurrentPositionSearch(false)
+      moveCenterToFirstPlace(data)
+    }
+
     ;(async () => {
       const bounds = mapBoundSessionStorage.getValueOrNull()
 
@@ -101,6 +118,9 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             lat: (bounds.latitude1 + bounds.latitude2) / 2,
             lng: (bounds.longitude1 + bounds.longitude2) / 2,
           })
+        }
+        if (data.length === 0) {
+          await searchOnKorea(validMapId)
         }
       } catch {
         notify.error('잘못된 접근입니다.')

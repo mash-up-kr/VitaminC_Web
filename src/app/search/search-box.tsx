@@ -12,8 +12,10 @@ import debounce from 'lodash.debounce'
 
 import { notify } from '@/components/common/custom-toast'
 import LoadingIndicator from '@/components/common/loading-indicator'
+import Typography from '@/components/common/typography'
 import useSafeRouter from '@/hooks/use-safe-router'
 import type { SearchPlace } from '@/models/api/place'
+import type { MapInfo } from '@/models/map'
 import { getMapId } from '@/services/map-id'
 import { api } from '@/utils/api'
 import { formatBoundToRect } from '@/utils/location'
@@ -104,6 +106,15 @@ const SearchBox = () => {
   const getSuggestPlaces = useCallback(async () => {
     if (!query || !mapId) return
 
+    const searchOnKorea = async (validMapId: MapInfo['id']) => {
+      const { data } = await api.search.places.get({
+        q: query,
+        rect: formatBoundToRect(null),
+        mapId: validMapId,
+      })
+      setSuggestedPlaces(data)
+    }
+
     try {
       setIsLoading(true)
 
@@ -113,6 +124,9 @@ const SearchBox = () => {
         mapId,
       })
       setSuggestedPlaces(data)
+      if (data.length === 0) {
+        await searchOnKorea(mapId)
+      }
     } catch (err) {
       notify.error('잘못된 접근입니다.')
     } finally {
@@ -121,7 +135,7 @@ const SearchBox = () => {
   }, [mapBounds, mapId, query])
 
   useEffect(() => {
-    const debounceGetSuggestPlaces = debounce(getSuggestPlaces, 500)
+    const debounceGetSuggestPlaces = debounce(getSuggestPlaces, 200)
 
     debounceGetSuggestPlaces()
 
@@ -153,6 +167,14 @@ const SearchBox = () => {
       {isShowSuggestionPlaces &&
         (suggestedPlaces.length > 0 ? (
           <SuggestPlaceList places={suggestedPlaces} query={query} />
+        ) : query === '' ? (
+          <Typography
+            size="body2"
+            color="neutral-200"
+            className="mt-[112px] flex justify-center"
+          >
+            검색어를 입력해 주세요.
+          </Typography>
         ) : (
           <EmptyResultBox />
         ))}
