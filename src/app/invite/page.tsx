@@ -39,31 +39,25 @@ const Invite = () => {
     getInfo()
   }, [inviteCode])
 
-  if (!inviteCode) {
-    return (
-      <div className="my-12">
-        <Typography size="h1" className="mx-5">
+  return (
+    <div className="h-dvh bg-neutral-700 px-5">
+      {!inviteCode ? (
+        <Typography size="h1" className="px-5 py-12">
           초대장이 존재하지 않습니다.
         </Typography>
-      </div>
-    )
-  }
-
-  return (
-    <div className="mx-5">
-      {isExpired ? (
+      ) : isExpired ? (
         <>
-          <Typography size="h1" className="mb-4 mt-12 whitespace-pre-line">
+          <Typography size="h1" className="whitespace-pre-line pb-4 pt-12">
             {`유효기간이 만료된\n초대입니다`}
           </Typography>
-          <Typography size="body1" color="neutral-200" className="mb-12">
+          <Typography size="body1" color="neutral-200" className="pb-12">
             초대를 다시 요청해보세요.
           </Typography>
           <InvitedExpiredBoardingPass />
         </>
       ) : mapInviteInfo ? (
         <>
-          <Typography size="h1" className="my-12">
+          <Typography size="h1" className="py-12">
             맛집 지도에 초대되었어요
           </Typography>
 
