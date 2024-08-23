@@ -29,7 +29,7 @@ interface PlaceMapPopupProps extends ClassName {
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
   ({ selectedPlace, className, mapId, onRefreshOldPlace }, ref) => {
     const [isLikePlace, setIsLikePlace] = useState(false)
-    const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
+    const { data: user, revalidate } = useFetch(api.users.me.get, { key: ['user'] })
 
     const place = selectedPlace.place
 
@@ -54,6 +54,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           placeId: place.id,
           mapId,
         })
+        revalidate(['places', mapId])
       } catch (error) {
         setIsLikePlace(false)
         if (error instanceof APIError || error instanceof Error) {
@@ -75,6 +76,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           placeId: place.id,
           mapId,
         })
+        revalidate(['places', mapId])
       } catch (error) {
         setIsLikePlace(true)
         if (error instanceof APIError || error instanceof Error) {

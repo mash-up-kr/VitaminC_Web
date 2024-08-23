@@ -36,7 +36,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
 
     const [isLoading, setIsLoading] = useState(false)
     const [place, setPlace] = useState<PlaceDetail | null>(null)
-    const { data: user } = useFetch(api.users.me.get, {
+    const { data: user, revalidate } = useFetch(api.users.me.get, {
       onLoadEnd: (userData) =>
         setIsLikePlace(place?.likedUserIds?.includes(userData.id) ?? false),
       key: ['user'],
@@ -90,6 +90,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
           placeId: place.id,
           mapId,
         })
+        revalidate(['places', mapId])
       } catch (error) {
         setIsLikePlace(false)
         setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
@@ -107,6 +108,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
           placeId: place.id,
           mapId,
         })
+        revalidate(['places', mapId])
       } catch (error) {
         setIsLikePlace(true)
         setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)

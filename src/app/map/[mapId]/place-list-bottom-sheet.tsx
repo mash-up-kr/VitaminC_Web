@@ -29,7 +29,7 @@ const PlaceListBottomSheet = ({
   onRefreshOldPlace,
 }: PlaceListBottomSheetProps) => {
   const [placeList, setPlaceList] = useState<PlaceType[]>(places)
-  const { data: user } = useFetch(api.users.me.get, {
+  const { data: user, revalidate } = useFetch(api.users.me.get, {
     key: ['user'],
   })
   const userId = user?.id
@@ -70,6 +70,7 @@ const PlaceListBottomSheet = ({
           placeId: place.place.id,
         })
       }
+      revalidate(['places', mapId])
     } catch (error) {
       if (error instanceof APIError) {
         notify.error(error.message)
