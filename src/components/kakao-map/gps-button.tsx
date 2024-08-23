@@ -6,8 +6,8 @@ import GpsMarker from './gps-marker'
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import useWindowSize from '@/hooks/use-window-size'
-import { mapBoundSessionStorage } from '@/utils/storage'
 import { getCorners } from '@/utils/map'
+import { mapBoundSessionStorage } from '@/utils/storage'
 
 const BUTTON_OFFSET_Y = 16
 const BUTTON_HEIGHT = 11

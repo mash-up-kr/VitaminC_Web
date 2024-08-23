@@ -13,7 +13,7 @@ interface PlaceDeleteModalProps {
 
 const safeNameWith님 = (name: string) => {
   if (name === '다른 크루원') {
-    return `${name}`;
+    return `${name}`
   }
   return `${name}님`
 }
@@ -26,7 +26,10 @@ const PlaceDeleteModal = ({
   onCancel,
   onConfirm,
 }: PlaceDeleteModalProps) => {
-  const isShow외 = numOfLike > 0 && likedUserIds?.length === 1 && likedUserIds[0] !== createdUser?.id
+  const isShow외 =
+    numOfLike > 0 &&
+    likedUserIds?.length === 1 &&
+    likedUserIds[0] !== createdUser?.id
 
   return (
     <BottomModal

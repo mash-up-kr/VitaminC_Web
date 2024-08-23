@@ -37,8 +37,9 @@ const users = {
     },
   },
   id: {
-    get: (id: User['id']): Promise<ResponseWithMessage<Omit<User, 'role'>>> => client.secure.get(`/users/${id}`)
-  }
+    get: (id: User['id']): Promise<ResponseWithMessage<Omit<User, 'role'>>> =>
+      client.secure.get(`/users/${id}`),
+  },
 }
 
 const maps = {
