@@ -29,7 +29,9 @@ interface PlaceMapPopupProps extends ClassName {
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
   ({ selectedPlace, className, mapId, onRefreshOldPlace }, ref) => {
     const [isLikePlace, setIsLikePlace] = useState(false)
-    const { data: user, revalidate } = useFetch(api.users.me.get, { key: ['user'] })
+    const { data: user, revalidate } = useFetch(api.users.me.get, {
+      key: ['user'],
+    })
 
     const place = selectedPlace.place
 

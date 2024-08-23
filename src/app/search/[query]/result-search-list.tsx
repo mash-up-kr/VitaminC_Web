@@ -26,7 +26,9 @@ const ResultSearchListBox = ({
   places,
   mapId,
 }: ResultSearchListBoxProps) => {
-  const { data: user, revalidate } = useFetch(api.users.me.get, { key: ['user'] })
+  const { data: user, revalidate } = useFetch(api.users.me.get, {
+    key: ['user'],
+  })
   const userLocation = useUserGeoLocation()
   const isAllowPosition = allowUserPositionStorage.getValueOrNull()
   const [likeInfoPlaces, setLikeInfoPlaces] = useState(
