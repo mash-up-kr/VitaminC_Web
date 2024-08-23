@@ -5,7 +5,6 @@ import type { User } from '@/models/user'
 interface PlaceDeleteModalProps {
   createdUser: Omit<User, 'role'> | null
   likedUserIds?: PlaceType['likedUserIds']
-  numOfLike: number
   isOpen: boolean
   onCancel: VoidFunction
   onConfirm: VoidFunction
@@ -20,23 +19,24 @@ const safeNameWith님 = (name: string) => {
 
 const PlaceDeleteModal = ({
   createdUser,
-  numOfLike,
   likedUserIds,
   isOpen,
   onCancel,
   onConfirm,
 }: PlaceDeleteModalProps) => {
-  const isShow외 =
-    numOfLike > 0 &&
-    likedUserIds?.length === 1 &&
-    likedUserIds[0] !== createdUser?.id
+  const numOfLike = likedUserIds?.length || 0
+  const likeCount = (() => {
+    if (numOfLike === 0) return 0
+    const isCreateUserLike = likedUserIds?.includes(createdUser?.id ?? -1)
+    return isCreateUserLike ? numOfLike - 1 : numOfLike
+  })()
 
   return (
     <BottomModal
       isOpen={isOpen}
       title={
-        isShow외
-          ? `${safeNameWith님(createdUser?.nickname ?? '다른 크루원')} 외 ${numOfLike.toLocaleString()}명이 선택한 맛집이에요\n정말 삭제할까요?`
+        likeCount > 0
+          ? `${safeNameWith님(createdUser?.nickname ?? '다른 크루원')} 외 ${likeCount.toLocaleString()}명이 선택한 맛집이에요\n정말 삭제할까요?`
           : `${safeNameWith님(createdUser?.nickname ?? '다른 크루원')}이 선택한 맛집이에요\n정말 삭제할까요?`
       }
       body="삭제하면 등록했던 태그는 모두 사라져요."

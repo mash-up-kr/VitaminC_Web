@@ -222,7 +222,6 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
       <PlaceDeleteModal
         createdUser={createdUser}
         likedUserIds={place.likedUserIds}
-        numOfLike={place.likedUserIds?.length || 0}
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeletePlace}
