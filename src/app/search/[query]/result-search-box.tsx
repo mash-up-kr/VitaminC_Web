@@ -11,13 +11,13 @@ import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import useMeasure from '@/hooks/use-measure'
 import { type SearchPlace } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
+import type { MapInfo } from '@/models/map'
 import { getMapId } from '@/services/map-id'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 import { formatBoundToRect } from '@/utils/location'
 import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'
-import type { MapInfo } from '@/models/map'
 
 interface ResultSearchBoxProps extends ClassName {
   query: string
@@ -78,8 +78,8 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
 
   useEffect(() => {
     const moveCenterToFirstPlace = (searchResultPlaces: SearchPlace[]) => {
-      if (searchResultPlaces.length === 0) return;
-      setCenter({lat: searchResultPlaces[0].y, lng: searchResultPlaces[0].x})
+      if (searchResultPlaces.length === 0) return
+      setCenter({ lat: searchResultPlaces[0].y, lng: searchResultPlaces[0].x })
     }
 
     const searchOnKorea = async (validMapId: MapInfo['id']) => {
