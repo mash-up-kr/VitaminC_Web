@@ -43,7 +43,7 @@ const Carousel = ({
   })
 
   return (
-    <div className={cn('relative mt-6', className)}>
+    <div className={cn('relative', className)}>
       <Slide
         items={items}
         activeIndex={activeIndex}

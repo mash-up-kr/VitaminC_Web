@@ -21,7 +21,7 @@ const KakaoLogin = () => {
 
 const Title = ({ body }: { body: string }) => {
   return (
-    <div className="whitespace-pre-line px-5 pb-12 pt-6 text-center">
+    <div className="whitespace-pre-line px-5 py-12 text-center">
       <Typography size="body0-2" color="neutral-000">
         {body}
       </Typography>
