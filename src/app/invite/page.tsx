@@ -1,29 +1,42 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+
+import { useSearchParams } from 'next/navigation'
+
 import InvitedBoardingPass from '@/components/boarding-pass/invited-boarding-pass'
 import InvitedExpiredBoardingPass from '@/components/boarding-pass/invited-expired-boarding-pass'
+import type { MapInviteInfo } from '@/components/boarding-pass/types'
 import Typography from '@/components/common/typography'
 import { APIError } from '@/models/api/index'
 import { getMapInviteInfo } from '@/services/invitation'
 
-const getInfo = async (inviteCode: string) => {
-  try {
-    const info = await getMapInviteInfo(inviteCode)
-    return { info, isExpired: false }
-  } catch (error) {
-    if (error instanceof APIError && error.status === 410) {
-      return { info: null, isExpired: true }
-    }
-    return { info: null, isExpired: undefined }
-  }
-}
+const Invite = () => {
+  const searchParams = useSearchParams()
+  const inviteCode = searchParams.get('code')
 
-const Invite = async ({
-  searchParams,
-}: {
-  searchParams?: {
-    code?: string
-  }
-}) => {
-  const inviteCode = searchParams?.code
+  const [mapInviteInfo, setMapInviteInfo] = useState<MapInviteInfo | null>(null)
+  const [isExpired, setIsExpired] = useState<boolean | undefined>(undefined)
+
+  useEffect(() => {
+    if (!inviteCode) return
+
+    const getInfo = async () => {
+      try {
+        const info = await getMapInviteInfo(inviteCode)
+        setMapInviteInfo(info)
+        setIsExpired(false)
+      } catch (error) {
+        if (error instanceof APIError && error.status === 410) {
+          setIsExpired(true)
+          return { info: null, isExpired: true }
+        }
+        setIsExpired(undefined)
+      }
+    }
+
+    getInfo()
+  }, [inviteCode])
 
   if (!inviteCode)
     return (
@@ -31,8 +44,6 @@ const Invite = async ({
         초대장이 존재하지 않습니다.
       </Typography>
     )
-
-  const { info: mapInviteInfo, isExpired } = await getInfo(inviteCode)
 
   return (
     <div className="mx-5">
