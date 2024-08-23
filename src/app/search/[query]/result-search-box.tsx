@@ -77,6 +77,11 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   }
 
   useEffect(() => {
+    const moveCenterToFirstPlace = (places: SearchPlace[]) => {
+      if (places.length === 0) return;
+      setCenter({lat: places[0].y, lng: places[0].x})
+    }
+
     const searchOnKorea = async (validMapId: MapInfo['id']) => {
       const { data } = await api.search.places.get({
         q: query,
@@ -85,6 +90,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
       })
       setPlaces(data)
       setIsShowCurrentPositionSearch(false)
+      moveCenterToFirstPlace(data)
     }
 
     ;(async () => {
