@@ -34,7 +34,8 @@ export default function RootLayout({
       <body
         className={`${pretendard.className} ${pretendard.variable} flex items-start justify-center bg-neutral-800`}
       >
-        <Analytics />
+        {process.env.NODE_ENV === 'production' && <Analytics />}
+
         <Script
           async
           strategy="beforeInteractive"
