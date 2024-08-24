@@ -82,6 +82,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         placeId: place.id,
         mapId,
       })
+      revalidate(['places', mapId])
     } catch (error) {
       setIsLikePlace(false)
       setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
@@ -101,6 +102,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         placeId: place.id,
         mapId,
       })
+      revalidate(['places', mapId])
     } catch (error) {
       setIsLikePlace(true)
       setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
@@ -220,7 +222,6 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
       <PlaceDeleteModal
         createdUser={createdUser}
         likedUserIds={place.likedUserIds}
-        numOfLike={place.likedUserIds?.length || 0}
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeletePlace}

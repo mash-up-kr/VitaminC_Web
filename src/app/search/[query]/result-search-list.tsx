@@ -26,7 +26,9 @@ const ResultSearchListBox = ({
   places,
   mapId,
 }: ResultSearchListBoxProps) => {
-  const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
+  const { data: user, revalidate } = useFetch(api.users.me.get, {
+    key: ['user'],
+  })
   const userLocation = useUserGeoLocation()
   const isAllowPosition = allowUserPositionStorage.getValueOrNull()
   const [likeInfoPlaces, setLikeInfoPlaces] = useState(
@@ -83,6 +85,7 @@ const ResultSearchListBox = ({
       if (!mapId) return
       optimisticUpdateLikeOrUnLike(placeId)
       await api.place.mapId.placeId.like.put({ placeId, mapId })
+      revalidate(['places', mapId])
     } catch (error) {}
   }
 
@@ -91,6 +94,7 @@ const ResultSearchListBox = ({
       if (!mapId) return
       optimisticUpdateLikeOrUnLike(placeId)
       await api.place.mapId.placeId.like.delete({ placeId, mapId })
+      revalidate(['places', mapId])
     } catch (error) {}
   }
 
