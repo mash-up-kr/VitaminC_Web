@@ -32,7 +32,7 @@ const MapList = ({
     data: maps,
     isFetching,
     error,
-  } = useFetch(api.maps.get, { initialData: [] })
+  } = useFetch(api.maps.get, { initialData: [], key: ['map-list', mapId] })
   const router = useSafeRouter()
   const hasOwnerMap = maps?.some((map) => map.role === 'ADMIN')
 

@@ -67,7 +67,7 @@ const BoardingInfoPass = ({
   members,
   creator,
 }: BoardingInfoPassProps) => {
-  const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
+  const { data: user, revalidate } = useFetch(api.users.me.get, { key: ['user'] })
 
   const [isOpenInviteBoardingPass, setIsOpenInvitedBoardingPass] =
     useState(false)
@@ -111,6 +111,7 @@ const BoardingInfoPass = ({
   const handleExitMap = async () => {
     try {
       const { data: mapList } = await api.maps.get()
+      revalidate(['map-list', mapId])
       if (mapList.length === 1) {
         notify.error('최소 1개의 지도에는 속해있어야 합니다.')
         return
