@@ -19,7 +19,7 @@ interface BottomSheetProps {
 }
 
 const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
-  ({ body, state = BOTTOM_SHEET_STATE.Collapsed }, ref) => {
+  ({ body, state = BOTTOM_SHEET_STATE.Default }, ref) => {
     const bottomSheetId = useId()
     const bottomSheetRef = useRef<HTMLDivElement>(null)
 
@@ -102,6 +102,12 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       setBottomSheetState(toBottomSheetState(nextBottomSheetState))
     }
 
+    const handleTap = () => {
+      if (bottomSheetState === BOTTOM_SHEET_STATE.Collapsed) {
+        setBottomSheetState(BOTTOM_SHEET_STATE.Default)
+      }
+    }
+
     return (
       <>
         {/* container */}
@@ -124,6 +130,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           dragConstraints={{ top: 0, bottom: 0 }}
           dragElastic={0}
           onDragEnd={(_, info) => handleDragEnd(info)}
+          onTap={handleTap}
           aria-expanded={bottomSheetState !== BOTTOM_SHEET_STATE.Collapsed}
         >
           {/* header */}
