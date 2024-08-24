@@ -148,7 +148,7 @@ const Intro = () => {
     } else {
       setStep(initialStep)
     }
-  }, [enterMapWithInviteCode, initialStep, inviteCode, nickname])
+  }, [enterMapWithInviteCode, initialStep, inviteCode, nickname, router])
 
   return (
     <div className="flex h-dvh w-full flex-col justify-between bg-neutral-700">
