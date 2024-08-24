@@ -51,7 +51,9 @@ const Invite = () => {
 
   const getMapInviteCode = async (id: string) => {
     try {
+      console.log('post', id)
       const res = await api.maps.id.inviteLinks.post(id)
+      console.log('post-data', res)
       const inviteCode = res.data.token
       if (inviteCode) {
         const info = await getMapInviteInfo(inviteCode)
@@ -59,6 +61,7 @@ const Invite = () => {
         handleShowInvitation()
       }
     } catch (error) {
+      console.log('get-map-invite', error)
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
       }

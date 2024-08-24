@@ -5,12 +5,15 @@ import { inviteCodeStorage } from '@/utils/storage'
 
 export const boardMap = async (inviteCode: string) => {
   try {
+    console.log('board-map-before')
     const res = await api.maps.inviteLinks.post(inviteCode)
+    console.log('board-map', res)
     if (res.message === 'success') {
       return 'success'
     }
     throw new Error()
   } catch (error) {
+    console.log('error', error)
     if (error instanceof APIError) {
       if (error.status === 409) {
         return 'existing'
