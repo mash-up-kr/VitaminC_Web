@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { notify } from '@/components/common/custom-toast'
 import LoadingIndicator from '@/components/common/loading-indicator'
@@ -70,7 +70,7 @@ const Intro = () => {
   const inviteCode = inviteCodeStorage.getValueOrNull()
   const onboarding = onboardingStorage.getValueOrNull()
 
-  const enterMapWithInviteCode = async () => {
+  const enterMapWithInviteCode = useCallback(async () => {
     if (!inviteCode) return
 
     setLoading(true)
@@ -91,7 +91,7 @@ const Intro = () => {
 
       setLoading(false)
     }
-  }
+  }, [inviteCode])
 
   const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
 
@@ -148,8 +148,7 @@ const Intro = () => {
     } else {
       setStep(initialStep)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialStep])
+  }, [enterMapWithInviteCode, initialStep, inviteCode, nickname])
 
   return (
     <div className="flex h-dvh w-full flex-col justify-between bg-neutral-700">
