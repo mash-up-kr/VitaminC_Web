@@ -76,9 +76,7 @@ const Intro = () => {
     setLoading(true)
 
     try {
-      console.log('hihi-enter-amp');
       const data = await enterMap(inviteCode)
-      console.log('enter', data);
 
       if (!data) {
         throw new Error('예상치 못한 오류가 발생했습니다.')
@@ -146,7 +144,6 @@ const Intro = () => {
     if (initialStep === IntroStep.FORBIDDEN) {
       router.replace('/')
     } else if (nickname && !!inviteCode) {
-      console.log('hihi')
       enterMapWithInviteCode()
     } else {
       setStep(initialStep)
