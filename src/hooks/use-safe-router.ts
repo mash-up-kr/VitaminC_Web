@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 
 import { useRouter } from 'next/navigation'
 
@@ -11,28 +11,36 @@ const useSafeRouter = () => {
   const router = useRouter()
   const isBackRef = useRef(false)
 
-  const safeBack = async (options?: { defaultHref?: string }) => {
-    if (isServer) return
+  const safeBack = useCallback(
+    async (options?: { defaultHref?: string }) => {
+      if (isServer) return
 
-    if (!isBackRef.current) {
-      isBackRef.current = true
+      if (!isBackRef.current) {
+        isBackRef.current = true
 
-      router.replace((document.referrer || options?.defaultHref) ?? '/intro')
-      router.back()
-      return
+        router.replace((document.referrer || options?.defaultHref) ?? '/intro')
+        router.back()
+        return
+      }
+    },
+    [isServer, router],
+  )
+
+  const push = useCallback(
+    (href: string) => {
+      isBackRef.current = false
+      router.push(href)
+    },
+    [router],
+  )
+
+  return useMemo(() => {
+    return {
+      ...router,
+      push,
+      safeBack,
     }
-  }
-
-  const push = (href: string) => {
-    isBackRef.current = false
-    router.push(href)
-  }
-
-  return {
-    ...router,
-    push,
-    safeBack,
-  }
+  }, [push, router, safeBack])
 }
 
 export default useSafeRouter
