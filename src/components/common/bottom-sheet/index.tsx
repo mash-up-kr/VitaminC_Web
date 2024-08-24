@@ -19,7 +19,7 @@ interface BottomSheetProps {
 }
 
 const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
-  ({ body, state = BOTTOM_SHEET_STATE.Collapsed }, ref) => {
+  ({ body, state = BOTTOM_SHEET_STATE.Default }, ref) => {
     const bottomSheetId = useId()
     const bottomSheetRef = useRef<HTMLDivElement>(null)
 
