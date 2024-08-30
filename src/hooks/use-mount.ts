@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 const useMount = () => {
   const mounted = useRef(false)
@@ -6,7 +6,7 @@ const useMount = () => {
   useEffect(() => {
     mounted.current = true
     return () => void (mounted.current = false)
-  })
+  }, [])
 
   return mounted
 }

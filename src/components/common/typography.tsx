@@ -1,8 +1,9 @@
 import { forwardRef } from 'react'
 import type { ElementType, HTMLAttributes } from 'react'
+
 import { cva } from 'class-variance-authority'
 
-import type { ColorKey } from '@/types/color'
+import type { ColorKey } from '@/models/color'
 import cn from '@/utils/cn'
 
 export type FontKey =
@@ -15,6 +16,7 @@ export type FontKey =
   | 'h5-2'
   | 'h6'
   | 'h7'
+  | 'body0-2'
   | 'body0'
   | 'body1'
   | 'body2'
@@ -36,6 +38,7 @@ export const TypographyVariants = cva<{
       'h5-2': 'text-h5-2',
       h6: 'text-h6',
       h7: 'text-h7',
+      'body0-2': 'text-body0-2',
       body0: 'text-body0',
       body1: 'text-body1',
       body2: 'text-body2',

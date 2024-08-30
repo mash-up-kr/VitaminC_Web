@@ -1,4 +1,4 @@
-import { APIError } from '@/models/interface'
+import { APIError } from '@/models/api/index'
 
 const getDelay = async () => {
   try {
@@ -11,7 +11,7 @@ const getDelay = async () => {
     const data = await res.json()
     if (Reflect.has(data, 'ok') && Reflect.has(data, 'message')) return data
 
-    throw new APIError({ name: 'api/delay', message: 'API Error' })
+    throw new APIError({ name: 'api/delay', message: 'API Error', status: 500 })
   } catch (e) {
     if (e instanceof Error) {
       return e

@@ -1,4 +1,4 @@
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
 
 export type Interceptor<T> = (data: T) => Promise<T> | T
 

@@ -1,51 +1,48 @@
 'use client'
 
-import cn from '@/utils/cn'
-import { formatDate } from '@/utils/date'
-import { Button, QRCode, Typography } from '../common'
 import BoardingBottom from './boarding-bottom'
 import BoardingDivider from './boarding-divider'
-import InviteBoardingHeader from './invite-boarding-header'
-import { InvitingBoardingPassProps } from './types'
+import InviteBoardingPassInfo from './invite-boarding-pass-info'
+import type { InvitingBoardingPassProps } from './types'
+
+import Button from '@/components/common/button'
+import QRCode from '@/components/common/qr-code'
+import useKakaoShare from '@/hooks/use-kakao-share'
+import cn from '@/utils/cn'
 
 const InvitingBoardingPass = ({
   className,
+  inviteCode,
   mapName,
-  owner,
+  creator,
   numOfCrews,
-  time,
-  url,
+  expirationTime,
 }: InvitingBoardingPassProps) => {
+  const shareInvite = useKakaoShare()
+
   const handleClickShareButton = () => {
-    console.log('share', url)
+    shareInvite(inviteCode, expirationTime)
   }
 
   return (
-    <div className={cn('flex flex-col w-full', className)}>
-      <InviteBoardingHeader
+    <div className={cn('flex w-full flex-col', className)}>
+      <InviteBoardingPassInfo
         mapName={mapName}
-        owner={owner}
+        creator={creator}
         numOfCrews={numOfCrews}
+        expirationTime={expirationTime}
       />
 
       <BoardingDivider />
 
-      <div className="pt-2 px-5 flex flex-col gap-1 bg-neutral-600">
-        <Typography size="body4" color="neutral-300" className="text-left">
-          Boarding Time
-        </Typography>
-        <Typography size="h4" color="neutral-000" className="text-left">
-          {formatDate(time)}
-        </Typography>
+      <div className="flex w-full justify-center bg-neutral-600 pt-1">
+        <QRCode
+          url={`${window.location.origin}/invite?code=${inviteCode}`}
+          size={160}
+        />
       </div>
 
-      <BoardingDivider />
-
-      <div className="w-full flex justify-center bg-neutral-600 pt-1">
-        <QRCode url={url} size={160} />
-      </div>
-
-      <div className="px-[20px] bg-neutral-600">
+      <div className="mt-[-0.5px] bg-neutral-600 px-[20px]">
         <Button className="my-5" onClick={handleClickShareButton}>
           카카오톡으로 공유
         </Button>

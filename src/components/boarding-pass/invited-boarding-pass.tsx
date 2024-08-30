@@ -1,64 +1,74 @@
 'use client'
 
-import cn from '@/utils/cn'
-
-import { formatDate } from '@/utils/date'
-import { Button, Typography } from '../common'
-import BoardingDivider from './boarding-divider'
 import BoardingBottom from './boarding-bottom'
-import InviteBoardingHeader from './invite-boarding-header'
-import { InvitedBoardingPassProps } from './types'
+import InviteBoardingPassInfo from './invite-boarding-pass-info'
+import type { InvitedBoardingPassProps } from './types'
+
+import Button from '@/components/common/button'
+import { notify } from '@/components/common/custom-toast'
+import ProxyImage from '@/components/common/proxy-image'
+import useSafeRouter from '@/hooks/use-safe-router'
+import { APIError } from '@/models/api/index'
+import { boardMap } from '@/services/invitation'
+import cn from '@/utils/cn'
+import { inviteCodeStorage } from '@/utils/storage'
 
 const InvitedBoardingPass = ({
   className,
+  inviteCode,
+  mapId,
   mapName,
-  owner,
+  creator,
   numOfCrews,
-  time,
-  isExpired,
+  expirationTime,
   images,
-  onClick,
 }: InvitedBoardingPassProps) => {
+  const router = useSafeRouter()
+
+  const handleClick = async () => {
+    try {
+      const data = await boardMap(inviteCode)
+
+      router.push(`/map/${mapId}`)
+      if (data === 'success') {
+        notify.success(`${mapName} 지도에 오신 걸 환영합니다!`)
+      }
+    } catch (error) {
+      if (error instanceof APIError && error.status === 401) {
+        inviteCodeStorage.set(inviteCode)
+        router.push('/intro')
+      } else if (error instanceof Error) {
+        notify.error(error.message)
+      } else {
+        notify.error('예상치 못한 오류가 발생했습니다.')
+      }
+    }
+  }
+
   return (
-    <div className={cn('flex flex-col w-full', className)}>
-      <InviteBoardingHeader
+    <div className={cn('flex w-full flex-col', className)}>
+      <InviteBoardingPassInfo
         mapName={mapName}
-        owner={owner}
+        creator={creator}
         numOfCrews={numOfCrews}
+        expirationTime={expirationTime}
       />
 
-      <BoardingDivider />
-
-      <div className="pt-2 px-5 flex flex-col gap-1 bg-neutral-600">
-        <Typography size="body4" color="neutral-300" className="text-left">
-          Boarding Time
-        </Typography>
-        {isExpired ? (
-          <Typography size="h4" color="orange-300" className="text-left">
-            앗.. 탑승 시간이 지나버렸어요..
-          </Typography>
-        ) : (
-          <Typography size="h4" color="neutral-000" className="text-left">
-            {formatDate(time)}
-          </Typography>
-        )}
-      </div>
-
-      {images && !isExpired && (
-        <div className="pt-[18px] px-[20px] w-full flex gap-[10px] bg-neutral-600 overflow-x-scroll no-scrollbar">
+      {images && (
+        <div className="no-scrollbar flex w-full gap-[10px] overflow-x-scroll bg-neutral-600 px-[20px] pt-[18px]">
           {images.map((image, index) => (
-            <img
-              key={image}
+            <ProxyImage
+              key={`${index}-${image}`}
               src={image}
-              className="w-[88px] h-[88px] max-w-[88px] rounded"
+              className="h-[88px] w-[88px] max-w-[88px] rounded"
               alt={`음식사진 ${index + 1}`}
             />
           ))}
         </div>
       )}
 
-      <div className="px-[20px] bg-neutral-600">
-        <Button disabled={isExpired} className="my-5" onClick={onClick}>
+      <div className="mt-[-0.5px] bg-neutral-600 px-[20px]">
+        <Button className="my-5" onClick={handleClick}>
           승선하기
         </Button>
       </div>

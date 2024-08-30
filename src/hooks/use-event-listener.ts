@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 
-interface Props {
-  type: keyof WindowEventMap
-  listener: (event?: Event) => void
+interface EventListenerProps<K extends keyof WindowEventMap> {
+  type: K
+  listener: (event: WindowEventMap[K]) => void
   options?: Options
   enabled?: boolean
 }
@@ -14,12 +14,12 @@ interface Options {
   signal?: AbortSignal
 }
 
-const useEventListener = ({
+const useEventListener = <K extends keyof WindowEventMap>({
   type,
   listener,
   options,
   enabled = true,
-}: Props) => {
+}: EventListenerProps<K>) => {
   useEffect(() => {
     if (enabled) {
       window.addEventListener(type, listener, options)

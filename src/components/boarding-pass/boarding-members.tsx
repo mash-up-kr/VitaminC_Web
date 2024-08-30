@@ -1,5 +1,8 @@
-import { Avatar, Chip, Typography } from '../common'
-import { BoardingMembersProps } from './types'
+import type { BoardingMembersProps } from './types'
+
+import Avatar from '@/components/common/avatar'
+import Chip from '@/components/common/chip'
+import Typography from '@/components/common/typography'
 
 const memberColors = [
   'coral',
@@ -9,15 +12,18 @@ const memberColors = [
   'green',
 ] as const
 
-const BoardingMembers = ({ owner, members }: BoardingMembersProps) => {
+const BoardingMembers = ({
+  creator,
+  members,
+  userId,
+}: BoardingMembersProps) => {
   return (
-    <ul className="w-full bg-neutral-600 max-h-[268px] overflow-y-scroll no-scrollbar">
+    <ul className="no-scrollbar max-h-[268px] w-full overflow-y-scroll bg-neutral-600">
       {members.map((member, index) => (
-        <li key={member} className="flex items-center px-4 h-[52px]">
+        <li key={member.id} className="flex h-[52px] items-center px-4">
           <Avatar
-            // TODO: 로직 수정
-            me={member === owner}
-            value={member}
+            me={member.id === userId}
+            value={member.nickname}
             colorScheme={memberColors[index % memberColors.length]}
           />
           <Typography
@@ -26,9 +32,9 @@ const BoardingMembers = ({ owner, members }: BoardingMembersProps) => {
             color="neutral-100"
             className="ml-2"
           >
-            {member}
+            {member.nickname}
           </Typography>
-          {owner === member && (
+          {creator.id === member.id && (
             <Chip size="sm" colorScheme="neutral-800" className="ml-[6px]">
               주인장
             </Chip>

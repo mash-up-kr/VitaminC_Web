@@ -34,4 +34,23 @@ body {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  .placeholder-center::placeholder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Target webkit (Safari & iOS Chrome) */
+  @supports (hanging-punctuation: first) and (font: -apple-system-body) and
+    (-webkit-appearance: none) {
+    .placeholder-center::placeholder {
+      top: 0;
+      transform: translateY(0);
+    }
+  }
+
+  .darkmode img {
+    filter: hue-rotate(180deg) invert(85%);
+  }
 }

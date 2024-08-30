@@ -1,4 +1,4 @@
-import { clsx, type ClassValue } from 'clsx'
+import { type ClassValue, clsx } from 'clsx'
 import { extendTailwindMerge } from 'tailwind-merge'
 
 export const extendTwMerge = extendTailwindMerge({
@@ -14,6 +14,7 @@ export const extendTwMerge = extendTailwindMerge({
         'text-h5-2',
         'text-h6',
         'text-h7',
+        'text-body0-2',
         'text-body0',
         'text-body1',
         'text-body2',
