@@ -11,7 +11,6 @@ import SuggestPlaceList from './suggest-place-list'
 import debounce from 'lodash.debounce'
 
 import { notify } from '@/components/common/custom-toast'
-import LoadingIndicator from '@/components/common/loading-indicator'
 import Typography from '@/components/common/typography'
 import useSafeRouter from '@/hooks/use-safe-router'
 import type { SearchPlace } from '@/models/api/place'
@@ -153,8 +152,6 @@ const SearchBox = () => {
         onResetValue={handleResetQuery}
         onSubmit={searchByKeyword}
       />
-
-      {isLoading && <LoadingIndicator />}
 
       {isShowRecentKeywords && (
         <RecentKeywords
