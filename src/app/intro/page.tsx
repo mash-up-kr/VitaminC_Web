@@ -91,7 +91,7 @@ const Intro = () => {
 
       setLoading(false)
     }
-  }, [inviteCode])
+  }, [inviteCode, router])
 
   const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
 
