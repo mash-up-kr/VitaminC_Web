@@ -19,6 +19,7 @@ import { getMapId } from '@/services/map-id'
 import { api } from '@/utils/api'
 import { formatBoundToRect } from '@/utils/location'
 import { mapBoundSessionStorage, recentSearchStorage } from '@/utils/storage'
+import LoadingIndicator from '@/components/common/loading-indicator'
 
 const SearchBox = () => {
   const router = useSafeRouter()
@@ -33,7 +34,9 @@ const SearchBox = () => {
   const [mapId, setMapId] = useState<string>('')
   const [query, setQuery] = useState(search)
   const [isLoading, setIsLoading] = useState(false)
-  const [suggestedPlaces, setSuggestedPlaces] = useState<SearchPlace[]>([])
+  const [suggestedPlaces, setSuggestedPlaces] = useState<
+    SearchPlace[] | undefined
+  >(undefined) // TODO: undefined로 로딩중임을 판단하지 말고, hook의 loading state 사용
   const isShowRecentKeywords =
     query === '' && !!recentKeywords.length && search === '' && !isLoading
   const isShowSuggestionPlaces = !isShowRecentKeywords && !isLoading
@@ -161,8 +164,8 @@ const SearchBox = () => {
         />
       )}
 
-      {isShowSuggestionPlaces &&
-        (suggestedPlaces.length > 0 ? (
+      {isShowSuggestionPlaces && suggestedPlaces ? (
+        suggestedPlaces.length > 0 ? (
           <SuggestPlaceList places={suggestedPlaces} query={query} />
         ) : query === '' ? (
           <Typography
@@ -174,7 +177,10 @@ const SearchBox = () => {
           </Typography>
         ) : (
           <EmptyResultBox />
-        ))}
+        )
+      ) : (
+        <LoadingIndicator />
+      )}
     </div>
   )
 }

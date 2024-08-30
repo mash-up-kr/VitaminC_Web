@@ -18,6 +18,7 @@ import cn from '@/utils/cn'
 import { formatBoundToRect } from '@/utils/location'
 import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'
+import LoadingIndicator from '@/components/common/loading-indicator'
 
 interface ResultSearchBoxProps extends ClassName {
   query: string
@@ -26,7 +27,7 @@ interface ResultSearchBoxProps extends ClassName {
 const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   const [isMapView, setIsMapView] = useState(false)
   const [mapId, setMapId] = useState('')
-  const [places, setPlaces] = useState<SearchPlace[]>([])
+  const [places, setPlaces] = useState<SearchPlace[] | undefined>(undefined) // TODO: undefined로 로딩중임을 판단하지 말고, hook의 loading state 사용
   const [selectedPlace, setSelectedPlace] = useState<SearchPlace | null>(null)
   const [center, setCenter] = useState<{ lat: number; lng: number } | null>(
     null,
@@ -166,12 +167,14 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             />
           )}
         </>
-      ) : (
+      ) : places ? (
         <ResultSearchListBox
           mapId={mapId}
           places={places}
           className="absolute top-[60px]"
         />
+      ) : (
+        <LoadingIndicator />
       )}
     </div>
   )
