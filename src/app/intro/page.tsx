@@ -21,6 +21,7 @@ import { enterMap } from '@/services/invitation'
 import { api } from '@/utils/api'
 import { fetchData } from '@/utils/api/route'
 import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
+import { getMapId } from '@/services/map-id'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -142,7 +143,12 @@ const Intro = () => {
 
   useEffect(() => {
     if (initialStep === IntroStep.FORBIDDEN) {
-      router.replace('/')
+      try {
+        ;(async () => {
+          const mapId = await getMapId()
+          router.push(`/map/${mapId}`)
+        })()
+      } catch {}
     } else if (nickname && !!inviteCode) {
       enterMapWithInviteCode()
     } else {
