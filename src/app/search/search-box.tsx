@@ -19,7 +19,6 @@ import { getMapId } from '@/services/map-id'
 import { api } from '@/utils/api'
 import { formatBoundToRect } from '@/utils/location'
 import { mapBoundSessionStorage, recentSearchStorage } from '@/utils/storage'
-import LoadingIndicator from '@/components/common/loading-indicator'
 
 const SearchBox = () => {
   const router = useSafeRouter()
@@ -33,14 +32,15 @@ const SearchBox = () => {
   )
   const [mapId, setMapId] = useState<string>('')
   const [query, setQuery] = useState(search)
-  const [isLoading, setIsLoading] = useState(false)
-  const [suggestedPlaces, setSuggestedPlaces] = useState<
-    SearchPlace[] | undefined
-  >(undefined) // TODO: undefined로 로딩중임을 판단하지 말고, hook의 loading state 사용
+  // TODO: useFetch에 status 추가 및 useFetch로 데이터 관리
+  const [status, setStatus] = useState('pending') // 'pending' | 'fetching' | 'success' | 'error'
+  const [suggestedPlaces, setSuggestedPlaces] = useState<SearchPlace[]>([])
   const isShowRecentKeywords =
-    query === '' && !!recentKeywords.length && search === '' && !isLoading
-  const isShowSuggestionPlaces =
-    !isShowRecentKeywords && !isLoading && suggestedPlaces
+    query === '' &&
+    !!recentKeywords.length &&
+    search === '' &&
+    status !== 'fetching'
+  const isShowSuggestionPlaces = !isShowRecentKeywords
 
   const createQueryString = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -119,7 +119,7 @@ const SearchBox = () => {
     }
 
     try {
-      setIsLoading(true)
+      setStatus('fetching')
 
       const { data } = await api.search.places.get({
         q: query,
@@ -130,10 +130,10 @@ const SearchBox = () => {
       if (data.length === 0) {
         await searchOnKorea(mapId)
       }
+      setStatus('success')
     } catch (err) {
       notify.error('잘못된 접근입니다.')
-    } finally {
-      setIsLoading(false)
+      setStatus('error')
     }
   }, [mapBounds, mapId, query])
 
@@ -165,8 +165,8 @@ const SearchBox = () => {
         />
       )}
 
-      {isShowSuggestionPlaces ? (
-        suggestedPlaces.length > 0 ? (
+      {isShowSuggestionPlaces &&
+        (suggestedPlaces.length > 0 ? (
           <SuggestPlaceList places={suggestedPlaces} query={query} />
         ) : query === '' ? (
           <Typography
@@ -178,10 +178,7 @@ const SearchBox = () => {
           </Typography>
         ) : (
           <EmptyResultBox />
-        )
-      ) : (
-        <LoadingIndicator />
-      )}
+        ))}
     </div>
   )
 }
