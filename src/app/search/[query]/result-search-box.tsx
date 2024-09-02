@@ -18,6 +18,7 @@ import cn from '@/utils/cn'
 import { formatBoundToRect } from '@/utils/location'
 import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'
+import LoadingIndicator from '@/components/common/loading-indicator'
 
 interface ResultSearchBoxProps extends ClassName {
   query: string
@@ -26,6 +27,8 @@ interface ResultSearchBoxProps extends ClassName {
 const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   const [isMapView, setIsMapView] = useState(false)
   const [mapId, setMapId] = useState('')
+  // TODO: useFetch에 status 추가 및 useFetch로 데이터 관리
+  const [status, setStatus] = useState('pending') // 'pending' | 'fetching' | 'success' | 'error'
   const [places, setPlaces] = useState<SearchPlace[]>([])
   const [selectedPlace, setSelectedPlace] = useState<SearchPlace | null>(null)
   const [center, setCenter] = useState<{ lat: number; lng: number } | null>(
@@ -46,15 +49,20 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
     if (!mapId) return
 
     try {
+      setStatus('fetching')
+
       const { data } = await api.search.places.get({
         q: query,
         rect: formatBoundToRect(mapBound),
         mapId,
       })
       setPlaces(data)
+
       setIsShowCurrentPositionSearch(false)
+      setStatus('success')
     } catch {
       notify.error('잘못된 접근입니다.')
+      setStatus('error')
     }
   }
 
@@ -97,6 +105,8 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
       const bounds = mapBoundSessionStorage.getValueOrNull()
 
       try {
+        setStatus('fetching')
+
         let validMapId = mapId
         if (!validMapId) {
           validMapId = (await getMapId()) || ''
@@ -122,8 +132,11 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
         if (data.length === 0) {
           await searchOnKorea(validMapId)
         }
+
+        setStatus('success')
       } catch {
         notify.error('잘못된 접근입니다.')
+        setStatus('error')
       }
     })()
   }, [mapId, query])
@@ -166,6 +179,8 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
             />
           )}
         </>
+      ) : status === 'fetching' ? (
+        <LoadingIndicator />
       ) : (
         <ResultSearchListBox
           mapId={mapId}

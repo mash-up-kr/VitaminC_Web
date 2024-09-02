@@ -7,7 +7,6 @@ import LoadingIndicator from '@/components/common/loading-indicator'
 import Header from '@/components/intro/header'
 import { Invite, Mapname, NewMap } from '@/components/intro/steps'
 import { IntroStep } from '@/constants/intro'
-import { useIsServer } from '@/hooks/use-is-server'
 
 const Step = ({ step, goNextStep }: StepProps) => {
   switch (step) {
@@ -27,8 +26,6 @@ const Step = ({ step, goNextStep }: StepProps) => {
 }
 
 const MapCreate = () => {
-  const isServer = useIsServer()
-
   const [step, setStep] = useState<IntroStep>(IntroStep.NEW_MAP)
 
   const goNextStep = () => {
@@ -39,13 +36,7 @@ const MapCreate = () => {
   return (
     <div className="flex h-dvh w-full flex-col justify-between bg-neutral-700">
       <Header />
-      {isServer ? (
-        <div className="flex flex-1 items-center justify-center text-white">
-          <LoadingIndicator />
-        </div>
-      ) : (
-        <Step step={step} goNextStep={goNextStep} />
-      )}
+      <Step step={step} goNextStep={goNextStep} />
     </div>
   )
 }

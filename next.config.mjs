@@ -3,6 +3,9 @@ import { withSentryConfig } from '@sentry/nextjs'
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  async redirects() {
+    return [{ source: '/', destination: '/intro', permanent: true }]
+  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },

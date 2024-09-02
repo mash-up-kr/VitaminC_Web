@@ -102,7 +102,7 @@ const Slide = ({
             left: `${activeIndex * 100}%`,
             right: `${activeIndex * 100}%`,
           }}
-          key={`${index}${item.src}`}
+          key={`${item.src}-${index}`}
           className="flex h-full w-full shrink-0 snap-center snap-always flex-col items-center justify-center"
           draggable
           drag="x"

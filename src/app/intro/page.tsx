@@ -17,10 +17,11 @@ import useFetch from '@/hooks/use-fetch'
 import { useIsServer } from '@/hooks/use-is-server'
 import useSafeRouter from '@/hooks/use-safe-router'
 import type { Token } from '@/models/user'
-import { enterMap } from '@/services/invitation'
+import { boardMap, getMapInviteInfo } from '@/services/invitation'
 import { api } from '@/utils/api'
 import { fetchData } from '@/utils/api/route'
 import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
+import { getMapId } from '@/services/map-id'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -76,14 +77,14 @@ const Intro = () => {
     setLoading(true)
 
     try {
-      const data = await enterMap(inviteCode)
+      const status = await boardMap(inviteCode)
+      const info = await getMapInviteInfo(inviteCode)
 
-      if (!data) {
-        throw new Error('예상치 못한 오류가 발생했습니다.')
+      router.push(`/map/${info.mapId}`)
+      inviteCodeStorage.remove()
+      if (status === 'success') {
+        notify.success(`${info.mapName} 지도에 오신 걸 환영합니다!`)
       }
-
-      router.push(`/map/${data.map.id}`)
-      notify.success(`${data.map.name} 지도에 오신 걸 환영합니다!`)
     } catch (error) {
       if (error instanceof Error) {
         notify.error(error.message)
@@ -91,7 +92,7 @@ const Intro = () => {
 
       setLoading(false)
     }
-  }, [inviteCode])
+  }, [inviteCode, router])
 
   const [step, setStep] = useState<IntroStep>(IntroStep.LOADING)
 
@@ -142,7 +143,13 @@ const Intro = () => {
 
   useEffect(() => {
     if (initialStep === IntroStep.FORBIDDEN) {
-      router.replace('/')
+      try {
+        const enterMap = async () => {
+          const mapId = await getMapId()
+          router.push(`/map/${mapId}`)
+        }
+        enterMap()
+      } catch {}
     } else if (nickname && !!inviteCode) {
       enterMapWithInviteCode()
     } else {

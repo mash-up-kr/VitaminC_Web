@@ -11,7 +11,6 @@ import SuggestPlaceList from './suggest-place-list'
 import debounce from 'lodash.debounce'
 
 import { notify } from '@/components/common/custom-toast'
-import LoadingIndicator from '@/components/common/loading-indicator'
 import Typography from '@/components/common/typography'
 import useSafeRouter from '@/hooks/use-safe-router'
 import type { SearchPlace } from '@/models/api/place'
@@ -33,11 +32,15 @@ const SearchBox = () => {
   )
   const [mapId, setMapId] = useState<string>('')
   const [query, setQuery] = useState(search)
-  const [isLoading, setIsLoading] = useState(false)
+  // TODO: useFetch에 status 추가 및 useFetch로 데이터 관리
+  const [status, setStatus] = useState('pending') // 'pending' | 'fetching' | 'success' | 'error'
   const [suggestedPlaces, setSuggestedPlaces] = useState<SearchPlace[]>([])
   const isShowRecentKeywords =
-    query === '' && !!recentKeywords.length && search === '' && !isLoading
-  const isShowSuggestionPlaces = !isShowRecentKeywords && !isLoading
+    query === '' &&
+    !!recentKeywords.length &&
+    search === '' &&
+    status !== 'fetching'
+  const isShowSuggestionPlaces = !isShowRecentKeywords
 
   const createQueryString = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -116,7 +119,7 @@ const SearchBox = () => {
     }
 
     try {
-      setIsLoading(true)
+      setStatus('fetching')
 
       const { data } = await api.search.places.get({
         q: query,
@@ -127,10 +130,10 @@ const SearchBox = () => {
       if (data.length === 0) {
         await searchOnKorea(mapId)
       }
+      setStatus('success')
     } catch (err) {
       notify.error('잘못된 접근입니다.')
-    } finally {
-      setIsLoading(false)
+      setStatus('error')
     }
   }, [mapBounds, mapId, query])
 
@@ -153,8 +156,6 @@ const SearchBox = () => {
         onResetValue={handleResetQuery}
         onSubmit={searchByKeyword}
       />
-
-      {isLoading && <LoadingIndicator />}
 
       {isShowRecentKeywords && (
         <RecentKeywords

@@ -94,8 +94,8 @@ const PlaceListBottomSheet = ({
   }
 
   return (
-    <>
-      <div className="sticky left-0 top-[-1px] z-10 h-[38px] bg-[#212124] px-5 pt-[1px] shadow-[rgba(33,33,36,1)_0px_1px_4px_4px]">
+    <div className="flex flex-col h-full">
+      <div className="z-10 h-[38px] bg-[#212124] px-5 shadow-[rgba(33,33,36,1)_0px_1px_4px_4px]">
         <FilterButton
           numOfSelectedFilter={numOfSelectedFilter}
           icon={{ type: 'filter' }}
@@ -105,7 +105,7 @@ const PlaceListBottomSheet = ({
         </FilterButton>
       </div>
       {placeList.length > 0 ? (
-        <ul className="flex flex-col px-5">
+        <ul className="flex flex-col px-5 h-dvh no-scrollbar overflow-y-scroll overscroll-contain">
           {placeList.map((place) => (
             <PlaceListItem
               key={`bottom-sheet-${place.place.kakaoPlace.id}`}
@@ -128,14 +128,14 @@ const PlaceListBottomSheet = ({
                   handleLike(place)
                 },
               }}
-              className="first:pt-2"
+              className="first:pt-0 first:-my-2"
             />
           ))}
         </ul>
       ) : (
         <EmptyPlaceList message="해당 음식점이 없어요" />
       )}
-    </>
+    </div>
   )
 }
 

@@ -58,7 +58,7 @@ const InvitedBoardingPass = ({
         <div className="no-scrollbar flex w-full gap-[10px] overflow-x-scroll bg-neutral-600 px-[20px] pt-[18px]">
           {images.map((image, index) => (
             <ProxyImage
-              key={`${index}-${image}`}
+              key={`${image}-${index}`}
               src={image}
               className="h-[88px] w-[88px] max-w-[88px] rounded"
               alt={`음식사진 ${index + 1}`}

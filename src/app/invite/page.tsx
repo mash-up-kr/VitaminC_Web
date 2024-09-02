@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 
@@ -79,11 +79,7 @@ const Invite = () => {
 }
 
 const InvitePage = () => {
-  return (
-    <Suspense fallback={<LoadingIndicator />}>
-      <Invite />
-    </Suspense>
-  )
+  return <Invite />
 }
 
 export default InvitePage
