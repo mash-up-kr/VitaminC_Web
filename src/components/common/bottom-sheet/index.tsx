@@ -140,7 +140,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           </div>
           {/* body */}
           <div
-            className="no-scrollbar select-none overflow-y-scroll overscroll-contain transition-all duration-300"
+            className="select-none transition-all duration-300"
             style={{
               height: bodyHeight(),
             }}
