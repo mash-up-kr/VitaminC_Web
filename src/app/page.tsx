@@ -1,9 +1,7 @@
-'use client'
-
-import LoadingIndicator from '@/components/common/loading-indicator'
+import NotFound from '@/app/not-found'
 
 const Root = () => {
-  return <LoadingIndicator />
+  return <NotFound />
 }
 
 export default Root
