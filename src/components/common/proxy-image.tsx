@@ -12,16 +12,20 @@ interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
 
 const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
   const [url, setUrl] = useState('')
+  const [isFetch, setIsFetch] = useState(false)
   const { ref, inView, isLoading } = useLazyImage({ src: url, options: {} })
 
   useEffect(() => {
     const convertImage = async () => {
       try {
+        setIsFetch(true)
         const response = await api.proxy.get(src)
         const blob = await response.blob()
         const objectURL = URL.createObjectURL(blob)
         setUrl(objectURL)
-      } catch {}
+      } finally {
+        setIsFetch(false)
+      }
     }
 
     if (!url && inView && src.startsWith('http')) {
@@ -36,7 +40,7 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
     }
   }, [inView, src, url])
 
-  if (isLoading) {
+  if (isLoading || isFetch) {
     return (
       <div className={cn('animate-pulse', props.className)}>
         <div
