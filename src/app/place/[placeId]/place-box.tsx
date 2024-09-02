@@ -22,6 +22,7 @@ import { api } from '@/utils/api'
 import { formatDistance, getDistance } from '@/utils/location'
 import { roundToNthDecimal } from '@/utils/number'
 import { allowUserPositionStorage } from '@/utils/storage'
+import { sendGAEvent } from '@next/third-parties/google'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -133,6 +134,11 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
 
   const handleRegisterPlace = async () => {
     try {
+      sendGAEvent({
+        category: 'place',
+        action: 'click',
+        label: 'register',
+      })
       router.push(`/place/${place.kakaoId}/register`)
       revalidate(['places', mapId])
     } catch (error) {
