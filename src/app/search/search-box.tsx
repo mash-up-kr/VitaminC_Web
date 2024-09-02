@@ -39,7 +39,8 @@ const SearchBox = () => {
   >(undefined) // TODO: undefined로 로딩중임을 판단하지 말고, hook의 loading state 사용
   const isShowRecentKeywords =
     query === '' && !!recentKeywords.length && search === '' && !isLoading
-  const isShowSuggestionPlaces = !isShowRecentKeywords && !isLoading
+  const isShowSuggestionPlaces =
+    !isShowRecentKeywords && !isLoading && suggestedPlaces
 
   const createQueryString = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -164,7 +165,7 @@ const SearchBox = () => {
         />
       )}
 
-      {isShowSuggestionPlaces && suggestedPlaces ? (
+      {isShowSuggestionPlaces ? (
         suggestedPlaces.length > 0 ? (
           <SuggestPlaceList places={suggestedPlaces} query={query} />
         ) : query === '' ? (
