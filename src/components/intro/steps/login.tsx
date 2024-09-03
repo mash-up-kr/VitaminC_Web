@@ -35,7 +35,7 @@ const ItemGenerator = ({ src, title }: { src: string; title: string }) => {
   return (
     <>
       <Title content={title} />
-      <img src={src} alt={alt} className="object-cover" />
+      <img src={src} alt={alt} className="object-cover min-h-[240px]" />
     </>
   )
 }
