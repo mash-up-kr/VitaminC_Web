@@ -19,13 +19,24 @@ const KakaoLogin = () => {
   )
 }
 
-const Title = ({ body }: { body: string }) => {
+const ItemGenerator = ({ src, title }: { src: string; title: string }) => {
+  const alt = src.split('.')[0].split('intro-')[1]
+
+  const Title = ({ content }: { content: string }) => {
+    return (
+      <div className="whitespace-pre-line px-5 py-12 text-center">
+        <Typography size="body0-2" color="neutral-000">
+          {content}
+        </Typography>
+      </div>
+    )
+  }
+
   return (
-    <div className="whitespace-pre-line px-5 py-12 text-center">
-      <Typography size="body0-2" color="neutral-000">
-        {body}
-      </Typography>
-    </div>
+    <>
+      <Title content={title} />
+      <img src={src} alt={alt} className="object-cover" />
+    </>
   )
 }
 
@@ -34,35 +45,19 @@ const Login = () => {
     <>
       <div className="flex-1">
         <Carousel
-          objectFit="cover"
           items={[
-            {
-              src: '/images/intro-lost-map.gif',
-              title: (
-                <Title
-                  key="title1"
-                  body={`보물섬으로 가는 지도를\n잃어버렸어...`}
-                />
-              ),
-            },
-            {
-              src: '/images/intro-find-treasure.gif',
-              title: (
-                <Title
-                  key="title2"
-                  body={`맛집으로 지도를 채우면\n보물섬이 나온다던데!`}
-                />
-              ),
-            },
-            {
-              src: '/images/intro-lets-go.gif',
-              title: (
-                <Title
-                  key="title3"
-                  body={`혼자서는 못할것 같아\n함께 채워볼래?`}
-                />
-              ),
-            },
+            <ItemGenerator
+              src="/images/intro-lost-map.gif"
+              title={`보물섬으로 가는 지도를\n잃어버렸어...`}
+            />,
+            <ItemGenerator
+              src="/images/intro-find-treasure.gif"
+              title={`맛집으로 지도를 채우면\n보물섬이 나온다던데!`}
+            />,
+            <ItemGenerator
+              src="/images/intro-lets-go.gif"
+              title={`혼자서는 못할것 같아\n함께 채워볼래?`}
+            />,
           ]}
         />
       </div>

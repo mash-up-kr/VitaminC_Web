@@ -22,6 +22,7 @@ import { api } from '@/utils/api'
 import { formatDistance, getDistance } from '@/utils/location'
 import { roundToNthDecimal } from '@/utils/number'
 import { allowUserPositionStorage } from '@/utils/storage'
+import ProxyImage from '@/components/common/proxy-image'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -155,8 +156,13 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         </header>
 
         <Carousel
-          items={place.photoList.slice(0, 3).map((src) => ({ src }))}
-          objectFit="cover"
+          items={place.photoList.slice(0, 3).map((src, index) => (
+            <ProxyImage
+              src={src}
+              alt={`슬라이드 ${index + 1}`}
+              className="object-cover"
+            />
+          ))}
           className="h-[200px] min-h-[200px] w-full"
           indicatorPosition="inside"
         />
