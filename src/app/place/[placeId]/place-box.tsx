@@ -162,6 +162,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
               src={src}
               alt={`슬라이드 ${index + 1}`}
               className="object-cover"
+              draggable="false"
             />
           ))}
           className="h-[200px] min-h-[200px] w-full"

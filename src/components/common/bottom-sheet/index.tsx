@@ -147,7 +147,9 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
             aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
           >
             {/* content */}
-            <div ref={contentRef}>{body}</div>
+            <div ref={contentRef} draggable="false">
+              {body}
+            </div>
           </div>
         </motion.div>
       </>
