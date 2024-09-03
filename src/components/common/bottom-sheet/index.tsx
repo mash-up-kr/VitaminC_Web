@@ -36,7 +36,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     const dragControls = useDragControls()
     const { height: windowHeight } = useWindowSize()
 
-    const headerHeight = 36
+    const headerHeight = 46
     const defaultHeight = Math.min(
       contentBounds.height + headerHeight,
       windowHeight / 2,
@@ -102,12 +102,6 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       setBottomSheetState(toBottomSheetState(nextBottomSheetState))
     }
 
-    const handleTap = () => {
-      if (bottomSheetState === BOTTOM_SHEET_STATE.Collapsed) {
-        setBottomSheetState(BOTTOM_SHEET_STATE.Default)
-      }
-    }
-
     return (
       <>
         {/* container */}
@@ -130,11 +124,10 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           dragConstraints={{ top: 0, bottom: 0 }}
           dragElastic={0}
           onDragEnd={(_, info) => handleDragEnd(info)}
-          onTap={handleTap}
           aria-expanded={bottomSheetState !== BOTTOM_SHEET_STATE.Collapsed}
         >
           {/* header */}
-          <div className="cursor-grab pb-[14px] pt-[16px]">
+          <div className="cursor-grab pb-[24px] pt-[16px]">
             {/* bar */}
             <div className="mx-auto my-0 h-[6px] w-[53px] rounded-full bg-[#6D717A]" />
           </div>
