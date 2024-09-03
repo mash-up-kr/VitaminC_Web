@@ -95,7 +95,7 @@ const PlaceListBottomSheet = ({
 
   return (
     <div className="flex flex-col h-full">
-      <div className="z-10 h-[38px] bg-[#212124] px-5 shadow-[rgba(33,33,36,1)_0px_1px_4px_4px]">
+      <div className="z-10 h-[38px] bg-[#212124] px-5 shadow-[rgba(33,33,36,1)_0px_4px_2px_-2px]">
         <FilterButton
           numOfSelectedFilter={numOfSelectedFilter}
           icon={{ type: 'filter' }}
