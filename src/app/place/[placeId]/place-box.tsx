@@ -158,6 +158,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         <Carousel
           items={place.photoList.slice(0, 3).map((src, index) => (
             <ProxyImage
+              key={src}
               src={src}
               alt={`슬라이드 ${index + 1}`}
               className="object-cover"
