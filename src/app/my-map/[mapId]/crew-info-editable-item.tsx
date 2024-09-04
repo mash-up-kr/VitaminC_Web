@@ -109,7 +109,9 @@ const CrewInfoEditableItem = ({
           <Typography size="body3" color="neutral-200">
             {korRole[member.role]}
           </Typography>
-          <Icon type="caretDown" size="md" stroke="neutral-200" />
+          {member.role !== 'ADMIN' && (
+            <Icon type="caretDown" size="md" stroke="neutral-200" />
+          )}
         </button>
       </li>
 
