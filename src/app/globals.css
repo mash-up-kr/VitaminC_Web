@@ -20,6 +20,13 @@ body {
   color: rgb(var(--foreground-rgb));
 }
 
+*,
+*::after,
+*::before {
+  -webkit-user-drag: none;
+  -webkit-app-region: no-drag;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
