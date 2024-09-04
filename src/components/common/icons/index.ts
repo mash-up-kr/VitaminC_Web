@@ -22,6 +22,7 @@ import ListView from './ListView.svg'
 import LocationOff from './LocationOff.svg'
 import LocationOn from './LocationOn.svg'
 import MapView from './MapView.svg'
+import Pencil from './Pencil.svg'
 import Person from './Person.svg'
 import PickFlag from './PickFlag.svg'
 import Pin from './Pin.svg'
@@ -96,6 +97,7 @@ export const icons = {
   locationOn: LocationOn,
   listView: ListView,
   mapView: MapView,
+  pencil: Pencil,
   person: Person,
   pickFlag: PickFlag,
   pin: Pin,
