@@ -13,13 +13,13 @@ const MIN_LENGTH = 2
 const MAX_LENGTH = 8
 
 interface MapTitleProps extends ClassName {
-  defaultMapName: MapInfo['name']
+  mapName: MapInfo['name']
   mapId: MapInfo['id']
   isMyMap: boolean
 }
 
-const MapTitle = ({ defaultMapName, className, isMyMap }: MapTitleProps) => {
-  const [mapname, setMapname] = useState(defaultMapName || '')
+const MapTitle = ({ mapName, className, isMyMap }: MapTitleProps) => {
+  const [mapNameInput, setMapNameInput] = useState(mapName || '')
   const [isOpenEditModal, setIsOpenEditModal] = useState(false)
 
   const handleChangeMapName = async () => {
@@ -36,13 +36,13 @@ const MapTitle = ({ defaultMapName, className, isMyMap }: MapTitleProps) => {
             onClick={() => setIsOpenEditModal(true)}
           >
             <Typography size="body0-2" color="neutral-000">
-              {mapname}
+              {mapName}
             </Typography>
             <Icon type="pencil" size="xl" />
           </button>
         ) : (
           <Typography size="body0-2" color="neutral-000">
-            {mapname}
+            {mapName}
           </Typography>
         )}
       </div>
@@ -55,8 +55,8 @@ const MapTitle = ({ defaultMapName, className, isMyMap }: MapTitleProps) => {
         body={
           <Input
             ref={(node) => node?.focus()}
-            value={mapname}
-            onChange={(value) => setMapname(value)}
+            value={mapNameInput}
+            onChange={(value) => setMapNameInput(value)}
             minLength={MIN_LENGTH}
             maxLength={MAX_LENGTH}
             placeholder="지도명 최대 8글자"
@@ -65,7 +65,7 @@ const MapTitle = ({ defaultMapName, className, isMyMap }: MapTitleProps) => {
         onClose={() => setIsOpenEditModal(false)}
         onCancel={() => setIsOpenEditModal(false)}
         onConfirm={handleChangeMapName}
-        disabled={!mapname || mapname === defaultMapName}
+        disabled={!mapName || mapName === mapName}
       />
     </>
   )

@@ -36,7 +36,7 @@ const MyMap = ({ params: { mapId } }: { params: { mapId: string } }) => {
               mapId={mapId}
               isMyMap={mapInfo.createBy.id === user?.id}
               className="py-6"
-              defaultMapName={mapInfo.name}
+              mapName={mapInfo.name}
             />
             <CrewInfoList
               isMyMap={mapInfo.createBy.id === user?.id}
