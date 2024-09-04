@@ -54,7 +54,7 @@ const CrewInfoList = ({
       </div>
 
       <ul className="pt-2">
-        {members.map((member, index) =>
+        {members.map((member) =>
           isMyMap ? (
             <CrewInfoEditableItem
               key={member.id}
