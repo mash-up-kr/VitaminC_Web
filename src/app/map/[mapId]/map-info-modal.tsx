@@ -76,6 +76,7 @@ const MapList = ({
   )
 }
 
+// TODO: 사용하는지 여부 판단
 const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
   const [currentMapId, setCurrentMapId] = useState(mapId)
   const [mapData, setMapData] = useState<MapInfo>()

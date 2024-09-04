@@ -41,7 +41,7 @@ const MyMap = () => {
 
         <div className="pb-5">
           <Link
-            href="/intro"
+            href="/map/create"
             className="flex justify-center items-center mx-auto gap-2 px-[24px] py-[12px] rounded-full border border-neutral-500 w-fit mt-5"
           >
             <Icon type="plus" size="md" />

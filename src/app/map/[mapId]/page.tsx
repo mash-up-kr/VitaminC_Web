@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 
 import FilterModalBody, { type CategoryType } from './filter-modal-body'
-import MapInfoModal from './map-info-modal'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import SearchAnchorBox from './search-anchor-box'
 
@@ -55,7 +54,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     enabled: !!userData && !!mapData,
   })
 
-  const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterNames, setSelectedFilterNames] =
@@ -216,12 +214,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           <SearchAnchorBox />
         </Tooltip>
       </header>
-
-      <MapInfoModal
-        isOpen={isMapInfoOpen}
-        mapId={mapId}
-        onClose={() => setIsMapInfoOpen(false)}
-      />
 
       <KorrkKakaoMap<PlaceType>
         places={filteredPlace}
