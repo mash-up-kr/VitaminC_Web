@@ -39,15 +39,17 @@ const MyMap = () => {
           {myMapList?.map((map) => <MyMapCard key={map.id} mapId={map.id} />)}
         </div>
 
-        <Link
-          href="/intro"
-          className="flex justify-center items-center mx-auto gap-2 px-[24px] py-[12px] rounded-full border border-neutral-500 w-fit my-5"
-        >
-          <Icon type="plus" size="md" />
-          <Typography size="body1" color="neutral-000">
-            새로운 지도
-          </Typography>
-        </Link>
+        <div className="pb-5">
+          <Link
+            href="/intro"
+            className="flex justify-center items-center mx-auto gap-2 px-[24px] py-[12px] rounded-full border border-neutral-500 w-fit mt-5"
+          >
+            <Icon type="plus" size="md" />
+            <Typography size="body1" color="neutral-000">
+              새로운 지도
+            </Typography>
+          </Link>
+        </div>
       </div>
     </>
   )
