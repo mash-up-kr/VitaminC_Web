@@ -14,7 +14,7 @@ import cn from '@/utils/cn'
 import { useState } from 'react'
 
 interface CrewInfoBottomButtonProps extends ClassName {
-  mapname: MapInfo['name']
+  mapName: MapInfo['name']
   mapId: MapInfo['id']
   isMyMap: boolean
 }
@@ -22,7 +22,7 @@ interface CrewInfoBottomButtonProps extends ClassName {
 const CrewInfoBottomButton = ({
   isMyMap,
   className,
-  mapname,
+  mapName,
   mapId,
 }: CrewInfoBottomButtonProps) => {
   const router = useSafeRouter()
@@ -40,7 +40,7 @@ const CrewInfoBottomButton = ({
       }
 
       await api.users.maps.mapId.delete({ mapId })
-      notify.success(`${mapname} 지도에서 나갔습니다.`)
+      notify.success(`${mapName} 지도에서 나갔습니다.`)
 
       router.safeBack({ defaultHref: '/my-map' })
     } catch (error) {
@@ -81,7 +81,7 @@ const CrewInfoBottomButton = ({
 
       <BottomModal
         layout="confirm"
-        title={`정말${mapname} 지도를\n나가시겠어요?`}
+        title={`정말${mapName} 지도를\n나가시겠어요?`}
         isOpen={isOpenExitMapModal}
         cancelMessage="아니요"
         confirmMessage="나가기"

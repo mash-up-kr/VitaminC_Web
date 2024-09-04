@@ -46,7 +46,7 @@ const MyMap = ({ params: { mapId } }: { params: { mapId: string } }) => {
             <CrewInfoBottomButton
               isMyMap={mapInfo.createBy.id === user.id}
               mapId={mapInfo.id}
-              mapname={mapInfo.name}
+              mapName={mapInfo.name}
             />
           </section>
         )}

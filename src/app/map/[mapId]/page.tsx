@@ -69,7 +69,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     [],
   )
 
-  const mapname = mapData?.name || ''
+  const mapName = mapData?.name || ''
 
   const error = userError || mapError || placesError
   if (error) {
@@ -193,7 +193,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             href="/my-map"
             aria-label="지도 정보 팝업 열기"
           >
-            <Typography size="h3">{mapname}</Typography>
+            <Typography size="h3">{mapName}</Typography>
             <Icon type="caretDown" size="lg" />
           </Link>
           <Link href="/setting">
