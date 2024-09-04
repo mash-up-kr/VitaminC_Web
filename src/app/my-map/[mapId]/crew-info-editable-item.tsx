@@ -128,9 +128,7 @@ const CrewInfoEditableItem = ({
                 description={info.description}
                 isCurrentRole={info.role === userRole}
                 onClick={(role) => {
-                  console.log(role)
                   if (!role) {
-                    console.log('hihi')
                     setIsOpenRoleModal(false)
                     setIsOpenOutModal(true)
                     return
