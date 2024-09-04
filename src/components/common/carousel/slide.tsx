@@ -76,7 +76,7 @@ const Slide = ({ items, activeIndex, handleChangeActiveIndex }: SlideProps) => {
           }}
           key={`slide-${index}`}
           className="flex h-full w-full shrink-0 snap-center snap-always flex-col items-center justify-center"
-          draggable={false}
+          draggable="false"
           drag="x"
           dragElastic={1}
           onDragEnd={handleDragEnd}
