@@ -22,7 +22,7 @@ const MyMapCard = ({ className, mapId }: MyMapCardProps) => {
     key: ['user'],
   })
 
-  const { data: mapInfo, isFetching } = useFetch(() => api.maps.id.get(mapId), {
+  const { data: mapInfo } = useFetch(() => api.maps.id.get(mapId), {
     key: ['map', mapId],
   })
 
@@ -30,15 +30,14 @@ const MyMapCard = ({ className, mapId }: MyMapCardProps) => {
     <section className={cn('flex flex-col', className)}>
       <div className="flex justify-between items-center rounded-t-[24px] pt-5 pb-4 px-5 bg-neutral-600">
         <div className="flex gap-1">
-          {isFetching ? (
-            <div className="h-[27px] animate-pulse">
-              <div className="w-[80px] h-full bg-[#353538] dark:bg-neutral-800 rounded-xl" />
-            </div>
-          ) : (
-            <Typography as="h3" size="h3" color="neutral-000">
-              {mapInfo?.name ?? ''}
-            </Typography>
-          )}
+          <Typography
+            as="h3"
+            size="h3"
+            color="neutral-000"
+            className="min-h-[27px]"
+          >
+            {mapInfo?.name ?? ''}
+          </Typography>
           {user?.id && mapInfo?.createBy.id === user.id && (
             <Chip size="sm" colorScheme="neutral-800" className="ml-[6px]">
               모임장
@@ -64,15 +63,9 @@ const MyMapCard = ({ className, mapId }: MyMapCardProps) => {
             </Typography>
           </div>
 
-          {isFetching ? (
-            <div className="h-[24px] animate-pulse">
-              <div className="w-[34px] h-full bg-[#353538] dark:bg-neutral-800 rounded-xl" />
-            </div>
-          ) : (
-            <Typography size="body0" color="neutral-000">
-              {Number(mapInfo?.users.length ?? 0).toLocaleString()}명
-            </Typography>
-          )}
+          <Typography size="body0" color="neutral-000" className="min-h-[24px]">
+            {Number(mapInfo?.users.length ?? 0).toLocaleString()}명
+          </Typography>
         </div>
 
         <div className="flex-1 h-[45px] flex-col gap-[2px]">
@@ -83,15 +76,9 @@ const MyMapCard = ({ className, mapId }: MyMapCardProps) => {
             </Typography>
           </div>
 
-          {isFetching ? (
-            <div className="h-[24px] animate-pulse">
-              <div className="w-[34px] h-full bg-[#353538] dark:bg-neutral-800 rounded-xl" />
-            </div>
-          ) : (
-            <Typography size="body0" color="neutral-000">
-              {Number(mapInfo?.registeredPlaceCount ?? 0).toLocaleString()}개
-            </Typography>
-          )}
+          <Typography size="body0" color="neutral-000" className="min-h-[24px]">
+            {Number(mapInfo?.registeredPlaceCount ?? 0).toLocaleString()}개
+          </Typography>
         </div>
 
         <AccessibleIconButton
