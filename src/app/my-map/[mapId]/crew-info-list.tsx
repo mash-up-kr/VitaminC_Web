@@ -21,23 +21,19 @@ const memberColors = [
 ] as const
 type AvatarColor = (typeof memberColors)[number]
 
-const getRandomColor = (prevColor?: AvatarColor): AvatarColor => {
-  const availableColors = memberColors.filter((color) => color !== prevColor)
-  const randomIndex = Math.floor(Math.random() * availableColors.length)
-  return availableColors[randomIndex]
+const hashString = (str: string): number => {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  return Math.abs(hash)
 }
 
-const generateRandomColorList = (length: number): AvatarColor[] => {
-  let prevColor: AvatarColor | undefined
-  const randomColors: AvatarColor[] = []
+const getColorForName = (name: string): AvatarColor => {
+  const hash = hashString(name)
 
-  for (let i = 0; i < length; i++) {
-    const newColor = getRandomColor(prevColor)
-    randomColors.push(newColor)
-    prevColor = newColor // 이전 값을 갱신
-  }
-
-  return randomColors
+  const colorIndex = hash % memberColors.length
+  return memberColors[colorIndex]
 }
 
 const CrewInfoList = ({
@@ -46,8 +42,6 @@ const CrewInfoList = ({
   className,
   user,
 }: CrewInfoListProps) => {
-  const avatarColors = generateRandomColorList(members.length)
-
   return (
     <section className={cn('', className)}>
       <div className="flex gap-1">
@@ -65,14 +59,14 @@ const CrewInfoList = ({
             <CrewInfoEditableItem
               key={member.id}
               member={member}
-              avatarColor={avatarColors[index]}
+              avatarColor={getColorForName(member.nickname)}
               isMe={member.id === user.id}
             />
           ) : (
             <CrewInfoReadOnlyItem
               key={member.id}
               member={member}
-              avatarColor={avatarColors[index]}
+              avatarColor={getColorForName(member.nickname)}
               isMe={member.id === user.id}
             />
           ),
