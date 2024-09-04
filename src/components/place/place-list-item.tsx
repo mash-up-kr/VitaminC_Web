@@ -42,6 +42,7 @@ const PlaceListItem = ({
         'flex w-full flex-col gap-3.5 bg-neutral-700 py-4',
         className,
       )}
+      draggable="false"
     >
       {images && (
         <div className="max-x-[335px] no-scrollbar box-border flex flex-nowrap items-center gap-2 overflow-x-scroll">

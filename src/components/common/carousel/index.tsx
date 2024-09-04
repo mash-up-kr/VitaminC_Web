@@ -1,30 +1,27 @@
 'use client'
 
-import { type CSSProperties, useEffect, useState } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 
 import Indicator from './indicator'
 import Slide from './slide'
-import type { Item } from './types'
 
 import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 
 interface CarouselProps extends ClassName {
-  items: Item[]
+  items: ReactNode[]
   delay?: number
   autoPlay?: boolean
-  objectFit?: CSSProperties['objectFit']
   indicatorPosition?: 'bottom' | 'inside'
 }
 
 const AUTO_PLAY_SPEED = 5000
 
 const Carousel = ({
-  items,
   className,
   delay,
   autoPlay = false,
-  objectFit = 'cover',
+  items,
   indicatorPosition = 'bottom',
 }: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -47,7 +44,6 @@ const Carousel = ({
       <Slide
         items={items}
         activeIndex={activeIndex}
-        objectFit={objectFit}
         handleChangeActiveIndex={handleChangeActiveIndex}
       />
       <Indicator
