@@ -2,28 +2,51 @@ import toast, { type ToastOptions, Toaster } from 'react-hot-toast'
 
 import Icon from './icon'
 import Typography from './typography'
+import { cva } from 'class-variance-authority'
+import cn from '@/utils/cn'
+import type { ClassName } from '@/models/common'
 
 type ToastType = 'success' | 'error'
 
-const toastCustom = ({
-  type,
-  message,
-  options,
-}: {
+const ToastVariants = cva<{
+  type: Record<ToastType, string>
+}>(
+  'flex max-w-[calc(420px-2*25px)] items-center justify-center gap-2 rounded-full bg-opacity-85 px-6 py-[14px] leading-tight',
+  {
+    variants: {
+      type: {
+        success: 'bg-[#0D0D2B]',
+        error: 'bg-[#2C0F09]',
+      },
+    },
+    defaultVariants: {
+      type: 'success',
+    },
+  },
+)
+
+interface ToastProps extends ClassName {
   type: ToastType
   message: string
   options?: ToastOptions
-}) => {
+}
+
+const toastCustom = ({ type, message, options, className }: ToastProps) => {
   toast.custom(
     (t) => (
       <div
-        className={`${t.visible ? 'animate-enter' : 'animate-leave'} flex max-w-[calc(420px-2*25px)] items-center justify-center gap-2 rounded-full bg-[#212124] bg-opacity-70 px-6 py-[14px] leading-tight`}
+        className={cn(
+          ToastVariants({ type }),
+          className,
+          `${t.visible ? 'animate-enter' : 'animate-leave'}`,
+        )}
       >
         {type === 'success' ? (
           <Icon type="info" fill="profile-sky-blue" aria-hidden />
         ) : (
           <Icon type="infoCircle" fill="orange-400" aria-hidden />
         )}
+
         <Typography size="h6" color="neutral-100">
           {message}
         </Typography>
