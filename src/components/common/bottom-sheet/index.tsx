@@ -33,14 +33,16 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     }
 
     const [contentRef, contentBounds] = useMeasure()
-    const dragControls = useDragControls()
     const { height: windowHeight } = useWindowSize()
+
+    const dragControls = useDragControls()
 
     const headerHeight = 46
     const defaultHeight = Math.min(
       contentBounds.height + headerHeight,
       windowHeight / 2,
     )
+
     const expandedHeight = Math.min(
       contentBounds.height + headerHeight,
       (windowHeight * 3) / 4,
@@ -120,7 +122,6 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
           drag="y"
           dragControls={dragControls}
-          dragListener={false}
           dragConstraints={{ top: 0, bottom: 0 }}
           dragElastic={0}
           onDragEnd={(_, info) => handleDragEnd(info)}
