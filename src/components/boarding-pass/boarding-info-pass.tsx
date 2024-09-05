@@ -119,7 +119,7 @@ const BoardingInfoPass = ({
       }
 
       await api.users.maps.mapId.delete({ mapId })
-      revalidate(['map-list', mapId])
+      revalidate(['map-list'])
       notify.success(`${mapName} 지도에서 나갔습니다.`)
 
       const remainingMaps = mapList.filter((map) => map.id !== mapId)
