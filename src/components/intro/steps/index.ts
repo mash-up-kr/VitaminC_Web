@@ -1,5 +1,5 @@
 export { default as Invite } from './invite'
 export { default as Login } from './login'
-export { default as MapName } from './map-name'
+export { default as Mapname } from './mapname'
 export { default as NewMap } from './new-map'
 export { default as Nickname } from './nickname'

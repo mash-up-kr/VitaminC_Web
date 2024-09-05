@@ -1,5 +1,4 @@
 import ArrowClockwise from './ArrowClockwise.svg'
-import ArrowRight from './ArrowRight.svg'
 import Bar from './Bar.svg'
 import Cafe from './Cafe.svg'
 import CaretDown from './CaretDown.svg'
@@ -22,10 +21,7 @@ import ListView from './ListView.svg'
 import LocationOff from './LocationOff.svg'
 import LocationOn from './LocationOn.svg'
 import MapView from './MapView.svg'
-import Pencil from './Pencil.svg'
-import Person from './Person.svg'
 import PickFlag from './PickFlag.svg'
-import Pin from './Pin.svg'
 import Plus from './Plus.svg'
 import Restaurant from './Restaurant.svg'
 import RoundedTriangle from './RoundedTriangle.svg'
@@ -74,7 +70,6 @@ import 호프 from './호프.svg'
 
 export const icons = {
   arrowClockwise: ArrowClockwise,
-  arrowRight: ArrowRight,
   bar: Bar,
   cafe: Cafe,
   caretDown: CaretDown,
@@ -97,10 +92,7 @@ export const icons = {
   locationOn: LocationOn,
   listView: ListView,
   mapView: MapView,
-  pencil: Pencil,
-  person: Person,
   pickFlag: PickFlag,
-  pin: Pin,
   plus: Plus,
   restaurant: Restaurant,
   roundedTriangle: RoundedTriangle,
