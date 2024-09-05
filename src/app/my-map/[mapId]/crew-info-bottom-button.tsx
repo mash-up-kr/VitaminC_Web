@@ -33,7 +33,7 @@ const CrewInfoBottomButton = ({
     // TODO: 토스트 색상 처리 및 문구 수정
     try {
       const { data: mapList } = await api.maps.get()
-      revalidate(['map-list', mapId])
+      revalidate(['map-list'])
       if (mapList.length === 1) {
         notify.error('최소 1개의 지도에는 속해있어야 합니다.')
         return
