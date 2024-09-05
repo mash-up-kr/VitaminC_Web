@@ -36,7 +36,7 @@ const BoardingMembers = ({
           </Typography>
           {creator.id === member.id && (
             <Chip size="sm" colorScheme="neutral-800" className="ml-[6px]">
-              주인장
+              모임장
             </Chip>
           )}
         </li>

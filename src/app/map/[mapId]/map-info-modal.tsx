@@ -32,7 +32,7 @@ const MapList = ({
     data: maps,
     isFetching,
     error,
-  } = useFetch(api.maps.get, { initialData: [], key: ['map-list', mapId] })
+  } = useFetch(api.maps.get, { initialData: [], key: ['map-list'] })
   const router = useSafeRouter()
   const hasOwnerMap = maps?.some((map) => map.role === 'ADMIN')
 
@@ -76,6 +76,7 @@ const MapList = ({
   )
 }
 
+// TODO: 사용하는지 여부 판단
 const MapInfoModal = ({ mapId, isOpen, onClose }: MapInfoModalProps) => {
   const [currentMapId, setCurrentMapId] = useState(mapId)
   const [mapData, setMapData] = useState<MapInfo>()

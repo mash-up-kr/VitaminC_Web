@@ -53,4 +53,8 @@ body {
   .darkmode img {
     filter: hue-rotate(180deg) invert(85%);
   }
+
+  .invitation-gradient {
+    background: linear-gradient(180deg, rgba(33, 33, 36, 0%) 0%, #212124 30%);
+  }
 }
