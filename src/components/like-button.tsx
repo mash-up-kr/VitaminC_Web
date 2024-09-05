@@ -27,7 +27,7 @@ const formatLike = (number: number) => {
 const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
   ({ isLiked, numOfLikes, onClick }, ref) => {
     return (
-      <div ref={ref} className="flex items-center gap-0.5">
+      <div ref={ref} className="flex items-center gap-0.5 relative">
         <AccessibleIconButton
           label={isLiked ? '좋아요 취소' : '좋아요'}
           onClick={onClick}
