@@ -33,13 +33,13 @@ const CrewInfoBottomButton = ({
     // TODO: 토스트 색상 처리 및 문구 수정
     try {
       const { data: mapList } = await api.maps.get()
-      revalidate(['map-list'])
       if (mapList.length === 1) {
         notify.error('최소 1개의 지도에는 속해있어야 합니다.')
         return
       }
 
       await api.users.maps.mapId.delete({ mapId })
+      revalidate(['map-list'])
       notify.success(`${mapName} 지도에서 나갔습니다.`)
 
       router.safeBack({ defaultHref: '/my-map' })
