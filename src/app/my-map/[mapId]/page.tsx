@@ -32,22 +32,9 @@ const MyMap = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
         {mapInfo && user && (
           <section className="px-5">
-            <MapTitle
-              mapId={mapId}
-              isMyMap={mapInfo.createBy.id === user?.id}
-              className="py-6"
-              mapName={mapInfo.name}
-            />
-            <CrewInfoList
-              isMyMap={mapInfo.createBy.id === user?.id}
-              members={mapInfo.users}
-              user={user}
-            />
-            <CrewInfoBottomButton
-              isMyMap={mapInfo.createBy.id === user.id}
-              mapId={mapInfo.id}
-              mapName={mapInfo.name}
-            />
+            <MapTitle mapInfo={mapInfo} user={user} className="py-6" />
+            <CrewInfoList mapInfo={mapInfo} user={user} />
+            <CrewInfoBottomButton mapInfo={mapInfo} user={user} />
           </section>
         )}
       </div>

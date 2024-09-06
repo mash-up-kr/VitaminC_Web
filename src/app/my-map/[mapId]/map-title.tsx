@@ -6,6 +6,7 @@ import Input from '@/components/common/input'
 import Typography from '@/components/common/typography'
 import type { ClassName } from '@/models/common'
 import type { MapInfo } from '@/models/map'
+import type { User } from '@/models/user'
 import cn from '@/utils/cn'
 import { useState } from 'react'
 
@@ -13,13 +14,12 @@ const MIN_LENGTH = 2
 const MAX_LENGTH = 8
 
 interface MapTitleProps extends ClassName {
-  mapName: MapInfo['name']
-  mapId: MapInfo['id']
-  isMyMap: boolean
+  mapInfo: MapInfo
+  user: User
 }
 
-const MapTitle = ({ mapName, className, isMyMap }: MapTitleProps) => {
-  const [mapNameInput, setMapNameInput] = useState(mapName || '')
+const MapTitle = ({ mapInfo, user, className }: MapTitleProps) => {
+  const [mapNameInput, setMapNameInput] = useState(mapInfo.name || '')
   const [isOpenEditModal, setIsOpenEditModal] = useState(false)
 
   const handleChangeMapName = async () => {
@@ -29,20 +29,20 @@ const MapTitle = ({ mapName, className, isMyMap }: MapTitleProps) => {
   return (
     <>
       <div className={cn('', className)}>
-        {isMyMap ? (
+        {mapInfo.createBy.id === user.id ? (
           <button
             type="button"
             className="flex items-center gap-1"
             onClick={() => setIsOpenEditModal(true)}
           >
             <Typography size="body0-2" color="neutral-000">
-              {mapName}
+              {mapInfo.name}
             </Typography>
             <Icon type="pencil" size="xl" />
           </button>
         ) : (
           <Typography size="body0-2" color="neutral-000">
-            {mapName}
+            {mapInfo.name}
           </Typography>
         )}
       </div>
@@ -65,7 +65,7 @@ const MapTitle = ({ mapName, className, isMyMap }: MapTitleProps) => {
         onClose={() => setIsOpenEditModal(false)}
         onCancel={() => setIsOpenEditModal(false)}
         onConfirm={handleChangeMapName}
-        disabled={!mapName || mapName === mapName}
+        disabled={!mapNameInput || mapNameInput === mapInfo.name}
       />
     </>
   )

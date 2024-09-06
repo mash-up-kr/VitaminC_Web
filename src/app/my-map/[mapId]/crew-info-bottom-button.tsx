@@ -9,28 +9,26 @@ import useSafeRouter from '@/hooks/use-safe-router'
 import { APIError } from '@/models/api'
 import type { ClassName } from '@/models/common'
 import type { MapInfo } from '@/models/map'
+import type { User } from '@/models/user'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 import { useState } from 'react'
 
 interface CrewInfoBottomButtonProps extends ClassName {
-  mapName: MapInfo['name']
-  mapId: MapInfo['id']
-  isMyMap: boolean
+  user: User
+  mapInfo: MapInfo
 }
 
 const CrewInfoBottomButton = ({
-  isMyMap,
+  mapInfo,
+  user,
   className,
-  mapName,
-  mapId,
 }: CrewInfoBottomButtonProps) => {
   const router = useSafeRouter()
   const { revalidate } = useFetch()
   const [isOpenExitMapModal, setIsOpenExitMapModal] = useState(false)
 
   const handleExitMap = async () => {
-    // TODO: 토스트 색상 처리 및 문구 수정
     try {
       const { data: mapList } = await api.maps.get()
       if (mapList.length === 1) {
@@ -38,9 +36,9 @@ const CrewInfoBottomButton = ({
         return
       }
 
-      await api.users.maps.mapId.delete({ mapId })
+      await api.users.maps.mapId.delete({ mapId: mapInfo.id })
       revalidate(['map-list'])
-      notify.success(`${mapName} 지도에서 나갔습니다.`)
+      notify.success(`${mapInfo.name} 지도에서 나갔습니다.`)
 
       router.safeBack({ defaultHref: '/my-map' })
     } catch (error) {
@@ -54,7 +52,7 @@ const CrewInfoBottomButton = ({
 
   return (
     <>
-      {isMyMap ? (
+      {mapInfo.createBy.id === user.id ? (
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[420px] px-5 h-[102px] flex justify-center items-center invitation-gradient">
           <Button
             colorScheme="orange"
@@ -81,7 +79,7 @@ const CrewInfoBottomButton = ({
 
       <BottomModal
         layout="confirm"
-        title={`정말${mapName} 지도를\n나가시겠어요?`}
+        title={`정말${mapInfo.name} 지도를\n나가시겠어요?`}
         isOpen={isOpenExitMapModal}
         cancelMessage="아니요"
         confirmMessage="나가기"

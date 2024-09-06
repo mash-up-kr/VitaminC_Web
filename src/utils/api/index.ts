@@ -62,9 +62,26 @@ const maps = {
       }): Promise<ResponseWithMessage<TagItem>> =>
         client.secure.post(`/maps/${id}/tag`, { name }),
     },
+
     inviteLinks: {
       post: (id: MapInfo['id']): Promise<ResponseWithMessage<InviteLink>> =>
         client.secure.post(`/maps/${id}/invite-links`),
+    },
+
+    userId: {
+      patch: ({
+        id,
+        userId,
+        role,
+      }: {
+        id: MapInfo['id']
+        userId: User['id']
+        role: UserByMapInfo['role']
+      }) =>
+        client.secure.patch(`/maps/${id}/${userId}`, {
+          role,
+          userId,
+        }),
     },
   },
   inviteLinks: {
