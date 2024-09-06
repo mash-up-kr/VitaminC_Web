@@ -1,12 +1,15 @@
 'use client'
 
 import BottomModal from '@/components/common/bottom-modal'
+import { notify } from '@/components/common/custom-toast'
 import Icon from '@/components/common/icon'
 import Input from '@/components/common/input'
 import Typography from '@/components/common/typography'
+import useFetch from '@/hooks/use-fetch'
 import type { ClassName } from '@/models/common'
 import type { MapInfo } from '@/models/map'
 import type { User } from '@/models/user'
+import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 import { useState } from 'react'
 
@@ -16,14 +19,35 @@ const MAX_LENGTH = 8
 interface MapTitleProps extends ClassName {
   mapInfo: MapInfo
   user: User
+  refetchMapInfo: VoidFunction
 }
 
-const MapTitle = ({ mapInfo, user, className }: MapTitleProps) => {
+const MapTitle = ({
+  mapInfo,
+  user,
+  className,
+  refetchMapInfo,
+}: MapTitleProps) => {
   const [mapNameInput, setMapNameInput] = useState(mapInfo.name || '')
   const [isOpenEditModal, setIsOpenEditModal] = useState(false)
+  const { revalidate } = useFetch()
 
   const handleChangeMapName = async () => {
-    // TODO: api 연동
+    if (mapNameInput.length === 0 || mapNameInput === mapInfo.name) return
+
+    try {
+      const { id, isPublic, description } = mapInfo
+      await api.maps.id.patch({
+        id,
+        isPublic,
+        description,
+        name: mapNameInput,
+      })
+      revalidate(['map', mapInfo.id])
+      refetchMapInfo()
+    } catch (err) {
+      notify.error('서버에 문제가 생겼습니다.')
+    }
   }
 
   return (

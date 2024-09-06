@@ -9,6 +9,7 @@ import CrewInfoEditableItem from './crew-info-editable-item'
 interface CrewInfoListProps extends ClassName {
   user: User
   mapInfo: MapInfo
+  refetchMapInfo: VoidFunction
 }
 
 const memberColors = [
@@ -35,7 +36,12 @@ const getColorForName = (name: string): AvatarColor => {
   return memberColors[colorIndex]
 }
 
-const CrewInfoList = ({ mapInfo, className, user }: CrewInfoListProps) => {
+const CrewInfoList = ({
+  mapInfo,
+  className,
+  user,
+  refetchMapInfo,
+}: CrewInfoListProps) => {
   const isMyMap = mapInfo.createBy.id === user.id
   const members = mapInfo.users
 
@@ -59,6 +65,7 @@ const CrewInfoList = ({ mapInfo, className, user }: CrewInfoListProps) => {
               mapId={mapInfo.id}
               avatarColor={getColorForName(member.nickname)}
               isMe={member.id === user.id}
+              refetchMapInfo={refetchMapInfo}
             />
           ) : (
             <CrewInfoReadOnlyItem

@@ -10,6 +10,7 @@ import Icon from '@/components/common/icon'
 import BottomModal from '@/components/common/bottom-modal'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
+import useFetch from '@/hooks/use-fetch'
 
 const RoleButton = ({
   role,
@@ -75,12 +76,15 @@ const CrewInfoEditableItem = ({
   member,
   isMe,
   avatarColor,
+  refetchMapInfo,
 }: {
   mapId: MapInfo['id']
   member: MapMemberData
   avatarColor: Parameters<typeof Avatar>[0]['colorScheme']
   isMe: boolean
+  refetchMapInfo: VoidFunction
 }) => {
+  const { revalidate } = useFetch()
   const [userRole, setUserRole] = useState(member.role)
 
   const [isOpenRoleModal, setIsOpenRoleModal] = useState(false)
@@ -98,14 +102,26 @@ const CrewInfoEditableItem = ({
       if (!mapId) return
 
       setUserRole(role)
-      await api.maps.id.userId.patch({
+      await api.maps.roles.id.userId.patch({
         id: mapId,
         userId: member.id,
         role,
       })
+      revalidate(['map', mapId])
+      refetchMapInfo()
     } catch (err) {
       setUserRole(prevRole)
       notify.error('권한 변경에 실패하였습니다.')
+    }
+  }
+
+  const handleBanishUser = async () => {
+    try {
+      await api.maps.kick.id.post({ id: mapId, userId: member.id })
+      revalidate(['map', mapId])
+      notify.success(`${member.nickname}를 내보냈습니다.`)
+    } catch (err) {
+      notify.error('서버에 문제가 생겼습니다.')
     }
   }
 
@@ -179,9 +195,7 @@ const CrewInfoEditableItem = ({
         confirmMessage="내보내기"
         onClose={() => setIsOpenOutModal(false)}
         onCancel={() => setIsOpenOutModal(false)}
-        onConfirm={() => {
-          // TODO: api 연동
-        }}
+        onConfirm={handleBanishUser}
       />
     </>
   )
