@@ -5,6 +5,7 @@ import { useState } from 'react'
 import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
 import Input from '@/components/common/input'
 import Modal from '@/components/common/modal'
+import LikeButton from '@/components/like-button'
 
 const TestDesign = () => {
   const [input, setInput] = useState('')
@@ -14,6 +15,17 @@ const TestDesign = () => {
     <>
       <div className="flex h-dvh w-dvw flex-col gap-[40px]">
         <Input value={input} onChange={(value) => setInput(value)} />
+
+        <LikeButton
+          numOfLikes={0}
+          isLiked={false}
+          onClick={() => console.log('click!')}
+        />
+        <LikeButton
+          numOfLikes={3}
+          isLiked={true}
+          onClick={() => console.log('click!')}
+        />
 
         <button type="button" onClick={() => setIsOpenModal(true)}>
           초대장 디자인
