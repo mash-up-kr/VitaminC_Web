@@ -1,6 +1,6 @@
 import Typography from '@/components/common/typography'
 import type { ClassName } from '@/models/common'
-import type { MapMemberData } from '@/models/map'
+import type { MapInfo } from '@/models/map'
 import type { User } from '@/models/user'
 import cn from '@/utils/cn'
 import CrewInfoReadOnlyItem from './crew-info-read-only-item'
@@ -8,8 +8,8 @@ import CrewInfoEditableItem from './crew-info-editable-item'
 
 interface CrewInfoListProps extends ClassName {
   user: User
-  isMyMap: boolean
-  members: MapMemberData[]
+  mapInfo: MapInfo
+  refetchMapInfo: VoidFunction
 }
 
 const memberColors = [
@@ -37,11 +37,14 @@ const getColorForName = (name: string): AvatarColor => {
 }
 
 const CrewInfoList = ({
-  members,
-  isMyMap,
+  mapInfo,
   className,
   user,
+  refetchMapInfo,
 }: CrewInfoListProps) => {
+  const isMyMap = mapInfo.createBy.id === user.id
+  const members = mapInfo.users
+
   return (
     <section className={cn('', className)}>
       <div className="flex gap-1">
@@ -59,8 +62,10 @@ const CrewInfoList = ({
             <CrewInfoEditableItem
               key={member.id}
               member={member}
+              mapId={mapInfo.id}
               avatarColor={getColorForName(member.nickname)}
               isMe={member.id === user.id}
+              refetchMapInfo={refetchMapInfo}
             />
           ) : (
             <CrewInfoReadOnlyItem

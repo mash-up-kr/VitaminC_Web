@@ -3,11 +3,14 @@
 import Avatar from '@/components/common/avatar'
 import Chip from '@/components/common/chip'
 import Typography from '@/components/common/typography'
-import type { MapMemberData } from '@/models/map'
+import type { MapInfo, MapMemberData } from '@/models/map'
 import { korRole } from './constant'
 import { useState } from 'react'
 import Icon from '@/components/common/icon'
 import BottomModal from '@/components/common/bottom-modal'
+import { api } from '@/utils/api'
+import { notify } from '@/components/common/custom-toast'
+import useFetch from '@/hooks/use-fetch'
 
 const RoleButton = ({
   role,
@@ -69,18 +72,58 @@ const roles: {
 ] as const
 
 const CrewInfoEditableItem = ({
+  mapId,
   member,
   isMe,
   avatarColor,
+  refetchMapInfo,
 }: {
+  mapId: MapInfo['id']
   member: MapMemberData
   avatarColor: Parameters<typeof Avatar>[0]['colorScheme']
   isMe: boolean
+  refetchMapInfo: VoidFunction
 }) => {
+  const { revalidate } = useFetch()
   const [userRole, setUserRole] = useState(member.role)
 
   const [isOpenRoleModal, setIsOpenRoleModal] = useState(false)
   const [isOpenOutModal, setIsOpenOutModal] = useState(false)
+
+  const handleChangeRole = async (role: MapMemberData['role'] | null) => {
+    if (!role) {
+      setIsOpenRoleModal(false)
+      setIsOpenOutModal(true)
+      return
+    }
+
+    const prevRole = userRole
+    try {
+      if (!mapId) return
+
+      setUserRole(role)
+      await api.maps.roles.id.userId.patch({
+        id: mapId,
+        userId: member.id,
+        role,
+      })
+      revalidate(['map', mapId])
+      refetchMapInfo()
+    } catch (err) {
+      setUserRole(prevRole)
+      notify.error('권한 변경에 실패하였습니다.')
+    }
+  }
+
+  const handleBanishUser = async () => {
+    try {
+      await api.maps.kick.id.post({ id: mapId, userId: member.id })
+      revalidate(['map', mapId])
+      notify.success(`${member.nickname}를 내보냈습니다.`)
+    } catch (err) {
+      notify.error('서버에 문제가 생겼습니다.')
+    }
+  }
 
   return (
     <>
@@ -97,22 +140,24 @@ const CrewInfoEditableItem = ({
           )}
         </div>
 
-        <button
-          type="button"
-          className="flex items-center gap-[2px]"
-          disabled={member.role === 'ADMIN'}
-          onClick={() => {
-            if (member.role === 'ADMIN') return
-            setIsOpenRoleModal(true)
-          }}
-        >
+        {member.role === 'ADMIN' ? (
           <Typography size="body3" color="neutral-200">
             {korRole[member.role]}
           </Typography>
-          {member.role !== 'ADMIN' && (
+        ) : (
+          <button
+            type="button"
+            className="flex items-center gap-[2px]"
+            onClick={() => {
+              setIsOpenRoleModal(true)
+            }}
+          >
+            <Typography size="body3" color="neutral-200">
+              {korRole[member.role]}
+            </Typography>
             <Icon type="caretDown" size="md" stroke="neutral-200" />
-          )}
-        </button>
+          </button>
+        )}
       </li>
 
       <BottomModal
@@ -129,15 +174,7 @@ const CrewInfoEditableItem = ({
                 role={info.role}
                 description={info.description}
                 isCurrentRole={info.role === userRole}
-                onClick={(role) => {
-                  if (!role) {
-                    setIsOpenRoleModal(false)
-                    setIsOpenOutModal(true)
-                    return
-                  }
-                  setUserRole(role)
-                  // TODO: role API
-                }}
+                onClick={(role) => handleChangeRole(role)}
               />
             ))}
           </ul>
@@ -158,9 +195,7 @@ const CrewInfoEditableItem = ({
         confirmMessage="내보내기"
         onClose={() => setIsOpenOutModal(false)}
         onCancel={() => setIsOpenOutModal(false)}
-        onConfirm={() => {
-          // TODO: api 연동
-        }}
+        onConfirm={handleBanishUser}
       />
     </>
   )

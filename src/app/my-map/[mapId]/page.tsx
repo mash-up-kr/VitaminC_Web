@@ -14,7 +14,7 @@ const MyMap = ({ params: { mapId } }: { params: { mapId: string } }) => {
     key: ['user'],
   })
 
-  const { data: mapInfo } = useFetch(() => api.maps.id.get(mapId), {
+  const { data: mapInfo, refetch } = useFetch(() => api.maps.id.get(mapId), {
     key: ['map', mapId],
   })
 
@@ -33,21 +33,17 @@ const MyMap = ({ params: { mapId } }: { params: { mapId: string } }) => {
         {mapInfo && user && (
           <section className="px-5">
             <MapTitle
-              mapId={mapId}
-              isMyMap={mapInfo.createBy.id === user?.id}
+              mapInfo={mapInfo}
+              user={user}
               className="py-6"
-              mapName={mapInfo.name}
+              refetchMapInfo={refetch}
             />
             <CrewInfoList
-              isMyMap={mapInfo.createBy.id === user?.id}
-              members={mapInfo.users}
+              mapInfo={mapInfo}
               user={user}
+              refetchMapInfo={refetch}
             />
-            <CrewInfoBottomButton
-              isMyMap={mapInfo.createBy.id === user.id}
-              mapId={mapInfo.id}
-              mapName={mapInfo.name}
-            />
+            <CrewInfoBottomButton mapInfo={mapInfo} user={user} />
           </section>
         )}
       </div>
