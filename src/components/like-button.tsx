@@ -3,8 +3,9 @@
 import { forwardRef } from 'react'
 import type { MouseEventHandler } from 'react'
 
-import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import Icon from '@/components/common/icon'
 import Typography from '@/components/common/typography'
+import cn from '@/utils/cn'
 
 interface LikeButtonProps {
   numOfLikes: number
@@ -24,29 +25,33 @@ const formatLike = (number: number) => {
   return (number / M).toFixed(1).replace(/\.0$/, '') + 'm'
 }
 
-const LikeButton = forwardRef<HTMLDivElement, LikeButtonProps>(
+const LikeButton = forwardRef<HTMLButtonElement, LikeButtonProps>(
   ({ isLiked, numOfLikes, onClick }, ref) => {
     return (
-      <div ref={ref} className="flex items-center gap-0.5 relative">
-        <AccessibleIconButton
-          label={isLiked ? '좋아요 취소' : '좋아요'}
-          onClick={onClick}
-          icon={{
-            type: 'heartStraightOutlined',
-            stroke: isLiked ? 'orange-400' : 'neutral-200',
-            fill: isLiked ? 'orange-400' : undefined,
-            'aria-hidden': true,
-            className: 'w-4 h-4',
-          }}
+      <button
+        ref={ref}
+        className={cn(
+          'flex items-center gap-0.5 px-2.5 py-1 rounded-full w-fit relative',
+          isLiked ? 'border border-orange-400' : 'bg-neutral-500',
+        )}
+        onClick={onClick}
+        aria-label={isLiked ? '좋아요 취소' : '좋아요'}
+      >
+        <Icon
+          type="heartStraightOutlined"
+          stroke={isLiked ? 'orange-400' : 'neutral-100'}
+          fill={isLiked ? 'orange-400' : 'neutral-100'}
+          aria-hidden
+          size="md"
         />
         <Typography
-          size="body1"
+          size="h7"
           color="neutral-200"
           className="min-w-[10px] text-center font-medium"
         >
           {formatLike(numOfLikes)}
         </Typography>
-      </div>
+      </button>
     )
   },
 )

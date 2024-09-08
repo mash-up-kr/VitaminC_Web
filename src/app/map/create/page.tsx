@@ -5,7 +5,7 @@ import { useState } from 'react'
 import type { StepProps } from '@/app/intro/page'
 import LoadingIndicator from '@/components/common/loading-indicator'
 import Header from '@/components/intro/header'
-import { Invite, Mapname, NewMap } from '@/components/intro/steps'
+import { Invite, MapName, NewMap } from '@/components/intro/steps'
 import { IntroStep } from '@/constants/intro'
 
 const Step = ({ step, goNextStep }: StepProps) => {
@@ -13,7 +13,7 @@ const Step = ({ step, goNextStep }: StepProps) => {
     case IntroStep.NEW_MAP:
       return <NewMap goNextStep={goNextStep} />
     case IntroStep.MAPNAME:
-      return <Mapname goNextStep={goNextStep} />
+      return <MapName goNextStep={goNextStep} />
     case IntroStep.INVITE:
       return <Invite />
     default:

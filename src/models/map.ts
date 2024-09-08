@@ -20,6 +20,8 @@ export interface MapInfo extends MutatedAt {
   id: string
   name: string
   createBy: Creator
+  description: string
+  isPublic: boolean
   registeredPlaceCount: number
   users: MapMemberData[]
 }

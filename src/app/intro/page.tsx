@@ -8,7 +8,7 @@ import Header from '@/components/intro/header'
 import {
   Invite,
   Login,
-  Mapname,
+  MapName,
   NewMap,
   Nickname,
 } from '@/components/intro/steps'
@@ -40,7 +40,7 @@ const Step = ({ step, goNextStep }: StepProps) => {
     case IntroStep.NEW_MAP:
       return <NewMap goNextStep={goNextStep} />
     case IntroStep.MAPNAME:
-      return <Mapname goNextStep={goNextStep} />
+      return <MapName goNextStep={goNextStep} />
     case IntroStep.INVITE:
       return <Invite />
     default:

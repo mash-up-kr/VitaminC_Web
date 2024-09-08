@@ -94,7 +94,7 @@ const PlaceListBottomSheet = ({
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col">
       <div className="z-10 h-[38px] bg-[#212124] px-5 shadow-[rgba(33,33,36,1)_0px_4px_2px_-2px]">
         <FilterButton
           numOfSelectedFilter={numOfSelectedFilter}
@@ -105,7 +105,7 @@ const PlaceListBottomSheet = ({
         </FilterButton>
       </div>
       {placeList.length > 0 ? (
-        <ul className="flex flex-col px-5 h-dvh no-scrollbar overflow-y-scroll overscroll-contain">
+        <ul className="flex flex-col px-5 max-h-dvh no-scrollbar overflow-y-scroll overscroll-contain">
           {placeList.map((place) => (
             <PlaceListItem
               key={`bottom-sheet-${place.place.kakaoPlace.id}`}
@@ -128,7 +128,7 @@ const PlaceListBottomSheet = ({
                   handleLike(place)
                 },
               }}
-              className="first:pt-0 first:-my-2"
+              className="first:pt-0 first:-mt-2"
             />
           ))}
         </ul>

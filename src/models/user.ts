@@ -11,6 +11,9 @@ export interface User {
 export interface Creator {
   id: User['id']
   nickname: User['nickname']
+  provider: 'KAKAO'
+  providerId: string
+  profileImage: string
 }
 
 export interface Token {

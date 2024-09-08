@@ -9,11 +9,12 @@ import cn from '@/utils/cn'
 
 interface BottomModalLayoutProps extends ClassName {
   title: string
+  disabled?: boolean
   scrollable?: boolean
   body?: string | ReactNode
   cancelMessage?: string
   confirmMessage: string
-  layout?: 'confirm' | 'alert'
+  layout?: 'confirm' | 'alert' | 'none'
   onCancel?: VoidFunction
   onConfirm: VoidFunction
 }
@@ -21,6 +22,7 @@ interface BottomModalLayoutProps extends ClassName {
 const BottomModalLayout = ({
   title,
   body,
+  disabled,
   className,
   scrollable,
   cancelMessage,
@@ -63,18 +65,21 @@ const BottomModalLayout = ({
         </div>
       )}
 
-      {layout === 'confirm' ? (
+      {layout === 'confirm' && (
         <div className="flex h-[94px] w-full items-center justify-center gap-2">
           <Button colorScheme="neutral" onClick={onCancel}>
             {cancelMessage}
           </Button>
-          <Button colorScheme="orange" onClick={onConfirm}>
+          <Button colorScheme="orange" disabled={disabled} onClick={onConfirm}>
             {confirmMessage}
           </Button>
         </div>
-      ) : (
+      )}
+      {layout === 'alert' && (
         <div className="py-5">
-          <Button onClick={onConfirm}>{confirmMessage}</Button>
+          <Button disabled={disabled} onClick={onConfirm}>
+            {confirmMessage}
+          </Button>
         </div>
       )}
     </div>
@@ -82,7 +87,8 @@ const BottomModalLayout = ({
 }
 
 interface BottomModalProps extends BottomModalLayoutProps, ClassName {
-  layout?: 'confirm' | 'alert'
+  layout?: 'confirm' | 'alert' | 'none'
+  disabled?: boolean
   scrollable?: boolean
   layoutClassName?: string
   isOpen: Parameters<typeof Modal>[0]['isOpen']
@@ -93,6 +99,7 @@ const BottomModal = ({
   isOpen,
   title,
   body,
+  disabled,
   className,
   layoutClassName,
   confirmMessage,
@@ -119,6 +126,7 @@ const BottomModal = ({
       <BottomModalLayout
         title={title}
         body={body}
+        disabled={disabled}
         layout={layout}
         scrollable={scrollable}
         className={layoutClassName}

@@ -11,10 +11,15 @@ import Typography from '@/components/common/typography'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { handleSignout } from '@/services/user'
 import { api } from '@/utils/api'
+import { apiClientFactory } from '@/utils/api/api-client-factory'
+import { type ResponseWithMessage } from '@/models/api'
+
+const client = apiClientFactory({ secure: true })
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
   // const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
+  const [count, setCount] = useState(0)
   const router = useSafeRouter()
   const [nickname, setNickname] = useState('')
 
@@ -27,6 +32,10 @@ const Setting = () => {
       try {
         const res = await api.users.me.get()
         setNickname(res.data.nickname ?? '')
+        const placeCountRes = await client.get<ResponseWithMessage<number>>(
+          '/place/temp/' + res.data.id,
+        )
+        setCount(placeCountRes.data)
       } catch (error) {
         notify.error('데이터를 받아오는 데 문제가 생겼습니다.')
       }
@@ -79,6 +88,17 @@ const Setting = () => {
                   로그아웃
                 </Typography>
               </button>
+            </div>
+            <div className="flex mt-[18px] items-center">
+              <Icon className="mr-2" type="info" size="lg" />
+              <div className="flex justify-between w-full">
+                <Typography size="body1" color="neutral-100">
+                  내가 등록한 맛집 개수
+                </Typography>
+                <Typography size="body1" color="neutral-100">
+                  {count}개
+                </Typography>
+              </div>
             </div>
           </section>
         </div>
