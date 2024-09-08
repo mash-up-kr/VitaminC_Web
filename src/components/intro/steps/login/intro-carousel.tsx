@@ -40,7 +40,7 @@ const items = [
     alt: '보물섬',
   },
   {
-    src: '/images/intro-lost-map.gif',
+    src: '/images/intro-lets-go.gif',
     title: `혼자서는 못할것 같아\n함께 채워볼래?`,
     alt: '항해',
   },
