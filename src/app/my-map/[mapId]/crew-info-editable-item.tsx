@@ -118,6 +118,7 @@ const CrewInfoEditableItem = ({
   const handleBanishUser = async () => {
     try {
       await api.maps.kick.id.post({ id: mapId, userId: member.id })
+      setIsOpenOutModal(false)
       revalidate(['map', mapId])
       notify.success(`${member.nickname}를 내보냈습니다.`)
     } catch (err) {

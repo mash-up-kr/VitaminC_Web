@@ -44,7 +44,9 @@ const MapTitle = ({
         name: mapNameInput,
       })
       revalidate(['map', mapInfo.id])
+      notify.success(`${mapNameInput}으로 바꾸었습니다.`)
       refetchMapInfo()
+      setIsOpenEditModal(false)
     } catch (err) {
       notify.error('서버에 문제가 생겼습니다.')
     }
