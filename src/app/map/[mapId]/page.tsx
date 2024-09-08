@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 
 import FilterModalBody, { type CategoryType } from './filter-modal-body'
-import MapInfoModal from './map-info-modal'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import SearchAnchorBox from './search-anchor-box'
 
@@ -55,7 +54,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     enabled: !!userData && !!mapData,
   })
 
-  const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterNames, setSelectedFilterNames] =
@@ -71,7 +69,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     [],
   )
 
-  const mapname = mapData?.name || ''
+  const mapName = mapData?.name || ''
 
   const error = userError || mapError || placesError
   if (error) {
@@ -190,14 +188,14 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     <div className="h-dvh">
       <header className="absolute inset-x-5 top-4 z-50 flex flex-col gap-2">
         <div className="flex w-full justify-between">
-          <button
+          <Link
             className="flex items-center"
-            onClick={() => setIsMapInfoOpen(true)}
+            href="/my-map"
             aria-label="지도 정보 팝업 열기"
           >
-            <Typography size="h3">{mapname}</Typography>
+            <Typography size="h3">{mapName}</Typography>
             <Icon type="caretDown" size="lg" />
-          </button>
+          </Link>
           <Link href="/setting">
             <Avatar value={userData?.nickname ?? ''} loading={isFetching} />
           </Link>
@@ -216,12 +214,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           <SearchAnchorBox />
         </Tooltip>
       </header>
-
-      <MapInfoModal
-        isOpen={isMapInfoOpen}
-        mapId={mapId}
-        onClose={() => setIsMapInfoOpen(false)}
-      />
 
       <KorrkKakaoMap<PlaceType>
         places={filteredPlace}

@@ -50,6 +50,19 @@ const maps = {
   id: {
     get: (id: MapInfo['id']): Promise<ResponseWithMessage<MapInfo>> =>
       client.secure.get(`/maps/${id}`, { tags: ['map', id] }),
+    patch: ({
+      id,
+      name,
+      description,
+      isPublic,
+    }: {
+      id: MapInfo['id']
+      name: string
+      description: string
+      isPublic: boolean
+    }): Promise<ResponseWithMessage<MapInfo>> =>
+      client.secure.patch(`/maps/${id}`, { name, description, isPublic }),
+
     tag: {
       get: (id: MapInfo['id']): Promise<ResponseWithMessage<TagItem[]>> =>
         client.secure.get(`/maps/${id}/tag`, { tags: ['tag', id] }),
@@ -62,6 +75,7 @@ const maps = {
       }): Promise<ResponseWithMessage<TagItem>> =>
         client.secure.post(`/maps/${id}/tag`, { name }),
     },
+
     inviteLinks: {
       post: (id: MapInfo['id']): Promise<ResponseWithMessage<InviteLink>> =>
         client.secure.post(`/maps/${id}/invite-links`),
@@ -74,6 +88,33 @@ const maps = {
       client.public.get(`/maps/invite-links/${token}`),
     post: (token: string): Promise<ResponseWithMessage<{}>> =>
       client.secure.post(`/maps/invite-links/${token}`),
+  },
+
+  roles: {
+    id: {
+      userId: {
+        patch: ({
+          id,
+          userId,
+          role,
+        }: {
+          id: MapInfo['id']
+          userId: User['id']
+          role: UserByMapInfo['role']
+        }): Promise<ResponseWithMessage<MapInfo>> =>
+          client.secure.patch(`/maps/roles/${id}/${userId}`, {
+            role,
+            userId,
+          }),
+      },
+    },
+  },
+
+  kick: {
+    id: {
+      post: ({ id, userId }: { id: MapInfo['id']; userId: User['id'] }) =>
+        client.secure.post(`/maps/kick/${id}`, { userId }),
+    },
   },
 }
 
