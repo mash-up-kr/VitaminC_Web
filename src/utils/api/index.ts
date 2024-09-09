@@ -27,8 +27,11 @@ const users = {
   me: {
     get: (): Promise<ResponseWithMessage<User>> =>
       client.secure.get(`/users/me`),
-    patch: (nickname: string): Promise<ResponseWithMessage<User>> =>
-      client.secure.patch(`/users/me`, { nickname }),
+    patch: (userData: {
+      nickname?: User['nickname']
+      profileImage?: FormData
+    }): Promise<ResponseWithMessage<User>> =>
+      client.secure.patch(`/users/me`, userData),
   },
   check: {
     nickname: {
