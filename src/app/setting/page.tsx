@@ -12,19 +12,44 @@ import useSafeRouter from '@/hooks/use-safe-router'
 import { handleSignout } from '@/services/user'
 import { api } from '@/utils/api'
 import { apiClientFactory } from '@/utils/api/api-client-factory'
-import { type ResponseWithMessage } from '@/models/api'
+import { APIError } from '@/models/api'
+import EditNicknameBottomModal from './edit-nickname-bottom-modal'
 
 const client = apiClientFactory({ secure: true })
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
+  const [isOpenEditNickname, setIsOpenEditNickname] = useState(false)
   // const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
-  const [count, setCount] = useState(0)
   const router = useSafeRouter()
   const [nickname, setNickname] = useState('')
+  const [profileImage, setProfileImage] = useState('')
 
   const handleCloseSignupModal = () => {
     setIsOpenSignupModal(false)
+  }
+
+  const handleProfileImageChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    e.preventDefault()
+
+    if (e.target.files) {
+      const uploadFile = e.target.files[0]
+      const userImage = new FormData()
+      userImage.append('files', uploadFile)
+      try {
+        const res = await api.users.me.patch({
+          nickname,
+          profileImage: userImage,
+        })
+        setProfileImage(res.data.profileImage ?? '')
+      } catch (error) {
+        if (error instanceof APIError) {
+          notify.error(error.message)
+        }
+      }
+    }
   }
 
   useEffect(() => {
@@ -32,10 +57,7 @@ const Setting = () => {
       try {
         const res = await api.users.me.get()
         setNickname(res.data.nickname ?? '')
-        const placeCountRes = await client.get<ResponseWithMessage<number>>(
-          '/place/temp/' + res.data.id,
-        )
-        setCount(placeCountRes.data)
+        setProfileImage(res.data.profileImage ?? '')
       } catch (error) {
         notify.error('데이터를 받아오는 데 문제가 생겼습니다.')
       }
@@ -61,15 +83,38 @@ const Setting = () => {
           </Typography>
         </header>
 
-        <div className="flex flex-col px-5">
-          <div className="flex items-center gap-2 pb-1 pt-3">
-            <Avatar value={nickname ?? ''} />
-            <Typography as="span" size="body1">
-              {nickname}
-            </Typography>
+        <div className="flex flex-col">
+          <div className="pt-6 pb-5 flex flex-col items-center gap-6">
+            <label className="cursor-pointer relative">
+              <Avatar
+                value={nickname}
+                imageUrl={profileImage}
+                className="w-20 h-20 text-[40px] border-2 border-[#17171A] border-opacity-20"
+              />
+              <input
+                className="h-[1px] w-[1px] m-[-1px] absolute"
+                type="file"
+                accept="image/*"
+                onChange={handleProfileImageChange}
+              />
+              <div className="absolute bottom-0 right-0 w-6 h-6 flex justify-center items-center bg-neutral-700 rounded-full">
+                <AccessibleIconButton
+                  className="bg-neutral-500 rounded-full p-[1px]"
+                  icon={{ type: 'plusBold' }}
+                  label="이미지 변경"
+                />
+              </div>
+            </label>
+            <button
+              className="flex items-center gap-0.5"
+              onClick={() => setIsOpenEditNickname(true)}
+            >
+              <Typography size="h3">{nickname}</Typography>
+              <Icon type="pencil" size="lg" aria-label="이름 변경" />
+            </button>
           </div>
-
-          <section className="flex flex-col">
+          <div className="w-full h-[18px] bg-neutral-600"></div>
+          <section className="flex flex-col px-5">
             <Typography
               as="h2"
               size="body1"
@@ -89,17 +134,6 @@ const Setting = () => {
                 </Typography>
               </button>
             </div>
-            <div className="flex mt-[18px] items-center">
-              <Icon className="mr-2" type="info" size="lg" />
-              <div className="flex justify-between w-full">
-                <Typography size="body1" color="neutral-100">
-                  내가 등록한 맛집 개수
-                </Typography>
-                <Typography size="body1" color="neutral-100">
-                  {count}개
-                </Typography>
-              </div>
-            </div>
           </section>
         </div>
       </div>
@@ -111,6 +145,10 @@ const Setting = () => {
         onCancel={handleCloseSignupModal}
         onClose={handleCloseSignupModal}
         onConfirm={handleSignout}
+      />
+      <EditNicknameBottomModal
+        isOpen={isOpenEditNickname}
+        onClose={() => setIsOpenEditNickname(false)}
       />
     </>
   )
