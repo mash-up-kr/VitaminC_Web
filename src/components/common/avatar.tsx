@@ -5,6 +5,7 @@ import Typography from './typography'
 import { cva } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
+import Image from 'next/image'
 
 const AvatarVariants = cva<{
   colorScheme: Record<
@@ -12,7 +13,7 @@ const AvatarVariants = cva<{
     string
   >
 }>(
-  'flex items-center w-9 h-9 justify-center box-border rounded-full relative',
+  'flex items-center w-9 h-9 justify-center box-border rounded-full relative overflow-hidden',
   {
     variants: {
       colorScheme: {
@@ -30,7 +31,8 @@ const AvatarVariants = cva<{
 )
 
 interface AvatarProps {
-  value: string
+  value?: string
+  imageUrl?: string
   me?: boolean
   loading?: boolean
   colorScheme?: 'coral' | 'dark-blue' | 'sky-blue' | 'violet' | 'green'
@@ -38,7 +40,10 @@ interface AvatarProps {
 }
 
 const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
-  ({ value, colorScheme, className, me = false, loading = false }, ref) => {
+  (
+    { value, colorScheme, imageUrl, className, me = false, loading = false },
+    ref,
+  ) => {
     const initial = value ? Array.from(value)[0] : '🍋'
 
     return (
@@ -49,7 +54,19 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
         color="neutral-000"
         className={cn(AvatarVariants({ colorScheme }), className)}
       >
-        {loading ? <Spinner /> : <span>{initial}</span>}
+        {loading ? (
+          <Spinner />
+        ) : imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt="프로필 이미지"
+            width={36}
+            height={36}
+            className="w-full h-full"
+          />
+        ) : (
+          <span>{initial}</span>
+        )}
         {me && (
           <Typography
             size="h7"
