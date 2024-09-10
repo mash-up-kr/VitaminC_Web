@@ -36,10 +36,8 @@ const Setting = () => {
 
     if (e.target.files) {
       const uploadedImage = e.target.files[0]
-      const formData = new FormData()
-      formData.append('profileImage', uploadedImage)
       try {
-        const res = await api.users.me.patch({ profileImage: formData })
+        const res = await api.users.me.patch({ profileImage: uploadedImage })
         setProfileImage(res.data.profileImage ?? '')
       } catch (error) {
         if (error instanceof APIError) {
