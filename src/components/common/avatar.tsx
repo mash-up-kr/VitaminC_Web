@@ -13,7 +13,7 @@ const AvatarVariants = cva<{
     string
   >
 }>(
-  'flex items-center w-9 h-9 justify-center box-border rounded-full relative overflow-hidden',
+  'flex items-center w-9 h-9 justify-center box-border rounded-full relative',
   {
     variants: {
       colorScheme: {
@@ -62,7 +62,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
             alt="프로필 이미지"
             width={36}
             height={36}
-            className="w-full h-full"
+            className="w-full h-full rounded-full"
           />
         ) : (
           <span>{initial}</span>

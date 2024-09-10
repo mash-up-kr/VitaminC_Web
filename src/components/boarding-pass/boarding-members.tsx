@@ -24,6 +24,7 @@ const BoardingMembers = ({
           <Avatar
             me={member.id === userId}
             value={member.nickname}
+            imageUrl={member.profileImage}
             colorScheme={memberColors[index % memberColors.length]}
           />
           <Typography

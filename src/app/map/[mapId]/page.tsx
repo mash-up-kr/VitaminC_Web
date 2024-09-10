@@ -197,7 +197,11 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
             <Icon type="caretDown" size="lg" />
           </Link>
           <Link href="/setting">
-            <Avatar value={userData?.nickname ?? ''} loading={isFetching} />
+            <Avatar
+              value={userData?.nickname}
+              imageUrl={userData?.profileImage}
+              loading={isFetching}
+            />
           </Link>
         </div>
         <Tooltip

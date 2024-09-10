@@ -130,7 +130,12 @@ const CrewInfoEditableItem = ({
     <>
       <li className="flex justify-between items-center h-[52px]">
         <div className="flex items-center gap-2">
-          <Avatar value={member.nickname} colorScheme={avatarColor} me={isMe} />
+          <Avatar
+            value={member.nickname}
+            imageUrl={member.profileImage}
+            colorScheme={avatarColor}
+            me={isMe}
+          />
           <Typography size="body1" color="neutral-100">
             {member.nickname}
           </Typography>
