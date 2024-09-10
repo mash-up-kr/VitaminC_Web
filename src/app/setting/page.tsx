@@ -11,11 +11,8 @@ import Typography from '@/components/common/typography'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { handleSignout } from '@/services/user'
 import { api } from '@/utils/api'
-import { apiClientFactory } from '@/utils/api/api-client-factory'
 import { APIError } from '@/models/api'
 import EditNicknameBottomModal from './edit-nickname-bottom-modal'
-
-const client = apiClientFactory({ secure: true })
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
@@ -144,7 +141,7 @@ const Setting = () => {
       <EditNicknameBottomModal
         isOpen={isOpenEditNickname}
         onClose={() => setIsOpenEditNickname(false)}
-        onUpdateNickname={(nickname: string) => setNickname(nickname)}
+        onUpdateNickname={(name: string) => setNickname(name)}
       />
     </>
   )
