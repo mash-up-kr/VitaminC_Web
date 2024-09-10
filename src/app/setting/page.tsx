@@ -84,7 +84,7 @@ const Setting = () => {
               <Avatar
                 value={nickname}
                 imageUrl={profileImage}
-                className="w-20 h-20 text-[40px] border-2 border-[#17171A] border-opacity-20"
+                className={`w-20 h-20 text-[40px] ${!profileImage && 'border-2 border-[#17171A] border-opacity-20'}`}
               />
               <input
                 className="h-[1px] w-[1px] m-[-1px] absolute"
