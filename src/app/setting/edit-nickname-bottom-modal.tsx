@@ -9,11 +9,13 @@ import { useEffect, useState } from 'react'
 interface EditNicknameBottomModalProps {
   isOpen: boolean
   onClose: VoidFunction
+  onUpdateNickname: (nickname: string) => void
 }
 
 const EditNicknameBottomModal = ({
   isOpen,
   onClose,
+  onUpdateNickname,
 }: EditNicknameBottomModalProps) => {
   const [nickname, setNickname] = useState('')
 
@@ -23,7 +25,9 @@ const EditNicknameBottomModal = ({
 
   const handleClickConfirm = async () => {
     try {
-      await api.users.me.patch({ nickname })
+      const { data } = await api.users.me.patch({ nickname })
+      onUpdateNickname(data.nickname ?? '')
+      onClose()
     } catch (error) {
       if (error instanceof APIError) {
         notify.error(error.message)
@@ -41,6 +45,7 @@ const EditNicknameBottomModal = ({
     <BottomModal
       layout="alert"
       isOpen={isOpen}
+      disabled={nickname.length < MIN_NICKNAME_LENGTH}
       title="어떤 이름을 바꿀까요?"
       confirmMessage="이름 변경"
       body={
