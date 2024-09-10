@@ -29,9 +29,18 @@ const users = {
       client.secure.get(`/users/me`),
     patch: (userData: {
       nickname?: User['nickname']
-      profileImage?: FormData
-    }): Promise<ResponseWithMessage<User>> =>
-      client.secure.patch(`/users/me`, userData),
+      profileImage?: File
+    }): Promise<ResponseWithMessage<User>> => {
+      const formData = new FormData()
+      if (userData.nickname) {
+        formData.append('nickname', userData.nickname)
+      }
+
+      if (userData.profileImage) {
+        formData.append('profileImage', userData.profileImage)
+      }
+      return client.secure.patch(`/users/me`, formData)
+    },
   },
   check: {
     nickname: {

@@ -35,14 +35,11 @@ const Setting = () => {
     e.preventDefault()
 
     if (e.target.files) {
-      const uploadFile = e.target.files[0]
-      const userImage = new FormData()
-      userImage.append('files', uploadFile)
+      const uploadedImage = e.target.files[0]
+      const formData = new FormData()
+      formData.append('profileImage', uploadedImage)
       try {
-        const res = await api.users.me.patch({
-          nickname,
-          profileImage: userImage,
-        })
+        const res = await api.users.me.patch({ profileImage: formData })
         setProfileImage(res.data.profileImage ?? '')
       } catch (error) {
         if (error instanceof APIError) {
@@ -149,6 +146,7 @@ const Setting = () => {
       <EditNicknameBottomModal
         isOpen={isOpenEditNickname}
         onClose={() => setIsOpenEditNickname(false)}
+        onUpdateNickname={(nickname: string) => setNickname(nickname)}
       />
     </>
   )
