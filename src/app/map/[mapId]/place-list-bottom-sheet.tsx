@@ -107,29 +107,32 @@ const PlaceListBottomSheet = ({
       {placeList.length > 0 ? (
         <ul className="flex flex-col px-5 max-h-dvh no-scrollbar overflow-y-scroll overscroll-contain">
           {placeList.map((place) => (
-            <PlaceListItem
-              key={`bottom-sheet-${place.place.kakaoPlace.id}`}
-              placeId={place.place.kakaoPlace.id}
-              address={place.place.kakaoPlace.address}
-              name={place.place.kakaoPlace.name}
-              rating={place.place.kakaoPlace.score ?? 0}
-              images={place.place.kakaoPlace.menuList
-                .map((menu) => menu.photo)
-                .filter((photo) => !!photo)}
-              tags={place.tags}
-              pick={{
-                isLiked: getIsLike(place),
-                isMyPick: place.createdBy?.id === userId,
-                numOfLikes: place.likedUserIds?.length || 0,
+            <>
+              <PlaceListItem
+                key={`bottom-sheet-${place.place.kakaoPlace.id}`}
+                placeId={place.place.kakaoPlace.id}
+                address={place.place.kakaoPlace.address}
+                name={place.place.kakaoPlace.name}
+                rating={place.place.kakaoPlace.score ?? 0}
+                images={place.place.kakaoPlace.menuList
+                  .map((menu) => menu.photo)
+                  .filter((photo) => !!photo)}
+                tags={place.tags}
+                pick={{
+                  isLiked: getIsLike(place),
+                  isMyPick: place.createdBy?.id === userId,
+                  numOfLikes: place.likedUserIds?.length || 0,
 
-                onClickLike: (e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  handleLike(place)
-                },
-              }}
-              className="first:pt-1"
-            />
+                  onClickLike: (e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleLike(place)
+                  },
+                }}
+                className="first:pt-1"
+              />
+              <hr className="bg-neutral-600 border-0 h-[1px] my-[2px] last:hidden" />
+            </>
           ))}
         </ul>
       ) : (
