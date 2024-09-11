@@ -128,7 +128,7 @@ const PlaceListBottomSheet = ({
                   handleLike(place)
                 },
               }}
-              className="first:pt-0 first:-mt-2"
+              className="first:pt-1"
             />
           ))}
         </ul>
