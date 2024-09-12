@@ -9,6 +9,7 @@ export interface MapMemberData {
   id: User['id']
   nickname: string
   role: MapRole
+  profileImage?: string
 }
 export interface UserByMapInfo extends MutatedAt {
   id: MapInfo['id']

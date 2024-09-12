@@ -3,6 +3,7 @@ type Provider = 'KAKAO'
 export interface User {
   id: number
   nickname?: string
+  profileImage?: string
   provider: Provider
   providerId: string
   role: UserRole

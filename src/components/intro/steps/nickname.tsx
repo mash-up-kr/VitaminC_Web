@@ -11,9 +11,7 @@ import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
 import { onboardingStorage } from '@/utils/storage'
 import { countCharacters } from '@/utils/string'
-
-const MIN_LENGTH = 2
-const MAX_LENGTH = 6
+import { MAX_NICKNAME_LENGTH, MIN_NICKNAME_LENGTH } from '@/constants/nickname'
 
 const Nickname = ({ goNextStep }: IntroActionDispatch) => {
   const { revalidate } = useFetch()
@@ -28,7 +26,7 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
   const handleClick = async () => {
     try {
       await api.users.check.nickname.get(nickname)
-      await api.users.me.patch(nickname)
+      await api.users.me.patch({ nickname })
 
       revalidate('user')
 
@@ -59,8 +57,8 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
               ref={(node) => node?.focus()}
               value={nickname}
               onChange={handleChange}
-              minLength={MIN_LENGTH}
-              maxLength={MAX_LENGTH}
+              minLength={MIN_NICKNAME_LENGTH}
+              maxLength={MAX_NICKNAME_LENGTH}
             />
             <Typography size="h1" color="neutral-000">
               로
@@ -75,7 +73,7 @@ const Nickname = ({ goNextStep }: IntroActionDispatch) => {
       <div className="w-full p-5">
         <Button
           colorScheme="orange"
-          disabled={countCharacters(nickname).num < MIN_LENGTH}
+          disabled={countCharacters(nickname).num < MIN_NICKNAME_LENGTH}
           onClick={handleClick}
         >
           가입완료

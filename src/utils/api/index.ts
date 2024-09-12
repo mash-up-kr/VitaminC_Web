@@ -11,6 +11,7 @@ import type {
   UserByMapInfo,
 } from '@/models/map'
 import type { User } from '@/models/user'
+import { createUserPatchFormData } from '../formdata'
 
 const client = {
   public: apiClientFactory({}),
@@ -27,8 +28,12 @@ const users = {
   me: {
     get: (): Promise<ResponseWithMessage<User>> =>
       client.secure.get(`/users/me`),
-    patch: (nickname: string): Promise<ResponseWithMessage<User>> =>
-      client.secure.patch(`/users/me`, { nickname }),
+    patch: (userData: {
+      nickname?: User['nickname']
+      profileImage?: File
+    }): Promise<ResponseWithMessage<User>> => {
+      return client.secure.patch(`/users/me`, createUserPatchFormData(userData))
+    },
   },
   check: {
     nickname: {
