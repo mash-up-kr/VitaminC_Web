@@ -114,7 +114,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
         <motion.div
           id={bottomSheetId}
           ref={mergeRefs([bottomSheetRef, ref])}
-          className="fixed z-10 w-full max-w-[420px] rounded-t-[14px] bg-[#212124] pb-[24px] text-white will-change-transform"
+          className="fixed z-10 w-full max-w-[420px] rounded-t-[14px] bg-neutral-700 pb-[24px] text-white will-change-transform"
           onPointerDown={(e) => dragControls.start(e)}
           initial="default"
           animate={bottomSheetState}
@@ -134,7 +134,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           {/* header */}
           <div className="cursor-grab pb-[24px] pt-[16px]">
             {/* bar */}
-            <div className="mx-auto my-0 h-[6px] w-[53px] rounded-full bg-[#6D717A]" />
+            <div className="mx-auto my-0 h-[6px] w-[53px] rounded-full bg-neutral-400" />
           </div>
           {/* body */}
           <div
