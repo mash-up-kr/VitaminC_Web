@@ -27,6 +27,7 @@ import Person from './Person.svg'
 import PickFlag from './PickFlag.svg'
 import Pin from './Pin.svg'
 import Plus from './Plus.svg'
+import PlusBold from './PlusBold.svg'
 import Restaurant from './Restaurant.svg'
 import RoundedTriangle from './RoundedTriangle.svg'
 import Search from './Search.svg'
@@ -102,6 +103,7 @@ export const icons = {
   pickFlag: PickFlag,
   pin: Pin,
   plus: Plus,
+  plusBold: PlusBold,
   restaurant: Restaurant,
   roundedTriangle: RoundedTriangle,
   search: Search,
