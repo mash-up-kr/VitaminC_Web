@@ -46,6 +46,22 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
   ) => {
     const initial = value ? Array.from(value)[0] : '🍋'
 
+    const renderContent = () => {
+      if (loading) {
+        return <Spinner />
+      }
+      if (imageUrl) {
+        ;<Image
+          src={imageUrl}
+          alt="프로필 이미지"
+          width={36}
+          height={36}
+          className="w-full h-full rounded-full"
+        />
+      }
+      return <span>{initial}</span>
+    }
+
     return (
       <Typography
         ref={ref as RefObject<HTMLDivElement>}
@@ -54,19 +70,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
         color="neutral-000"
         className={cn(AvatarVariants({ colorScheme }), className)}
       >
-        {loading ? (
-          <Spinner />
-        ) : imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt="프로필 이미지"
-            width={36}
-            height={36}
-            className="w-full h-full rounded-full"
-          />
-        ) : (
-          <span>{initial}</span>
-        )}
+        {renderContent()}
         {me && (
           <Typography
             size="h7"
