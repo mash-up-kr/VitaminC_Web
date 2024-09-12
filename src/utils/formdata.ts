@@ -1,4 +1,4 @@
-export const createFormData = (userData: {
+export const createUserPatchFormData = (userData: {
   nickname?: string
   profileImage?: File
 }): FormData => {
