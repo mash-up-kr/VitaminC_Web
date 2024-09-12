@@ -4,7 +4,7 @@ import Input from '@/components/common/input'
 import { MAX_NICKNAME_LENGTH, MIN_NICKNAME_LENGTH } from '@/constants/nickname'
 import { APIError } from '@/models/api'
 import { api } from '@/utils/api'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 interface EditNicknameBottomModalProps {
   isOpen: boolean
@@ -34,12 +34,6 @@ const EditNicknameBottomModal = ({
       }
     }
   }
-
-  useEffect(() => {
-    if (!isOpen) {
-      setNickname('')
-    }
-  }, [isOpen])
 
   return (
     <BottomModal

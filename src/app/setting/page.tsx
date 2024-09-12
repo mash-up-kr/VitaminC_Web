@@ -138,11 +138,13 @@ const Setting = () => {
         onClose={handleCloseSignupModal}
         onConfirm={handleSignout}
       />
-      <EditNicknameBottomModal
-        isOpen={isOpenEditNickname}
-        onClose={() => setIsOpenEditNickname(false)}
-        onUpdateNickname={(name: string) => setNickname(name)}
-      />
+      {isOpenEditNickname && (
+        <EditNicknameBottomModal
+          isOpen={isOpenEditNickname}
+          onClose={() => setIsOpenEditNickname(false)}
+          onUpdateNickname={(name: string) => setNickname(name)}
+        />
+      )}
     </>
   )
 }
