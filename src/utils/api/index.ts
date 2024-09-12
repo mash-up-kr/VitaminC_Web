@@ -11,6 +11,7 @@ import type {
   UserByMapInfo,
 } from '@/models/map'
 import type { User } from '@/models/user'
+import { createFormData } from '../formdata'
 
 const client = {
   public: apiClientFactory({}),
@@ -31,15 +32,7 @@ const users = {
       nickname?: User['nickname']
       profileImage?: File
     }): Promise<ResponseWithMessage<User>> => {
-      const formData = new FormData()
-      if (userData.nickname) {
-        formData.append('nickname', userData.nickname)
-      }
-
-      if (userData.profileImage) {
-        formData.append('profileImage', userData.profileImage)
-      }
-      return client.secure.patch(`/users/me`, formData)
+      return client.secure.patch(`/users/me`, createFormData(userData))
     },
   },
   check: {
