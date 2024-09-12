@@ -14,8 +14,8 @@ import { allowUserPositionStorage } from '@/utils/storage'
 // 구름: 37.4024068885376 127.101100614005
 // 선릉: 37.5045028775835 127.048942471228
 const INITIAL_LATITUDE_LONGITUDE = {
-  latitude: 37.5045028775835,
-  longitude: 127.048942471228,
+  latitude: 37.49878379556736,
+  longitude: 127.02766127247847,
 }
 
 const useUserGeoLocation = () => {
