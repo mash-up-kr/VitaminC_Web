@@ -117,7 +117,6 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           id={bottomSheetId}
           ref={mergeRefs([bottomSheetRef, ref])}
           className="fixed z-10 w-full max-w-[420px] rounded-t-[14px] bg-neutral-700 pb-[24px] text-white will-change-transform"
-          onPointerDown={(e) => dragControls.start(e)}
           initial="default"
           animate={bottomSheetState}
           variants={{
@@ -126,18 +125,21 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
             collapsed: { top: `calc(100dvh - ${HEADER_HEIGHT}px)` },
           }}
           transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
-          drag="y"
-          dragControls={dragControls}
-          dragConstraints={{ top: 0, bottom: 0 }}
-          dragElastic={0}
-          onDragEnd={(_, info) => handleDragEnd(info)}
           aria-expanded={bottomSheetState !== BOTTOM_SHEET_STATE.Collapsed}
         >
           {/* header */}
-          <div className="cursor-grab pb-[24px] pt-[16px]">
+          <motion.div
+            className="cursor-grab pb-[24px] pt-[16px]"
+            onPointerDown={(e) => dragControls.start(e)}
+            drag="y"
+            dragControls={dragControls}
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={0}
+            onDragEnd={(_, info) => handleDragEnd(info)}
+          >
             {/* bar */}
             <div className="mx-auto my-0 h-[6px] w-[53px] rounded-full bg-neutral-400" />
-          </div>
+          </motion.div>
           {/* body */}
           <div
             className="select-none transition-all duration-300"
