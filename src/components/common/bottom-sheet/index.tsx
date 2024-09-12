@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { MutableRefObject, ReactNode } from 'react'
 import { forwardRef, useId, useRef, useState } from 'react'
 
 import { BOTTOM_SHEET_STATE, BOTTOM_SHEET_STATE_MAP } from './constants'
@@ -7,14 +7,13 @@ import { motion, useDragControls } from 'framer-motion'
 import type { PanInfo } from 'framer-motion'
 
 import { useClickOutside } from '@/hooks/use-click-outside'
-import useMeasure from '@/hooks/use-measure'
 import useWindowSize from '@/hooks/use-window-size'
 import { toBottomSheetState } from '@/utils/bottom-sheet'
 import { mergeRefs } from '@/utils/merge-refs'
 import { clamp } from '@/utils/number'
 
 interface BottomSheetProps {
-  body: ReactNode
+  body: (ref: MutableRefObject<HTMLElement[]>) => ReactNode
   state?: BottomSheetState
 }
 
@@ -22,6 +21,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
   ({ body, state = BOTTOM_SHEET_STATE.Default }, ref) => {
     const bottomSheetId = useId()
     const bottomSheetRef = useRef<HTMLDivElement>(null)
+    const contentRef = useRef<HTMLElement[]>([])
 
     const [prevState, setPrevState] = useState(state)
     const [bottomSheetState, setBottomSheetState] =
@@ -32,19 +32,23 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       setBottomSheetState(state)
     }
 
-    const [contentRef, contentBounds] = useMeasure()
-    const { height: windowHeight } = useWindowSize()
-
     const dragControls = useDragControls()
 
+    const { height: windowHeight } = useWindowSize()
+
     const headerHeight = 46
+
+    const contentHeight =
+      contentRef?.current.reduce((acc, cur) => acc + cur?.scrollHeight, 0) ||
+      windowHeight
+
     const defaultHeight = Math.min(
-      contentBounds.height + headerHeight,
+      contentHeight + headerHeight,
       windowHeight / 2,
     )
 
     const expandedHeight = Math.min(
-      contentBounds.height + headerHeight,
+      contentHeight + headerHeight,
       (windowHeight * 3) / 4,
     )
 
@@ -141,9 +145,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
             aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
           >
             {/* content */}
-            <div ref={contentRef} draggable="false">
-              {body}
-            </div>
+            {body(contentRef)}
           </div>
         </motion.div>
       </>
