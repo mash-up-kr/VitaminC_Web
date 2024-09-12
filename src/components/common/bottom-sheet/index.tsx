@@ -16,7 +16,6 @@ interface BottomSheetProps {
   body: (ref: MutableRefObject<HTMLElement[]>) => ReactNode
   state?: BottomSheetState
 }
-
 const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
   ({ body, state = BOTTOM_SHEET_STATE.Default }, ref) => {
     const bottomSheetId = useId()
@@ -36,30 +35,32 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
 
     const { height: windowHeight } = useWindowSize()
 
-    const headerHeight = 46
+    const HEADER_HEIGHT = 46
+    const DEFAULT_HEIGHT = windowHeight / 2
+    const EXPANDED_HEIGHT = (windowHeight * 3) / 4
 
     const contentHeight =
       contentRef?.current.reduce((acc, cur) => acc + cur?.scrollHeight, 0) ||
       windowHeight
 
     const defaultHeight = Math.min(
-      contentHeight + headerHeight,
-      windowHeight / 2,
+      contentHeight + HEADER_HEIGHT,
+      DEFAULT_HEIGHT,
     )
 
     const expandedHeight = Math.min(
-      contentHeight + headerHeight,
-      (windowHeight * 3) / 4,
+      contentHeight + HEADER_HEIGHT,
+      EXPANDED_HEIGHT,
     )
 
     const bodyHeight = () => {
       switch (bottomSheetState) {
         case BOTTOM_SHEET_STATE.Expanded:
-          return expandedHeight - headerHeight
+          return expandedHeight - HEADER_HEIGHT
         case BOTTOM_SHEET_STATE.Collapsed:
           return 0
         default:
-          return defaultHeight - headerHeight
+          return defaultHeight - HEADER_HEIGHT
       }
     }
 
@@ -83,20 +84,21 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     }
 
     const getNextBottomSheetState = (info: PanInfo) => {
-      let bottomSheetStateNum = BOTTOM_SHEET_STATE_MAP[bottomSheetState]
+      const offsetY = info.offset.y < 0 ? -1 : 1
+      const nextBottomSheetState =
+        offsetY + BOTTOM_SHEET_STATE_MAP[bottomSheetState]
 
-      const offsetY = info.offset.y
-
-      const LARGE_ENOUGH_VALUE = 200
-      const step = Math.abs(offsetY) > LARGE_ENOUGH_VALUE ? 2 : 1
-      const sign = offsetY < 0 ? -1 : 1
-
-      bottomSheetStateNum += step * sign
+      const isExpandable = contentHeight > DEFAULT_HEIGHT
+      const maxBottomSheetState = isExpandable
+        ? BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Expanded]
+        : BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Default]
+      const minBottomSheetState =
+        BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Collapsed]
 
       const result = clamp<BottomSheetStateNum>(
-        bottomSheetStateNum,
-        BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Expanded],
-        BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Collapsed],
+        nextBottomSheetState,
+        maxBottomSheetState,
+        minBottomSheetState,
       )
       return result
     }
@@ -121,7 +123,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           variants={{
             expanded: { top: `calc(100dvh - ${expandedHeight}px)` },
             default: { top: `calc(100dvh - ${defaultHeight}px)` },
-            collapsed: { top: `calc(100dvh - ${headerHeight}px)` },
+            collapsed: { top: `calc(100dvh - ${HEADER_HEIGHT}px)` },
           }}
           transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
           drag="y"
