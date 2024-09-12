@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import Avatar from '@/components/common/avatar'
@@ -13,14 +13,22 @@ import { handleSignout } from '@/services/user'
 import { api } from '@/utils/api'
 import { APIError } from '@/models/api'
 import EditNicknameBottomModal from './edit-nickname-bottom-modal'
+import useFetch from '@/hooks/use-fetch'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
   const [isOpenEditNickname, setIsOpenEditNickname] = useState(false)
-  // const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
   const router = useSafeRouter()
   const [nickname, setNickname] = useState('')
   const [profileImage, setProfileImage] = useState('')
+
+  const { revalidate } = useFetch(api.users.me.get, {
+    key: ['user'],
+    onLoadEnd: (data) => {
+      setNickname(data.nickname ?? '')
+      setProfileImage(data.profileImage ?? '')
+    },
+  })
 
   const handleCloseSignupModal = () => {
     setIsOpenSignupModal(false)
@@ -36,6 +44,7 @@ const Setting = () => {
       try {
         const res = await api.users.me.patch({ profileImage: uploadedImage })
         setProfileImage(res.data.profileImage ?? '')
+        revalidate(['user'])
       } catch (error) {
         if (error instanceof APIError) {
           notify.error(error.message)
@@ -43,18 +52,6 @@ const Setting = () => {
       }
     }
   }
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const res = await api.users.me.get()
-        setNickname(res.data.nickname ?? '')
-        setProfileImage(res.data.profileImage ?? '')
-      } catch (error) {
-        notify.error('데이터를 받아오는 데 문제가 생겼습니다.')
-      }
-    })()
-  }, [])
 
   return (
     <>
@@ -142,7 +139,10 @@ const Setting = () => {
         <EditNicknameBottomModal
           isOpen={isOpenEditNickname}
           onClose={() => setIsOpenEditNickname(false)}
-          onUpdateNickname={(name: string) => setNickname(name)}
+          onUpdateNickname={(name: string) => {
+            setNickname(name)
+            revalidate(['user'])
+          }}
         />
       )}
     </>
