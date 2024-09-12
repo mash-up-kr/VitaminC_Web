@@ -1,3 +1,4 @@
+import type { LikeUsers } from '@/components/place/types'
 import type { TagItem } from './maps'
 
 import type { KakaoPlaceDetail } from '@/models/kakao-map'
@@ -62,7 +63,7 @@ export interface PlaceDetail {
   kakaoId: PlaceType['place']['kakaoPlace']['id']
   mapId: MapInfo['id']
   isRegisteredPlace: boolean
-  likedUserIds?: User['id'][]
+  likedUsers?: LikeUsers[]
   tags: TagItem[]
   createdBy?: PlaceType['createdBy']
   name: string

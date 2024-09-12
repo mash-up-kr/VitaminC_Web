@@ -45,7 +45,15 @@ interface AvatarProps {
 
 const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
   (
-    { value, colorScheme, imageUrl, className, size='lg', me = false, loading = false },
+    {
+      value,
+      colorScheme,
+      imageUrl,
+      className,
+      size = 'lg',
+      me = false,
+      loading = false,
+    },
     ref,
   ) => {
     const initial = value ? Array.from(value)[0] : '🍋'

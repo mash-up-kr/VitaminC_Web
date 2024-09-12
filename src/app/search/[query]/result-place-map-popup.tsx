@@ -37,8 +37,11 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
     const [isLoading, setIsLoading] = useState(false)
     const [place, setPlace] = useState<PlaceDetail | null>(null)
     const { data: user, revalidate } = useFetch(api.users.me.get, {
-      onLoadEnd: (userData) =>
-        setIsLikePlace(place?.likedUserIds?.includes(userData.id) ?? false),
+      onLoadEnd: (userData) => {
+        setIsLikePlace(
+          !!place?.likedUsers?.find((likeUser) => likeUser.id === userData.id),
+        )
+      },
       key: ['user'],
     })
 
@@ -52,7 +55,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
           })
           setPlace(response.data)
           setIsLikePlace(
-            response.data.likedUserIds?.includes(user?.id ?? -1) ?? false,
+            !!place?.likedUsers?.find((likeUser) => likeUser.id === user?.id),
           )
         } catch (error) {
           if (error instanceof APIError || error instanceof Error) {
@@ -62,14 +65,17 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
           setIsLoading(false)
         }
       })()
-    }, [mapId, kakaoId, user?.id])
+    }, [mapId, kakaoId, user?.id, place?.likedUsers])
 
     if (!place) return null
 
     const numOfLikes = (() => {
-      const likedUserIdsCount = place.likedUserIds?.length ?? 0
+      const likedUserIdsCount = place.likedUsers?.length ?? 0
 
-      if (user && place.likedUserIds?.includes(user.id)) {
+      if (
+        user &&
+        !!place.likedUsers?.find((likeUser) => likeUser.id === user.id)
+      ) {
         if (isRecentlyLike == null) {
           return likedUserIdsCount
         }
@@ -93,7 +99,9 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
         revalidate(['places', mapId])
       } catch (error) {
         setIsLikePlace(false)
-        setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
+        setIsRecentlyLike(
+          !!place?.likedUsers?.find((likeUser) => likeUser.id === user?.id),
+        )
         if (error instanceof APIError || error instanceof Error) {
           notify.error(error.message)
         }
@@ -111,7 +119,9 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
         revalidate(['places', mapId])
       } catch (error) {
         setIsLikePlace(true)
-        setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
+        setIsRecentlyLike(
+          !!place?.likedUsers?.find((likeUser) => likeUser.id === user?.id),
+        )
         if (error instanceof APIError || error instanceof Error) {
           notify.error(error.message)
         }

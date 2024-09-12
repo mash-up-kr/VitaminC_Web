@@ -53,9 +53,9 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   })
 
   const numOfLikes = (() => {
-    const likedUserIdsCount = place.likedUserIds?.length ?? 0
+    const likedUserIdsCount = place.likedUsers?.length ?? 0
 
-    if (user && place.likedUserIds?.includes(user.id)) {
+    if (user && place.likedUsers?.find((likeUser) => likeUser.id === user.id)) {
       if (isRecentlyLike == null) {
         return likedUserIdsCount
       }
@@ -70,7 +70,9 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
 
   useEffect(() => {
     if (!place || !user) return
-    setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false)
+    setIsLikePlace(
+      !!place.likedUsers?.find((likeUser) => likeUser.id === user.id) ?? false,
+    )
   }, [user, place])
 
   const handleLikePlace = async () => {
@@ -86,7 +88,10 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
       revalidate(['places', mapId])
     } catch (error) {
       setIsLikePlace(false)
-      setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
+      setIsRecentlyLike(
+        !!place.likedUsers?.find((likeUser) => likeUser.id === user?.id) ??
+          false,
+      )
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
       }
@@ -106,7 +111,10 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
       revalidate(['places', mapId])
     } catch (error) {
       setIsLikePlace(true)
-      setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
+      setIsRecentlyLike(
+        !!place.likedUsers?.find((likeUser) => likeUser.id === user?.id) ??
+          false,
+      )
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
       }
@@ -170,6 +178,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         />
 
         <PlaceTopInformation
+          user={user}
           placeId={place.kakaoId}
           category={place.category}
           categoryIconCode={place.categoryIconCode}
@@ -177,6 +186,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
           address={place.address}
           tags={place.tags}
           rating={place.score}
+          likedUsers={place.likedUsers ?? []}
           distance={isAllowPosition ? formatDistance(diffDistance) : undefined}
           pick={
             typeof place.createdBy !== 'undefined'
@@ -229,7 +239,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
 
       <PlaceDeleteModal
         createdUser={createdUser}
-        likedUserIds={place.likedUserIds}
+        likedUsers={place.likedUsers}
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeletePlace}

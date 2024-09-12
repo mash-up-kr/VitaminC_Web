@@ -1,24 +1,30 @@
-import { useState } from 'react'
+import { useState, type MouseEvent } from 'react'
 
 import Icon from '@/components/common/icon'
 import IconChip from '@/components/common/icon-chip'
 import Typography from '@/components/common/typography'
 import LikeButton from '@/components/like-button'
 import PickChip from '@/components/pick-chip'
-import type { PlaceProps } from '@/components/place/types'
+import type { LikeUsers, PlaceProps } from '@/components/place/types'
 import TagList from '@/components/tag-list'
 import type { ClassName } from '@/models/common'
 import { categoryIcons } from '@/models/map'
 import cn from '@/utils/cn'
 import { roundOnePoint } from '@/utils/number'
 import LikeToolTip from './like-tooltip'
+import BottomModal from '@/components/common/bottom-modal'
+import type { User } from '@/models/user'
+import PlaceLikedUsers from './place-liked-users'
 
 interface PlaceTopInformationProps extends PlaceProps, ClassName {
   rating: number
+  user: User | null
+  likedUsers?: LikeUsers[]
   images?: string[]
 }
 
 const PlaceTopInformation = ({
+  user,
   placeId,
   category,
   categoryIconCode,
@@ -29,9 +35,34 @@ const PlaceTopInformation = ({
   tags,
   distance,
   className,
+  likedUsers,
 }: PlaceTopInformationProps) => {
-  // TODO: API 연동
-  const [, setIsOpenLikeMembers] = useState(false)
+  const [likeUserList, setLikeUserList] = useState<LikeUsers[]>(
+    likedUsers ?? [],
+  )
+  const [isOpenLikeMembers, setIsOpenLikeMembers] = useState(false)
+
+  const handleLikeOrUnLike = (
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => {
+    if (!user) return
+
+    pick?.onClickLike(event)
+    if (pick?.isLiked) {
+      setLikeUserList((prev) =>
+        [...prev].filter((likeUser) => likeUser.id !== user.id),
+      )
+    } else {
+      setLikeUserList((prev) => [
+        ...prev,
+        {
+          id: user.id,
+          nickname: user.nickname ?? '',
+          profileImage: user.profileImage ?? '',
+        },
+      ])
+    }
+  }
 
   return (
     <>
@@ -59,12 +90,13 @@ const PlaceTopInformation = ({
                 <LikeButton
                   numOfLikes={pick.numOfLikes}
                   isLiked={pick.isLiked}
-                  onClick={pick.onClickLike}
+                  onClick={handleLikeOrUnLike}
                 />
 
                 <LikeToolTip
-                  // TODO: 연동
-                  likeMembers={[]}
+                  likeMembers={likeUserList.map(
+                    (likeUser) => likeUser.nickname,
+                  )}
                   className="absolute top-[34px] right-0"
                   onClick={() => setIsOpenLikeMembers(true)}
                 />
@@ -95,7 +127,15 @@ const PlaceTopInformation = ({
 
         {tags && <TagList placeId={placeId} tags={tags} />}
       </section>
-      {/* TODO: bottom modal */}
+
+      <BottomModal
+        isOpen={isOpenLikeMembers}
+        title={`좋아요 ${pick?.numOfLikes ?? 0}`}
+        body={<PlaceLikedUsers likedUsers={likeUserList} me={user} />}
+        onClose={() => setIsOpenLikeMembers(false)}
+        onConfirm={() => {}}
+        confirmMessage=""
+      />
     </>
   )
 }
