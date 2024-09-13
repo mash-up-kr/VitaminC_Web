@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, Fragment, useEffect, useState } from 'react'
 
 import type { FilterIdsType } from './page'
 
@@ -127,9 +127,8 @@ const PlaceListBottomSheet = forwardRef<
               }}
             >
               {placeList.map((place) => (
-                <>
+                <Fragment key={`bottom-sheet-${place.place.kakaoPlace.id}`}>
                   <PlaceListItem
-                    key={`bottom-sheet-${place.place.kakaoPlace.id}`}
                     placeId={place.place.kakaoPlace.id}
                     address={place.place.kakaoPlace.address}
                     name={place.place.kakaoPlace.name}
@@ -152,7 +151,7 @@ const PlaceListBottomSheet = forwardRef<
                     className="first:pt-1"
                   />
                   <hr className="bg-neutral-600 border-0 h-[1px] my-[2px] last:hidden" />
-                </>
+                </Fragment>
               ))}
             </ul>
           </div>
@@ -171,6 +170,6 @@ const PlaceListBottomSheet = forwardRef<
   },
 )
 
-PlaceListBottomSheet.displayName = 'PlaceListbottomSheet'
+PlaceListBottomSheet.displayName = 'PlaceListBottomSheet'
 
 export default PlaceListBottomSheet
