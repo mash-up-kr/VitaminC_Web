@@ -129,6 +129,7 @@ const PlaceTopInformation = ({
       </section>
 
       <BottomModal
+        layout='none'
         isOpen={isOpenLikeMembers}
         title={`좋아요 ${pick?.numOfLikes ?? 0}`}
         body={<PlaceLikedUsers likedUsers={likeUserList} me={user} />}

@@ -16,9 +16,9 @@ const PlaceLikedUsers = ({
   me,
 }: PlaceLikedUsersProps) => {
   return (
-    <ul className={cn('flex flex-col pt-6', className)}>
+    <ul className={cn('flex flex-col pb-6', className)}>
       {likedUsers.map((user) => (
-        <li key={user.id} className="px-5 pt-2 flex items-center gap-2">
+        <li key={user.id} className="pt-2 flex items-center gap-2">
           <Avatar
             value={user.nickname}
             imageUrl={user.profileImage}
