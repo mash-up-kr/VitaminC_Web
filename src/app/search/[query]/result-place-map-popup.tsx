@@ -5,8 +5,7 @@ import { forwardRef, useEffect, useState } from 'react'
 
 import Link from 'next/link'
 
-import ResultPlacePopupSkeleton from './result-place-popup-skeleton'
-
+import PlacePopupSkeleton from '@/components/place/place-popup-skeleton'
 import { notify } from '@/components/common/custom-toast'
 import Icon from '@/components/common/icon'
 import ProxyImage from '@/components/common/proxy-image'
@@ -124,7 +123,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
         className={cn('flex w-full justify-center', className)}
       >
         {isLoading ? (
-          <ResultPlacePopupSkeleton ref={ref as ForwardedRef<HTMLDivElement>} />
+          <PlacePopupSkeleton ref={ref as ForwardedRef<HTMLDivElement>} />
         ) : (
           <Link
             href={`/place/${place.kakaoId}`}
