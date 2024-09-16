@@ -5,6 +5,7 @@ import { type ImgHTMLAttributes, useEffect, useState } from 'react'
 import { useLazyImage } from '@/hooks/use-lazy-image'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
+import Skeleton from '@/components/common/skeleton'
 
 interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string
@@ -41,16 +42,7 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
   }, [inView, src, url])
 
   if (isLoading || isFetch) {
-    return (
-      <div className={cn('animate-pulse', props.className)}>
-        <div
-          className={cn(
-            'h-full w-full bg-[#353538] dark:bg-neutral-800',
-            props.className,
-          )}
-        />
-      </div>
-    )
+    return <Skeleton className={cn('h-full w-full', props.className)} />
   }
 
   return <img {...props} ref={ref} src={url || src} />
