@@ -200,10 +200,19 @@ const config: Config = {
             opacity: '0',
           },
         },
+        wave: {
+          from: {
+            'background-position': 'left -48px top 0',
+          },
+          to: {
+            'background-position': 'right -48px top 0',
+          },
+        },
       },
       animation: {
         enter: 'enter 300ms ease-out',
         leave: 'leave 300ms ease-in forwards',
+        wave: 'wave 1.5s ease infinite',
       },
     },
   },
