@@ -32,7 +32,9 @@ const LikeButton = forwardRef<HTMLButtonElement, LikeButtonProps>(
         ref={ref}
         className={cn(
           'flex items-center gap-0.5 px-2.5 py-1 rounded-full w-fit',
-          isLiked ? 'border border-orange-400' : 'bg-neutral-500',
+          isLiked
+            ? 'shadow-orange-400 shadow-[inset_0_0_0_1px]'
+            : 'bg-neutral-500',
         )}
         onClick={onClick}
         aria-label={isLiked ? '좋아요 취소' : '좋아요'}

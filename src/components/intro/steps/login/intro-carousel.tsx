@@ -23,7 +23,12 @@ const CarouselItem = ({
   return (
     <>
       <Title content={title} />
-      <img src={src} alt={alt} className="object-cover min-h-[240px]" />
+      <img
+        src={src}
+        alt={alt}
+        draggable="false"
+        className="object-cover min-h-[240px]"
+      />
     </>
   )
 }

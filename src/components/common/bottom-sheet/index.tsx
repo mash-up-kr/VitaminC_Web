@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { MutableRefObject, ReactNode } from 'react'
 import { forwardRef, useId, useRef, useState } from 'react'
 
 import { BOTTOM_SHEET_STATE, BOTTOM_SHEET_STATE_MAP } from './constants'
@@ -7,14 +7,13 @@ import { motion, useDragControls } from 'framer-motion'
 import type { PanInfo } from 'framer-motion'
 
 import { useClickOutside } from '@/hooks/use-click-outside'
-import useMeasure from '@/hooks/use-measure'
 import useWindowSize from '@/hooks/use-window-size'
 import { toBottomSheetState } from '@/utils/bottom-sheet'
 import { mergeRefs } from '@/utils/merge-refs'
 import { clamp } from '@/utils/number'
 
 interface BottomSheetProps {
-  body: ReactNode
+  body: (ref: MutableRefObject<HTMLElement[]>) => ReactNode
   state?: BottomSheetState
 }
 
@@ -22,6 +21,9 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
   ({ body, state = BOTTOM_SHEET_STATE.Default }, ref) => {
     const bottomSheetId = useId()
     const bottomSheetRef = useRef<HTMLDivElement>(null)
+    const contentRef = useRef<HTMLElement[]>([])
+
+    const dragControls = useDragControls()
 
     const [prevState, setPrevState] = useState(state)
     const [bottomSheetState, setBottomSheetState] =
@@ -32,32 +34,38 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       setBottomSheetState(state)
     }
 
-    const [contentRef, contentBounds] = useMeasure()
     const { height: windowHeight } = useWindowSize()
 
-    const dragControls = useDragControls()
+    const HEADER_HEIGHT = 46
+    const DEFAULT_HEIGHT = windowHeight / 2
+    const EXPANDED_HEIGHT = (windowHeight * 3) / 4
 
-    const headerHeight = 46
+    const contentHeight =
+      contentRef?.current.reduce((acc, cur) => acc + cur?.scrollHeight, 0) ??
+      windowHeight
+
     const defaultHeight = Math.min(
-      contentBounds.height + headerHeight,
-      windowHeight / 2,
+      contentHeight + HEADER_HEIGHT,
+      DEFAULT_HEIGHT,
     )
 
     const expandedHeight = Math.min(
-      contentBounds.height + headerHeight,
-      (windowHeight * 3) / 4,
+      contentHeight + HEADER_HEIGHT,
+      EXPANDED_HEIGHT,
     )
 
-    const bodyHeight = () => {
+    const currentHeight = () => {
       switch (bottomSheetState) {
         case BOTTOM_SHEET_STATE.Expanded:
-          return expandedHeight - headerHeight
+          return expandedHeight
         case BOTTOM_SHEET_STATE.Collapsed:
-          return 0
+          return HEADER_HEIGHT
         default:
-          return defaultHeight - headerHeight
+          return defaultHeight
       }
     }
+
+    const bodyHeight = currentHeight() - HEADER_HEIGHT
 
     useClickOutside(bottomSheetRef, (event) => {
       if (event.target instanceof HTMLElement) {
@@ -79,20 +87,21 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     }
 
     const getNextBottomSheetState = (info: PanInfo) => {
-      let bottomSheetStateNum = BOTTOM_SHEET_STATE_MAP[bottomSheetState]
+      const offsetY = info.offset.y < 0 ? -1 : 1
+      const nextBottomSheetState =
+        offsetY + BOTTOM_SHEET_STATE_MAP[bottomSheetState]
 
-      const offsetY = info.offset.y
-
-      const LARGE_ENOUGH_VALUE = 200
-      const step = Math.abs(offsetY) > LARGE_ENOUGH_VALUE ? 2 : 1
-      const sign = offsetY < 0 ? -1 : 1
-
-      bottomSheetStateNum += step * sign
+      const isExpandable = contentHeight > DEFAULT_HEIGHT
+      const maxBottomSheetState = isExpandable
+        ? BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Expanded]
+        : BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Default]
+      const minBottomSheetState =
+        BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Collapsed]
 
       const result = clamp<BottomSheetStateNum>(
-        bottomSheetStateNum,
-        BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Expanded],
-        BOTTOM_SHEET_STATE_MAP[BOTTOM_SHEET_STATE.Collapsed],
+        nextBottomSheetState,
+        maxBottomSheetState,
+        minBottomSheetState,
       )
       return result
     }
@@ -110,40 +119,40 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
         <motion.div
           id={bottomSheetId}
           ref={mergeRefs([bottomSheetRef, ref])}
-          className="fixed z-10 w-full max-w-[420px] rounded-t-[14px] bg-[#212124] pb-[24px] text-white will-change-transform"
-          onPointerDown={(e) => dragControls.start(e)}
+          className="fixed z-10 w-full max-w-[420px] rounded-t-[14px] bg-neutral-700 pb-[24px] text-white will-change-transform"
           initial="default"
           animate={bottomSheetState}
           variants={{
             expanded: { top: `calc(100dvh - ${expandedHeight}px)` },
             default: { top: `calc(100dvh - ${defaultHeight}px)` },
-            collapsed: { top: `calc(100dvh - ${headerHeight}px)` },
+            collapsed: { top: `calc(100dvh - ${HEADER_HEIGHT}px)` },
           }}
           transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
-          drag="y"
-          dragControls={dragControls}
-          dragConstraints={{ top: 0, bottom: 0 }}
-          dragElastic={0}
-          onDragEnd={(_, info) => handleDragEnd(info)}
           aria-expanded={bottomSheetState !== BOTTOM_SHEET_STATE.Collapsed}
         >
           {/* header */}
-          <div className="cursor-grab pb-[24px] pt-[16px]">
+          <motion.div
+            className="cursor-grab pb-[24px] pt-[16px]"
+            onPointerDown={(e) => dragControls.start(e)}
+            drag="y"
+            dragControls={dragControls}
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={0}
+            onDragEnd={(_, info) => handleDragEnd(info)}
+          >
             {/* bar */}
-            <div className="mx-auto my-0 h-[6px] w-[53px] rounded-full bg-[#6D717A]" />
-          </div>
+            <div className="mx-auto my-0 h-[6px] w-[53px] rounded-full bg-neutral-400" />
+          </motion.div>
           {/* body */}
           <div
             className="select-none transition-all duration-300"
             style={{
-              height: bodyHeight(),
+              height: bodyHeight,
             }}
             aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
           >
             {/* content */}
-            <div ref={contentRef} draggable="false">
-              {body}
-            </div>
+            {body(contentRef)}
           </div>
         </motion.div>
       </>
