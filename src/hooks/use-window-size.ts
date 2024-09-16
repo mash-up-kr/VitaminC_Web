@@ -9,16 +9,12 @@ interface Size {
   height: number
 }
 
-// iPhone 6 TODO: viewport 크기 세분화해서 파일로 관리
-const MIN_WIDTH = 320
-const MIN_HEIGHT = 568
-
 const DEBOUNCE_WAIT = 250
 
 const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState<Size>({
-    width: MIN_WIDTH,
-    height: MIN_HEIGHT,
+    width: 0,
+    height: 0,
   })
 
   const handleResize = () => {
