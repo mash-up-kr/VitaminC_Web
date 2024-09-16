@@ -16,11 +16,14 @@ interface BottomSheetProps {
   body: (ref: MutableRefObject<HTMLElement[]>) => ReactNode
   state?: BottomSheetState
 }
+
 const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
   ({ body, state = BOTTOM_SHEET_STATE.Default }, ref) => {
     const bottomSheetId = useId()
     const bottomSheetRef = useRef<HTMLDivElement>(null)
     const contentRef = useRef<HTMLElement[]>([])
+
+    const dragControls = useDragControls()
 
     const [prevState, setPrevState] = useState(state)
     const [bottomSheetState, setBottomSheetState] =
@@ -31,8 +34,6 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       setBottomSheetState(state)
     }
 
-    const dragControls = useDragControls()
-
     const { height: windowHeight } = useWindowSize()
 
     const HEADER_HEIGHT = 46
@@ -40,7 +41,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     const EXPANDED_HEIGHT = (windowHeight * 3) / 4
 
     const contentHeight =
-      contentRef?.current.reduce((acc, cur) => acc + cur?.scrollHeight, 0) ||
+      contentRef?.current.reduce((acc, cur) => acc + cur?.scrollHeight, 0) ??
       windowHeight
 
     const defaultHeight = Math.min(
@@ -53,16 +54,18 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       EXPANDED_HEIGHT,
     )
 
-    const bodyHeight = () => {
+    const currentHeight = () => {
       switch (bottomSheetState) {
         case BOTTOM_SHEET_STATE.Expanded:
-          return expandedHeight - HEADER_HEIGHT
+          return expandedHeight
         case BOTTOM_SHEET_STATE.Collapsed:
-          return 0
+          return HEADER_HEIGHT
         default:
-          return defaultHeight - HEADER_HEIGHT
+          return defaultHeight
       }
     }
+
+    const bodyHeight = currentHeight() - HEADER_HEIGHT
 
     useClickOutside(bottomSheetRef, (event) => {
       if (event.target instanceof HTMLElement) {
@@ -144,7 +147,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
           <div
             className="select-none transition-all duration-300"
             style={{
-              height: bodyHeight(),
+              height: bodyHeight,
             }}
             aria-hidden={bottomSheetState === BOTTOM_SHEET_STATE.Collapsed}
           >
