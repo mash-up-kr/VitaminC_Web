@@ -7,6 +7,7 @@ import Link from 'next/link'
 import FilterModalBody, { type CategoryType } from './filter-modal-body'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import SearchAnchorBox from './search-anchor-box'
+import PlaceListSkeleton from './place-list-skeleton'
 
 import Avatar from '@/components/common/avatar'
 import BottomModal from '@/components/common/bottom-modal'
@@ -48,6 +49,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const {
     data: places,
     error: placesError,
+    status,
     refetch: clearOldPlacedata,
   } = useFetch(() => api.place.mapId.get(mapId), {
     key: ['places', mapId],
@@ -148,6 +150,13 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
   useEffect(() => {
     if (!userData || !places) return
+    if (
+      selectedFilterNames.category === 'all' &&
+      selectedFilterNames.tags.length === 0
+    ) {
+      setFilteredPlace(places)
+      return
+    }
     setFilteredPlace(
       places.filter((place) => {
         const checkMatchesCategory = () => {
@@ -231,16 +240,20 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         <>
           <BottomSheet
             ref={bottomRef}
-            body={(contentRef) => (
-              <PlaceListBottomSheet
-                ref={contentRef}
-                places={filteredPlace}
-                mapId={mapId}
-                selectedFilter={selectedFilterNames}
-                onClickFilterButton={handleFilterModalOpen}
-                onRefreshOldPlace={clearOldPlacedata}
-              />
-            )}
+            body={(contentRef) =>
+              status === 'success' ? (
+                <PlaceListBottomSheet
+                  ref={contentRef}
+                  places={filteredPlace}
+                  mapId={mapId}
+                  selectedFilter={selectedFilterNames}
+                  onClickFilterButton={handleFilterModalOpen}
+                  onRefreshOldPlace={clearOldPlacedata}
+                />
+              ) : (
+                <PlaceListSkeleton ref={contentRef} />
+              )
+            }
           />
           <BottomModal
             title="보고 싶은 맛집을 선택해주세요"

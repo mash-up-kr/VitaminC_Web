@@ -29,7 +29,7 @@ const PlaceListBottomSheet = forwardRef<
     { places, mapId, selectedFilter, onClickFilterButton, onRefreshOldPlace },
     ref,
   ) => {
-    const [placeList, setPlaceList] = useState<PlaceType[]>(places)
+    const [placeList, setPlaceList] = useState<PlaceType[]>([])
     const { data: user, revalidate } = useFetch(api.users.me.get, {
       key: ['user'],
     })
@@ -85,7 +85,7 @@ const PlaceListBottomSheet = forwardRef<
       setPlaceList(places)
     }, [places])
 
-    if (numOfSelectedFilter === 0 && !placeList.length) {
+    if (numOfSelectedFilter === 0 && places.length === 0) {
       return (
         <EmptyPlaceList
           ref={(element) => {
@@ -156,14 +156,16 @@ const PlaceListBottomSheet = forwardRef<
             </ul>
           </div>
         ) : (
-          <EmptyPlaceList
-            ref={(element) => {
-              if (typeof ref !== 'function' && ref?.current) {
-                ref.current[1] = element as HTMLDivElement
-              }
-            }}
-            message="해당 음식점이 없어요"
-          />
+          !!numOfSelectedFilter && (
+            <EmptyPlaceList
+              ref={(element) => {
+                if (typeof ref !== 'function' && ref?.current) {
+                  ref.current[1] = element as HTMLDivElement
+                }
+              }}
+              message="해당 음식점이 없어요"
+            />
+          )
         )}
       </div>
     )
