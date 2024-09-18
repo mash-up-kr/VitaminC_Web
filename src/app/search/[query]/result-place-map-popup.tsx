@@ -131,13 +131,18 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
             className="z-10 flex w-full flex-col gap-4 rounded-[10px] bg-neutral-700 p-5"
           >
             <div className="flex justify-between gap-2">
-              <div className="flex w-full flex-col justify-between">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-end gap-1.5">
-                    <Typography as="h2" size="h4">
+              <div className="flex flex-col justify-between gap-2 overflow-hidden">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <Typography as="h2" size="h4" className="truncate">
                       {place.name}
                     </Typography>
-                    <Typography as="span" size="body3" color="neutral-400">
+                    <Typography
+                      as="span"
+                      size="body3"
+                      color="neutral-400"
+                      className="text-nowrap flex-grow"
+                    >
                       {place.category}
                     </Typography>
                   </div>
@@ -159,7 +164,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
                       as="span"
                       size="body3"
                       color="neutral-300"
-                      className="overflow-hidden text-ellipsis"
+                      className="truncate"
                     >
                       {place.address}
                     </Typography>
@@ -167,7 +172,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
                 </div>
 
                 {place.isRegisteredPlace && (
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     <PickChip
                       isMyPick={
                         !!place.createdBy && place.createdBy.id === user?.id
@@ -192,7 +197,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
 
               {place.mainPhotoUrl && (
                 <ProxyImage
-                  className="h-20 w-20 rounded-md"
+                  className="h-20 w-20 rounded-md min-w-0"
                   src={place.mainPhotoUrl}
                   alt="식당"
                 />

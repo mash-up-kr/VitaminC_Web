@@ -157,7 +157,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                       as="span"
                       size="body3"
                       color="neutral-300"
-                      className="overflow-hidden text-ellipsis"
+                      className="truncate"
                     >
                       {kakaoPlace.address}
                     </Typography>
@@ -165,7 +165,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                 </div>
 
                 {pick && (
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     <PickChip isMyPick={pick.isMyPick} />
                     <LikeButton
                       numOfLikes={pick.numOfLikes}
