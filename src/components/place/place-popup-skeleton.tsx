@@ -10,15 +10,17 @@ const PlacePopupSkeleton = forwardRef<HTMLDivElement>(({}, ref) => {
     >
       <div className="flex flex-col gap-4">
         <div className="flex w-full justify-between">
-          <div className="flex flex-col py-1">
-            <Skeleton className="h-[20px] w-[140px] rounded-full mb-[7px]" />
+          <div className="space-y-1">
+            <div className="flex flex-col gap-[7px] pt-[3px] pb-[10px]">
+              <Skeleton className="h-[20px] w-[140px] rounded-full" />
 
-            <div className="flex gap-[7px] mb-[14px]">
-              <Skeleton className="h-[14px] w-[37px] rounded-full" />
-              <Skeleton className="h-[14px] w-[120px] rounded-full" />
+              <div className="flex gap-[7px]">
+                <Skeleton className="h-[14px] w-[37px] rounded-full" />
+                <Skeleton className="h-[14px] w-[120px] rounded-full" />
+              </div>
             </div>
 
-            <Skeleton className="h-[20px] w-[60px] rounded-full" />
+            <Skeleton className="h-[20px] w-[60px] rounded-full mb-[2px]" />
           </div>
 
           <Skeleton className="h-20 w-20 rounded-md" />
@@ -26,7 +28,7 @@ const PlacePopupSkeleton = forwardRef<HTMLDivElement>(({}, ref) => {
 
         <ul className="flex gap-2">
           {[...Array(3)].map((_, index) => (
-            <Skeleton key={index} className="rounded-full w-[60px] h-[26px]" />
+            <Skeleton key={index} className="h-[26px] w-[60px] rounded-full " />
           ))}
         </ul>
       </div>
