@@ -16,7 +16,7 @@ interface InputProps
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { placeholder, value, onChange, minLength = 0, maxLength, ...props },
+    { placeholder, value, onChange, minLength = 0, maxLength = 10, ...props },
     ref,
   ) => {
     const { num, offset } = countCharacters(value)
