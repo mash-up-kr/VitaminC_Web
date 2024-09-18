@@ -212,7 +212,7 @@ const config: Config = {
       animation: {
         enter: 'enter 300ms ease-out',
         leave: 'leave 300ms ease-in forwards',
-        wave: 'wave 1.5s ease infinite',
+        wave: 'wave 1.3s ease infinite',
       },
     },
   },
