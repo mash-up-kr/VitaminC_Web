@@ -68,7 +68,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
           alt="프로필 이미지"
           width={36}
           height={36}
-          className="w-full h-full rounded-full"
+          className="h-full w-full rounded-full"
         />
       }
       return <span>{initial}</span>
@@ -83,7 +83,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
         className={cn(
           AvatarVariants({ colorScheme, size }),
           className,
-          size === 'sm' && 'font-semibold text-[12px]',
+          size === 'sm' && 'text-[12px] font-semibold',
         )}
       >
         {renderContent()}

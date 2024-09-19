@@ -7,11 +7,11 @@ const PlaceBoxSkeleton = () => {
     <div className="relative flex min-h-dvh flex-col bg-neutral-700">
       <Skeleton className="h-[200px] w-full" />
 
-      <div className="space-y-3.5 py-4 px-5">
+      <div className="space-y-3.5 px-5 py-4">
         <Skeleton className="h-[36px] w-[90px] rounded-full" />
 
         <div>
-          <Skeleton className="h-[20px] w-[194px] rounded-full my-[3px]" />
+          <Skeleton className="my-[3px] h-[20px] w-[194px] rounded-full" />
 
           <div className="flex gap-[7px] py-1.5">
             <Skeleton className="h-[14px] w-[37px] rounded-full" />
@@ -28,16 +28,16 @@ const PlaceBoxSkeleton = () => {
 
       <PlaceDivider className="w-full" />
 
-      <div className="px-5 pt-6 space-y-4">
+      <div className="space-y-4 px-5 pt-6">
         <Skeleton className="h-[16px] w-[40px] rounded-full" />
         <Skeleton className="h-[148px] w-full rounded-md" />
       </div>
 
-      <ul className="flex flex-col px-5 divide-y divide-neutral-600">
+      <ul className="flex flex-col divide-y divide-neutral-600 px-5">
         {[...Array(4)].map((_, index) => (
           <li
             key={index}
-            className="flex justify-between items-center py-[18px]"
+            className="flex items-center justify-between py-[18px]"
           >
             <div className="space-y-2">
               <Skeleton className="h-[18px] w-[100px] rounded-full" />
@@ -51,7 +51,7 @@ const PlaceBoxSkeleton = () => {
 
       <PlaceDivider className="w-full" />
 
-      <div className="p-5 space-y-[10px]">
+      <div className="space-y-[10px] p-5">
         <Skeleton className="h-[16px] w-[40px] rounded-full" />
 
         <div className="flex w-full items-center justify-between space-x-[14px] rounded-md bg-neutral-600 px-5 py-[14px]">

@@ -102,7 +102,7 @@ const PlaceListBottomSheet = forwardRef<
     }
 
     return (
-      <div className="flex flex-col h-full">
+      <div className="flex h-full flex-col">
         <div
           ref={(element) => {
             if (typeof ref !== 'function' && ref?.current) {
@@ -120,7 +120,7 @@ const PlaceListBottomSheet = forwardRef<
           </FilterButton>
         </div>
         {placeList.length > 0 ? (
-          <div className="flex-1 no-scrollbar overflow-y-scroll overscroll-contain px-5">
+          <div className="no-scrollbar flex-1 overflow-y-scroll overscroll-contain px-5">
             <ul
               ref={(element) => {
                 if (typeof ref !== 'function' && ref?.current) {
@@ -152,7 +152,7 @@ const PlaceListBottomSheet = forwardRef<
                     }}
                     className="first:pt-1"
                   />
-                  <hr className="bg-neutral-600 border-0 h-[1px] my-[2px] last:hidden" />
+                  <hr className="my-[2px] h-[1px] border-0 bg-neutral-600 last:hidden" />
                 </Fragment>
               ))}
             </ul>

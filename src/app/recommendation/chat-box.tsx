@@ -20,7 +20,7 @@ const ChatBox = ({
   onClickSuggestion,
 }: ChatBoxProps) => {
   return (
-    <section className={cn('w-full h-full', className)}>
+    <section className={cn('h-full w-full', className)}>
       <ul className="flex flex-col gap-6">
         {chats.map((chat) => {
           if (chat.type === 'gpt') {

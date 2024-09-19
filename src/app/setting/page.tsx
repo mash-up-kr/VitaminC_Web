@@ -73,22 +73,22 @@ const Setting = () => {
         </header>
 
         <div className="flex flex-col">
-          <div className="pt-6 pb-5 flex flex-col items-center gap-6">
-            <label className="cursor-pointer relative">
+          <div className="flex flex-col items-center gap-6 pb-5 pt-6">
+            <label className="relative cursor-pointer">
               <Avatar
                 value={nickname}
                 imageUrl={profileImage}
-                className={`w-20 h-20 text-[40px] ${!profileImage && 'border-2 border-[#17171A] border-opacity-20'}`}
+                className={`h-20 w-20 text-[40px] ${!profileImage && 'border-2 border-[#17171A] border-opacity-20'}`}
               />
               <input
-                className="h-[1px] w-[1px] m-[-1px] absolute hidden"
+                className="absolute m-[-1px] hidden h-[1px] w-[1px]"
                 type="file"
                 accept="image/*"
                 onChange={handleProfileImageChange}
               />
-              <div className="absolute bottom-0 right-0 w-6 h-6 flex justify-center items-center bg-neutral-700 rounded-full">
+              <div className="absolute bottom-0 right-0 flex h-6 w-6 items-center justify-center rounded-full bg-neutral-700">
                 <Icon
-                  className="bg-neutral-500 rounded-full p-[1px]"
+                  className="rounded-full bg-neutral-500 p-[1px]"
                   type="plusBold"
                 />
               </div>
@@ -102,7 +102,7 @@ const Setting = () => {
               <Icon type="pencil" size="lg" aria-label="이름 변경" />
             </button>
           </div>
-          <div className="w-full h-[18px] bg-neutral-600"></div>
+          <div className="h-[18px] w-full bg-neutral-600"></div>
           <section className="flex flex-col px-5">
             <Typography
               as="h2"

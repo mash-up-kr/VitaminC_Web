@@ -27,7 +27,7 @@ const CarouselItem = ({
         src={src}
         alt={alt}
         draggable="false"
-        className="object-cover min-h-[240px]"
+        className="min-h-[240px] object-cover"
       />
     </>
   )

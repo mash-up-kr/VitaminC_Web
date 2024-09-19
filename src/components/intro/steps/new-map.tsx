@@ -20,7 +20,7 @@ const NewMap = ({ goNextStep }: IntroActionDispatch) => {
           </Typography>
         </div>
 
-        <div className="flex w-full min-h-[240px] items-center justify-center">
+        <div className="flex min-h-[240px] w-full items-center justify-center">
           <img src="/images/intro-making-map.png" width="100%" alt="보물지도" />
         </div>
       </div>

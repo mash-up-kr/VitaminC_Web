@@ -118,13 +118,13 @@ const CrewInfoBottomButton = ({
   return (
     <>
       {mapInfo.createBy.id === user.id ? (
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[420px] px-5 h-[102px] flex justify-center items-center invitation-gradient">
+        <div className="invitation-gradient fixed bottom-0 left-1/2 flex h-[102px] w-full max-w-[420px] -translate-x-1/2 items-center justify-center px-5">
           <Button colorScheme="orange" onClick={handleIssuedInviteCode}>
             초대장 보내기
           </Button>
         </div>
       ) : (
-        <div className={cn('py-6 w-full', className)}>
+        <div className={cn('w-full py-6', className)}>
           <button
             type="button"
             onClick={() => setIsOpenExitMapModal(true)}

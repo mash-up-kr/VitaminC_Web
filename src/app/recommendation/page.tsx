@@ -142,7 +142,7 @@ const Recommendation = () => {
 
   return (
     <>
-      <div className="min-h-dvh bg-neutral-700 flex flex-col">
+      <div className="flex min-h-dvh flex-col bg-neutral-700">
         <header className="relative flex items-center pt-4">
           <AccessibleIconButton
             icon={{ type: 'caretLeft', size: 'xl' }}
@@ -159,11 +159,11 @@ const Recommendation = () => {
           </Typography>
         </header>
 
-        <section className="flex-1 max-h-[calc(100vh-156px)] overflow-y-scroll no-scrollbar">
-          <div className="flex flex-col gap-4 justify-center items-center pb-6">
+        <section className="no-scrollbar max-h-[calc(100vh-156px)] flex-1 overflow-y-scroll">
+          <div className="flex flex-col items-center justify-center gap-4 pb-6">
             <img
               src="/images/ai-recommend.png"
-              className="w-[213px] h-[112px]"
+              className="h-[112px] w-[213px]"
             />
             <Typography
               size="h4"
@@ -176,7 +176,7 @@ const Recommendation = () => {
             chats={chats}
             isLoading={isLoading}
             isFinish={isFinish}
-            className="px-5 flex-1"
+            className="flex-1 px-5"
             onClickSuggestion={handleClickSuggestion}
           />
 
@@ -187,7 +187,7 @@ const Recommendation = () => {
           value={input}
           isLoading={isLoading}
           isFinish={isFinish}
-          className="h-[96px] py-[28px] pb-5 px-5"
+          className="h-[96px] px-5 py-[28px] pb-5"
           onChange={(value) => setInput(value)}
           sendChat={() => {
             if (isLoading || isFinish) return

@@ -29,7 +29,7 @@ const RoleButton = ({
     <li className="w-full py-4">
       <button
         type="button"
-        className="w-full flex justify-between items-center"
+        className="flex w-full items-center justify-between"
         onClick={() => onClick(role)}
       >
         <div className="flex flex-1 flex-col gap-[2px]">
@@ -128,7 +128,7 @@ const CrewInfoEditableItem = ({
 
   return (
     <>
-      <li className="flex justify-between items-center h-[52px]">
+      <li className="flex h-[52px] items-center justify-between">
         <div className="flex items-center gap-2">
           <Avatar
             value={member.nickname}

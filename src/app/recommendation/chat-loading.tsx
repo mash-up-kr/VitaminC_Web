@@ -3,12 +3,12 @@ import ChatLoadingDot from './chat-loading-dot'
 
 const ChatLoading = () => {
   return (
-    <div className="w-fit flex justify-center items-center ml-[44px] px-5 py-3 bg-purple-400 rounded-[24px] rounded-tl-[0] relative">
+    <div className="relative ml-[44px] flex w-fit items-center justify-center rounded-[24px] rounded-tl-[0] bg-purple-400 px-5 py-3">
       <img
         src="images/ai.png"
-        className="w-9 h-9 absolute top-0 left-[-44px]"
+        className="absolute left-[-44px] top-0 h-9 w-9"
       />
-      <div className="flex gap-[10px] items-center">
+      <div className="flex items-center gap-[10px]">
         <Typography size="body2" color="neutral-000">
           탐색 중
         </Typography>

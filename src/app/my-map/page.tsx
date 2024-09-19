@@ -35,14 +35,14 @@ const MyMap = () => {
           </Typography>
         </header>
 
-        <div className="flex flex-col pt-5 px-5 gap-4">
+        <div className="flex flex-col gap-4 px-5 pt-5">
           {myMapList?.map((map) => <MyMapCard key={map.id} mapId={map.id} />)}
         </div>
 
         <div className="pb-5">
           <Link
             href="/map/create"
-            className="flex justify-center items-center mx-auto gap-2 px-[24px] py-[12px] rounded-full border border-neutral-500 w-fit mt-5"
+            className="mx-auto mt-5 flex w-fit items-center justify-center gap-2 rounded-full border border-neutral-500 px-[24px] py-[12px]"
           >
             <Icon type="plus" size="md" />
             <Typography size="body1" color="neutral-000">

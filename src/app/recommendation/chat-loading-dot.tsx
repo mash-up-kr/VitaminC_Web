@@ -27,21 +27,21 @@ const ChatLoadingDot = ({ className }: { className?: string }) => {
 
   return (
     <motion.div
-      className={cn('flex justify-center items-center gap-1', className)}
+      className={cn('flex items-center justify-center gap-1', className)}
       variants={container}
       initial="initial"
       animate="animate"
     >
       <motion.div
-        className="w-[5px] h-[5px] rounded-full bg-purple-50 relative"
+        className="relative h-[5px] w-[5px] rounded-full bg-purple-50"
         variants={dotAnimation}
       />
       <motion.div
-        className="w-[5px] h-[5px] rounded-full bg-purple-50 relative"
+        className="relative h-[5px] w-[5px] rounded-full bg-purple-50"
         variants={dotAnimation}
       />
       <motion.div
-        className="w-[5px] h-[5px] rounded-full bg-purple-50 relative"
+        className="relative h-[5px] w-[5px] rounded-full bg-purple-50"
         variants={dotAnimation}
       />
     </motion.div>

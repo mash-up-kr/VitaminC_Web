@@ -14,7 +14,7 @@ const CrewInfoReadOnlyItem = ({
   isMe: boolean
 }) => {
   return (
-    <li className="flex justify-between items-center h-[52px]">
+    <li className="flex h-[52px] items-center justify-between">
       <div className="flex items-center gap-2">
         <Avatar
           value={member.nickname}

@@ -21,16 +21,16 @@ export const AISuggestion = ({
   return (
     <motion.li
       className={cn(
-        'flex flex-col gap-4 overflow-x-scroll no-scrollbar max-w-[calc(100%+20px)]',
+        'no-scrollbar flex max-w-[calc(100%+20px)] flex-col gap-4 overflow-x-scroll',
         className,
       )}
       initial={{ bottom: -5, opacity: 0.8 }}
       animate={{ bottom: 0, opacity: 1 }}
     >
-      <div className="w-fit flex justify-center items-center ml-[44px] px-5 py-3 bg-purple-400 rounded-[24px] rounded-tl-[0] relative">
+      <div className="relative ml-[44px] flex w-fit items-center justify-center rounded-[24px] rounded-tl-[0] bg-purple-400 px-5 py-3">
         <img
           src="images/ai.png"
-          className="w-9 h-9 absolute top-0 left-[-44px]"
+          className="absolute left-[-44px] top-0 h-9 w-9"
         />
         <Typography size="body2" color="neutral-000">
           {chat.value}
@@ -38,27 +38,27 @@ export const AISuggestion = ({
       </div>
 
       {chat.suggestionPlaces && (
-        <ul className="flex overflow-x-scroll no-scrollbar gap-4 ml-[44px] mr-[20px]">
+        <ul className="no-scrollbar ml-[44px] mr-[20px] flex gap-4 overflow-x-scroll">
           {chat.suggestionPlaces.map((place) => {
             return (
               <AIRecommendPlaceBox
                 key={place.placeId}
                 place={place}
-                className="w-[260px] min-w-[260px] h-[250px]"
+                className="h-[250px] w-[260px] min-w-[260px]"
               />
             )
           })}
         </ul>
       )}
 
-      <ul className="flex gap-[6px] flex-wrap ml-[44px]">
+      <ul className="ml-[44px] flex flex-wrap gap-[6px]">
         {chat.suggestionKeywords.map((suggestion) => (
           <li
             key={suggestion}
             className="w-fit rounded-full border border-neutral-500 bg-neutral-600"
             onClick={() => onClickSuggestion(suggestion)}
           >
-            <button type="button" className="w-full h-full py-2 px-4">
+            <button type="button" className="h-full w-full px-4 py-2">
               <Typography size="body3" color="neutral-000">
                 {suggestion}
               </Typography>
@@ -74,7 +74,7 @@ export const UserChat = ({ chat, className }: ChatItemProps) => {
   return (
     <motion.li
       className={cn(
-        'relative flex justify-center items-center px-5 py-3 bg-orange-400 rounded-[24px] rounded-tr-[0] self-end',
+        'relative flex items-center justify-center self-end rounded-[24px] rounded-tr-[0] bg-orange-400 px-5 py-3',
         className,
       )}
       initial={{ bottom: -5, opacity: 0.8 }}
