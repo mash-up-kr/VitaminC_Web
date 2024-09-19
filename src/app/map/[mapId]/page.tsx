@@ -44,24 +44,26 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   } = useFetch(api.users.me.get, { key: ['user'] })
   const { data: mapData, error: mapError } = useFetch(
     () => api.maps.id.get(mapId),
-    { key: ['map', mapId] },
+    { key: ['map', mapId], enabled: !!mapId },
   )
   const {
     data: places,
     error: placesError,
-    status,
+    status: placesStatus,
     refetch: clearOldPlacedata,
   } = useFetch(() => api.place.mapId.get(mapId), {
     key: ['places', mapId],
-    enabled: !!userData && !!mapData,
+    enabled: !!mapId,
   })
+
+  const [status, setStatus] = useState('pending')
 
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterNames, setSelectedFilterNames] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
 
-  const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
+  const [filteredPlace, setFilteredPlace] = useState<PlaceType[] | null>(null)
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
 
   const [bottomRef, bottomBounds] = useMeasure()
@@ -155,6 +157,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       selectedFilterNames.tags.length === 0
     ) {
       setFilteredPlace(places)
+      setStatus(placesStatus)
       return
     }
     setFilteredPlace(
@@ -185,7 +188,14 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         return matchesCategory && matchesTags
       }),
     )
-  }, [places, selectedFilterNames.category, selectedFilterNames, userData])
+    setStatus(placesStatus)
+  }, [
+    places,
+    selectedFilterNames.category,
+    selectedFilterNames,
+    userData,
+    placesStatus,
+  ])
 
   useEffect(() => {
     if (!visitedMapIds.includes(mapId)) {

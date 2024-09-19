@@ -14,7 +14,7 @@ import type { PlaceType } from '@/models/api/place'
 import { api } from '@/utils/api'
 
 interface PlaceListBottomSheetProps {
-  places: PlaceType[]
+  places: PlaceType[] | null
   mapId: string
   selectedFilter?: FilterIdsType
   onClickFilterButton: VoidFunction
@@ -29,7 +29,7 @@ const PlaceListBottomSheet = forwardRef<
     { places, mapId, selectedFilter, onClickFilterButton, onRefreshOldPlace },
     ref,
   ) => {
-    const [placeList, setPlaceList] = useState<PlaceType[]>([])
+    const [placeList, setPlaceList] = useState<PlaceType[]>(places || [])
     const { data: user, revalidate } = useFetch(api.users.me.get, {
       key: ['user'],
     })
@@ -82,10 +82,12 @@ const PlaceListBottomSheet = forwardRef<
     }
 
     useEffect(() => {
-      setPlaceList(places)
+      if (places) {
+        setPlaceList(places)
+      }
     }, [places])
 
-    if (numOfSelectedFilter === 0 && places.length === 0) {
+    if (numOfSelectedFilter === 0 && places?.length === 0) {
       return (
         <EmptyPlaceList
           ref={(element) => {
