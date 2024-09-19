@@ -1,9 +1,7 @@
 import Typography from '@/components/common/typography'
-import { ClassName } from '@/models/common'
+import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
-import { Chat } from './type'
-import { PlaceDetail } from '@/models/api/place'
-import Button from '@/components/common/button'
+import type { PlaceDetail } from '@/models/api/place'
 import Link from 'next/link'
 
 interface AIRecommendPlaceBoxProps extends ClassName {
