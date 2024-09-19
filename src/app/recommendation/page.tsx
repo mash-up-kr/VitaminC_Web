@@ -153,11 +153,7 @@ const Recommendation = () => {
         </header>
 
         <section className="flex-1 max-h-[calc(100vh-156px)] overflow-y-scroll no-scrollbar">
-          <div className="flex flex-col gap-4 justify-center items-center pb-6 relative">
-            <img
-              src="/images/ai.png"
-              className="w-9 h-9 absolute top-0 left-5"
-            />
+          <div className="flex flex-col gap-4 justify-center items-center pb-6">
             <img
               src="/images/ai-recommend.png"
               className="w-[213px] h-[112px]"
