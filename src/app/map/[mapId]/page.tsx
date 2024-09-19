@@ -231,15 +231,16 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         <>
           <BottomSheet
             ref={bottomRef}
-            body={
+            body={(contentRef) => (
               <PlaceListBottomSheet
+                ref={contentRef}
                 places={filteredPlace}
                 mapId={mapId}
                 selectedFilter={selectedFilterNames}
                 onClickFilterButton={handleFilterModalOpen}
                 onRefreshOldPlace={clearOldPlacedata}
               />
-            }
+            )}
           />
           <BottomModal
             title="보고 싶은 맛집을 선택해주세요"

@@ -44,7 +44,7 @@ const PlaceListItem = ({
       )}
       draggable="false"
     >
-      {images && (
+      {images && images.length > 0 && (
         <div className="max-x-[335px] no-scrollbar box-border flex flex-nowrap items-center gap-2 overflow-x-scroll">
           {images.map((image, index) => (
             <ProxyImage
