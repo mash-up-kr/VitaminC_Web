@@ -1,32 +1,56 @@
 'use client'
 
-import { useState } from 'react'
-
-import Input from '@/components/common/input'
-import LikeButton from '@/components/like-button'
+import Typography from '@/components/common/typography'
 
 const TestDesign = () => {
-  const [input, setInput] = useState('')
-
   return (
     <>
       <div className="flex h-dvh w-dvw flex-col gap-[40px]">
-        <Input value={input} onChange={(value) => setInput(value)} />
-
-        <LikeButton
-          numOfLikes={0}
-          isLiked={false}
-          onClick={() => console.log('click!')}
-        />
-        <LikeButton
-          numOfLikes={3}
-          isLiked={true}
-          onClick={() => console.log('click!')}
-        />
-
-        <a href="/test-design/map" className="text-3xl">
-          MAP
-        </a>
+        <Typography size="body0" color="neutral-800">
+          BODY0
+        </Typography>
+        <Typography size="body0-2" color="neutral-800">
+          BODY0-2
+        </Typography>
+        <Typography size="body1" color="neutral-800">
+          BODY1
+        </Typography>
+        <Typography size="body2" color="neutral-800">
+          BODY2
+        </Typography>
+        <Typography size="body3" color="neutral-800">
+          BODY3
+        </Typography>
+        <Typography size="body4" color="neutral-800">
+          BODY4
+        </Typography>
+        <Typography size="h0" color="neutral-800">
+          H0
+        </Typography>
+        <Typography size="h1" color="neutral-800">
+          h1
+        </Typography>
+        <Typography size="h2" color="neutral-800">
+          h2
+        </Typography>
+        <Typography size="h3" color="neutral-800">
+          h3
+        </Typography>
+        <Typography size="h4" color="neutral-800">
+          h4
+        </Typography>
+        <Typography size="h5" color="neutral-800">
+          h5
+        </Typography>
+        <Typography size="h5-2" color="neutral-800">
+          h5-2
+        </Typography>
+        <Typography size="h6" color="neutral-800">
+          h6
+        </Typography>
+        <Typography size="h7" color="neutral-800">
+          h7
+        </Typography>
       </div>
     </>
   )
