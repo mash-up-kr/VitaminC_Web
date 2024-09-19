@@ -1,10 +1,10 @@
 import BottomModal from '@/components/common/bottom-modal'
-import type { PlaceType } from '@/models/api/place'
+import type { LikeUsers } from '@/components/place/types'
 import type { User } from '@/models/user'
 
 interface PlaceDeleteModalProps {
   createdUser: Omit<User, 'role'> | null
-  likedUserIds?: PlaceType['likedUserIds']
+  likedUsers?: LikeUsers[]
   isOpen: boolean
   onCancel: VoidFunction
   onConfirm: VoidFunction
@@ -19,15 +19,17 @@ const safeNameWith님 = (name: string) => {
 
 const PlaceDeleteModal = ({
   createdUser,
-  likedUserIds,
+  likedUsers,
   isOpen,
   onCancel,
   onConfirm,
 }: PlaceDeleteModalProps) => {
-  const numOfLike = likedUserIds?.length || 0
+  const numOfLike = likedUsers?.length || 0
   const likeCount = (() => {
     if (numOfLike === 0) return 0
-    const isCreateUserLike = likedUserIds?.includes(createdUser?.id ?? -1)
+    const isCreateUserLike = !!likedUsers?.find(
+      (likeUser) => likeUser.id === createdUser?.id,
+    )
     return isCreateUserLike ? numOfLike - 1 : numOfLike
   })()
 

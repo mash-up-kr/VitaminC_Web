@@ -29,7 +29,7 @@ const RegisterBox = ({
   tags: TagItem[]
   mapId: string
 }) => {
-  const { revalidate } = useFetch();
+  const { revalidate } = useFetch()
   const router = useSafeRouter()
   const [selectedTags, setSelectedTags] = useState<TagItem[]>([])
   const [isOpenBackModal, setIsOpenBackModal] = useState(false)

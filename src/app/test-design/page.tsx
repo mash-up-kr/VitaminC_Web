@@ -24,7 +24,6 @@ const TestDesign = () => {
           onClick={() => console.log('click!')}
         />
 
-
         <a href="/test-design/map" className="text-3xl">
           MAP
         </a>

@@ -12,36 +12,48 @@ const AvatarVariants = cva<{
     'coral' | 'dark-blue' | 'sky-blue' | 'violet' | 'green',
     string
   >
-}>(
-  'flex items-center w-9 h-9 justify-center box-border rounded-full relative',
-  {
-    variants: {
-      colorScheme: {
-        coral: 'bg-profile-coral',
-        'dark-blue': 'bg-profile-dark-blue',
-        'sky-blue': 'bg-profile-sky-blue',
-        violet: 'bg-profile-violet',
-        green: 'bg-profile-green',
-      },
+  size: Record<'sm' | 'lg', string>
+}>('flex items-center justify-center box-border rounded-full relative', {
+  variants: {
+    colorScheme: {
+      coral: 'bg-profile-coral',
+      'dark-blue': 'bg-profile-dark-blue',
+      'sky-blue': 'bg-profile-sky-blue',
+      violet: 'bg-profile-violet',
+      green: 'bg-profile-green',
     },
-    defaultVariants: {
-      colorScheme: 'coral',
+    size: {
+      sm: 'w-6 h-6',
+      lg: 'w-9 h-9',
     },
   },
-)
+  defaultVariants: {
+    colorScheme: 'coral',
+    size: 'lg',
+  },
+})
 
 interface AvatarProps {
   value?: string
   imageUrl?: string
   me?: boolean
   loading?: boolean
+  size?: 'sm' | 'lg'
   colorScheme?: 'coral' | 'dark-blue' | 'sky-blue' | 'violet' | 'green'
   className?: string
 }
 
 const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
   (
-    { value, colorScheme, imageUrl, className, me = false, loading = false },
+    {
+      value,
+      colorScheme,
+      imageUrl,
+      className,
+      size = 'lg',
+      me = false,
+      loading = false,
+    },
     ref,
   ) => {
     const initial = value ? Array.from(value)[0] : '🍋'
@@ -68,7 +80,11 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
         as="span"
         size="h4"
         color="neutral-000"
-        className={cn(AvatarVariants({ colorScheme }), className)}
+        className={cn(
+          AvatarVariants({ colorScheme, size }),
+          className,
+          size === 'sm' && 'font-semibold text-[12px]',
+        )}
       >
         {renderContent()}
         {me && (
