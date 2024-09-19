@@ -31,11 +31,11 @@ export const AISuggestion = ({
     >
       <div className="relative ml-[44px] flex w-fit items-center justify-center rounded-[24px] rounded-tl-[0] bg-purple-400 px-5 py-3">
         {!isFirst && (
-           <img
+          <img
             src="images/ai.pn  g"
             className="absolute left-[-44px] top-0 h-9 w-9"
-            />
- )       }
+          />
+        )}
         <Typography size="body2" color="neutral-000">
           {chat.value}
         </Typography>
