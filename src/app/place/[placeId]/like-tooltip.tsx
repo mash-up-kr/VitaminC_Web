@@ -72,7 +72,12 @@ const LikeToolTip = ({ likeMembers, className, onClick }: LikeToolTipProps) => {
                 value={avatar}
                 size="sm"
                 className="p-0 transition-all"
-                {...animationProps}
+                {...(index === 0
+                  ? {
+                      ...animationProps,
+                      initial: { ...animationProps.initial, x: 0 },
+                    }
+                  : animationProps)}
               />
             ))}
           </AnimatePresence>

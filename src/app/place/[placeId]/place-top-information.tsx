@@ -119,17 +119,25 @@ const PlaceTopInformation = ({
                 {distance}
               </Typography>
             )}
+
+            {!pick?.numOfLikes && (
+              <Typography as="span" size="body3" color="neutral-300">
+                {address}
+              </Typography>
+            )}
+          </div>
+          {!!pick?.numOfLikes && (
             <Typography as="span" size="body3" color="neutral-300">
               {address}
             </Typography>
-          </div>
+          )}
         </div>
 
         {tags && <TagList placeId={placeId} tags={tags} />}
       </section>
 
       <BottomModal
-        layout='none'
+        layout="none"
         isOpen={isOpenLikeMembers}
         title={`좋아요 ${pick?.numOfLikes ?? 0}`}
         body={<PlaceLikedUsers likedUsers={likeUserList} me={user} />}
