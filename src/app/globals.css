@@ -40,6 +40,15 @@ body {
     text-wrap: balance;
   }
 
+  .truncate-3-lines {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3; /* 줄 수 제한 */
+    line-clamp: 3; /* 표준 속성 */
+    text-overflow: ellipsis;
+  }
+
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
