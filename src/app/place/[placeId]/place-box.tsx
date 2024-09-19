@@ -214,7 +214,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         <KakaoRating
           rating={roundToNthDecimal(place.score, 2)}
           placeId={place.kakaoId}
-          className="px-5 py-5"
+          className="px-5 py-5 mb-[102px]"
         />
 
         <footer className="px-5">
@@ -226,13 +226,14 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
               onUnLikePlace={handleUnLikePlace}
             />
           ) : (
-            <Button
-              type="button"
-              onClick={handleRegisterPlace}
-              className="mb-5"
-            >
-              맛집 등록하기
-            </Button>
+            <div className="invitation-gradient fixed bottom-0 left-1/2 flex h-[102px] w-full max-w-[420px] -translate-x-1/2 items-center justify-center px-5">
+              <Button
+                type="button"
+                onClick={handleRegisterPlace}
+              >
+                맛집 등록하기
+              </Button>
+            </div>
           )}
         </footer>
       </div>
