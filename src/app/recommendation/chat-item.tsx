@@ -11,9 +11,11 @@ interface ChatItemProps extends ClassName {
 
 export const AISuggestion = ({
   chat,
+  isFirst,
   className,
   onClickSuggestion,
 }: ChatItemProps & {
+  isFirst: boolean
   onClickSuggestion: (suggestion: string) => void
 }) => {
   if (chat.type === 'user') return null
@@ -28,10 +30,12 @@ export const AISuggestion = ({
       animate={{ bottom: 0, opacity: 1 }}
     >
       <div className="relative ml-[44px] flex w-fit items-center justify-center rounded-[24px] rounded-tl-[0] bg-purple-400 px-5 py-3">
-        <img
-          src="images/ai.png"
-          className="absolute left-[-44px] top-0 h-9 w-9"
-        />
+        {!isFirst && (
+           <img
+            src="images/ai.pn  g"
+            className="absolute left-[-44px] top-0 h-9 w-9"
+            />
+ )       }
         <Typography size="body2" color="neutral-000">
           {chat.value}
         </Typography>

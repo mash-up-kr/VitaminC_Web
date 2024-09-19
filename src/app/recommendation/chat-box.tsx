@@ -22,13 +22,14 @@ const ChatBox = ({
   return (
     <section className={cn('h-full w-full', className)}>
       <ul className="flex flex-col gap-6">
-        {chats.map((chat) => {
+        {chats.map((chat, index) => {
           if (chat.type === 'gpt') {
             return (
               <AISuggestion
                 key={chat.value}
                 chat={chat}
                 className="w-fit"
+                isFirst={index === 0}
                 onClickSuggestion={(suggestion) => {
                   if (isFinish && suggestion !== '지도 홈으로') {
                     notify.error('채팅이 종료되었습니다.')
