@@ -13,13 +13,14 @@ const ChatLoadingDot = ({ className }: { className?: string }) => {
   const dotAnimation = {
     initial: { y: 0, backgroundColor: '#EFEFFD' },
     animate: {
-      y: [0, -3, 0],
-      backgroundColor: ['#EFEFFD', '#FFDE59', '#EFEFFD'],
+      y: [0, -3, 0, 0],
+      backgroundColor: ['#EFEFFD', '#FFDE59', '#EFEFFD', '#EFEFFD'],
       transition: {
-        duration: 0.36,
+        duration: 0.36 * 3,
+        times: [0, 0.333, 0.666, 1],
         ease: 'easeIn',
         repeat: Infinity,
-        repeatDelay: 0.72,
+        repeatDelay: 0.36,
       },
     },
   }
