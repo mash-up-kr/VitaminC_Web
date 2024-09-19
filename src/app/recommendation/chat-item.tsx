@@ -38,7 +38,7 @@ export const AISuggestion = ({
       </div>
 
       {chat.suggestionPlaces && (
-        <ul className="flex overflow-x-scroll no-scrollbar gap-4 ml-[44px]">
+        <ul className="flex overflow-x-scroll no-scrollbar gap-4 ml-[44px] mr-[20px]">
           {chat.suggestionPlaces.map((place) => {
             return (
               <AIRecommendPlaceBox
