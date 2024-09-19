@@ -24,6 +24,12 @@ const TestDesign = () => {
         <Typography size="body4" color="neutral-000">
           BODY4
         </Typography>
+        <Typography size="h0" color="neutral-000" className="font-semibold">
+          H0-SEMI-BOLD
+        </Typography>
+        <Typography size="h0" color="neutral-000">
+          H0
+        </Typography>
         <Typography size="h0" color="neutral-000">
           H0
         </Typography>
