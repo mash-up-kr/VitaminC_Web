@@ -10,6 +10,7 @@ import ChatBox from './chat-box'
 import type { Chat } from './type'
 import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
+import { getMapId } from '@/services/map-id'
 
 const initialRecommendChat: Chat = {
   type: 'gpt',
@@ -103,7 +104,7 @@ const Recommendation = () => {
     askToAI()
   }
 
-  const handleClickSuggestion = (suggestion: string) => {
+  const handleClickSuggestion = async (suggestion: string) => {
     if (suggestion === '추천 종료') {
       setIsFinish(true)
       setChats((prev) => [...prev, lastChat])
@@ -111,8 +112,14 @@ const Recommendation = () => {
     }
 
     if (suggestion === '지도 홈으로') {
-      // TODO: map ID
-      router.safeBack({ defaultHref: '/map' })
+      try {
+        const mapId = await getMapId()
+        if (mapId) {
+          router.push(`/map/${mapId}`)
+        }
+      } catch (err) {
+        router.safeBack()
+      }
       return
     }
 
