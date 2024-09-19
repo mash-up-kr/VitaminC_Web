@@ -16,7 +16,7 @@ interface InputProps
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { placeholder, value, onChange, minLength = 0, maxLength, ...props },
+    { placeholder, value, onChange, minLength = 0, maxLength = 10, ...props },
     ref,
   ) => {
     const { num, offset } = countCharacters(value)
@@ -30,7 +30,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             {...props}
             className={cn(
-              `placeholder-center flex h-[54px] w-full items-center rounded-full border-2 border-solid border-orange-300 bg-transparent px-5 text-h1 leading-none text-orange-300 placeholder-neutral-400 caret-orange-300 outline-none outline-offset-0 placeholder:text-[20px] placeholder:font-normal`,
+              `flex h-[54px] w-full items-center rounded-full border-2 border-solid border-orange-300 bg-transparent px-5 text-h1 leading-none text-orange-300 placeholder-neutral-400 caret-orange-300 outline-none outline-offset-0 placeholder:text-[20px] placeholder:font-normal`,
               error && 'border-orange-400 text-orange-400',
             )}
             ref={ref}

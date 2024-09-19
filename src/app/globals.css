@@ -21,6 +21,21 @@ body {
 }
 
 @layer utilities {
+  input::placeholder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Target webkit (Safari & iOS Chrome) */
+  @supports (hanging-punctuation: first) and (font: -apple-system-body) and
+    (-webkit-appearance: none) {
+    input::placeholder {
+      top: 0;
+      transform: translateY(0);
+    }
+  }
+
   .text-balance {
     text-wrap: balance;
   }
@@ -33,21 +48,6 @@ body {
   .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
-  }
-
-  .placeholder-center::placeholder {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  /* Target webkit (Safari & iOS Chrome) */
-  @supports (hanging-punctuation: first) and (font: -apple-system-body) and
-    (-webkit-appearance: none) {
-    .placeholder-center::placeholder {
-      top: 0;
-      transform: translateY(0);
-    }
   }
 
   .darkmode img {

@@ -81,19 +81,19 @@ const Setting = () => {
                 className={`w-20 h-20 text-[40px] ${!profileImage && 'border-2 border-[#17171A] border-opacity-20'}`}
               />
               <input
-                className="h-[1px] w-[1px] m-[-1px] absolute"
+                className="h-[1px] w-[1px] m-[-1px] absolute hidden"
                 type="file"
                 accept="image/*"
                 onChange={handleProfileImageChange}
               />
               <div className="absolute bottom-0 right-0 w-6 h-6 flex justify-center items-center bg-neutral-700 rounded-full">
-                <AccessibleIconButton
+                <Icon
                   className="bg-neutral-500 rounded-full p-[1px]"
-                  icon={{ type: 'plusBold' }}
-                  label="이미지 변경"
+                  type="plusBold"
                 />
               </div>
             </label>
+
             <button
               className="flex items-center gap-0.5"
               onClick={() => setIsOpenEditNickname(true)}

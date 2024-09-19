@@ -16,7 +16,7 @@ import cn from '@/utils/cn'
 
 interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
   extends ClassName {
-  places?: T[]
+  places?: T[] | null
   center?: Parameters<typeof KakaoMap>[0]['center']
   selectedPlace?: T | null
   topOfBottomBounds?: number
@@ -77,7 +77,7 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
           onDrag={onDragMap}
           onCenterChanged={onCenterChangeMap}
         >
-          {places.map((place) => {
+          {places?.map((place) => {
             const isPlace = isPlaceType(place)
             const isSearchPlaceType = isSearchPlace(place)
 

@@ -1,5 +1,12 @@
 import type { MutableRefObject, ReactNode } from 'react'
-import { forwardRef, useId, useRef, useState } from 'react'
+import {
+  forwardRef,
+  useCallback,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import { BOTTOM_SHEET_STATE, BOTTOM_SHEET_STATE_MAP } from './constants'
 import type { BottomSheetState, BottomSheetStateNum } from './types'
@@ -37,11 +44,11 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     const { height: windowHeight } = useWindowSize()
 
     const HEADER_HEIGHT = 46
-    const DEFAULT_HEIGHT = windowHeight / 2
-    const EXPANDED_HEIGHT = (windowHeight * 3) / 4
+    const DEFAULT_HEIGHT = windowHeight / 2 || HEADER_HEIGHT
+    const EXPANDED_HEIGHT = (windowHeight * 3) / 4 || HEADER_HEIGHT
 
     const contentHeight =
-      contentRef?.current.reduce((acc, cur) => acc + cur?.scrollHeight, 0) ??
+      contentRef?.current.reduce((acc, cur) => acc + cur?.scrollHeight, 0) ||
       windowHeight
 
     const defaultHeight = Math.min(
@@ -54,7 +61,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
       EXPANDED_HEIGHT,
     )
 
-    const currentHeight = () => {
+    const currentHeight = useCallback(() => {
       switch (bottomSheetState) {
         case BOTTOM_SHEET_STATE.Expanded:
           return expandedHeight
@@ -63,9 +70,12 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
         default:
           return defaultHeight
       }
-    }
+    }, [bottomSheetState, defaultHeight, expandedHeight])
 
-    const bodyHeight = currentHeight() - HEADER_HEIGHT
+    const bodyHeight = useMemo(
+      () => currentHeight() - HEADER_HEIGHT,
+      [currentHeight],
+    )
 
     useClickOutside(bottomSheetRef, (event) => {
       if (event.target instanceof HTMLElement) {

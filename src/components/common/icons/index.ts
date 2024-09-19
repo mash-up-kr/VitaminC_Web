@@ -41,6 +41,7 @@ import StarGrey from './StarGrey.svg'
 import StarHalfFilled from './StarHalfFilled.svg'
 import Subtract from './Subtract.svg'
 import Sushi from './Sushi.svg'
+import Hyperlink from './Hyperlink.svg'
 import U1F4B0 from './U+1F4B0-💰.svg'
 import U1F6BB from './U+1F6BB-🚻.svg'
 import U1F35A from './U+1F35A-🍚.svg'
@@ -117,6 +118,7 @@ export const icons = {
   starHalfFilled: StarHalfFilled,
   subtract: Subtract,
   sushi: Sushi,
+  hyperlink: Hyperlink,
   U1F4B0,
   U1F6BB,
   U1F35A,

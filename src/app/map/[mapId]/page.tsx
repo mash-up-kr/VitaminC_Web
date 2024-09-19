@@ -7,6 +7,7 @@ import Link from 'next/link'
 import FilterModalBody, { type CategoryType } from './filter-modal-body'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import SearchAnchorBox from './search-anchor-box'
+import PlaceListSkeleton from './place-list-skeleton'
 
 import Avatar from '@/components/common/avatar'
 import BottomModal from '@/components/common/bottom-modal'
@@ -43,23 +44,26 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   } = useFetch(api.users.me.get, { key: ['user'] })
   const { data: mapData, error: mapError } = useFetch(
     () => api.maps.id.get(mapId),
-    { key: ['map', mapId] },
+    { key: ['map', mapId], enabled: !!mapId },
   )
   const {
     data: places,
     error: placesError,
+    status: placesStatus,
     refetch: clearOldPlacedata,
   } = useFetch(() => api.place.mapId.get(mapId), {
     key: ['places', mapId],
-    enabled: !!userData && !!mapData,
+    enabled: !!mapId,
   })
+
+  const [status, setStatus] = useState('pending')
 
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterNames, setSelectedFilterNames] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
 
-  const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
+  const [filteredPlace, setFilteredPlace] = useState<PlaceType[] | null>(null)
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
 
   const [bottomRef, bottomBounds] = useMeasure()
@@ -148,6 +152,14 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
   useEffect(() => {
     if (!userData || !places) return
+    if (
+      selectedFilterNames.category === 'all' &&
+      selectedFilterNames.tags.length === 0
+    ) {
+      setFilteredPlace(places)
+      setStatus(placesStatus)
+      return
+    }
     setFilteredPlace(
       places.filter((place) => {
         const checkMatchesCategory = () => {
@@ -176,7 +188,14 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         return matchesCategory && matchesTags
       }),
     )
-  }, [places, selectedFilterNames.category, selectedFilterNames, userData])
+    setStatus(placesStatus)
+  }, [
+    places,
+    selectedFilterNames.category,
+    selectedFilterNames,
+    userData,
+    placesStatus,
+  ])
 
   useEffect(() => {
     if (!visitedMapIds.includes(mapId)) {
@@ -231,16 +250,20 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         <>
           <BottomSheet
             ref={bottomRef}
-            body={(contentRef) => (
-              <PlaceListBottomSheet
-                ref={contentRef}
-                places={filteredPlace}
-                mapId={mapId}
-                selectedFilter={selectedFilterNames}
-                onClickFilterButton={handleFilterModalOpen}
-                onRefreshOldPlace={clearOldPlacedata}
-              />
-            )}
+            body={(contentRef) =>
+              status === 'success' ? (
+                <PlaceListBottomSheet
+                  ref={contentRef}
+                  places={filteredPlace}
+                  mapId={mapId}
+                  selectedFilter={selectedFilterNames}
+                  onClickFilterButton={handleFilterModalOpen}
+                  onRefreshOldPlace={clearOldPlacedata}
+                />
+              ) : (
+                <PlaceListSkeleton ref={contentRef} />
+              )
+            }
           />
           <BottomModal
             title="보고 싶은 맛집을 선택해주세요"

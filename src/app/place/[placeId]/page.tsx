@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 
 import PlaceBox from './place-box'
+import PlaceBoxSkeleton from './place-box-skeleton'
 
 import { notify } from '@/components/common/custom-toast'
-import LoadingIndicator from '@/components/common/loading-indicator'
 import useFetch from '@/hooks/use-fetch'
 import { APIError } from '@/models/api/index'
 import type { PlaceDetail as PlaceDetailType } from '@/models/api/place'
@@ -44,7 +44,7 @@ const PlaceDetail = ({ params }: { params?: { placeId?: number } }) => {
 
   return (
     <>
-      {place ? <PlaceBox place={place} mapId={mapId} /> : <LoadingIndicator />}
+      {place ? <PlaceBox place={place} mapId={mapId} /> : <PlaceBoxSkeleton />}
     </>
   )
 }
