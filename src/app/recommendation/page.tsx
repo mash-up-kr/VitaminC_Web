@@ -117,7 +117,11 @@ const Recommendation = () => {
     }
 
     if (suggestion === '처음으로') {
-      setChats((prev) => [...prev, initialRecommendChat])
+      setChats((prev) => [
+        ...prev,
+        { type: 'user', value: suggestion },
+        initialRecommendChat,
+      ])
       return
     }
 
