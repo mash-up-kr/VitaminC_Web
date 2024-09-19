@@ -18,7 +18,6 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier", "unicorn"],
   "rules": {
-    "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
     "import/extensions": [

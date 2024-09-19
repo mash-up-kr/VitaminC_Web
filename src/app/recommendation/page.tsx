@@ -160,10 +160,10 @@ const Recommendation = () => {
         </header>
 
         <section className="no-scrollbar max-h-[calc(100vh-156px)] flex-1 overflow-y-scroll">
-          <div className="flex flex-col items-center justify-center gap-4 pb-6 relative">
+          <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
             <img
               src="/images/ai.png"
-              className="h-[36px] w-[36px] absolute top-0 left-5"
+              className="absolute left-5 top-0 h-[36px] w-[36px]"
             />
             <img
               src="/images/ai-recommend.png"
