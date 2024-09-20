@@ -28,7 +28,7 @@ const MyMapCard = ({ className, mapId }: MyMapCardProps) => {
 
   return (
     <section className={cn('flex flex-col', className)}>
-      <div className="flex justify-between items-center rounded-t-[24px] pt-5 pb-4 px-5 bg-neutral-600">
+      <div className="flex items-center justify-between rounded-t-[24px] bg-neutral-600 px-5 pb-4 pt-5">
         <div className="flex gap-1">
           <Typography
             as="h3"
@@ -52,10 +52,10 @@ const MyMapCard = ({ className, mapId }: MyMapCardProps) => {
         </Link>
       </div>
 
-      <BoardingDivider className="w-full max-h-[24px]" />
+      <BoardingDivider className="max-h-[24px] w-full" />
 
-      <div className="flex justify-center pb-5 pt-4 px-5 bg-neutral-600 rounded-b-[24px]">
-        <div className="flex-1 h-[45px] flex-col gap-[2px]">
+      <div className="flex justify-center rounded-b-[24px] bg-neutral-600 px-5 pb-5 pt-4">
+        <div className="h-[45px] flex-1 flex-col gap-[2px]">
           <div className="flex gap-[2px]">
             <Icon type="person" size="md" fill="neutral-300" />
             <Typography size="body3" color="neutral-300">
@@ -68,7 +68,7 @@ const MyMapCard = ({ className, mapId }: MyMapCardProps) => {
           </Typography>
         </div>
 
-        <div className="flex-1 h-[45px] flex-col gap-[2px]">
+        <div className="h-[45px] flex-1 flex-col gap-[2px]">
           <div className="flex gap-[2px]">
             <Icon type="pin" size="md" fill="neutral-300" />
             <Typography size="body3" color="neutral-300">
@@ -85,7 +85,7 @@ const MyMapCard = ({ className, mapId }: MyMapCardProps) => {
           role="link"
           icon={{ type: 'arrowRight', size: 'xl', stroke: 'neutral-100' }}
           label={`${mapInfo?.name} 지도로 이동`}
-          className="w-10 h-10 bg-neutral-400 rounded-full p-2"
+          className="h-10 w-10 rounded-full bg-neutral-400 p-2"
           onClick={() => router.push(`/map/${mapId}`)}
         />
       </div>

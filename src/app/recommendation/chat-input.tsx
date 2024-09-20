@@ -24,12 +24,12 @@ const ChatInput = ({
   return (
     <div
       className={cn(
-        'w-full flex justify-center invitation-gradient',
+        'invitation-gradient flex w-full justify-center',
         className,
       )}
     >
       {isFinish ? (
-        <div className="flex justify-center items-center bg-neutral-600 rounded-[6px] w-full">
+        <div className="flex w-full items-center justify-center rounded-[6px] bg-neutral-600">
           <Typography size="body3" color="neutral-100">
             추천이 종료되었습니다.
           </Typography>

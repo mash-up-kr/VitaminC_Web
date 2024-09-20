@@ -18,13 +18,13 @@ const PlaceListSkeleton = forwardRef<HTMLElement[]>(({}, ref) => {
           {[...Array(3)].map((_, index) => (
             <Skeleton
               key={index}
-              className="aspect-square w-[calc(33.4%-8px)] object-cover rounded-md"
+              className="aspect-square w-[calc(33.4%-8px)] rounded-md object-cover"
             />
           ))}
         </ul>
 
         <div>
-          <Skeleton className="h-[20px] w-[194px] rounded-full my-[3px]" />
+          <Skeleton className="my-[3px] h-[20px] w-[194px] rounded-full" />
 
           <div className="flex gap-[7px] py-1.5">
             <Skeleton className="h-[14px] w-[37px] rounded-full" />

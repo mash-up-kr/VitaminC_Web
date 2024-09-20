@@ -85,7 +85,7 @@ const PlaceTopInformation = ({
               {name}
             </Typography>
             {pick && (
-              <div className="flex items-center gap-3 relative">
+              <div className="relative flex items-center gap-3">
                 <PickChip isMyPick={pick.isMyPick} />
                 <LikeButton
                   numOfLikes={pick.numOfLikes}
@@ -97,7 +97,7 @@ const PlaceTopInformation = ({
                   likeMembers={likeUserList.map(
                     (likeUser) => likeUser.nickname,
                   )}
-                  className="absolute top-[34px] right-0"
+                  className="absolute right-0 top-[34px]"
                   onClick={() => setIsOpenLikeMembers(true)}
                 />
               </div>

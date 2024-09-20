@@ -44,7 +44,7 @@ const LikeToolTip = ({ likeMembers, className, onClick }: LikeToolTipProps) => {
     <motion.button
       type="button"
       className={cn(
-        'px-4 py-[6px] rounded-full bg-neutral-600 flex items-center transition-all',
+        'flex items-center rounded-full bg-neutral-600 px-4 py-[6px] transition-all',
         className,
       )}
       onClick={onClick}
@@ -57,7 +57,7 @@ const LikeToolTip = ({ likeMembers, className, onClick }: LikeToolTipProps) => {
       }}
     >
       <div
-        className="absolute top-[-5.41px] right-[13px] w-[14px] h-[7px] bg-neutral-600 rounded-[1px] transform"
+        className="absolute right-[13px] top-[-5.41px] h-[7px] w-[14px] transform rounded-[1px] bg-neutral-600"
         style={{
           clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
         }}
@@ -84,7 +84,7 @@ const LikeToolTip = ({ likeMembers, className, onClick }: LikeToolTipProps) => {
         </div>
 
         {likeMembers.length > 3 && (
-          <div className="whitespace-nowrap ml-[6px] text-[12px] text-neutral-000 font-bold">
+          <div className="ml-[6px] whitespace-nowrap text-[12px] font-bold text-neutral-000">
             + {likeMembers.length - 3}
           </div>
         )}

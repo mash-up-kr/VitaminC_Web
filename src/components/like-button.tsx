@@ -31,9 +31,9 @@ const LikeButton = forwardRef<HTMLButtonElement, LikeButtonProps>(
       <button
         ref={ref}
         className={cn(
-          'flex items-center gap-0.5 px-2.5 py-1 rounded-full w-fit relative',
+          'relative flex w-fit items-center gap-0.5 rounded-full px-2.5 py-1',
           isLiked
-            ? 'shadow-orange-400 shadow-[inset_0_0_0_1px]'
+            ? 'shadow-[inset_0_0_0_1px] shadow-orange-400'
             : 'bg-neutral-500',
         )}
         onClick={onClick}

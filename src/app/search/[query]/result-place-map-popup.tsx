@@ -151,7 +151,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
                       as="span"
                       size="body3"
                       color="neutral-400"
-                      className="text-nowrap flex-grow"
+                      className="flex-grow text-nowrap"
                     >
                       {place.category}
                     </Typography>
@@ -207,7 +207,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
 
               {place.mainPhotoUrl && (
                 <ProxyImage
-                  className="h-20 w-20 rounded-md min-w-0"
+                  className="h-20 w-20 min-w-0 rounded-md"
                   src={place.mainPhotoUrl}
                   alt="식당"
                 />

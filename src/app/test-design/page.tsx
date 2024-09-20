@@ -1,32 +1,38 @@
 'use client'
 
-import { useState } from 'react'
-
-import Input from '@/components/common/input'
-import LikeButton from '@/components/like-button'
+import Typography from '@/components/common/typography'
 
 const TestDesign = () => {
-  const [input, setInput] = useState('')
-
   return (
     <>
       <div className="flex h-dvh w-dvw flex-col gap-[40px]">
-        <Input value={input} onChange={(value) => setInput(value)} />
-
-        <LikeButton
-          numOfLikes={0}
-          isLiked={false}
-          onClick={() => console.log('click!')}
-        />
-        <LikeButton
-          numOfLikes={3}
-          isLiked={true}
-          onClick={() => console.log('click!')}
-        />
-
-        <a href="/test-design/map" className="text-3xl">
-          MAP
-        </a>
+        <Typography size="body0" color="neutral-000" className="font-[100]">
+          100
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[200]">
+          200
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[300]">
+          300
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[400]">
+          400
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[500]">
+          500
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[600]">
+          weight-600
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[700]">
+          weight-700
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[800]">
+          800
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[900]">
+          900
+        </Typography>
       </div>
     </>
   )
