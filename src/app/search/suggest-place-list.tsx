@@ -10,7 +10,7 @@ interface SuggestPlaceListProps {
 }
 
 const SuggestPlaceList = ({ places, query }: SuggestPlaceListProps) => {
-  const userLocation = useUserGeoLocation()
+  const { userLocation } = useUserGeoLocation()
   const isAllowPosition = allowUserPositionStorage.getValueOrNull()
 
   return (

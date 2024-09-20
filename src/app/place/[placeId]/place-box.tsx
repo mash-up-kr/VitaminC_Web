@@ -40,7 +40,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   const [isRecentlyLike, setIsRecentlyLike] = useState<boolean | null>(null)
   const router = useSafeRouter()
   const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
-  const userLocation = useUserGeoLocation()
+  const { userLocation } = useUserGeoLocation()
   const isAllowPosition = allowUserPositionStorage.getValueOrNull()
   const diffDistance = getDistance(
     userLocation.latitude,
