@@ -23,6 +23,7 @@ import { formatDistance, getDistance } from '@/utils/location'
 import { roundToNthDecimal } from '@/utils/number'
 import { allowUserPositionStorage } from '@/utils/storage'
 import ProxyImage from '@/components/common/proxy-image'
+import cn from '@/utils/cn'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -51,6 +52,12 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   const { data: user, revalidate } = useFetch(api.users.me.get, {
     key: ['user'],
   })
+
+  const { data: mapInfo, isFetching } = useFetch(() => api.maps.id.get(mapId), {
+    enabled: !!mapId,
+  })
+  const myRole =
+    mapInfo?.users.find((mapUser) => mapUser.id === user?.id)?.role ?? 'READ'
 
   const numOfLikes = (() => {
     const likedUserIdsCount = place.likedUsers?.length ?? 0
@@ -214,25 +221,33 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         <KakaoRating
           rating={roundToNthDecimal(place.score, 2)}
           placeId={place.kakaoId}
-          className="mb-[102px] px-5 py-5"
+          className={cn(
+            'px-5 py-5',
+            myRole !== 'READ' && !isFetching && 'mb-[102px]',
+          )}
         />
 
-        <footer className="px-5">
-          <div className="invitation-gradient fixed bottom-0 left-1/2 flex h-[102px] w-full max-w-[420px] -translate-x-1/2 items-center justify-center px-5">
-            {isAlreadyPick ? (
-              <PlaceActionButtons
-                like={isLikePlace}
-                onLikePlace={handleLikePlace}
-                onDeletePlace={() => setIsDeleteModalOpen(true)}
-                onUnLikePlace={handleUnLikePlace}
-              />
-            ) : (
-              <Button type="button" onClick={handleRegisterPlace}>
-                맛집 등록하기
-              </Button>
-            )}
-          </div>
-        </footer>
+        {myRole !== 'READ' && !isFetching && (
+          <footer className="px-5">
+            <div className="invitation-gradient fixed bottom-0 left-1/2 flex h-[102px] w-full max-w-[420px] -translate-x-1/2 items-center justify-center px-5">
+              {isAlreadyPick ? (
+                <PlaceActionButtons
+                  like={isLikePlace}
+                  role={myRole}
+                  onLikePlace={handleLikePlace}
+                  onDeletePlace={() => setIsDeleteModalOpen(true)}
+                  onUnLikePlace={handleUnLikePlace}
+                />
+              ) : (
+                !isFetching && (
+                  <Button type="button" onClick={handleRegisterPlace}>
+                    맛집 등록하기
+                  </Button>
+                )
+              )}
+            </div>
+          </footer>
+        )}
       </div>
 
       <PlaceDeleteModal
