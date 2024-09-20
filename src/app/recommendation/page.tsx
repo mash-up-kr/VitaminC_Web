@@ -11,31 +11,9 @@ import type { Chat } from './type'
 import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
-
-const initialRecommendChat: Chat = {
-  type: 'gpt',
-  value: `어느지역의 맛집을 찾아드릴까요?`,
-  suggestionKeywords: [
-    '현재위치',
-    '강남',
-    '이태원/한남',
-    '성수',
-    '홍대/연남/상수',
-    '신촌',
-    '마포/공덕',
-    '광화문/종로',
-    '시청/을지로',
-    '건대/군자',
-    '대학로/혜화',
-    '판교',
-  ],
-}
-
-const lastChat: Chat = {
-  type: 'gpt',
-  value: 'AI 맛집 추천이 종료되었습니다.',
-  suggestionKeywords: ['지도 홈으로'],
-}
+import { initialRecommendChat, lastChat, noInfoLocationChat } from './guide'
+import { allowUserPositionStorage } from '@/utils/storage'
+import { notify } from '@/components/common/custom-toast'
 
 const dummyPlaces = [
   {
@@ -67,7 +45,7 @@ const fetchSuggestedPlaces = (): Promise<Chat> => {
       resolve({
         type: 'gpt',
         value: '성수동의 피자 맛집 5곳을 더 추천드려요.',
-        suggestionKeywords: ['5개 더 추천', '처음으로', '추천 종료'],
+        suggestionKeywords: ['5개 더 추천', '처음으로'],
         suggestionPlaces: dummyPlaces,
       })
     }, 5000)
@@ -83,8 +61,31 @@ const Recommendation = () => {
   const [isFinish, setIsFinish] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const bottomChat = useRef<HTMLDivElement>(null)
-
   const router = useSafeRouter()
+
+  const handleQuestionCurrentLocation = (userInput: string) => {
+    const locationKeywords = [
+      '현재',
+      '위치',
+      '근처',
+      '주변',
+      '내 위치',
+      '지금',
+      '좌표',
+      '내 주변',
+      '현위치',
+    ]
+
+    const trimmedInput = userInput.trim()
+    const containsLocationKeyword = locationKeywords.some((keyword) =>
+      trimmedInput.includes(keyword),
+    )
+
+    if (!containsLocationKeyword) return { location: false, allow: null }
+    return !!allowUserPositionStorage.getValueOrNull()
+      ? { location: true, allow: true }
+      : { location: true, allow: false }
+  }
 
   const askToAI = async () => {
     try {
@@ -98,47 +99,82 @@ const Recommendation = () => {
     }
   }
 
-  const sendChat = () => {
+  const sendChat = async () => {
     setChats((prev) => [...prev, { type: 'user', value: input }])
     setInput('')
-    askToAI()
+    const { location, allow } = handleQuestionCurrentLocation(input)
+    if (!location) {
+      askToAI()
+      return
+    }
+    if (allow) {
+      // TODO: 백엔드에게 현재 위치 어떻게 보낼지 논의
+      setIsLoading(true)
+      await askToAI()
+      setIsLoading(false)
+      return
+    }
+    setChats((prev) => [...prev, noInfoLocationChat])
+  }
+
+  const handleLocationPermission = () => {
+    navigator.geolocation.getCurrentPosition(
+      async () => {
+        // TODO: 위치
+        setIsLoading(true)
+        await askToAI()
+        setIsLoading(false)
+      },
+      () => {
+        notify.error('현재 위치를 찾을 수 없습니다.')
+      },
+    )
+  }
+
+  const handleMapNavigation = async () => {
+    try {
+      const mapId = await getMapId()
+      if (mapId) {
+        router.push(`/map/${mapId}`)
+      }
+    } catch (err) {
+      router.safeBack()
+    }
   }
 
   const handleClickSuggestion = async (suggestion: string) => {
-    if (suggestion === '추천 종료') {
-      setIsFinish(true)
-      setChats((prev) => [...prev, lastChat])
-      return
-    }
+    switch (suggestion) {
+      case '추천 종료':
+        setIsFinish(true)
+        setChats((prev) => [...prev, lastChat])
+        break
 
-    if (suggestion === '지도 홈으로') {
-      try {
-        const mapId = await getMapId()
-        if (mapId) {
-          router.push(`/map/${mapId}`)
-        }
-      } catch (err) {
-        router.safeBack()
-      }
-      return
-    }
+      case '위치권한 허용하기':
+        handleLocationPermission()
+        break
 
-    if (suggestion === '처음으로') {
-      setChats((prev) => [
-        ...prev,
-        { type: 'user', value: suggestion },
-        initialRecommendChat,
-      ])
-      return
-    }
+      case '지도 홈으로':
+        await handleMapNavigation()
+        break
 
-    setChats((prev) => [...prev, { type: 'user', value: suggestion }])
-    askToAI()
+      case '처음으로':
+        setChats((prev) => [
+          ...prev,
+          { type: 'user', value: suggestion },
+          { ...initialRecommendChat, suggestionKeywords: [] },
+        ])
+        break
+
+      default:
+        setChats((prev) => [...prev, { type: 'user', value: suggestion }])
+        askToAI()
+        break
+    }
   }
 
   useEffect(() => {
     bottomChat.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [chats])
+  }, [chats, isLoading])
 
   return (
     <>

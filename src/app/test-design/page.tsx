@@ -6,56 +6,32 @@ const TestDesign = () => {
   return (
     <>
       <div className="flex h-dvh w-dvw flex-col gap-[40px]">
-        <Typography size="body0" color="neutral-000">
-          BODY0
+        <Typography size="body0" color="neutral-000" className="font-[100]">
+          100
         </Typography>
-        <Typography size="body0-2" color="neutral-000">
-          BODY0-2
+        <Typography size="body0" color="neutral-000" className="font-[200]">
+          200
         </Typography>
-        <Typography size="body1" color="neutral-000">
-          BODY1
+        <Typography size="body0" color="neutral-000" className="font-[300]">
+          300
         </Typography>
-        <Typography size="body2" color="neutral-000">
-          BODY2
+        <Typography size="body0" color="neutral-000" className="font-[400]">
+          400
         </Typography>
-        <Typography size="body3" color="neutral-000">
-          BODY3
+        <Typography size="body0" color="neutral-000" className="font-[500]">
+          500
         </Typography>
-        <Typography size="body4" color="neutral-000">
-          BODY4
+        <Typography size="body0" color="neutral-000" className="font-[600]">
+          weight-600
         </Typography>
-        <Typography size="h0" color="neutral-000" className="font-semibold">
-          H0-SEMI-BOLD
+        <Typography size="body0" color="neutral-000" className="font-[700]">
+          weight-700
         </Typography>
-        <Typography size="h0" color="neutral-000">
-          H0
+        <Typography size="body0" color="neutral-000" className="font-[800]">
+          800
         </Typography>
-        <Typography size="h0" color="neutral-000">
-          H0
-        </Typography>
-        <Typography size="h1" color="neutral-000">
-          h1
-        </Typography>
-        <Typography size="h2" color="neutral-000">
-          h2
-        </Typography>
-        <Typography size="h3" color="neutral-000">
-          h3
-        </Typography>
-        <Typography size="h4" color="neutral-000">
-          h4
-        </Typography>
-        <Typography size="h5" color="neutral-000">
-          h5
-        </Typography>
-        <Typography size="h5-2" color="neutral-000">
-          h5-2
-        </Typography>
-        <Typography size="h6" color="neutral-000">
-          h6
-        </Typography>
-        <Typography size="h7" color="neutral-000">
-          h7
+        <Typography size="body0" color="neutral-000" className="font-[900]">
+          900
         </Typography>
       </div>
     </>

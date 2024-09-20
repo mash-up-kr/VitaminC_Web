@@ -28,7 +28,6 @@ const ChatBox = ({
               <AISuggestion
                 key={chat.value}
                 chat={chat}
-                className="w-fit"
                 isFirst={index === 0}
                 onClickSuggestion={(suggestion) => {
                   if (isFinish && suggestion !== '지도 홈으로') {
@@ -40,7 +39,7 @@ const ChatBox = ({
               />
             )
           }
-          return <UserChat key={chat.value} chat={chat} className="w-fit" />
+          return <UserChat key={chat.value} chat={chat} />
         })}
 
         {isLoading && <ChatLoading />}
