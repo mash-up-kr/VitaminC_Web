@@ -4,7 +4,6 @@ import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect'
 
 import type { LocationType } from '@/models/kakao-map'
 import { allowUserPositionStorage } from '@/utils/storage'
-import { notify } from '@/components/common/custom-toast'
 
 /**
  * navigator.geolocation를 사용할 수 없거나 위치 정보 공유를 거절하는 경우
@@ -37,7 +36,7 @@ const useUserGeoLocation = () => {
             isAllow = true
           },
           (err) => {
-            // options?.onError(err)
+            options?.onError(err)
             setAllowLocation(false)
             setLocation(INITIAL_LATITUDE_LONGITUDE)
           },
