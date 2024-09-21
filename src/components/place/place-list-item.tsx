@@ -50,7 +50,7 @@ const PlaceListItem = ({
             <ProxyImage
               key={`${placeId}-${image}-${index}`}
               src={image}
-              className="aspect-square w-[calc(33.4%-8px)] rounded-md object-cover"
+              className="aspect-square w-[calc(33.4%-8px)] min-w-[calc(33.4%-8px)] rounded-md object-cover"
               alt={`${name}${index}`}
             />
           ))}
