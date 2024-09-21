@@ -239,11 +239,9 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
                   onUnLikePlace={handleUnLikePlace}
                 />
               ) : (
-                !isFetching && (
                   <Button type="button" onClick={handleRegisterPlace}>
                     맛집 등록하기
                   </Button>
-                )
               )}
             </div>
           </footer>
