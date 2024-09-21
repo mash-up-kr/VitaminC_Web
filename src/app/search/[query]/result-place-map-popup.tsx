@@ -69,22 +69,22 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
     if (!place) return null
 
     const numOfLikes = (() => {
-      const likedUserIdsCount = place.likedUsers?.length ?? 0
+      const likedUsersCount = place.likedUsers?.length ?? 0
 
       if (
         user &&
         !!place.likedUsers?.find((likeUser) => likeUser.id === user.id)
       ) {
         if (isRecentlyLike == null) {
-          return likedUserIdsCount
+          return likedUsersCount
         }
 
         const recentlyLikedBonus = isRecentlyLike ? 0 : -1
-        return likedUserIdsCount + recentlyLikedBonus
+        return likedUsersCount + recentlyLikedBonus
       }
       const recentlyLikedBonus = isRecentlyLike ? 1 : 0
 
-      return likedUserIdsCount + recentlyLikedBonus
+      return likedUsersCount + recentlyLikedBonus
     })()
 
     const handleLikePlace = async () => {

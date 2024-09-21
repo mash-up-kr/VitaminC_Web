@@ -39,10 +39,12 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
     const place = selectedPlace.place
 
     const getNumOfLike = () => {
-      const initialNumOfLike = selectedPlace.likedUserIds?.length || 0
+      const initialNumOfLike = selectedPlace.likedUsers?.length || 0
 
       if (!user?.id) return initialNumOfLike
-      if (selectedPlace.likedUserIds?.includes(user?.id)) {
+      if (
+        selectedPlace.likedUsers.some((likedUser) => likedUser.id === user.id)
+      ) {
         if (isLikePlace) return initialNumOfLike
         return initialNumOfLike - 1
       }
@@ -107,7 +109,9 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
     useEffect(() => {
       if (!user) return
-      setIsLikePlace(selectedPlace.likedUserIds.includes(user.id))
+      setIsLikePlace(
+        selectedPlace.likedUsers.some((likedUser) => likedUser.id === user.id),
+      )
     }, [user, selectedPlace])
 
     return (

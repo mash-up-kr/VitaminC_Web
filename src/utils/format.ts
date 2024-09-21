@@ -5,7 +5,7 @@ export const convertSearchPlaceToPlaceType = (
 ): PlaceType => {
   return {
     ...searchPlace,
-    likedUserIds: searchPlace.likedUserIds ?? [],
+    likedUsers: searchPlace.likedUsers ?? [],
     createdBy: {
       id: -1,
       nickname: '',
