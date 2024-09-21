@@ -41,8 +41,7 @@ const PlaceListBottomSheet = forwardRef<
     const getIsLike = (place: PlaceType): boolean => {
       if (typeof userId === 'undefined') return false
 
-      if (place.likedUsers?.some((likedUser) => likedUser.id === userId))
-        return true
+      if (place.likedUser?.some((liked) => liked.id === userId)) return true
 
       return false
     }
@@ -54,11 +53,9 @@ const PlaceListBottomSheet = forwardRef<
             p.place.id === place.place.id
               ? {
                   ...p,
-                  likedUsers: getIsLike(place)
-                    ? p.likedUsers?.filter(
-                        (likedUser) => likedUser.id !== userId,
-                      )
-                    : [...(p.likedUsers ?? []), { id: userId }],
+                  likedUser: getIsLike(place)
+                    ? p.likedUser?.filter((liked) => liked.id !== userId)
+                    : [...(p.likedUser ?? []), { id: userId }],
                 }
               : p,
           ),
@@ -145,7 +142,7 @@ const PlaceListBottomSheet = forwardRef<
                     pick={{
                       isLiked: getIsLike(place),
                       isMyPick: place.createdBy?.id === userId,
-                      numOfLikes: place.likedUsers?.length || 0,
+                      numOfLikes: place.likedUser?.length || 0,
 
                       onClickLike: (e) => {
                         e.preventDefault()

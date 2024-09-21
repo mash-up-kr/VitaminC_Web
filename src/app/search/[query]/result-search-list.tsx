@@ -34,9 +34,8 @@ const ResultSearchListBox = ({
   const [likeInfoPlaces, setLikeInfoPlaces] = useState(
     [...places].map((place) => ({
       isLike:
-        !!place.likedUsers?.find((likedUser) => likedUser.id === user?.id) ||
-        false,
-      numOfLike: place.likedUsers?.length ?? 0,
+        !!place.likedUser?.find((liked) => liked.id === user?.id) || false,
+      numOfLike: place.likedUser?.length ?? 0,
     })),
   )
 
@@ -45,20 +44,18 @@ const ResultSearchListBox = ({
       setLikeInfoPlaces(
         places.map((place) => ({
           isLike:
-            !!place.likedUsers?.find(
-              (likedUser) => likedUser.id === user?.id,
-            ) || false,
-          numOfLike: place.likedUsers?.length ?? 0,
+            !!place.likedUser?.find((liked) => liked.id === user?.id) || false,
+          numOfLike: place.likedUser?.length ?? 0,
         })),
       )
     }
   }, [likeInfoPlaces.length, places, user?.id])
 
   const calculateNumOfLike = (place: SearchPlace, isLikePlace: boolean) => {
-    const initialNumOfLike = place.likedUsers?.length || 0
+    const initialNumOfLike = place.likedUser?.length || 0
 
     if (!user?.id) return initialNumOfLike
-    if (place.likedUsers?.find((likedUser) => likedUser.id === user.id)) {
+    if (place.likedUser?.find((liked) => liked.id === user.id)) {
       if (isLikePlace) return initialNumOfLike
       return initialNumOfLike - 1
     }

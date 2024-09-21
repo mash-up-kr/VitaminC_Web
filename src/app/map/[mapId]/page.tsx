@@ -166,7 +166,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           if (selectedFilterNames.category === 'all') return true
           if (
             selectedFilterNames.category === 'like' &&
-            place.likedUsers?.some((likedUser) => likedUser.id === userData.id)
+            place.likedUser?.some((liked) => liked.id === userData.id)
           )
             return true
           if (
