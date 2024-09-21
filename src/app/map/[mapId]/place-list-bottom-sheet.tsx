@@ -107,8 +107,6 @@ const PlaceListBottomSheet = forwardRef<
       )
     }
 
-    console.log(slicedPlaceList.length)
-
     return (
       <div className="flex h-full flex-col">
         <div
