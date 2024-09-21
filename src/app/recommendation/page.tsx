@@ -60,6 +60,7 @@ const Recommendation = () => {
   const [chats, setChats] = useState<Chat[]>([initialRecommendChat])
   const [isFinish, setIsFinish] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [, setIsOpenShowModal] = useState(false)
   const bottomChat = useRef<HTMLDivElement>(null)
   const router = useSafeRouter()
 
@@ -179,23 +180,29 @@ const Recommendation = () => {
   return (
     <>
       <div className="flex min-h-dvh flex-col bg-neutral-700">
-        <header className="relative flex items-center pt-4">
-          <AccessibleIconButton
-            icon={{ type: 'caretLeft', size: 'xl' }}
-            label="이전 페이지"
-            className="p-[10px]"
-            onClick={() => router.safeBack()}
-          />
-          <Typography
-            className="absolute left-1/2 translate-x-[-50%]"
-            as="h1"
-            size="body0"
-          >
-            AI 맛집 추천받기
-          </Typography>
+        <header className="fixed w-full h-[80px] px-[10px] header-gradient z-[100]">
+          <div className='w-full relative h-[80px] flex justify-between items-center'>
+            <AccessibleIconButton
+              icon={{ type: 'caretLeft', size: 'xl' }}
+              label="이전 페이지"
+              onClick={() => router.safeBack()}
+            />
+            <Typography
+              className="absolute left-1/2 translate-x-[-50%]"
+              as="h1"
+              size="body0"
+            >
+              AI 맛집 추천받기
+            </Typography>
+            <AccessibleIconButton
+              icon={{ type: 'info', size: 'xl' }}
+              label="사용 정보 확인하기"
+              onClick={() => setIsOpenShowModal(true)}
+            />
+          </div>
         </header>
 
-        <section className="no-scrollbar max-h-[calc(100vh-156px)] flex-1 overflow-y-scroll">
+        <section className="no-scrollbar max-h-[calc(100vh-156px)] flex-1 overflow-y-scroll mt-[80px]">
           <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
             <img
               src="/images/ai.png"

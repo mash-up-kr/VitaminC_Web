@@ -3,7 +3,7 @@ import type { Creator, User } from './user'
 
 import type { IconKey } from '@/components/common/icon'
 
-type MapRole = 'ADMIN' | 'READ' | 'WRITE'
+export type MapRole = 'ADMIN' | 'READ' | 'WRITE'
 
 export interface MapMemberData {
   id: User['id']

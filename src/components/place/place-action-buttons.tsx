@@ -1,10 +1,12 @@
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import Button from '@/components/common/button'
 import type { ClassName } from '@/models/common'
+import type { MapRole } from '@/models/map'
 import cn from '@/utils/cn'
 
 interface PlaceActionButtonsProps extends ClassName {
   like?: boolean
+  role: MapRole
   onLikePlace: VoidFunction
   onUnLikePlace: VoidFunction
   onDeletePlace: VoidFunction
@@ -13,6 +15,7 @@ interface PlaceActionButtonsProps extends ClassName {
 const PlaceActionButtons = ({
   className,
   like,
+  role,
   onLikePlace,
   onUnLikePlace,
   onDeletePlace,
@@ -35,9 +38,15 @@ const PlaceActionButtons = ({
           onClick={like ? onUnLikePlace : onLikePlace}
         />
       </div>
-      <Button colorScheme="neutral" onClick={onDeletePlace}>
-        맛집 삭제하기
-      </Button>
+      {role === 'READ' ? (
+        <Button colorScheme="neutral" disabled>
+          맛집 삭제 권한이 없어요
+        </Button>
+      ) : (
+        <Button colorScheme="neutral" onClick={onDeletePlace}>
+          맛집 삭제하기
+        </Button>
+      )}
     </div>
   )
 }
