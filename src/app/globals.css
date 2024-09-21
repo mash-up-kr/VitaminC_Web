@@ -66,4 +66,8 @@ body {
   .invitation-gradient {
     background: linear-gradient(180deg, rgba(33, 33, 36, 0%) 0%, #212124 30%);
   }
+
+  .header-gradient {
+    background: linear-gradient(180deg, #212124 70%, rgba(33, 33, 36, 0%) 100%);
+  }
 }
