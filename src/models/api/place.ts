@@ -3,7 +3,7 @@ import type { TagItem } from './maps'
 
 import type { KakaoPlaceDetail } from '@/models/kakao-map'
 import type { CategoryIcon, MapInfo } from '@/models/map'
-import type { Creator, User } from '@/models/user'
+import type { Creator } from '@/models/user'
 
 export interface PlaceType {
   place: {
@@ -14,7 +14,7 @@ export interface PlaceType {
   }
   tags: TagItem[]
   comments: unknown[]
-  likedUserIds: User['id'][]
+  likedUsers: Pick<LikeUsers, 'id'>[]
   createdBy: {
     id: number
     nickname: string
@@ -36,7 +36,7 @@ export interface SearchPlace {
   tags: string[]
   createdBy?: Creator
   score: number
-  likedUserIds?: User['id'][]
+  likedUsers: Pick<LikeUsers, 'id'>[]
 }
 
 export const isSearchPlace = (
