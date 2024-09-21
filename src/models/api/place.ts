@@ -14,7 +14,7 @@ export interface PlaceType {
   }
   tags: TagItem[]
   comments: unknown[]
-  likedUsers: Pick<LikeUsers, 'id'>[]
+  likedUser: Pick<LikeUsers, 'id'>[]
   createdBy: {
     id: number
     nickname: string
@@ -36,7 +36,7 @@ export interface SearchPlace {
   tags: string[]
   createdBy?: Creator
   score: number
-  likedUsers: Pick<LikeUsers, 'id'>[]
+  likedUser: Pick<LikeUsers, 'id'>[]
 }
 
 export const isSearchPlace = (

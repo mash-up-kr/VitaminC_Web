@@ -44,7 +44,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
       },
     ],
     comments: [{}],
-    likedUsers: [{ id: 1 }, { id: 2 }, { id: 3 }],
+    likedUser: [{ id: 1 }, { id: 2 }, { id: 3 }],
     createdBy: {
       id: 1,
       nickname: 'foodie',
@@ -92,7 +92,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
       },
     ],
     comments: [{}],
-    likedUsers: [{ id: 2 }, { id: 3 }, { id: 4 }],
+    likedUser: [{ id: 2 }, { id: 3 }, { id: 4 }],
     createdBy: {
       id: 2,
       nickname: 'sushiLover',
@@ -140,7 +140,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
       },
     ],
     comments: [{}],
-    likedUsers: [{ id: 3 }, { id: 4 }, { id: 5 }],
+    likedUser: [{ id: 3 }, { id: 4 }, { id: 5 }],
     createdBy: {
       id: 3,
       nickname: 'meatLover',
@@ -188,7 +188,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
       },
     ],
     comments: [{}],
-    likedUsers: [{ id: 4 }, { id: 5 }, { id: 6 }],
+    likedUser: [{ id: 4 }, { id: 5 }, { id: 6 }],
     createdBy: {
       id: 4,
       nickname: 'noodleFan',
@@ -237,7 +237,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
       },
     ],
     comments: [{}],
-    likedUsers: [{ id: 5 }, { id: 6 }, { id: 7 }],
+    likedUser: [{ id: 5 }, { id: 6 }, { id: 7 }],
     createdBy: {
       id: 5,
       nickname: 'cafeLover',

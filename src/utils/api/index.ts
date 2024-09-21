@@ -198,10 +198,24 @@ const proxy = {
   get: (url: string): Promise<any> => client.public.get(`/proxy?url=${url}`),
 }
 
+const gpt = {
+  restaurants: {
+    recommend: {
+      test: {
+        get: (question: string, x: string, y: string): Promise<any> =>
+          client.secure.get(
+            `/gpt/restaurants/recommend/test?question=${question}&x=${x}&y=${y}`,
+          ),
+      },
+    },
+  },
+}
+
 export const api = {
   users,
   maps,
   search,
   place,
   proxy,
+  gpt,
 } as const
