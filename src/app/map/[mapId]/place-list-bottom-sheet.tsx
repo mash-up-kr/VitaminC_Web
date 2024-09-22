@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, Fragment, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 import type { FilterIdsType } from './page'
 
@@ -11,6 +11,7 @@ import PlaceListItem from '@/components/place/place-list-item'
 import useFetch from '@/hooks/use-fetch'
 import { APIError } from '@/models/api/index'
 import type { PlaceType } from '@/models/api/place'
+import { useInfiniteScroll } from '@/hooks/use-infinite-scroll'
 import { api } from '@/utils/api'
 
 interface PlaceListBottomSheetProps {
@@ -37,6 +38,11 @@ const PlaceListBottomSheet = forwardRef<
     const numOfSelectedFilter =
       (selectedFilter?.category !== 'all' ? 1 : 0) +
       (selectedFilter?.tags.length ?? 0)
+
+    const { data: slicedPlaceList, listRef } = useInfiniteScroll<PlaceType>({
+      totalData: placeList,
+      itemsPerPage: 10,
+    })
 
     const getIsLike = (place: PlaceType): boolean => {
       if (typeof userId === 'undefined') return false
@@ -119,8 +125,11 @@ const PlaceListBottomSheet = forwardRef<
             필터
           </FilterButton>
         </div>
-        {placeList.length > 0 ? (
-          <div className="no-scrollbar flex-1 overflow-y-scroll overscroll-contain px-5">
+        {slicedPlaceList.length > 0 ? (
+          <div
+            ref={listRef}
+            className="no-scrollbar flex-1 overflow-y-scroll overscroll-contain px-5"
+          >
             <ul
               ref={(element) => {
                 if (typeof ref !== 'function' && ref?.current) {
@@ -128,8 +137,8 @@ const PlaceListBottomSheet = forwardRef<
                 }
               }}
             >
-              {placeList.map((place) => (
-                <Fragment key={`bottom-sheet-${place.place.kakaoPlace.id}`}>
+              {slicedPlaceList.map((place, index) => (
+                <li key={`bottom-sheet-${place.place.kakaoPlace.id}-${index}`}>
                   <PlaceListItem
                     placeId={place.place.kakaoPlace.id}
                     address={place.place.kakaoPlace.address}
@@ -153,7 +162,7 @@ const PlaceListBottomSheet = forwardRef<
                     className="first:pt-1"
                   />
                   <hr className="my-[2px] h-[1px] border-0 bg-neutral-600 last:hidden" />
-                </Fragment>
+                </li>
               ))}
             </ul>
           </div>
