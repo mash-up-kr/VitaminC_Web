@@ -54,7 +54,7 @@ const MapTitle = ({
     }
   }
 
-  const fetchRevalMap = async (isPublic: boolean) => {
+  const updateMapVisibility = async (isPublic: boolean) => {
     try {
       const { id, description, name } = mapInfo
       await api.maps.id.patch({
@@ -64,7 +64,7 @@ const MapTitle = ({
         name,
       })
       revalidate(['map', mapInfo.id])
-      notify.success(`${mapNameInput} 지도를 ${isPublic ? '공개' : '비공개'}로 바꾸었습니다.`)
+      notify.success(`${mapInfo.name} 지도를 ${isPublic ? '공개' : '비공개'}로 바꾸었습니다.`)
       refetchMapInfo()
     } catch (err) {
       notify.error('서버에 문제가 생겼습니다.')
@@ -81,7 +81,7 @@ const MapTitle = ({
     }
 
     // 공개 => 비공개
-    fetchRevalMap(false)
+    updateMapVisibility(false)
   }
 
   return (
@@ -168,7 +168,7 @@ const MapTitle = ({
         }
         onClose={() => setIsOpenMapToPublicModal(false)}
         onCancel={() => setIsOpenMapToPublicModal(false)}
-        onConfirm={() => fetchRevalMap(true)}
+        onConfirm={() => updateMapVisibility(true)}
       />
     </>
   )
