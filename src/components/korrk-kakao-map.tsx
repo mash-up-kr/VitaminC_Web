@@ -1,7 +1,6 @@
 import type { IconKey } from './common/icon'
 import CurrentPositionSearchButton from './kakao-map/current-position-search-button'
 import FloatingButtonBox from './kakao-map/floating-button-box'
-import GpsButton from './kakao-map/gps-button'
 import KakaoMap from './kakao-map/kakao-map'
 import Marker from './kakao-map/marker'
 
