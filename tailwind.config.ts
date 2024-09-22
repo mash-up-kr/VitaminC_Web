@@ -181,6 +181,7 @@ const config: Config = {
       },
       borderRadius: {
         '3xl': '20px',
+        '4xl': '24px',
       },
       keyframes: {
         enter: {
