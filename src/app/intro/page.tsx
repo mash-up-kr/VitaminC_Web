@@ -55,13 +55,21 @@ const Intro = () => {
   const [loading, setLoading] = useState(true)
   const [authorization, setAuthorization] = useState(false)
 
-  const { data: user, status: userStatus } = useFetch(api.users.me.get, {
+  const {
+    data: user,
+    error: userError,
+    status: userStatus,
+  } = useFetch(api.users.me.get, {
     key: ['user'],
     enabled: authorization,
   })
   const nickname = user?.nickname
 
-  const { data: maps, status: mapsStatus } = useFetch(api.maps.get, {
+  const {
+    data: maps,
+    error: mapsError,
+    status: mapsStatus,
+  } = useFetch(api.maps.get, {
     enabled: !!nickname,
   })
 
@@ -105,41 +113,52 @@ const Intro = () => {
   }
 
   const initialStep = useMemo(() => {
+    const error = userError || mapsError
     if (isLoading) {
       return IntroStep.LOADING
-    } else if (!user) {
+    } else if (!user || error) {
+      if (error) {
+        notify.error(error.message)
+      }
       return IntroStep.LOGIN
-    } else if (!nickname) {
+    } else if (!nickname && !userError) {
       return IntroStep.NICKNAME
-    } else if (!maps?.length) {
+    } else if (!maps?.length && !mapsError) {
       return IntroStep.NEW_MAP
     } else if (onboarding) {
       return IntroStep.INVITE
     } else {
+      // 지도가 있는 로그인한 사용자는 /intro에 접근 불가
       return IntroStep.FORBIDDEN
     }
-  }, [isLoading, user, nickname, maps, onboarding])
+  }, [
+    isLoading,
+    user,
+    nickname,
+    userError,
+    maps?.length,
+    mapsError,
+    onboarding,
+  ])
 
   useEffect(() => {
-    const getCurrentState = async () => {
+    const getToken = async () => {
       setLoading(true)
 
       try {
-        if (!authorization) {
-          const response = await fetchData<Token>('/api/token', {
-            key: ['token'],
-          })
-          const token = response.data.token
-          setAuthorization(!!token)
-        }
+        const response = await fetchData<Token>('/api/token', {
+          key: ['token'],
+        })
+        const token = response.data.token
+        setAuthorization(!!token)
       } catch {
       } finally {
         setLoading(false)
       }
     }
 
-    getCurrentState()
-  }, [authorization])
+    getToken()
+  }, [])
 
   useEffect(() => {
     if (initialStep === IntroStep.FORBIDDEN) {

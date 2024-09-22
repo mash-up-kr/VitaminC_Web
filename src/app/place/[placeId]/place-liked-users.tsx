@@ -1,23 +1,19 @@
 import Avatar from '@/components/common/avatar'
 import Typography from '@/components/common/typography'
-import type { LikeUsers } from '@/components/place/types'
+import type { LikeUser } from '@/components/place/types'
 import type { ClassName } from '@/models/common'
 import type { User } from '@/models/user'
 import cn from '@/utils/cn'
 
-interface PlaceLikedUsersProps extends ClassName {
+interface PlaceLikedUserProps extends ClassName {
   me: User | null
-  likedUsers: LikeUsers[]
+  likedUser: LikeUser[]
 }
 
-const PlaceLikedUsers = ({
-  likedUsers,
-  className,
-  me,
-}: PlaceLikedUsersProps) => {
+const PlaceLikedUser = ({ likedUser, className, me }: PlaceLikedUserProps) => {
   return (
     <ul className={cn('flex flex-col pb-6', className)}>
-      {likedUsers.map((user) => (
+      {likedUser.map((user) => (
         <li key={user.id} className="flex items-center gap-2 pt-2">
           <Avatar
             value={user.nickname}
@@ -33,4 +29,4 @@ const PlaceLikedUsers = ({
   )
 }
 
-export default PlaceLikedUsers
+export default PlaceLikedUser

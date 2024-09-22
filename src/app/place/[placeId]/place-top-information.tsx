@@ -5,7 +5,7 @@ import IconChip from '@/components/common/icon-chip'
 import Typography from '@/components/common/typography'
 import LikeButton from '@/components/like-button'
 import PickChip from '@/components/pick-chip'
-import type { LikeUsers, PlaceProps } from '@/components/place/types'
+import type { LikeUser, PlaceProps } from '@/components/place/types'
 import TagList from '@/components/tag-list'
 import type { ClassName } from '@/models/common'
 import { categoryIcons } from '@/models/map'
@@ -14,12 +14,12 @@ import { roundOnePoint } from '@/utils/number'
 import LikeToolTip from './like-tooltip'
 import BottomModal from '@/components/common/bottom-modal'
 import type { User } from '@/models/user'
-import PlaceLikedUsers from './place-liked-users'
+import PlaceLikedUser from './place-liked-users'
 
 interface PlaceTopInformationProps extends PlaceProps, ClassName {
   rating: number
   user: User | null
-  likedUsers?: LikeUsers[]
+  likedUser?: LikeUser[]
   images?: string[]
 }
 
@@ -35,11 +35,9 @@ const PlaceTopInformation = ({
   tags,
   distance,
   className,
-  likedUsers,
+  likedUser,
 }: PlaceTopInformationProps) => {
-  const [likeUserList, setLikeUserList] = useState<LikeUsers[]>(
-    likedUsers ?? [],
-  )
+  const [likeUserList, setLikeUserList] = useState<LikeUser[]>(likedUser ?? [])
   const [isOpenLikeMembers, setIsOpenLikeMembers] = useState(false)
 
   const handleLikeOrUnLike = (
@@ -50,7 +48,7 @@ const PlaceTopInformation = ({
     pick?.onClickLike(event)
     if (pick?.isLiked) {
       setLikeUserList((prev) =>
-        [...prev].filter((likeUser) => likeUser.id !== user.id),
+        [...prev].filter((liked) => liked.id !== user.id),
       )
     } else {
       setLikeUserList((prev) => [
@@ -140,7 +138,7 @@ const PlaceTopInformation = ({
         layout="none"
         isOpen={isOpenLikeMembers}
         title={`좋아요 ${pick?.numOfLikes ?? 0}`}
-        body={<PlaceLikedUsers likedUsers={likeUserList} me={user} />}
+        body={<PlaceLikedUser likedUser={likeUserList} me={user} />}
         onClose={() => setIsOpenLikeMembers(false)}
         onConfirm={() => {}}
         confirmMessage=""

@@ -4,7 +4,7 @@ import Typography from '@/components/common/typography'
 const Title = ({ content }: { content: string }) => {
   return (
     <div className="whitespace-pre-line px-5 py-12 text-center">
-      <Typography size="body0-2" color="neutral-000">
+      <Typography size="h1" color="neutral-000">
         {content}
       </Typography>
     </div>
