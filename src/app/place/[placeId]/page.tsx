@@ -1,52 +1,22 @@
-'use client'
+import dynamic from 'next/dynamic'
 
-import { useEffect, useState } from 'react'
-
-import PlaceBox from './place-box'
-import PlaceBoxSkeleton from './place-box-skeleton'
-
-import { notify } from '@/components/common/custom-toast'
-import useFetch from '@/hooks/use-fetch'
-import { APIError } from '@/models/api/index'
-import type { PlaceDetail as PlaceDetailType } from '@/models/api/place'
 import { getMapId } from '@/services/map-id'
 import { api } from '@/utils/api'
 
-const PlaceDetail = ({ params }: { params?: { placeId?: number } }) => {
-  const [mapId, setMapId] = useState('')
-  const { data: place } = useFetch<PlaceDetailType>(
-    () =>
-      api.place.mapId.kakao.kakaoPlaceId.get({
-        mapId,
-        kakaoPlaceId: params?.placeId ?? -1,
-      }),
-    { enabled: !!mapId && !!params?.placeId },
-  )
+const PlaceBox = dynamic(() => import('./place-box'), { ssr: false })
 
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const validMapId = await getMapId()
+const PlaceDetail = async ({ params }: { params?: { placeId?: number } }) => {
+  const mapId = (await getMapId()) || ''
+  const response =
+    !!mapId && !!params?.placeId
+      ? await api.place.mapId.kakao.kakaoPlaceId.get({
+          mapId,
+          kakaoPlaceId: params?.placeId ?? -1,
+        })
+      : null
+  const place = response?.data
 
-        if (!validMapId) {
-          throw new Error('잘못된 접근입니다.')
-        }
-        setMapId(validMapId)
-      } catch (error) {
-        if (error instanceof APIError) {
-          notify.error(error.message)
-          return
-        }
-        notify.error('예상치 못한 오류가 발생했습니다.')
-      }
-    })()
-  }, [mapId])
-
-  return (
-    <>
-      {place ? <PlaceBox place={place} mapId={mapId} /> : <PlaceBoxSkeleton />}
-    </>
-  )
+  return place && <PlaceBox place={place} mapId={mapId} />
 }
 
 export default PlaceDetail
