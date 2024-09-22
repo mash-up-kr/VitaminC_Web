@@ -60,25 +60,25 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
     mapInfo?.users.find((mapUser) => mapUser.id === user?.id)?.role ?? 'READ'
 
   const numOfLikes = (() => {
-    const likedUsersCount = place.likedUsers?.length ?? 0
+    const likedUserCount = place.likedUser?.length ?? 0
 
-    if (user && place.likedUsers?.find((likeUser) => likeUser.id === user.id)) {
+    if (user && place.likedUser?.find((liked) => liked.id === user.id)) {
       if (isRecentlyLike == null) {
-        return likedUsersCount
+        return likedUserCount
       }
 
       const recentlyLikedBonus = isRecentlyLike ? 0 : -1
-      return likedUsersCount + recentlyLikedBonus
+      return likedUserCount + recentlyLikedBonus
     }
     const recentlyLikedBonus = isRecentlyLike ? 1 : 0
 
-    return likedUsersCount + recentlyLikedBonus
+    return likedUserCount + recentlyLikedBonus
   })()
 
   useEffect(() => {
     if (!place || !user) return
     setIsLikePlace(
-      !!place.likedUsers?.find((likeUser) => likeUser.id === user.id) ?? false,
+      !!place.likedUser?.find((liked) => liked.id === user.id) ?? false,
     )
   }, [user, place])
 
@@ -96,8 +96,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
     } catch (error) {
       setIsLikePlace(false)
       setIsRecentlyLike(
-        !!place.likedUsers?.find((likeUser) => likeUser.id === user?.id) ??
-          false,
+        !!place.likedUser?.find((liked) => liked.id === user?.id) ?? false,
       )
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
@@ -119,8 +118,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
     } catch (error) {
       setIsLikePlace(true)
       setIsRecentlyLike(
-        !!place.likedUsers?.find((likeUser) => likeUser.id === user?.id) ??
-          false,
+        !!place.likedUser?.find((liked) => liked.id === user?.id) ?? false,
       )
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
@@ -193,7 +191,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
           address={place.address}
           tags={place.tags}
           rating={place.score}
-          likedUsers={place.likedUsers ?? []}
+          likedUser={place.likedUser ?? []}
           distance={isAllowPosition ? formatDistance(diffDistance) : undefined}
           pick={
             typeof place.createdBy !== 'undefined'
@@ -239,9 +237,9 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
                   onUnLikePlace={handleUnLikePlace}
                 />
               ) : (
-                  <Button type="button" onClick={handleRegisterPlace}>
-                    맛집 등록하기
-                  </Button>
+                <Button type="button" onClick={handleRegisterPlace}>
+                  맛집 등록하기
+                </Button>
               )}
             </div>
           </footer>
@@ -250,7 +248,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
 
       <PlaceDeleteModal
         createdUser={createdUser}
-        likedUsers={place.likedUsers}
+        likedUser={place.likedUser}
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeletePlace}

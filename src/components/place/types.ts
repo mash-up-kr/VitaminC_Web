@@ -5,7 +5,7 @@ import type { PlaceType } from '@/models/api/place'
 import type { CategoryIcon } from '@/models/map'
 import type { User } from '@/models/user'
 
-export interface LikeUsers {
+export interface LikeUser {
   id: User['id']
   nickname: string
   profileImage: string
