@@ -10,16 +10,9 @@ import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'
 import { notify } from '../common/custom-toast'
 
-const BUTTON_OFFSET_Y = 16
-const BUTTON_HEIGHT = 11
-interface GpsButtonProps {
-  topOfBottomBounds: number
-}
-
-const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
+const GpsButton = () => {
   const { userLocation, allowLocation, handleUserLocation } =
     useUserGeoLocation()
-  const [gpsBottomPositionY, setGpsBottomPositionY] = useState(BUTTON_OFFSET_Y)
   const [gpsMode, setGpsMode] = useState(false)
   const { height: windowHeight } = useWindowSize()
   const { map } = useKakaoMap()
@@ -57,19 +50,6 @@ const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
     setGpsMode((prev) => !prev)
   }
 
-  useEffect(() => {
-    if (topOfBottomBounds) {
-      setGpsBottomPositionY(
-        Math.min(
-          windowHeight - topOfBottomBounds + BUTTON_OFFSET_Y,
-          (windowHeight * 3) / 4 - BUTTON_OFFSET_Y - BUTTON_HEIGHT / 2,
-        ),
-      )
-    } else {
-      setGpsBottomPositionY(BUTTON_OFFSET_Y)
-    }
-  }, [topOfBottomBounds, windowHeight])
-
   return (
     <>
       {gpsMode && (
@@ -79,10 +59,6 @@ const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
         />
       )}
       <AccessibleIconButton
-        className={`absolute right-5 z-10 transition-all duration-300 ease-in-out`}
-        style={{
-          bottom: `${gpsBottomPositionY}px`,
-        }}
         label={gpsMode ? '내 위치로 이동 취소' : '내 위치로 이동'}
         icon={{
           className: 'w-11 h-11',
