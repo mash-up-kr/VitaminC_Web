@@ -24,6 +24,7 @@ import { roundToNthDecimal } from '@/utils/number'
 import { allowUserPositionStorage } from '@/utils/storage'
 import ProxyImage from '@/components/common/proxy-image'
 import cn from '@/utils/cn'
+import { sendGAEvent } from '@next/third-parties/google'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -147,6 +148,11 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
 
   const handleRegisterPlace = async () => {
     try {
+      sendGAEvent({
+        category: 'place',
+        action: 'click',
+        label: 'register',
+      })
       router.push(`/place/${place.kakaoId}/register`)
       revalidate(['places', mapId])
     } catch (error) {

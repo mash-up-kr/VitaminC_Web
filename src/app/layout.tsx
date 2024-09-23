@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import Script from 'next/script'
 
@@ -12,6 +13,9 @@ import { pretendard } from '@/styles/fonts'
 export const metadata: Metadata = {
   title: '꼬르륵',
   description: '전설의 보물섬으로 가는 맛집 지도',
+  other: {
+    'naver-site-verification': 'ae22710d3780384fb5665b6fed172612b84e5e39',
+  },
   keywords: ['꼬르륵', '맛집', '함께 만드는 맛집 지도'],
   metadataBase: new URL('https://www.korrk.kr'),
   openGraph: {
@@ -24,6 +28,9 @@ export const metadata: Metadata = {
   },
 }
 
+const gaId = 'G-J03LXYNV9K'
+const gtagId = 'GTM-N8FPN3G2'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,7 +41,14 @@ export default function RootLayout({
       <body
         className={`${pretendard.className} ${pretendard.variable} flex items-start justify-center bg-neutral-800`}
       >
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NODE_ENV === 'production' && (
+          <>
+            <GoogleAnalytics gaId={gaId} />
+            <GoogleTagManager gtmId={gtagId} />
+            {/* Vercel Web Analytics */}
+            <Analytics />
+          </>
+        )}
 
         <Script
           async

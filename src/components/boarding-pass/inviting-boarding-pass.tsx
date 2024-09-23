@@ -1,5 +1,6 @@
 'use client'
 
+import { sendGAEvent } from '@next/third-parties/google'
 import BoardingBottom from './boarding-bottom'
 import BoardingDivider from './boarding-divider'
 import InviteBoardingPassInfo from './invite-boarding-pass-info'
@@ -22,6 +23,12 @@ const InvitingBoardingPass = ({
 
   const handleClickShareButton = () => {
     shareInvite(inviteCode, expirationTime)
+
+    sendGAEvent({
+      category: 'invitation',
+      action: 'click',
+      label: 'invitation',
+    })
   }
 
   return (
