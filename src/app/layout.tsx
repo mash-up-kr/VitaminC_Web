@@ -41,7 +41,14 @@ export default function RootLayout({
       <body
         className={`${pretendard.className} ${pretendard.variable} flex items-start justify-center bg-neutral-800`}
       >
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NODE_ENV === 'production' && (
+          <>
+            <GoogleAnalytics gaId={gaId} />
+            <GoogleTagManager gtmId={gtagId} />
+            {/* Vercel Web Analytics */}
+            <Analytics />
+          </>
+        )}
 
         <Script
           async
@@ -61,8 +68,6 @@ export default function RootLayout({
           <CustomToaster />
         </main>
       </body>
-      <GoogleAnalytics gaId={gaId} />
-      <GoogleTagManager gtmId={gtagId} />
     </html>
   )
 }
