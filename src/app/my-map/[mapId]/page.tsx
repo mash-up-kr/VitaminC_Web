@@ -4,7 +4,7 @@ import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
-import MapTitle from './map-title'
+import MapInfoBox from './map-info'
 import CrewInfoList from './crew-info-list'
 import CrewInfoBottomButton from './crew-info-bottom-button'
 
@@ -32,7 +32,7 @@ const MyMap = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
         {mapInfo && user && (
           <section className="px-5">
-            <MapTitle
+            <MapInfoBox
               mapInfo={mapInfo}
               user={user}
               className="py-6"
