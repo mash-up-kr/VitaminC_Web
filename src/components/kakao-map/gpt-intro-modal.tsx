@@ -35,7 +35,7 @@ const GptIntroModal = ({ isOpen, onClose }: GptIntroModalProps) => {
           <Typography
             size="body1"
             className="text-center"
-          >{`AI 추천을 통해 편리하게 맛집 탐색 해보세요.\n추천 횟수는 매달 10회까지 가능해요.`}</Typography>
+          >{`AI 추천은 매달 10회까지 가능해요.\n추천 횟수는 매달 1일 초기화 돼요.`}</Typography>
           {/* TODO: API 연결 */}
           <Typography size="h5">이번 달 남은 횟수 {questionCount}회</Typography>
         </div>
