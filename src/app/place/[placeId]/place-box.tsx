@@ -22,9 +22,9 @@ import { api } from '@/utils/api'
 import { formatDistance, getDistance } from '@/utils/location'
 import { roundToNthDecimal } from '@/utils/number'
 import { allowUserPositionStorage } from '@/utils/storage'
-import { sendGAEvent } from '@next/third-parties/google'
 import ProxyImage from '@/components/common/proxy-image'
 import cn from '@/utils/cn'
+import { sendGAEvent } from '@next/third-parties/google'
 
 interface PlaceBoxProps {
   place: PlaceDetail
