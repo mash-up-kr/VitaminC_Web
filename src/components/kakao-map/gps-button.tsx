@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { useKakaoMap } from './context'
-import GpsMarker from './gps-marker'
+import GPSMarker from './gps-marker'
 
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
@@ -9,7 +9,7 @@ import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'
 import { notify } from '../common/custom-toast'
 
-const GpsButton = () => {
+const GPSButton = () => {
   const { userLocation, allowLocation, handleUserLocation } =
     useUserGeoLocation()
   const [gpsMode, setGpsMode] = useState(false)
@@ -51,7 +51,7 @@ const GpsButton = () => {
   return (
     <>
       {gpsMode && (
-        <GpsMarker
+        <GPSMarker
           latitude={userLocation.latitude}
           longitude={userLocation.longitude}
         />
@@ -68,4 +68,4 @@ const GpsButton = () => {
   )
 }
 
-export default GpsButton
+export default GPSButton

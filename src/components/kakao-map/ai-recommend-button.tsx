@@ -3,7 +3,7 @@ import Icon from '../common/icon'
 import Typography from '../common/typography'
 import GptIntroModal from './gpt-intro-modal'
 
-const AiRecommendButton = () => {
+const AIRecommendButton = () => {
   const [isOpenGptIntro, setIsOpenGptIntro] = useState(false)
   return (
     <>
@@ -31,4 +31,4 @@ const AiRecommendButton = () => {
   )
 }
 
-export default AiRecommendButton
+export default AIRecommendButton

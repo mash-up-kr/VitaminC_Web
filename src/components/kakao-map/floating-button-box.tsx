@@ -1,7 +1,7 @@
 import useWindowSize from '@/hooks/use-window-size'
 import { forwardRef, useEffect, useState } from 'react'
-import GpsButton from './gps-button'
-import AiRecommendButton from './ai-recommend-button'
+import GPSButton from './gps-button'
+import AIRecommendButton from './ai-recommend-button'
 
 const BUTTON_OFFSET_Y = 16
 const BUTTON_HEIGHT = 11
@@ -34,8 +34,8 @@ const FloatingButtonBox = forwardRef<HTMLDivElement, FloatingButtonBoxProps>(
           bottom: `${bottomPositionY}px`,
         }}
       >
-        <GpsButton />
-        <AiRecommendButton />
+        <GPSButton />
+        <AIRecommendButton />
       </div>
     )
   },
