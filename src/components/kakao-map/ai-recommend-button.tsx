@@ -8,7 +8,7 @@ const AIRecommendButton = () => {
   return (
     <>
       <button
-        className="relative flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#E5684C] to-[#5D5FEF] p-[1px] transition-all duration-300 ease-in-out hover:w-40"
+        className="animate-expand relative flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#E5684C] to-[#5D5FEF] p-[1px]"
         onClick={() => setIsOpenGptIntro(true)}
       >
         <div className="flex h-full w-full items-center gap-2 overflow-hidden rounded-full bg-neutral-800 p-2.5 pl-1.5">

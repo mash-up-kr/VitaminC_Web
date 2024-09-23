@@ -209,11 +209,18 @@ const config: Config = {
             'background-position': 'right -48px top 0',
           },
         },
+        expandContract: {
+          '0%, 100%': { width: '40px' },
+          '4.41176%': { width: '160px' },
+          '93.3824%': { width: '160px' },
+          '100%': { width: '40px' },
+        },
       },
       animation: {
         enter: 'enter 300ms ease-out',
         leave: 'leave 300ms ease-in forwards',
         wave: 'wave 1.3s ease infinite',
+        expand: 'expandContract 6.8s ease-in-out 1s forwards',
       },
     },
   },
