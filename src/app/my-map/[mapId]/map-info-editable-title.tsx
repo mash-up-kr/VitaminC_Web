@@ -36,9 +36,9 @@ const MapInfoEditableTitle = ({
 
       <BottomModal
         layout="alert"
-        title="어떤 이름으로 바꿀까요?"
+        title="지도 이름을 변경해주세요"
         isOpen={openModal === 'name'}
-        confirmMessage="이름 변경"
+        confirmMessage="변경"
         body={
           <Input
             ref={(node) => node?.focus()}
@@ -46,7 +46,7 @@ const MapInfoEditableTitle = ({
             onChange={(value) => handleChangeInput('name', value)}
             minLength={MIN_LENGTH}
             maxLength={MAX_LENGTH}
-            placeholder="지도명 최대 8글자"
+            placeholder="최대 8자 입력"
           />
         }
         onClose={() => handleOpenModal(null)}
