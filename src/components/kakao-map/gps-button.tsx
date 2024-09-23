@@ -57,9 +57,11 @@ const GPSButton = () => {
         />
       )}
       <AccessibleIconButton
+        className="h-11 w-11"
         label={gpsMode ? '내 위치로 이동 취소' : '내 위치로 이동'}
         icon={{
           className: 'w-11 h-11',
+          size: 'xl',
           type: gpsMode ? 'locationOn' : 'locationOff',
         }}
         onClick={handleGpsClick}
