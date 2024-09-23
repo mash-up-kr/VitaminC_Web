@@ -3,12 +3,13 @@ import type { Creator, User } from './user'
 
 import type { IconKey } from '@/components/common/icon'
 
-type MapRole = 'ADMIN' | 'READ' | 'WRITE'
+export type MapRole = 'ADMIN' | 'READ' | 'WRITE'
 
 export interface MapMemberData {
   id: User['id']
   nickname: string
   role: MapRole
+  profileImage?: string
 }
 export interface UserByMapInfo extends MutatedAt {
   id: MapInfo['id']
@@ -20,6 +21,8 @@ export interface MapInfo extends MutatedAt {
   id: string
   name: string
   createBy: Creator
+  description: string
+  isPublic: boolean
   registeredPlaceCount: number
   users: MapMemberData[]
 }

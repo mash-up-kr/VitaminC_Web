@@ -16,7 +16,7 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["react", "@typescript-eslint", "unicorn"],
+  "plugins": ["react", "@typescript-eslint", "prettier", "unicorn"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",

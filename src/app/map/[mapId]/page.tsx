@@ -5,9 +5,9 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 
 import FilterModalBody, { type CategoryType } from './filter-modal-body'
-import MapInfoModal from './map-info-modal'
 import PlaceListBottomSheet from './place-list-bottom-sheet'
 import SearchAnchorBox from './search-anchor-box'
+import PlaceListSkeleton from './place-list-skeleton'
 
 import Avatar from '@/components/common/avatar'
 import BottomModal from '@/components/common/bottom-modal'
@@ -44,24 +44,26 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   } = useFetch(api.users.me.get, { key: ['user'] })
   const { data: mapData, error: mapError } = useFetch(
     () => api.maps.id.get(mapId),
-    { key: ['map', mapId] },
+    { key: ['map', mapId], enabled: !!mapId },
   )
   const {
     data: places,
     error: placesError,
+    status: placesStatus,
     refetch: clearOldPlacedata,
   } = useFetch(() => api.place.mapId.get(mapId), {
     key: ['places', mapId],
-    enabled: !!userData && !!mapData,
+    enabled: !!mapId,
   })
 
-  const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
+  const [status, setStatus] = useState('pending')
+
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [selectedFilterNames, setSelectedFilterNames] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
 
-  const [filteredPlace, setFilteredPlace] = useState<PlaceType[]>([])
+  const [filteredPlace, setFilteredPlace] = useState<PlaceType[] | null>(null)
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
 
   const [bottomRef, bottomBounds] = useMeasure()
@@ -71,7 +73,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     [],
   )
 
-  const mapname = mapData?.name || ''
+  const mapName = mapData?.name || ''
 
   const error = userError || mapError || placesError
   if (error) {
@@ -150,13 +152,21 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
   useEffect(() => {
     if (!userData || !places) return
+    if (
+      selectedFilterNames.category === 'all' &&
+      selectedFilterNames.tags.length === 0
+    ) {
+      setFilteredPlace(places)
+      setStatus(placesStatus)
+      return
+    }
     setFilteredPlace(
       places.filter((place) => {
         const checkMatchesCategory = () => {
           if (selectedFilterNames.category === 'all') return true
           if (
             selectedFilterNames.category === 'like' &&
-            place.likedUserIds?.includes(userData.id)
+            place.likedUser?.some((liked) => liked.id === userData.id)
           )
             return true
           if (
@@ -178,7 +188,14 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         return matchesCategory && matchesTags
       }),
     )
-  }, [places, selectedFilterNames.category, selectedFilterNames, userData])
+    setStatus(placesStatus)
+  }, [
+    places,
+    selectedFilterNames.category,
+    selectedFilterNames,
+    userData,
+    placesStatus,
+  ])
 
   useEffect(() => {
     if (!visitedMapIds.includes(mapId)) {
@@ -190,16 +207,20 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     <div className="h-dvh">
       <header className="absolute inset-x-5 top-4 z-50 flex flex-col gap-2">
         <div className="flex w-full justify-between">
-          <button
+          <Link
             className="flex items-center"
-            onClick={() => setIsMapInfoOpen(true)}
+            href="/my-map"
             aria-label="지도 정보 팝업 열기"
           >
-            <Typography size="h3">{mapname}</Typography>
+            <Typography size="h3">{mapName}</Typography>
             <Icon type="caretDown" size="lg" />
-          </button>
+          </Link>
           <Link href="/setting">
-            <Avatar value={userData?.nickname ?? ''} loading={isFetching} />
+            <Avatar
+              value={userData?.nickname}
+              imageUrl={userData?.profileImage}
+              loading={isFetching}
+            />
           </Link>
         </div>
         <Tooltip
@@ -217,12 +238,6 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         </Tooltip>
       </header>
 
-      <MapInfoModal
-        isOpen={isMapInfoOpen}
-        mapId={mapId}
-        onClose={() => setIsMapInfoOpen(false)}
-      />
-
       <KorrkKakaoMap<PlaceType>
         places={filteredPlace}
         selectedPlace={selectedPlace}
@@ -235,14 +250,19 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         <>
           <BottomSheet
             ref={bottomRef}
-            body={
-              <PlaceListBottomSheet
-                places={filteredPlace}
-                mapId={mapId}
-                selectedFilter={selectedFilterNames}
-                onClickFilterButton={handleFilterModalOpen}
-                onRefreshOldPlace={clearOldPlacedata}
-              />
+            body={(contentRef) =>
+              status === 'success' ? (
+                <PlaceListBottomSheet
+                  ref={contentRef}
+                  places={filteredPlace}
+                  mapId={mapId}
+                  selectedFilter={selectedFilterNames}
+                  onClickFilterButton={handleFilterModalOpen}
+                  onRefreshOldPlace={clearOldPlacedata}
+                />
+              ) : (
+                <PlaceListSkeleton ref={contentRef} />
+              )
             }
           />
           <BottomModal

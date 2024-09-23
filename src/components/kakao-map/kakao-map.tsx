@@ -60,7 +60,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       lat: (bounds.latitude1 + bounds.latitude2) / 2,
       lng: (bounds.longitude1 + bounds.longitude2) / 2,
     }
-    const userLocation = useUserGeoLocation()
+    const { userLocation } = useUserGeoLocation()
     const userLocationCenter = {
       lat: userLocation.latitude,
       lng: userLocation.longitude,
@@ -122,6 +122,7 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
         <section
           ref={mergeRefs([ref, container])}
           className={cn('darkmode relative', className)}
+          draggable="false"
         />
         {map && <KakaoMapProvider map={map}>{children}</KakaoMapProvider>}
       </>

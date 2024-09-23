@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, useEffect, useState } from 'react'
+import { type ForwardedRef, forwardRef, useEffect, useState } from 'react'
 
 import Link from 'next/link'
 
@@ -19,6 +19,7 @@ import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 import { roundOnePoint } from '@/utils/number'
 import { getStarByScore } from '@/utils/score'
+import PlacePopupSkeleton from '@/components/place/place-popup-skeleton'
 
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
@@ -33,13 +34,15 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
       key: ['user'],
     })
 
+    const isLoading = !selectedPlace || !user
+
     const place = selectedPlace.place
 
     const getNumOfLike = () => {
-      const initialNumOfLike = selectedPlace.likedUserIds?.length || 0
+      const initialNumOfLike = selectedPlace.likedUser?.length || 0
 
       if (!user?.id) return initialNumOfLike
-      if (selectedPlace.likedUserIds?.includes(user?.id)) {
+      if (selectedPlace.likedUser.some((liked) => liked.id === user.id)) {
         if (isLikePlace) return initialNumOfLike
         return initialNumOfLike - 1
       }
@@ -104,7 +107,9 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
     useEffect(() => {
       if (!user) return
-      setIsLikePlace(selectedPlace.likedUserIds.includes(user.id))
+      setIsLikePlace(
+        selectedPlace.likedUser.some((liked) => liked.id === user.id),
+      )
     }, [user, selectedPlace])
 
     return (
@@ -112,79 +117,83 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
         role="presentation"
         className={cn('flex w-full justify-center', className)}
       >
-        <Link
-          href={`/place/${place.kakaoPlace.id}`}
-          ref={ref}
-          className="z-10 flex w-full flex-col gap-4 rounded-[10px] bg-neutral-700 p-5"
-        >
-          <div className="flex justify-between gap-2">
-            <div className="flex flex-col justify-between gap-2 overflow-hidden">
-              <div className="space-y-1">
-                <div className="flex items-center gap-1.5">
-                  <Typography as="h2" size="h4" className="truncate">
-                    {kakaoPlace.name}
-                  </Typography>
-                  <Typography
-                    as="span"
-                    className="shrink-0"
-                    size="body3"
-                    color="neutral-400"
-                  >
-                    {kakaoPlace.category}
-                  </Typography>
+        {isLoading ? (
+          <PlacePopupSkeleton ref={ref as ForwardedRef<HTMLDivElement>} />
+        ) : (
+          <Link
+            href={`/place/${place.kakaoPlace.id}`}
+            ref={ref}
+            className="z-10 flex w-full flex-col gap-4 rounded-[10px] bg-neutral-700 p-5"
+          >
+            <div className="flex justify-between gap-2">
+              <div className="flex flex-col justify-between gap-2 overflow-hidden">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <Typography as="h2" size="h4" className="truncate">
+                      {kakaoPlace.name}
+                    </Typography>
+                    <Typography
+                      as="span"
+                      className="shrink-0"
+                      size="body3"
+                      color="neutral-400"
+                    >
+                      {kakaoPlace.category}
+                    </Typography>
+                  </div>
+
+                  <div className="flex gap-2">
+                    {!!kakaoPlace.score && (
+                      <div className="flex items-center gap-0.5">
+                        <Icon
+                          type={getStarByScore(kakaoPlace.score)}
+                          size="sm"
+                          fill="yellow-100"
+                        />
+                        <Typography as="span" size="h6" color="neutral-100">
+                          {roundOnePoint(kakaoPlace.score)}
+                        </Typography>
+                      </div>
+                    )}
+                    <Typography
+                      as="span"
+                      size="body3"
+                      color="neutral-300"
+                      className="truncate"
+                    >
+                      {kakaoPlace.address}
+                    </Typography>
+                  </div>
                 </div>
 
-                <div className="flex gap-2">
-                  {!!kakaoPlace.score && (
-                    <div className="flex items-center gap-0.5">
-                      <Icon
-                        type={getStarByScore(kakaoPlace.score)}
-                        size="sm"
-                        fill="yellow-100"
-                      />
-                      <Typography as="span" size="h6" color="neutral-100">
-                        {roundOnePoint(kakaoPlace.score)}
-                      </Typography>
-                    </div>
-                  )}
-                  <Typography
-                    as="span"
-                    size="body3"
-                    color="neutral-300"
-                    className="overflow-hidden text-ellipsis"
-                  >
-                    {kakaoPlace.address}
-                  </Typography>
-                </div>
+                {pick && (
+                  <div className="flex items-center gap-2">
+                    <PickChip isMyPick={pick.isMyPick} />
+                    <LikeButton
+                      numOfLikes={pick.numOfLikes}
+                      isLiked={pick.isLiked}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        pick.onClickLike()
+                      }}
+                    />
+                  </div>
+                )}
               </div>
 
-              {pick && (
-                <div className="flex items-center gap-3">
-                  <PickChip isMyPick={pick.isMyPick} />
-                  <LikeButton
-                    numOfLikes={pick.numOfLikes}
-                    isLiked={pick.isLiked}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                      pick.onClickLike()
-                    }}
-                  />
-                </div>
+              {kakaoPlace.mainPhotoUrl && (
+                <ProxyImage
+                  className="h-20 w-20 min-w-20 rounded-md"
+                  src={kakaoPlace.mainPhotoUrl}
+                  alt="식당"
+                />
               )}
             </div>
 
-            {kakaoPlace.mainPhotoUrl && (
-              <ProxyImage
-                className="h-20 w-20 min-w-20 rounded-md"
-                src={kakaoPlace.mainPhotoUrl}
-                alt="식당"
-              />
-            )}
-          </div>
-
-          {!!tags?.length && <TagList placeId={kakaoPlace.id} tags={tags} />}
-        </Link>
+            {!!tags?.length && <TagList placeId={kakaoPlace.id} tags={tags} />}
+          </Link>
+        )}
       </div>
     )
   },

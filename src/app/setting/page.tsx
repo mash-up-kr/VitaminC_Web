@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import Avatar from '@/components/common/avatar'
@@ -11,27 +11,47 @@ import Typography from '@/components/common/typography'
 import useSafeRouter from '@/hooks/use-safe-router'
 import { handleSignout } from '@/services/user'
 import { api } from '@/utils/api'
+import { APIError } from '@/models/api'
+import EditNicknameBottomModal from './edit-nickname-bottom-modal'
+import useFetch from '@/hooks/use-fetch'
 
 const Setting = () => {
   const [isOpenSignupModal, setIsOpenSignupModal] = useState(false)
-  // const { data: user } = useFetch(api.users.me.get, { key: ['user'] })
+  const [isOpenEditNickname, setIsOpenEditNickname] = useState(false)
   const router = useSafeRouter()
   const [nickname, setNickname] = useState('')
+  const [profileImage, setProfileImage] = useState('')
+
+  const { revalidate } = useFetch(api.users.me.get, {
+    key: ['user'],
+    onLoadEnd: (data) => {
+      setNickname(data.nickname ?? '')
+      setProfileImage(data.profileImage ?? '')
+    },
+  })
 
   const handleCloseSignupModal = () => {
     setIsOpenSignupModal(false)
   }
 
-  useEffect(() => {
-    ;(async () => {
+  const handleProfileImageChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    e.preventDefault()
+
+    if (e.target.files) {
+      const uploadedImage = e.target.files[0]
       try {
-        const res = await api.users.me.get()
-        setNickname(res.data.nickname ?? '')
+        const res = await api.users.me.patch({ profileImage: uploadedImage })
+        setProfileImage(res.data.profileImage ?? '')
+        revalidate(['user'])
       } catch (error) {
-        notify.error('데이터를 받아오는 데 문제가 생겼습니다.')
+        if (error instanceof APIError) {
+          notify.error(error.message)
+        }
       }
-    })()
-  }, [])
+    }
+  }
 
   return (
     <>
@@ -52,15 +72,38 @@ const Setting = () => {
           </Typography>
         </header>
 
-        <div className="flex flex-col px-5">
-          <div className="flex items-center gap-2 pb-1 pt-3">
-            <Avatar value={nickname ?? ''} />
-            <Typography as="span" size="body1">
-              {nickname}
-            </Typography>
-          </div>
+        <div className="flex flex-col">
+          <div className="flex flex-col items-center gap-6 pb-5 pt-6">
+            <label className="relative cursor-pointer">
+              <Avatar
+                value={nickname}
+                imageUrl={profileImage}
+                className={`h-20 w-20 text-[40px] ${!profileImage && 'border-2 border-[#17171A] border-opacity-20'}`}
+              />
+              <input
+                className="absolute m-[-1px] hidden h-[1px] w-[1px]"
+                type="file"
+                accept="image/*"
+                onChange={handleProfileImageChange}
+              />
+              <div className="absolute bottom-0 right-0 flex h-6 w-6 items-center justify-center rounded-full bg-neutral-700">
+                <Icon
+                  className="rounded-full bg-neutral-500 p-[1px]"
+                  type="plusBold"
+                />
+              </div>
+            </label>
 
-          <section className="flex flex-col">
+            <button
+              className="flex items-center gap-0.5"
+              onClick={() => setIsOpenEditNickname(true)}
+            >
+              <Typography size="h3">{nickname}</Typography>
+              <Icon type="pencil" size="lg" aria-label="이름 변경" />
+            </button>
+          </div>
+          <div className="h-[18px] w-full bg-neutral-600"></div>
+          <section className="flex flex-col px-5">
             <Typography
               as="h2"
               size="body1"
@@ -92,6 +135,16 @@ const Setting = () => {
         onClose={handleCloseSignupModal}
         onConfirm={handleSignout}
       />
+      {isOpenEditNickname && (
+        <EditNicknameBottomModal
+          isOpen={isOpenEditNickname}
+          onClose={() => setIsOpenEditNickname(false)}
+          onUpdateNickname={(name: string) => {
+            setNickname(name)
+            revalidate(['user'])
+          }}
+        />
+      )}
     </>
   )
 }

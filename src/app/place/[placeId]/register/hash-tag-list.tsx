@@ -72,7 +72,7 @@ const HashTagList = ({
           # 해시태그
         </Typography>
 
-        <ul className="flex flex-wrap gap-x-3 gap-y-[10px]">
+        <ul className="no-scrollbar flex max-h-[calc(100vh-300px)] flex-wrap gap-x-3 gap-y-[10px] overflow-y-scroll">
           {tags.map((tag) => {
             const isActive = selectedTags.includes(tag)
 

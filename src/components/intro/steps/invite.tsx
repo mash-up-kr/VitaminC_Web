@@ -110,7 +110,7 @@ const Invite = () => {
 
         <div className="flex w-full items-center justify-center">
           <img
-            className="h-[220px] w-full object-fill"
+            className="min-h-[240px] w-full object-fill"
             src="/images/invitation.png"
             alt="초대장"
           />

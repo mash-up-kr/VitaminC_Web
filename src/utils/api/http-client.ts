@@ -57,12 +57,15 @@ class HTTPClient {
       cache,
     }
 
-    if (body) {
+    if (body && !(body instanceof FormData)) {
       requestInit.headers = {
         ...requestInit.headers,
-        'Content-Type': 'application/json',
+        'Content-Type':
+          requestInit.headers['Content-Type'] || 'application/json',
       }
       requestInit.body = JSON.stringify(body)
+    } else if (body instanceof FormData) {
+      requestInit.body = body
     }
 
     return requestInit

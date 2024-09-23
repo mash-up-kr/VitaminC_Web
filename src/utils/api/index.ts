@@ -11,6 +11,7 @@ import type {
   UserByMapInfo,
 } from '@/models/map'
 import type { User } from '@/models/user'
+import { createUserPatchFormData } from '../formdata'
 
 const client = {
   public: apiClientFactory({}),
@@ -27,8 +28,12 @@ const users = {
   me: {
     get: (): Promise<ResponseWithMessage<User>> =>
       client.secure.get(`/users/me`),
-    patch: (nickname: string): Promise<ResponseWithMessage<User>> =>
-      client.secure.patch(`/users/me`, { nickname }),
+    patch: (userData: {
+      nickname?: User['nickname']
+      profileImage?: File
+    }): Promise<ResponseWithMessage<User>> => {
+      return client.secure.patch(`/users/me`, createUserPatchFormData(userData))
+    },
   },
   check: {
     nickname: {
@@ -50,6 +55,19 @@ const maps = {
   id: {
     get: (id: MapInfo['id']): Promise<ResponseWithMessage<MapInfo>> =>
       client.secure.get(`/maps/${id}`, { tags: ['map', id] }),
+    patch: ({
+      id,
+      name,
+      description,
+      isPublic,
+    }: {
+      id: MapInfo['id']
+      name: string
+      description: string
+      isPublic: boolean
+    }): Promise<ResponseWithMessage<MapInfo>> =>
+      client.secure.patch(`/maps/${id}`, { name, description, isPublic }),
+
     tag: {
       get: (id: MapInfo['id']): Promise<ResponseWithMessage<TagItem[]>> =>
         client.secure.get(`/maps/${id}/tag`, { tags: ['tag', id] }),
@@ -62,6 +80,7 @@ const maps = {
       }): Promise<ResponseWithMessage<TagItem>> =>
         client.secure.post(`/maps/${id}/tag`, { name }),
     },
+
     inviteLinks: {
       post: (id: MapInfo['id']): Promise<ResponseWithMessage<InviteLink>> =>
         client.secure.post(`/maps/${id}/invite-links`),
@@ -74,6 +93,33 @@ const maps = {
       client.public.get(`/maps/invite-links/${token}`),
     post: (token: string): Promise<ResponseWithMessage<{}>> =>
       client.secure.post(`/maps/invite-links/${token}`),
+  },
+
+  roles: {
+    id: {
+      userId: {
+        patch: ({
+          id,
+          userId,
+          role,
+        }: {
+          id: MapInfo['id']
+          userId: User['id']
+          role: UserByMapInfo['role']
+        }): Promise<ResponseWithMessage<MapInfo>> =>
+          client.secure.patch(`/maps/roles/${id}/${userId}`, {
+            role,
+            userId,
+          }),
+      },
+    },
+  },
+
+  kick: {
+    id: {
+      post: ({ id, userId }: { id: MapInfo['id']; userId: User['id'] }) =>
+        client.secure.post(`/maps/kick/${id}`, { userId }),
+    },
   },
 }
 
@@ -152,10 +198,24 @@ const proxy = {
   get: (url: string): Promise<any> => client.public.get(`/proxy?url=${url}`),
 }
 
+const gpt = {
+  restaurants: {
+    recommend: {
+      test: {
+        get: (question: string, x: string, y: string): Promise<any> =>
+          client.secure.get(
+            `/gpt/restaurants/recommend/test?question=${question}&x=${x}&y=${y}`,
+          ),
+      },
+    },
+  },
+}
+
 export const api = {
   users,
   maps,
   search,
   place,
   proxy,
+  gpt,
 } as const

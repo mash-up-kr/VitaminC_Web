@@ -29,12 +29,13 @@ const ResultSearchListBox = ({
   const { data: user, revalidate } = useFetch(api.users.me.get, {
     key: ['user'],
   })
-  const userLocation = useUserGeoLocation()
+  const { userLocation } = useUserGeoLocation()
   const isAllowPosition = allowUserPositionStorage.getValueOrNull()
   const [likeInfoPlaces, setLikeInfoPlaces] = useState(
     [...places].map((place) => ({
-      isLike: !!place.likedUserIds?.find((id) => id === user?.id) || false,
-      numOfLike: place.likedUserIds?.length ?? 0,
+      isLike:
+        !!place.likedUser?.find((liked) => liked.id === user?.id) || false,
+      numOfLike: place.likedUser?.length ?? 0,
     })),
   )
 
@@ -42,18 +43,19 @@ const ResultSearchListBox = ({
     if (places.length !== likeInfoPlaces.length) {
       setLikeInfoPlaces(
         places.map((place) => ({
-          isLike: !!place.likedUserIds?.find((id) => id === user?.id) || false,
-          numOfLike: place.likedUserIds?.length ?? 0,
+          isLike:
+            !!place.likedUser?.find((liked) => liked.id === user?.id) || false,
+          numOfLike: place.likedUser?.length ?? 0,
         })),
       )
     }
   }, [likeInfoPlaces.length, places, user?.id])
 
   const calculateNumOfLike = (place: SearchPlace, isLikePlace: boolean) => {
-    const initialNumOfLike = place.likedUserIds?.length || 0
+    const initialNumOfLike = place.likedUser?.length || 0
 
     if (!user?.id) return initialNumOfLike
-    if (place.likedUserIds?.includes(user.id)) {
+    if (place.likedUser?.find((liked) => liked.id === user.id)) {
       if (isLikePlace) return initialNumOfLike
       return initialNumOfLike - 1
     }

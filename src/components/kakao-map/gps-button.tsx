@@ -8,6 +8,7 @@ import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import useWindowSize from '@/hooks/use-window-size'
 import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'
+import { notify } from '../common/custom-toast'
 
 const BUTTON_OFFSET_Y = 16
 const BUTTON_HEIGHT = 11
@@ -16,7 +17,8 @@ interface GpsButtonProps {
 }
 
 const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
-  const userLocation = useUserGeoLocation()
+  const { userLocation, allowLocation, handleUserLocation } =
+    useUserGeoLocation()
   const [gpsBottomPositionY, setGpsBottomPositionY] = useState(BUTTON_OFFSET_Y)
   const [gpsMode, setGpsMode] = useState(false)
   const { height: windowHeight } = useWindowSize()
@@ -24,6 +26,15 @@ const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
 
   const handleGpsClick = () => {
     if (!map) return
+
+    if (!allowLocation) {
+      const isAllowLocation = handleUserLocation({
+        onError: () => {
+          notify.error('위치 권한을 허용해 주세요.')
+        },
+      })
+      if (!isAllowLocation) return
+    }
 
     if (!gpsMode) {
       const location = new window.kakao.maps.LatLng(

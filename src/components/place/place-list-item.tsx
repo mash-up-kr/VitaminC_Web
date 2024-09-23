@@ -42,15 +42,16 @@ const PlaceListItem = ({
         'flex w-full flex-col gap-3.5 bg-neutral-700 py-4',
         className,
       )}
+      draggable="false"
     >
-      {images && (
+      {images && images.length > 0 && (
         <div className="max-x-[335px] no-scrollbar box-border flex flex-nowrap items-center gap-2 overflow-x-scroll">
-          {images.map((image, idx) => (
+          {images.map((image, index) => (
             <ProxyImage
-              key={`${placeId}-${image}-${idx}`}
+              key={`${placeId}-${image}-${index}`}
               src={image}
-              className="aspect-square w-[calc(33.4%-8px)] rounded-md object-cover"
-              alt={`${name}${idx}`}
+              className="aspect-square w-[calc(33.4%-8px)] min-w-[calc(33.4%-8px)] rounded-md object-cover"
+              alt={`${name}${index}`}
             />
           ))}
         </div>

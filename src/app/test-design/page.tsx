@@ -1,46 +1,106 @@
 'use client'
 
-import { useState } from 'react'
-
-import InvitingBoardingPass from '@/components/boarding-pass/inviting-boarding-pass'
-import Input from '@/components/common/input'
-import Modal from '@/components/common/modal'
+import BoardingDivider from '@/components/boarding-pass/boarding-divider'
+import Typography from '@/components/common/typography'
 
 const TestDesign = () => {
-  const [input, setInput] = useState('')
-  const [isOpenModal, setIsOpenModal] = useState(false)
-
   return (
     <>
       <div className="flex h-dvh w-dvw flex-col gap-[40px]">
-        <Input value={input} onChange={(value) => setInput(value)} />
+        <Typography size="body0" color="neutral-000" className="font-[100]">
+          100
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[200]">
+          200
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[300]">
+          300
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[400]">
+          400
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[500]">
+          500
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[600]">
+          weight-600
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[700]">
+          weight-700
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[800]">
+          800
+        </Typography>
+        <Typography size="body0" color="neutral-000" className="font-[900]">
+          900
+        </Typography>
 
-        <button type="button" onClick={() => setIsOpenModal(true)}>
-          초대장 디자인
-        </button>
+        <BoardingDivider className="h-[50px] w-full bg-neutral-500" />
 
-        <a href="/test-design/map" className="text-3xl">
-          MAP
-        </a>
+        <Typography
+          size="body0"
+          color="neutral-000"
+          className="font-serif font-[100]"
+        >
+          100
+        </Typography>
+        <Typography
+          size="body0"
+          color="neutral-000"
+          className="font-serif font-[200]"
+        >
+          200
+        </Typography>
+        <Typography
+          size="body0"
+          color="neutral-000"
+          className="font-serif font-[300]"
+        >
+          300
+        </Typography>
+        <Typography
+          size="body0"
+          color="neutral-000"
+          className="font-serif font-[400]"
+        >
+          400
+        </Typography>
+        <Typography
+          size="body0"
+          color="neutral-000"
+          className="font-serif font-[500]"
+        >
+          500
+        </Typography>
+        <Typography
+          size="body0"
+          color="neutral-000"
+          className="font-serif font-[600]"
+        >
+          weight-600
+        </Typography>
+        <Typography
+          size="body0"
+          color="neutral-000"
+          className="font-serif font-[700]"
+        >
+          weight-700
+        </Typography>
+        <Typography
+          size="body0"
+          color="neutral-000"
+          className="font-serif font-[800]"
+        >
+          800
+        </Typography>
+        <Typography
+          size="body0"
+          color="neutral-000"
+          className="font-serif font-[900]"
+        >
+          900
+        </Typography>
       </div>
-
-      <Modal
-        isOpen={isOpenModal}
-        onClose={() => setIsOpenModal(false)}
-        dimClassName="z-[9998]"
-        className="z-[9999] w-full max-w-[420px] px-5"
-      >
-        <InvitingBoardingPass
-          inviteCode={'test'}
-          expirationTime={new Date()}
-          mapName={'TEST'}
-          numOfCrews={3000}
-          creator={{
-            id: 1,
-            nickname: '상민이',
-          }}
-        />
-      </Modal>
     </>
   )
 }

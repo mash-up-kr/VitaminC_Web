@@ -5,6 +5,7 @@ import { type ImgHTMLAttributes, useEffect, useState } from 'react'
 import { useLazyImage } from '@/hooks/use-lazy-image'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
+import Skeleton from '@/components/common/skeleton'
 
 interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string
@@ -12,16 +13,20 @@ interface ProxyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
 
 const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
   const [url, setUrl] = useState('')
+  const [isFetch, setIsFetch] = useState(false)
   const { ref, inView, isLoading } = useLazyImage({ src: url, options: {} })
 
   useEffect(() => {
     const convertImage = async () => {
       try {
+        setIsFetch(true)
         const response = await api.proxy.get(src)
         const blob = await response.blob()
         const objectURL = URL.createObjectURL(blob)
         setUrl(objectURL)
-      } catch {}
+      } finally {
+        setIsFetch(false)
+      }
     }
 
     if (!url && inView && src.startsWith('http')) {
@@ -36,17 +41,8 @@ const ProxyImage = ({ src, ...props }: ProxyImageProps) => {
     }
   }, [inView, src, url])
 
-  if (isLoading) {
-    return (
-      <div className={cn('animate-pulse', props.className)}>
-        <div
-          className={cn(
-            'h-full w-full bg-[#353538] dark:bg-neutral-800',
-            props.className,
-          )}
-        />
-      </div>
-    )
+  if (isLoading || isFetch) {
+    return <Skeleton className={cn('h-full w-full', props.className)} />
   }
 
   return <img {...props} ref={ref} src={url || src} />

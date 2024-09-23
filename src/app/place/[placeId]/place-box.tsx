@@ -23,6 +23,8 @@ import { formatDistance, getDistance } from '@/utils/location'
 import { roundToNthDecimal } from '@/utils/number'
 import { allowUserPositionStorage } from '@/utils/storage'
 import { sendGAEvent } from '@next/third-parties/google'
+import ProxyImage from '@/components/common/proxy-image'
+import cn from '@/utils/cn'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -39,7 +41,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   const [isRecentlyLike, setIsRecentlyLike] = useState<boolean | null>(null)
   const router = useSafeRouter()
   const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
-  const userLocation = useUserGeoLocation()
+  const { userLocation } = useUserGeoLocation()
   const isAllowPosition = allowUserPositionStorage.getValueOrNull()
   const diffDistance = getDistance(
     userLocation.latitude,
@@ -52,25 +54,33 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
     key: ['user'],
   })
 
-  const numOfLikes = (() => {
-    const likedUserIdsCount = place.likedUserIds?.length ?? 0
+  const { data: mapInfo, isFetching } = useFetch(() => api.maps.id.get(mapId), {
+    enabled: !!mapId,
+  })
+  const myRole =
+    mapInfo?.users.find((mapUser) => mapUser.id === user?.id)?.role ?? 'READ'
 
-    if (user && place.likedUserIds?.includes(user.id)) {
+  const numOfLikes = (() => {
+    const likedUserCount = place.likedUser?.length ?? 0
+
+    if (user && place.likedUser?.find((liked) => liked.id === user.id)) {
       if (isRecentlyLike == null) {
-        return likedUserIdsCount
+        return likedUserCount
       }
 
       const recentlyLikedBonus = isRecentlyLike ? 0 : -1
-      return likedUserIdsCount + recentlyLikedBonus
+      return likedUserCount + recentlyLikedBonus
     }
     const recentlyLikedBonus = isRecentlyLike ? 1 : 0
 
-    return likedUserIdsCount + recentlyLikedBonus
+    return likedUserCount + recentlyLikedBonus
   })()
 
   useEffect(() => {
     if (!place || !user) return
-    setIsLikePlace(place.likedUserIds?.includes(user.id) ?? false)
+    setIsLikePlace(
+      !!place.likedUser?.find((liked) => liked.id === user.id) ?? false,
+    )
   }, [user, place])
 
   const handleLikePlace = async () => {
@@ -86,7 +96,9 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
       revalidate(['places', mapId])
     } catch (error) {
       setIsLikePlace(false)
-      setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
+      setIsRecentlyLike(
+        !!place.likedUser?.find((liked) => liked.id === user?.id) ?? false,
+      )
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
       }
@@ -106,7 +118,9 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
       revalidate(['places', mapId])
     } catch (error) {
       setIsLikePlace(true)
-      setIsRecentlyLike(place.likedUserIds?.includes(user?.id ?? -1) ?? false)
+      setIsRecentlyLike(
+        !!place.likedUser?.find((liked) => liked.id === user?.id) ?? false,
+      )
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
       }
@@ -161,13 +175,21 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         </header>
 
         <Carousel
-          items={place.photoList.slice(0, 3).map((src) => ({ src }))}
-          objectFit="cover"
+          items={place.photoList.slice(0, 3).map((src, index) => (
+            <ProxyImage
+              key={src}
+              src={src}
+              alt={`슬라이드 ${index + 1}`}
+              className="object-cover"
+              draggable="false"
+            />
+          ))}
           className="h-[200px] min-h-[200px] w-full"
           indicatorPosition="inside"
         />
 
         <PlaceTopInformation
+          user={user}
           placeId={place.kakaoId}
           category={place.category}
           categoryIconCode={place.categoryIconCode}
@@ -175,6 +197,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
           address={place.address}
           tags={place.tags}
           rating={place.score}
+          likedUser={place.likedUser ?? []}
           distance={isAllowPosition ? formatDistance(diffDistance) : undefined}
           pick={
             typeof place.createdBy !== 'undefined'
@@ -202,32 +225,36 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         <KakaoRating
           rating={roundToNthDecimal(place.score, 2)}
           placeId={place.kakaoId}
-          className="px-5 py-5"
+          className={cn(
+            'px-5 py-5',
+            myRole !== 'READ' && !isFetching && 'mb-[102px]',
+          )}
         />
 
-        <footer className="px-5">
-          {isAlreadyPick ? (
-            <PlaceActionButtons
-              like={isLikePlace}
-              onLikePlace={handleLikePlace}
-              onDeletePlace={() => setIsDeleteModalOpen(true)}
-              onUnLikePlace={handleUnLikePlace}
-            />
-          ) : (
-            <Button
-              type="button"
-              onClick={handleRegisterPlace}
-              className="mb-5"
-            >
-              맛집 등록하기
-            </Button>
-          )}
-        </footer>
+        {myRole !== 'READ' && !isFetching && (
+          <footer className="px-5">
+            <div className="invitation-gradient fixed bottom-0 left-1/2 flex h-[102px] w-full max-w-[420px] -translate-x-1/2 items-center justify-center px-5">
+              {isAlreadyPick ? (
+                <PlaceActionButtons
+                  like={isLikePlace}
+                  role={myRole}
+                  onLikePlace={handleLikePlace}
+                  onDeletePlace={() => setIsDeleteModalOpen(true)}
+                  onUnLikePlace={handleUnLikePlace}
+                />
+              ) : (
+                <Button type="button" onClick={handleRegisterPlace}>
+                  맛집 등록하기
+                </Button>
+              )}
+            </div>
+          </footer>
+        )}
       </div>
 
       <PlaceDeleteModal
         createdUser={createdUser}
-        likedUserIds={place.likedUserIds}
+        likedUser={place.likedUser}
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeletePlace}

@@ -68,13 +68,7 @@ const KakaoRating = ({ className, rating, placeId }: KakaoRatingProps) => {
             </div>
           </div>
 
-          <Icon
-            type="caretLeft"
-            size="xl"
-            stroke="neutral-000"
-            className="rotate-180"
-            aria-hidden
-          />
+          <Icon type="hyperlink" size="xl" aria-hidden />
         </div>
       </ExternalLink>
     </div>

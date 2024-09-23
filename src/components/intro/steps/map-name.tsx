@@ -15,15 +15,15 @@ import { countCharacters } from '@/utils/string'
 const MIN_LENGTH = 2
 const MAX_LENGTH = 8
 
-const Mapname = ({ goNextStep }: IntroActionDispatch) => {
-  const [mapname, setMapname] = useState('')
+const MapName = ({ goNextStep }: IntroActionDispatch) => {
+  const [mapName, setMapName] = useState('')
   const handleChange = (value: string) => {
-    setMapname(value)
+    setMapName(value)
   }
 
   const handleClick = async () => {
     try {
-      const res = await api.maps.post(mapname)
+      const res = await api.maps.post(mapName)
       const mapId = res.data.id
       setCookie(RECENT_MAP_ID, mapId)
 
@@ -52,7 +52,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
           <div className="flex items-center gap-3">
             <Input
               ref={(node) => node?.focus()}
-              value={mapname}
+              value={mapName}
               onChange={handleChange}
               minLength={MIN_LENGTH}
               maxLength={MAX_LENGTH}
@@ -70,7 +70,7 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
       <div className="w-full p-5">
         <Button
           colorScheme="orange"
-          disabled={countCharacters(mapname).num < MIN_LENGTH}
+          disabled={countCharacters(mapName).num < MIN_LENGTH}
           onClick={handleClick}
         >
           지도 만들기 완료
@@ -80,4 +80,4 @@ const Mapname = ({ goNextStep }: IntroActionDispatch) => {
   )
 }
 
-export default Mapname
+export default MapName

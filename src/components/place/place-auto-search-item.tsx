@@ -43,12 +43,14 @@ const PlaceAutoSearchItem = forwardRef<HTMLLIElement, PlaceAutoSearchItemProps>(
             <div className="flex flex-1 flex-col gap-1.5">
               <div className="flex flex-col gap-[3px]">
                 <Typography as="h2" size="h5">
-                  {nameParts?.map((text) => {
+                  {nameParts?.map((text, index) => {
                     return text === query ? (
-                      <span key={`${place.kakaoId}-${text}`}>{text}</span>
+                      <span key={`${place.kakaoId}-${text}-${index}`}>
+                        {text}
+                      </span>
                     ) : (
                       <span
-                        key={`${place.kakaoId}-${text}`}
+                        key={`${place.kakaoId}-${text}-${index}`}
                         className="text-neutral-300"
                       >
                         {text}
