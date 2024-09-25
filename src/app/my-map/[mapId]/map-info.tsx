@@ -72,10 +72,10 @@ const MapInfoBox = ({
         )
       case 'visibility':
         return notify.success(
-          `${mapInfo.name} 지도를 ${!mapInfo.isPublic ? '공개' : '비공개'}로 바꾸었습니다.`,
+          `${mapInfo.name} 지도를 ${!mapInfo.isPublic ? '공개' : '비공개'}로 변경했습니다.`,
         )
       case 'description':
-        return notify.success(`지도 한 줄 소개를 변경했습니다.`)
+        return notify.success(`${mapInfo.name} 지도 한 줄 소개를 변경했습니다.`)
     }
   }
 
