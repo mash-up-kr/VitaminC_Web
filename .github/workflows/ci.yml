@@ -1,0 +1,73 @@
+name: CI for GitOps
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.image.outputs.version }}
+      app_name: ${{ steps.branch_check.outputs.app_name }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Some check on branch
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "::set-output name=app_name::korrk-front"
+          fi
+
+      - name: Get image version
+        id: image
+        run: |
+          VERSION=$(echo ${{ github.sha }} | cut -c1-8)
+          echo VERSION=$VERSION
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Login to NCP Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.NCP_CONTAINER_REGISTRY }}
+          username: ${{ secrets.NCP_ACCESS_KEY }}
+          password: ${{ secrets.NCP_SECRET_KEY }}
+
+      - name: Build Image & Push Image
+        run: |
+          docker build  --build-arg NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY=${{ secrets.NEXT_PUBLIC_API_ORIGIN }}  \
+                        --build-arg NEXT_PUBLIC_API_ORIGIN=${{ secrets.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY }} \
+                        -t $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG -f Dockerfile .
+          docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG
+        env:
+          DOCKER_REGISTRY: ${{ secrets.NCP_CONTAINER_REGISTRY }}
+          DOCKER_REPOSITORY: ${{ steps.branch_check.outputs.app_name }}
+          IMAGE_TAG: ${{ steps.image.outputs.version }}
+
+  update-manifest:
+    runs-on: ubuntu-latest
+    needs: ci
+    steps:
+      - name: Checkout kube-manifest repository
+        uses: actions/checkout@v3
+        with:
+          repository: mash-up-kr/VitaminC-manifest
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          ref: main
+
+      - name: update yaml with yq
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq '( select(di == 0) | .spec.template.spec.containers[0].image ) = "${{ secrets.NCP_CONTAINER_REGISTRY }}/${{ needs.ci.outputs.app_name }}:${{ needs.ci.outputs.version }}"' -i   'korrk/${{ needs.ci.outputs.app_name }}/${{ needs.ci.outputs.app_name }}.yaml'
+
+      - name: Update tag
+        run: |
+          git config --global user.email ${{ secrets.GIT_USER_EMAIL }}
+          git config --global user.name  ${{ secrets.GIT_USER_NAME }}
+          git add .
+          git commit -am "Update image tag(${{ needs.ci.outputs.app_name }}:${{ needs.ci.outputs.version }}) by GitHub Actions"
+          git push -u origin main
