@@ -6,6 +6,10 @@ import Icon from '@/components/common/icon'
 import Textarea from '@/components/common/text-area'
 import get조사 from '@/utils/조사'
 import { countCharacters } from '@/utils/string'
+import {
+  MAX_MAP_DESCRIPTION_LENGTH,
+  MIN_MAP_DESCRIPTION_LENGTH,
+} from '@/constants/input'
 
 interface MapInfoDescriptionProps extends EditableProps {
   mapName: string
@@ -13,8 +17,6 @@ interface MapInfoDescriptionProps extends EditableProps {
   mapDescriptionInput: string
   handleChangeInput: (key: 'description', value: string) => void
 }
-const MIN_LENGTH = 0
-const MAX_LENGTH = 30
 
 const MapInfoEditableDescription = ({
   mapName,
@@ -27,7 +29,7 @@ const MapInfoEditableDescription = ({
 }: MapInfoDescriptionProps) => {
   const { num } = countCharacters(mapDescriptionInput)
   const isValidInput = mapDescriptionInput !== mapDescription
-  const isValidLength = num <= MAX_LENGTH
+  const isValidLength = num <= MAX_MAP_DESCRIPTION_LENGTH
 
   return (
     <>
@@ -53,9 +55,8 @@ const MapInfoEditableDescription = ({
             ref={(node) => node?.focus()}
             value={mapDescriptionInput}
             onChange={(value) => handleChangeInput('description', value)}
-            minLength={MIN_LENGTH}
-            maxLength={MAX_LENGTH}
-            placeholder="최대 30자 입력"
+            minLength={MIN_MAP_DESCRIPTION_LENGTH}
+            maxLength={MAX_MAP_DESCRIPTION_LENGTH}
           />
         }
         onClose={() => handleOpenModal(null)}

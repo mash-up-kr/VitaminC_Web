@@ -5,14 +5,13 @@ import Typography from '@/components/common/typography'
 import Icon from '@/components/common/icon'
 import Textarea from '@/components/common/text-area'
 import { countCharacters } from '@/utils/string'
+import { MAX_MAP_NAME_LENGTH, MIN_MAP_NAME_LENGTH } from '@/constants/input'
 
 interface MapInfoTitleProps extends EditableProps {
   mapName: string
   mapNameInput: string
   handleChangeInput: (key: 'name', value: string) => void
 }
-const MIN_LENGTH = 2
-const MAX_LENGTH = 8
 
 const MapInfoEditableTitle = ({
   mapName,
@@ -24,7 +23,7 @@ const MapInfoEditableTitle = ({
 }: MapInfoTitleProps) => {
   const { num } = countCharacters(mapNameInput)
   const isValidInput = mapNameInput && mapNameInput !== mapName
-  const isValidLength = MIN_LENGTH <= num && num <= MAX_LENGTH
+  const isValidLength = MIN_MAP_NAME_LENGTH <= num && num <= MAX_MAP_NAME_LENGTH
 
   return (
     <>
@@ -49,9 +48,8 @@ const MapInfoEditableTitle = ({
             ref={(node) => node?.focus()}
             value={mapNameInput}
             onChange={(value) => handleChangeInput('name', value)}
-            minLength={MIN_LENGTH}
-            maxLength={MAX_LENGTH}
-            placeholder="최대 8자 입력"
+            minLength={MIN_MAP_NAME_LENGTH}
+            maxLength={MAX_MAP_NAME_LENGTH}
           />
         }
         onClose={() => handleOpenModal(null)}
