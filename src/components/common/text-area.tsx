@@ -41,13 +41,18 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-    const autoResize = () => {
-      if (textareaRef.current) {
-        textareaRef.current.style.height = '0px'
-        const scrollHeight = textareaRef.current.scrollHeight
+    const initializeSize = () => {
+      if (!textareaRef.current) return
+      textareaRef.current.style.height = '0px'
+    }
 
-        textareaRef.current.style.height = scrollHeight + 'px'
-      }
+    const autoResize = () => {
+      if (!textareaRef.current) return
+
+      initializeSize()
+
+      const scrollHeight = textareaRef.current.scrollHeight
+      textareaRef.current.style.height = scrollHeight + 'px'
     }
 
     useEffect(() => {
@@ -78,7 +83,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
           <AccessibleIconButton
             label="초기화"
-            onClick={() => onChange('')}
+            onClick={() => {
+              onChange('')
+              initializeSize()
+            }}
             icon={{
               type: 'delete',
               size: 'md',
