@@ -41,10 +41,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-    useEffect(() => {
-      autoResize()
-    }, [])
-
     const autoResize = () => {
       if (textareaRef.current) {
         textareaRef.current.style.height = '0px'
@@ -53,6 +49,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         textareaRef.current.style.height = scrollHeight + 'px'
       }
     }
+
+    useEffect(() => {
+      autoResize()
+    }, [])
 
     return (
       <div className="w-full space-y-2">
