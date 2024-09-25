@@ -3,7 +3,7 @@ import type { EditableProps } from './type'
 import BottomModal from '@/components/common/bottom-modal'
 import Typography from '@/components/common/typography'
 import Icon from '@/components/common/icon'
-import Input from '@/components/common/input'
+import Textarea from '@/components/common/text-area'
 
 interface MapInfoTitleProps extends EditableProps {
   mapName: string
@@ -40,7 +40,7 @@ const MapInfoEditableTitle = ({
         isOpen={openModal === 'name'}
         confirmMessage="변경"
         body={
-          <Input
+          <Textarea
             ref={(node) => node?.focus()}
             value={mapNameInput}
             onChange={(value) => handleChangeInput('name', value)}

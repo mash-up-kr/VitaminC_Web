@@ -3,7 +3,7 @@ import type { EditableProps } from './type'
 import BottomModal from '@/components/common/bottom-modal'
 import Typography from '@/components/common/typography'
 import Icon from '@/components/common/icon'
-import Input from '@/components/common/input'
+import Textarea from '@/components/common/text-area'
 import get조사 from '@/utils/조사'
 
 interface MapInfoDescriptionProps extends EditableProps {
@@ -44,7 +44,7 @@ const MapInfoEditableDescription = ({
         isOpen={openModal === 'description'}
         confirmMessage="변경"
         body={
-          <Input
+          <Textarea
             ref={(node) => node?.focus()}
             value={mapDescriptionInput}
             onChange={(value) => handleChangeInput('description', value)}
