@@ -5,6 +5,7 @@ import Typography from '@/components/common/typography'
 import Icon from '@/components/common/icon'
 import Textarea from '@/components/common/text-area'
 import get조사 from '@/utils/조사'
+import { countCharacters } from '@/utils/string'
 
 interface MapInfoDescriptionProps extends EditableProps {
   mapName: string
@@ -24,6 +25,10 @@ const MapInfoEditableDescription = ({
   handleOpenModal,
   handleChangeMapInfo,
 }: MapInfoDescriptionProps) => {
+  const { num } = countCharacters(mapDescriptionInput)
+  const isValidInput = mapDescriptionInput !== mapDescription
+  const isValidLength = num <= MAX_LENGTH
+
   return (
     <>
       <button
@@ -32,7 +37,7 @@ const MapInfoEditableDescription = ({
         onClick={() => handleOpenModal('description')}
       >
         <Typography size="body1" color="neutral-200">
-          {mapDescription ??
+          {mapDescription ||
             `${mapName}${get조사(mapName, '은/는')} 어떤 지도인가요?`}
         </Typography>
         <Icon type="pencil" size="md" fill="neutral-200" />
@@ -56,9 +61,7 @@ const MapInfoEditableDescription = ({
         onClose={() => handleOpenModal(null)}
         onCancel={() => handleOpenModal(null)}
         onConfirm={() => handleChangeMapInfo('description')}
-        disabled={
-          !mapDescriptionInput || mapDescriptionInput === mapDescription
-        }
+        disabled={!isValidInput || !isValidLength}
       />
     </>
   )

@@ -58,11 +58,7 @@ const MapInfoBox = ({
     ) {
       return false
     }
-    if (
-      key === 'description' &&
-      (mapDescriptionInput.length === 0 ||
-        mapDescriptionInput === mapInfo.description)
-    ) {
+    if (key === 'description' && mapDescriptionInput === mapInfo.description) {
       return false
     }
     return true

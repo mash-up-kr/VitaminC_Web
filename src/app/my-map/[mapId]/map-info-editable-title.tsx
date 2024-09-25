@@ -4,6 +4,7 @@ import BottomModal from '@/components/common/bottom-modal'
 import Typography from '@/components/common/typography'
 import Icon from '@/components/common/icon'
 import Textarea from '@/components/common/text-area'
+import { countCharacters } from '@/utils/string'
 
 interface MapInfoTitleProps extends EditableProps {
   mapName: string
@@ -21,6 +22,10 @@ const MapInfoEditableTitle = ({
   handleOpenModal,
   handleChangeMapInfo,
 }: MapInfoTitleProps) => {
+  const { num } = countCharacters(mapNameInput)
+  const isValidInput = mapNameInput && mapNameInput !== mapName
+  const isValidLength = MIN_LENGTH <= num && num <= MAX_LENGTH
+
   return (
     <>
       <button
@@ -36,7 +41,7 @@ const MapInfoEditableTitle = ({
 
       <BottomModal
         layout="alert"
-        title="지도 이름을 변경해주세요"
+        title="지도의 이름을 변경해주세요"
         isOpen={openModal === 'name'}
         confirmMessage="변경"
         body={
@@ -52,7 +57,7 @@ const MapInfoEditableTitle = ({
         onClose={() => handleOpenModal(null)}
         onCancel={() => handleOpenModal(null)}
         onConfirm={() => handleChangeMapInfo('name')}
-        disabled={!mapNameInput || mapNameInput === mapName}
+        disabled={!isValidInput || !isValidLength}
       />
     </>
   )
