@@ -1,5 +1,5 @@
 import type { TextareaHTMLAttributes } from 'react'
-import { forwardRef, useEffect, useRef } from 'react'
+import { forwardRef, useCallback, useEffect, useRef } from 'react'
 
 import AccessibleIconButton from './accessible-icon-button'
 import Icon from './icon'
@@ -46,18 +46,18 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       textareaRef.current.style.height = '0px'
     }
 
-    const autoResize = () => {
+    const autoResize = useCallback(() => {
       if (!textareaRef.current) return
 
       initializeSize()
 
       const scrollHeight = textareaRef.current.scrollHeight
       textareaRef.current.style.height = scrollHeight + 'px'
-    }
+    }, [])
 
     useEffect(() => {
       autoResize()
-    }, [])
+    }, [autoResize])
 
     return (
       <div className="w-full space-y-2">
