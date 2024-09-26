@@ -23,7 +23,7 @@ jobs:
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             echo "::set-output name=app_name::korrk-front"
           elif [ "${{ github.ref }}" = "refs/heads/chore/ci" ]; then
-            echo "::set-output name=app_name::korrk-front-test"
+            echo "::set-output name=app_name::korrk-front"
           fi
 
       - name: Get image version
