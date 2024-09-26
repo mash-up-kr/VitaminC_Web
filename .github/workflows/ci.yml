@@ -42,8 +42,8 @@ jobs:
 
       - name: Build Image & Push Image
         run: |
-          docker build  --build-arg NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY=${{ secrets.NEXT_PUBLIC_API_ORIGIN }}  \
-                        --build-arg NEXT_PUBLIC_API_ORIGIN=${{ secrets.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY }} \
+          docker build  --build-arg NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY=${{ secrets.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY }}  \
+                        --build-arg NEXT_PUBLIC_API_ORIGIN=${{ secrets.NEXT_PUBLIC_API_ORIGIN }} \
                         -t $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG -f Dockerfile .
           docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG
         env:
