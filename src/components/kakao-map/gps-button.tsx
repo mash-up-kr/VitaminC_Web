@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useKakaoMap } from './context'
 import GPSMarker from './gps-marker'
 
-import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'

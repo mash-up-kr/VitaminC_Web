@@ -12,7 +12,7 @@ import type {
 } from '@/models/map'
 import type { User } from '@/models/user'
 import { createUserPatchFormData } from '../formdata'
-import { GptUsage } from '@/models/api/gpt'
+import type { GptUsage } from '@/models/api/gpt'
 
 const client = {
   public: apiClientFactory({}),

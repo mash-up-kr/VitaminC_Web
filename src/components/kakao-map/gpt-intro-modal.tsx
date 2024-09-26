@@ -1,7 +1,6 @@
 import Modal from '../common/modal'
 import Typography from '../common/typography'
 import ProxyImage from '../common/proxy-image'
-import { useState } from 'react'
 import Button from '../common/button'
 import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
