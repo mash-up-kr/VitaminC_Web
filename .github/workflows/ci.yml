@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - chore/ci
 
 jobs:
   ci:
@@ -21,6 +22,8 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             echo "::set-output name=app_name::korrk-front"
+          elif [ "${{ github.ref }}" = "refs/heads/chore/ci" ]; then
+            echo "::set-output name=app_name::korrk-front-test"
           fi
 
       - name: Get image version
