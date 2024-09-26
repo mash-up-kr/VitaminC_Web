@@ -12,6 +12,7 @@ import type {
 } from '@/models/map'
 import type { User } from '@/models/user'
 import { createUserPatchFormData } from '../formdata'
+import { GptUsage } from '@/models/api/gpt'
 
 const client = {
   public: apiClientFactory({}),
@@ -199,6 +200,10 @@ const proxy = {
 }
 
 const gpt = {
+  usage: {
+    get: (): Promise<ResponseWithMessage<GptUsage>> =>
+      client.secure.get('/gpt/usage'),
+  },
   restaurants: {
     recommend: {
       test: {

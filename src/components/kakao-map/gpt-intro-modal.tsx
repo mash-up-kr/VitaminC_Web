@@ -4,6 +4,10 @@ import ProxyImage from '../common/proxy-image'
 import { useState } from 'react'
 import Button from '../common/button'
 import useSafeRouter from '@/hooks/use-safe-router'
+import useFetch from '@/hooks/use-fetch'
+import { api } from '@/utils/api'
+
+const TOTAL_COUNT = 10
 
 interface GptIntroModalProps {
   isOpen: boolean
@@ -11,11 +15,14 @@ interface GptIntroModalProps {
 }
 
 const GptIntroModal = ({ isOpen, onClose }: GptIntroModalProps) => {
-  const [questionCount] = useState(3)
+  const { data } = useFetch(() => api.gpt.usage.get())
+
+  const questionCount = TOTAL_COUNT - (data?.usageCount ?? 10)
+
   const router = useSafeRouter()
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="flex w-[330px] flex-col items-center gap-[30px] rounded-4xl bg-neutral-600 p-[30px] pb-5">
+      <div className="rounded-4xl flex w-[330px] flex-col items-center gap-[30px] bg-neutral-600 p-[30px] pb-5">
         <Typography size="h2">AI 맛집 추천받기</Typography>
         <div className="gap flex items-center gap-3.5">
           <ProxyImage
@@ -36,7 +43,6 @@ const GptIntroModal = ({ isOpen, onClose }: GptIntroModalProps) => {
             size="body1"
             className="text-center"
           >{`AI 추천은 매달 10회까지 가능해요.\n추천 횟수는 매달 1일 초기화 돼요.`}</Typography>
-          {/* TODO: API 연결 */}
           <Typography size="h5">이번 달 남은 횟수 {questionCount}회</Typography>
         </div>
         <Button
