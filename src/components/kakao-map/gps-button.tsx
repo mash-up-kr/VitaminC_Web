@@ -8,6 +8,7 @@ import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'
 import { notify } from '../common/custom-toast'
+import Icon from '../common/icon'
 
 const GPSButton = () => {
   const { userLocation, allowLocation, handleUserLocation } =
@@ -56,16 +57,12 @@ const GPSButton = () => {
           longitude={userLocation.longitude}
         />
       )}
-      <AccessibleIconButton
-        className="h-11 w-11"
-        label={gpsMode ? '내 위치로 이동 취소' : '내 위치로 이동'}
-        icon={{
-          className: 'w-11 h-11',
-          size: 'xl',
-          type: gpsMode ? 'locationOn' : 'locationOff',
-        }}
+      <button
+        className={`flex h-11 w-11 items-center justify-center rounded-full ${gpsMode ? 'bg-orange-400' : 'bg-neutral-900'}`}
         onClick={handleGpsClick}
-      />
+      >
+        <Icon type="location" size="xl" />
+      </button>
     </>
   )
 }
