@@ -11,9 +11,7 @@ import Typography from '@/components/common/typography'
 import { RECENT_MAP_ID } from '@/constants/cookie'
 import { api } from '@/utils/api'
 import { countCharacters } from '@/utils/string'
-
-const MIN_LENGTH = 2
-const MAX_LENGTH = 8
+import { MAX_MAP_NAME_LENGTH, MIN_MAP_NAME_LENGTH } from '@/constants/input'
 
 const MapName = ({ goNextStep }: IntroActionDispatch) => {
   const [mapName, setMapName] = useState('')
@@ -54,8 +52,8 @@ const MapName = ({ goNextStep }: IntroActionDispatch) => {
               ref={(node) => node?.focus()}
               value={mapName}
               onChange={handleChange}
-              minLength={MIN_LENGTH}
-              maxLength={MAX_LENGTH}
+              minLength={MIN_MAP_NAME_LENGTH}
+              maxLength={MAX_MAP_NAME_LENGTH}
             />
             <Typography size="h1" color="neutral-000">
               로
@@ -70,7 +68,7 @@ const MapName = ({ goNextStep }: IntroActionDispatch) => {
       <div className="w-full p-5">
         <Button
           colorScheme="orange"
-          disabled={countCharacters(mapName).num < MIN_LENGTH}
+          disabled={countCharacters(mapName).num < MIN_MAP_NAME_LENGTH}
           onClick={handleClick}
         >
           지도 만들기 완료

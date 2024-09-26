@@ -1,7 +1,7 @@
 import BottomModal from '@/components/common/bottom-modal'
 import { notify } from '@/components/common/custom-toast'
 import Input from '@/components/common/input'
-import { MAX_NICKNAME_LENGTH, MIN_NICKNAME_LENGTH } from '@/constants/nickname'
+import { MAX_NICKNAME_LENGTH, MIN_NICKNAME_LENGTH } from '@/constants/input'
 import { APIError } from '@/models/api'
 import { api } from '@/utils/api'
 import { useState } from 'react'

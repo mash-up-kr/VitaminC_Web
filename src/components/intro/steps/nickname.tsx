@@ -11,7 +11,7 @@ import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
 import { onboardingStorage } from '@/utils/storage'
 import { countCharacters } from '@/utils/string'
-import { MAX_NICKNAME_LENGTH, MIN_NICKNAME_LENGTH } from '@/constants/nickname'
+import { MAX_NICKNAME_LENGTH, MIN_NICKNAME_LENGTH } from '@/constants/input'
 
 const Nickname = ({ goNextStep }: IntroActionDispatch) => {
   const { revalidate } = useFetch()
