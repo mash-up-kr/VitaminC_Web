@@ -181,6 +181,7 @@ const config: Config = {
       },
       borderRadius: {
         '3xl': '20px',
+        '4xl': '24px',
       },
       keyframes: {
         enter: {
@@ -208,11 +209,18 @@ const config: Config = {
             'background-position': 'right -48px top 0',
           },
         },
+        expandContract: {
+          '0%, 100%': { width: '44px' },
+          '4.41176%': { width: '160px' },
+          '93.3824%': { width: '160px' },
+          '100%': { width: '44px' },
+        },
       },
       animation: {
         enter: 'enter 300ms ease-out',
         leave: 'leave 300ms ease-in forwards',
         wave: 'wave 1.3s ease infinite',
+        expand: 'expandContract 5.8s ease-in-out 2s forwards',
       },
     },
   },

@@ -6,7 +6,7 @@ import { useKakaoMap } from './context'
 import { icons } from '@/components/common/icons'
 import type { ClassName } from '@/models/common'
 
-interface GpsMarkerProps extends ClassName {
+interface GPSMarkerProps extends ClassName {
   latitude: number
   longitude: number
 }
@@ -49,7 +49,7 @@ const createMarkerContent = (
   return container
 }
 
-const GpsMarker = ({ latitude, longitude, className }: GpsMarkerProps) => {
+const GPSMarker = ({ latitude, longitude, className }: GPSMarkerProps) => {
   const { map } = useKakaoMap()
 
   useEffect(() => {
@@ -76,4 +76,4 @@ const GpsMarker = ({ latitude, longitude, className }: GpsMarkerProps) => {
   return null
 }
 
-export default GpsMarker
+export default GPSMarker

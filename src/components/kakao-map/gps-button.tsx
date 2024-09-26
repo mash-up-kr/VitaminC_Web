@@ -1,27 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { useKakaoMap } from './context'
-import GpsMarker from './gps-marker'
+import GPSMarker from './gps-marker'
 
-import AccessibleIconButton from '@/components/common/accessible-icon-button'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import useWindowSize from '@/hooks/use-window-size'
 import { getCorners } from '@/utils/map'
 import { mapBoundSessionStorage } from '@/utils/storage'
 import { notify } from '../common/custom-toast'
+import Icon from '../common/icon'
 
-const BUTTON_OFFSET_Y = 16
-const BUTTON_HEIGHT = 11
-interface GpsButtonProps {
-  topOfBottomBounds: number
-}
-
-const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
+const GPSButton = () => {
   const { userLocation, allowLocation, handleUserLocation } =
     useUserGeoLocation()
-  const [gpsBottomPositionY, setGpsBottomPositionY] = useState(BUTTON_OFFSET_Y)
   const [gpsMode, setGpsMode] = useState(false)
-  const { height: windowHeight } = useWindowSize()
   const { map } = useKakaoMap()
 
   const handleGpsClick = () => {
@@ -57,41 +48,22 @@ const GpsButton = ({ topOfBottomBounds }: GpsButtonProps) => {
     setGpsMode((prev) => !prev)
   }
 
-  useEffect(() => {
-    if (topOfBottomBounds) {
-      setGpsBottomPositionY(
-        Math.min(
-          windowHeight - topOfBottomBounds + BUTTON_OFFSET_Y,
-          (windowHeight * 3) / 4 - BUTTON_OFFSET_Y - BUTTON_HEIGHT / 2,
-        ),
-      )
-    } else {
-      setGpsBottomPositionY(BUTTON_OFFSET_Y)
-    }
-  }, [topOfBottomBounds, windowHeight])
-
   return (
     <>
       {gpsMode && (
-        <GpsMarker
+        <GPSMarker
           latitude={userLocation.latitude}
           longitude={userLocation.longitude}
         />
       )}
-      <AccessibleIconButton
-        className={`absolute right-5 z-10 transition-all duration-300 ease-in-out`}
-        style={{
-          bottom: `${gpsBottomPositionY}px`,
-        }}
-        label={gpsMode ? '내 위치로 이동 취소' : '내 위치로 이동'}
-        icon={{
-          className: 'w-11 h-11',
-          type: gpsMode ? 'locationOn' : 'locationOff',
-        }}
+      <button
+        className={`flex h-11 w-11 items-center justify-center rounded-full ${gpsMode ? 'bg-orange-400' : 'bg-neutral-900'}`}
         onClick={handleGpsClick}
-      />
+      >
+        <Icon type="location" size="xl" />
+      </button>
     </>
   )
 }
 
-export default GpsButton
+export default GPSButton

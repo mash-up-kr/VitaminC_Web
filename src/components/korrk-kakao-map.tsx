@@ -1,6 +1,6 @@
 import type { IconKey } from './common/icon'
 import CurrentPositionSearchButton from './kakao-map/current-position-search-button'
-import GpsButton from './kakao-map/gps-button'
+import FloatingButtonBox from './kakao-map/floating-button-box'
 import KakaoMap from './kakao-map/kakao-map'
 import Marker from './kakao-map/marker'
 
@@ -113,7 +113,7 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
             )
           })}
 
-          <GpsButton topOfBottomBounds={topOfBottomBounds} />
+          <FloatingButtonBox topOfBottomBounds={topOfBottomBounds} />
 
           {isShowCurrentPositionSearch && (
             <CurrentPositionSearchButton

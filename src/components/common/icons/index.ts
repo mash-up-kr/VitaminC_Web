@@ -13,12 +13,14 @@ import DeleteOrange300 from './DeleteOrange300.svg'
 import DeleteOrange400 from './DeleteOrange400.svg'
 import Filter from './Filter.svg'
 import Gps from './Gps.svg'
+import GradientLogo from './gradient-logo.svg'
 import HeartStraightFilled from './HeartStraightFilled.svg'
 import HeartStraightOutlined from './HeartStraightOutlined.svg'
 import Info from './Info.svg'
 import InfoCircle from './InfoCircle.svg'
 import KakaoLogo from './KakaoLogo.svg'
 import ListView from './ListView.svg'
+import Location from './Location.svg'
 import LocationOff from './LocationOff.svg'
 import LocationOn from './LocationOn.svg'
 import MapView from './MapView.svg'
@@ -91,11 +93,13 @@ export const icons = {
   deleteOrange400: DeleteOrange400,
   filter: Filter,
   gps: Gps,
+  gradientLogo: GradientLogo,
   heartStraightFilled: HeartStraightFilled,
   heartStraightOutlined: HeartStraightOutlined,
   info: Info,
   infoCircle: InfoCircle,
   kakaoLogo: KakaoLogo,
+  location: Location,
   locationOff: LocationOff,
   locationOn: LocationOn,
   listView: ListView,
