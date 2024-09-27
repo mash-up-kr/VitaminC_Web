@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 import ChipButton from '@/components/common/chip-button'
 import ProxyImage from '@/components/common/proxy-image'
@@ -12,11 +13,17 @@ import cn from '@/utils/cn'
 interface MenuListProps extends ClassName {
   mainPhotoUrl: string
   menuList: PlaceDetail['menuList']
+  placeId: PlaceDetail['kakaoId']
 }
 
 const INITIAL_VISIBLE_MENU_LENGTH = 5
 
-const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
+const MenuList = ({
+  className,
+  mainPhotoUrl,
+  menuList,
+  placeId,
+}: MenuListProps) => {
   const [showMoreMenu, setShowMoreMenu] = useState(
     menuList.length <= INITIAL_VISIBLE_MENU_LENGTH,
   )
@@ -33,11 +40,20 @@ const MenuList = ({ className, mainPhotoUrl, menuList }: MenuListProps) => {
       </div>
 
       {mainPhotoUrl && (
-        <ProxyImage
-          src={mainPhotoUrl}
-          alt="메인 음식"
-          className="mt-[10px] h-[148px] w-full max-w-full rounded-[6px] object-cover"
-        />
+        <Link
+          href={{
+            pathname: `/place/${placeId}/image`,
+            query: {
+              type: 'mainPhotoUrl',
+            },
+          }}
+        >
+          <ProxyImage
+            src={mainPhotoUrl}
+            alt="메인 음식"
+            className="mt-[10px] h-[148px] w-full max-w-full rounded-[6px] object-cover"
+          />
+        </Link>
       )}
 
       <ul className="flex flex-col divide-y divide-neutral-600">
