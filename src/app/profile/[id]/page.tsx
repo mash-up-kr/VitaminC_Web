@@ -5,11 +5,21 @@ import Avatar from '@/components/common/avatar'
 import Typography from '@/components/common/typography'
 import useFetch from '@/hooks/use-fetch'
 import useSafeRouter from '@/hooks/use-safe-router'
+import { User } from '@/models/user'
 import { api } from '@/utils/api'
+import TasteRate from './taste-rate'
+import { useState } from 'react'
+import LikedPlacePanel from './liked-place-panel'
+import RegisterededPlacePanel from './registered-place-panel'
 
-const Profile = ({ params: { id } }: { params: { id: number } }) => {
+type PlaceFilter = 'register' | 'liked'
+
+const Profile = ({ params: { id } }: { params: { id: User['id'] } }) => {
   const router = useSafeRouter()
   const { data: userData } = useFetch(() => api.users.id.get(id))
+  const [type, setType] = useState<PlaceFilter>('register')
+
+  const getIsSelected = (currentType: PlaceFilter) => type === currentType
 
   return (
     <div className="flex flex-col gap-6">
@@ -29,8 +39,8 @@ const Profile = ({ params: { id } }: { params: { id: number } }) => {
         </Typography>
       </header>
 
-      <div className="flex flex-col">
-        <div className="flex flex-col items-center gap-6 pb-5 pt-6">
+      <div className="flex flex-col items-center gap-[18px]">
+        <div className="flex flex-col items-center gap-6">
           <Avatar
             value={userData?.nickname}
             imageUrl={userData?.profileImage}
@@ -38,17 +48,34 @@ const Profile = ({ params: { id } }: { params: { id: number } }) => {
           />
           <Typography size="h3">{userData?.nickname}</Typography>
         </div>
+        <TasteRate userId={id} />
         <div className="h-[18px] w-full bg-neutral-600"></div>
-        <section className="flex flex-col px-5">
-          <Typography
-            as="h2"
-            size="body1"
-            className="flex h-[43px] items-end font-medium"
-          >
-            일반
-          </Typography>
-        </section>
       </div>
+      <section className="flex flex-col px-5">
+        <div role="tablist" className="flex items-center gap-4">
+          <button
+            role="tab"
+            className={`border-b-[1px] pb-1 ${getIsSelected('register') ? 'border-neutral-000' : 'border-transparent'}`}
+            id="tap-register"
+            aria-controls="tappanel-register"
+            aria-selected={getIsSelected('register')}
+            onClick={() => setType('register')}
+          >
+            <Typography size="body1">맛집 등록</Typography>
+          </button>
+          <button
+            role="tab"
+            className={`border-b-[1px] pb-1 ${getIsSelected('liked') ? 'border-neutral-000' : 'border-transparent'}`}
+            id="tap-liked"
+            aria-controls="tappanel-liked"
+            aria-selected={getIsSelected('liked')}
+            onClick={() => setType('liked')}
+          >
+            <Typography size="body1">좋아요</Typography>
+          </button>
+        </div>
+        {type === 'liked' ? <LikedPlacePanel /> : <RegisterededPlacePanel />}
+      </section>
     </div>
   )
 }
