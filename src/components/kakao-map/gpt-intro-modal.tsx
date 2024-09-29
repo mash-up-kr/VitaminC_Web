@@ -21,7 +21,7 @@ const GptIntroModal = ({ isOpen, onClose }: GptIntroModalProps) => {
   const router = useSafeRouter()
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="rounded-4xl flex w-[330px] flex-col items-center gap-[30px] bg-neutral-600 p-[30px] pb-5">
+      <div className="flex w-[330px] flex-col items-center gap-[30px] rounded-4xl bg-neutral-600 p-[30px] pb-5">
         <Typography size="h2">AI 맛집 추천받기</Typography>
         <div className="gap flex items-center gap-3.5">
           <ProxyImage

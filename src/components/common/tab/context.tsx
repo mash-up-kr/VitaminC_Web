@@ -6,7 +6,7 @@ interface TabContextProps<T extends string> {
   setActiveTab: (tab: T) => void
 }
 
-const TabContext = createContext<TabContextProps<any> | null>(null);
+const TabContext = createContext<TabContextProps<any> | null>(null)
 
 export const TabProvider = <T extends string>({
   activeTab,

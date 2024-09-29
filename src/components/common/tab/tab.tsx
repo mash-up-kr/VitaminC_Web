@@ -9,10 +9,15 @@ interface TabProps<T extends string> extends ClassName {
   setActiveTab: (tab: T) => void
 }
 
-const Tab = <T extends string>({ activeTab, children, className, setActiveTab }: TabProps<T>) => {
+const Tab = <T extends string>({
+  activeTab,
+  children,
+  className,
+  setActiveTab,
+}: TabProps<T>) => {
   return (
     <TabProvider activeTab={activeTab} setActiveTab={setActiveTab}>
-      <div className={cn('flex flex-col gap-[14px]', className)}>
+      <div className={cn('flex flex-col gap-[19px]', className)}>
         {children}
       </div>
     </TabProvider>

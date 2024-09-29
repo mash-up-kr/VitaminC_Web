@@ -35,7 +35,7 @@ const SearchInputVariants = cva<{
 interface SearchInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof SearchInputVariants> {
-  rightIcon: Parameters<typeof AccessibleIconButton>[0]
+  rightIcon?: Parameters<typeof AccessibleIconButton>[0]
   leftIcon?: Parameters<typeof AccessibleIconButton>[0]
   variant?: 'outlined' | 'filled'
   size?: 'sm' | 'md' | 'lg'
@@ -57,8 +57,8 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ref,
   ) => {
     const isShowIcon =
-      rightIcon.icon.type !== 'delete' ||
-      (rightIcon.icon.type === 'delete' && props.value)
+      (rightIcon && rightIcon.icon.type !== 'delete') ||
+      (rightIcon?.icon.type === 'delete' && props.value)
 
     return (
       <div className="relative flex w-full items-center">

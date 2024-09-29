@@ -180,8 +180,8 @@ const Recommendation = () => {
   return (
     <>
       <div className="flex min-h-dvh flex-col bg-neutral-700">
-        <header className="fixed w-full h-[80px] px-[10px] header-gradient z-[100]">
-          <div className='w-full relative h-[80px] flex justify-between items-center'>
+        <header className="header-gradient fixed z-[100] h-[80px] w-full px-[10px]">
+          <div className="relative flex h-[80px] w-full items-center justify-between">
             <AccessibleIconButton
               icon={{ type: 'caretLeft', size: 'xl' }}
               label="이전 페이지"
@@ -202,7 +202,7 @@ const Recommendation = () => {
           </div>
         </header>
 
-        <section className="no-scrollbar max-h-[calc(100vh-156px)] flex-1 overflow-y-scroll mt-[80px]">
+        <section className="no-scrollbar mt-[80px] max-h-[calc(100vh-156px)] flex-1 overflow-y-scroll">
           <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
             <img
               src="/images/ai.png"

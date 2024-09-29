@@ -45,7 +45,11 @@ const TabLabels = ({ labels, className }: TabLabelsProps) => {
             type="button"
             onClick={() => setActiveTab(label)}
           >
-            <Typography size="h5" color="neutral-000" className="font-[500] relative">
+            <Typography
+              size="h5"
+              color="neutral-000"
+              className="relative font-[500]"
+            >
               {label}
             </Typography>
           </button>
