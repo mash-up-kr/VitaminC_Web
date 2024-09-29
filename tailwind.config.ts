@@ -171,6 +171,11 @@ const config: Config = {
         yellow: {
           '100': '#FFDE59',
         },
+        blue: {
+          '100': '#C2D8F8',
+          '200': '#4B93FF',
+          '300': '#0066FF',
+        },
         profile: {
           coral: '#E5684C',
           'dark-blue': '#5456D7',
