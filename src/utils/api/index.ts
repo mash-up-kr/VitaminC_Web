@@ -193,6 +193,20 @@ const place = {
     get: (placeId: string): Promise<ResponseWithMessage<PlaceType>> =>
       client.secure.get(`place/${placeId}`),
   },
+  differ: {
+    mapId: {
+      userId: {
+        get: ({
+          mapId,
+          userId,
+        }: {
+          mapId: MapInfo['id']
+          userId: User['id']
+        }): Promise<ResponseWithMessage<number>> =>
+          client.secure.get(`/place/differ/${mapId}/${userId}`),
+      },
+    },
+  },
 }
 
 const proxy = {
