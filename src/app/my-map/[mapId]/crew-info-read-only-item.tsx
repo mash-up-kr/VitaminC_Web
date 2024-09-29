@@ -3,6 +3,7 @@ import Chip from '@/components/common/chip'
 import Typography from '@/components/common/typography'
 import type { MapMemberData } from '@/models/map'
 import { korRole } from './constant'
+import Link from 'next/link'
 
 const CrewInfoReadOnlyItem = ({
   member,
@@ -14,7 +15,11 @@ const CrewInfoReadOnlyItem = ({
   isMe: boolean
 }) => {
   return (
-    <li className="flex h-[52px] items-center justify-between">
+    <Link
+      role="listitem"
+      href={`/profile/${member.id}`}
+      className="flex h-[52px] items-center justify-between"
+    >
       <div className="flex items-center gap-2">
         <Avatar
           value={member.nickname}
@@ -35,7 +40,7 @@ const CrewInfoReadOnlyItem = ({
       <Typography size="body3" color="neutral-200">
         {korRole[member.role]}
       </Typography>
-    </li>
+    </Link>
   )
 }
 

@@ -4,6 +4,7 @@ import type { LikeUser } from '@/components/place/types'
 import type { ClassName } from '@/models/common'
 import type { User } from '@/models/user'
 import cn from '@/utils/cn'
+import Link from 'next/link'
 
 interface PlaceLikedUserProps extends ClassName {
   me: User | null
@@ -14,7 +15,12 @@ const PlaceLikedUser = ({ likedUser, className, me }: PlaceLikedUserProps) => {
   return (
     <ul className={cn('flex flex-col pb-6', className)}>
       {likedUser.map((user) => (
-        <li key={user.id} className="flex items-center gap-2 pt-2">
+        <Link
+          role="listitem"
+          href={`/profile/${user.id}`}
+          key={user.id}
+          className="flex items-center gap-2 pt-2"
+        >
           <Avatar
             value={user.nickname}
             imageUrl={user.profileImage}
@@ -23,7 +29,7 @@ const PlaceLikedUser = ({ likedUser, className, me }: PlaceLikedUserProps) => {
           <Typography size="body1" color="neutral-100">
             {user.nickname}
           </Typography>
-        </li>
+        </Link>
       ))}
     </ul>
   )
