@@ -45,3 +45,9 @@ export const sendedInviteCodesStorage = new SessionStorageManager<
     expiredTime: Date
   }[]
 >(SENDED_INVITE_CODES)
+
+export const RECENT_MAP_SEARCH_KEYWORD_KEY = '@@recent-map-search-keyword-key'
+export const recentMapSearchStorage = new LocalStorageManager<string[]>(
+  RECENT_MAP_SEARCH_KEYWORD_KEY,
+  [],
+)
