@@ -23,7 +23,7 @@ const TasteRate = ({ userId }: { userId: User['id'] }) => {
           userId,
           mapId,
         })
-        setRate(tasteRate ?? 80)
+        setRate(tasteRate ?? 0)
       } catch (error) {
         if (error instanceof APIError) {
           notify.error(error.message)
