@@ -31,6 +31,11 @@ const PlaceListBottomSheet = forwardRef<
     ref,
   ) => {
     const [placeList, setPlaceList] = useState<PlaceType[]>(places || [])
+    const { data: slicedPlaceList, listRef } = useInfiniteScroll<PlaceType>({
+      totalData: places || [],
+      itemsPerPage: 10,
+    })
+
     const { data: user, revalidate } = useFetch(api.users.me.get, {
       key: ['user'],
     })
@@ -38,11 +43,6 @@ const PlaceListBottomSheet = forwardRef<
     const numOfSelectedFilter =
       (selectedFilter?.category !== 'all' ? 1 : 0) +
       (selectedFilter?.tags.length ?? 0)
-
-    const { data: slicedPlaceList, listRef } = useInfiniteScroll<PlaceType>({
-      totalData: placeList,
-      itemsPerPage: 10,
-    })
 
     const getIsLike = (place: PlaceType): boolean => {
       if (typeof userId === 'undefined') return false
@@ -88,10 +88,10 @@ const PlaceListBottomSheet = forwardRef<
     }
 
     useEffect(() => {
-      if (places) {
-        setPlaceList(places)
+      if (slicedPlaceList) {
+        setPlaceList(slicedPlaceList)
       }
-    }, [places])
+    }, [slicedPlaceList])
 
     if (numOfSelectedFilter === 0 && places?.length === 0) {
       return (
@@ -125,7 +125,7 @@ const PlaceListBottomSheet = forwardRef<
             필터
           </FilterButton>
         </div>
-        {slicedPlaceList.length > 0 ? (
+        {placeList.length > 0 ? (
           <div
             ref={listRef}
             className="no-scrollbar flex-1 overflow-y-scroll overscroll-contain px-5"
@@ -137,7 +137,7 @@ const PlaceListBottomSheet = forwardRef<
                 }
               }}
             >
-              {slicedPlaceList.map((place, index) => (
+              {placeList.map((place, index) => (
                 <li key={`bottom-sheet-${place.place.kakaoPlace.id}-${index}`}>
                   <PlaceListItem
                     placeId={place.place.kakaoPlace.id}
