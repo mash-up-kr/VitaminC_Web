@@ -7,10 +7,46 @@ import { useEffect, useState } from 'react'
 import PlaceItem from './place-item'
 import { APIError } from '@/models/api'
 import { notify } from '@/components/common/custom-toast'
+import EmptyPlaceList from '@/components/place/empty-place-list'
+import PlacePopupSkeleton from '@/components/place/place-popup-skeleton'
 
 const LikedPlacePanel = ({ userId }: { userId: User['id'] }) => {
   const [mapId, setMapId] = useState<MapInfo['id']>('')
-  const [places, setPlaces] = useState<PlaceType[]>([])
+  const [places, setPlaces] = useState<PlaceType[]>()
+
+  const renderPlaces = () => {
+    if (typeof places === 'undefined') {
+      return (
+        <div className="flex flex-col gap-2.5 py-[18px]">
+          <PlacePopupSkeleton />
+          <PlacePopupSkeleton />
+          <PlacePopupSkeleton />
+        </div>
+      )
+    }
+    if (places.length === 0) {
+      return (
+        <EmptyPlaceList
+          className="pt-[75px]"
+          message="등록하거나 좋아요한 맛집이 없어요"
+        />
+      )
+    }
+
+    return (
+      <div className="flex flex-col gap-2.5 py-[18px]">
+        {places.map((place) => (
+          <PlaceItem
+            key={place.place.id}
+            className="w-full border-[1px] border-neutral-500 bg-neutral-600"
+            mapId={mapId}
+            selectedPlace={place}
+          />
+        ))}
+      </div>
+    )
+  }
+
   useEffect(() => {
     const getLikedPlace = async () => {
       try {
@@ -36,19 +72,9 @@ const LikedPlacePanel = ({ userId }: { userId: User['id'] }) => {
     getLikedPlace()
   }, [userId])
 
-  console.log(places)
   return (
     <div role="tabpanel" id="tappanel-liked" aria-labelledby="tap-liked">
-      <div className="flex flex-col gap-2.5 py-[18px]">
-        {places.map((place) => (
-          <PlaceItem
-            key={place.place.id}
-            className="border-1 border-neutral-500 bg-neutral-600"
-            mapId={mapId}
-            selectedPlace={place}
-          />
-        ))}
-      </div>
+      {renderPlaces()}
     </div>
   )
 }
