@@ -21,7 +21,7 @@ const ChipVariants = cva<{
   variants: {
     colorScheme: {
       'neutral-400': 'bg-neutral-400 text-neutral-000',
-      'neutral-500': 'bg-neutral-500 text-neutral-400',
+      'neutral-500': 'bg-neutral-500 text-neutral-100',
       'neutral-600': 'bg-neutral-600 text-neutral-300',
       'neutral-800': 'bg-neutral-800 text-orange-400',
       orange: 'bg-orange-400 text-neutral-000',
