@@ -5,36 +5,28 @@ import cn from '@/utils/cn'
 
 interface ChatInputProps extends ClassName {
   value: string
+  isLimitReached: boolean
   isFinish: boolean
-  isLoading: boolean
+  isFetching: boolean
   onChange: (value: string) => void
   sendChat: VoidFunction
 }
 
 const ChatInput = ({
   value,
+  isLimitReached,
   isFinish,
-  isLoading,
+  isFetching,
   className,
   onChange,
   sendChat,
 }: ChatInputProps) => {
-  const disabled = !value || isFinish || isLoading
+  const disabled = !value || isFinish || isFetching || isLimitReached
+  const showInput = !isFinish && !isLimitReached
 
   return (
-    <div
-      className={cn(
-        'invitation-gradient flex w-full justify-center',
-        className,
-      )}
-    >
-      {isFinish ? (
-        <div className="flex w-full items-center justify-center rounded-[6px] bg-neutral-600">
-          <Typography size="body3" color="neutral-100">
-            추천이 종료되었습니다.
-          </Typography>
-        </div>
-      ) : (
+    <div className={cn('flex w-full justify-center', className)}>
+      {showInput ? (
         <form
           className="w-full"
           onSubmit={(e) => {
@@ -44,7 +36,7 @@ const ChatInput = ({
         >
           <SearchInput
             value={value}
-            placeholder="직접 입력하려면 여기에 입력해주세요"
+            placeholder="원하는 맛집의 위치나 특징을 적어주세요."
             onChange={(e) => onChange(e.target.value)}
             rightIcon={{
               icon: {
@@ -59,6 +51,14 @@ const ChatInput = ({
             }}
           />
         </form>
+      ) : (
+        <div className="flex h-12 w-full items-center justify-center rounded-[6px] bg-neutral-600">
+          <Typography size="body3" color="neutral-100">
+            {isFinish
+              ? '다른 질문을 하려면 [처음으로]를 눌러주세요.'
+              : '추천이 종료되었습니다.'}
+          </Typography>
+        </div>
       )}
     </div>
   )

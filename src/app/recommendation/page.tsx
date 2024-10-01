@@ -11,58 +11,41 @@ import type { Chat } from './type'
 import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
-import { initialRecommendChat, lastChat, noInfoLocationChat } from './guide'
-import { allowUserPositionStorage } from '@/utils/storage'
+import {
+  confusingInputChat,
+  initialRecommendChat,
+  lastChat,
+  noInfoLocationChat,
+  usageCapReachedChat,
+} from './guide'
 import { notify } from '@/components/common/custom-toast'
-
-const dummyPlaces = [
-  {
-    name: '$가게이름$1',
-    reason:
-      '성수동 중심에 위치하며 다양한 피자 메뉴를 제공합니다. 맛과 재료의 신선함이 뛰어납니다.  이유가 3줄이 넘어가면 이렇게 말줌임표 처리 말줌임표 처리말줌임표 처리',
-    placeId: 1,
-    address: '서울 성동구 성수동 1가 668-134',
-  },
-  {
-    name: '$가게이름$2',
-    reason:
-      '경기 중심에 위치하며 다양한 피자 메뉴를 제공합니다. 맛과 재료의 신선함이 뛰어납니다.  이유가 3줄이 넘어가면 이렇게 말줌임표 처리 말줌임표 처리말줌임표 처리',
-    placeId: 2,
-    address: '경기 성동구 성수동 1가 668-134',
-  },
-  {
-    name: '$가게이름$3',
-    reason:
-      '대전 중심에 위치하며 다양한 피자 메뉴를 제공합니다. 맛과 재료의 신선함이 뛰어납니다.  이유가 3줄이 넘어가면 이렇게 말줌임표 처리 말줌임표 처리말줌임표 처리',
-    placeId: 3,
-    address: '대전 성동구 성수동 1가 668-134',
-  },
-]
-
-const fetchSuggestedPlaces = (): Promise<Chat> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        type: 'gpt',
-        value: '성수동의 피자 맛집 5곳을 더 추천드려요.',
-        suggestionKeywords: ['5개 더 추천', '처음으로'],
-        suggestionPlaces: dummyPlaces,
-      })
-    }, 5000)
-  })
-}
+import useUserGeoLocation from '@/hooks/use-user-geo-location'
+import GptIntroModal from '@/components/kakao-map/gpt-intro-modal'
+import VisuallyHidden from '@/components/common/visually-hidden'
+import Icon from '@/components/common/icon'
 
 const Recommendation = () => {
   const { data: user } = useFetch(api.users.me.get, {
     key: ['user'],
   })
+  const {
+    data: recommendationUsage,
+    status,
+    revalidate,
+  } = useFetch(api.gpt.usage.get, {
+    key: ['recommendation-usage'],
+  })
+  const availableCount = recommendationUsage
+    ? recommendationUsage.maxLimit - recommendationUsage.usageCount
+    : 0
   const [input, setInput] = useState('')
   const [chats, setChats] = useState<Chat[]>([initialRecommendChat])
   const [isFinish, setIsFinish] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [, setIsOpenShowModal] = useState(false)
+  const [isFetching, setIsFetching] = useState(false)
+  const [isOpenModal, setIsOpenModal] = useState(false)
   const bottomChat = useRef<HTMLDivElement>(null)
   const router = useSafeRouter()
+  const { userLocation, allowLocation } = useUserGeoLocation()
 
   const handleQuestionCurrentLocation = (userInput: string) => {
     const locationKeywords = [
@@ -71,7 +54,6 @@ const Recommendation = () => {
       '근처',
       '주변',
       '내 위치',
-      '지금',
       '좌표',
       '내 주변',
       '현위치',
@@ -83,20 +65,134 @@ const Recommendation = () => {
     )
 
     if (!containsLocationKeyword) return { location: false, allow: null }
-    return !!allowUserPositionStorage.getValueOrNull()
-      ? { location: true, allow: true }
-      : { location: true, allow: false }
+    return { location: true, allow: allowLocation }
   }
 
-  const askToAI = async () => {
-    try {
-      setIsLoading(true)
-      const data = await fetchSuggestedPlaces()
+  const askToAI = async (suggestion?: string) => {
+    if (availableCount === 0) {
+      setChats((prev) => [
+        ...prev,
+        { ...usageCapReachedChat, suggestionKeywords: [] },
+      ])
+      return
+    }
 
-      setChats((prev) => [...prev, data])
+    setIsFetching(true)
+
+    const isLastChat = (index: number) => chats.length + 1 === index
+
+    setChats((prev) => [
+      ...prev,
+      {
+        type: 'gpt-stream',
+        value: '',
+        suggestionKeywords: [],
+      },
+    ])
+
+    try {
+      const x = String(userLocation?.longitude || '')
+      const y = String(userLocation?.latitude || '')
+      const response = await api.gpt.restaurants.recommend.test.get(
+        suggestion || input,
+        x,
+        y,
+      )
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      const loopRunner = true
+      while (loopRunner) {
+        const { value, done } = await reader.read()
+        if (done) {
+          break
+        }
+
+        const decodedChunk = decoder.decode(value, { stream: true })
+        setIsFetching(false)
+
+        try {
+          const isError = /event: error/g.exec(decodedChunk)
+          if (isError) {
+            setChats((prev) =>
+              prev.map((chat, index) => {
+                if (isLastChat(index)) {
+                  return confusingInputChat
+                }
+                return chat
+              }),
+            )
+            return
+          }
+
+          const parseTextData = (text: string) => {
+            const arr = []
+            const regex = /data: ({.*?})\n/g
+            const matches = text.match(regex) || []
+            for (const match of matches) {
+              const jsonData = JSON.parse(
+                match?.replace('\n', '').replace('data: ', ''),
+              )
+              arr.push(jsonData)
+            }
+            return arr
+          }
+
+          const jsonArr = parseTextData(decodedChunk)
+
+          for (const { data, type } of jsonArr) {
+            if (type === 'text') {
+              const character = data
+              setChats((prev) =>
+                prev.map((chat, index) => {
+                  if (isLastChat(index)) {
+                    return {
+                      ...chat,
+                      value: chat.value + character,
+                    }
+                  }
+                  return chat
+                }),
+              )
+            } else if (type === 'json') {
+              setChats((prev) =>
+                prev.map((chat, index) => {
+                  if (isLastChat(index) && chat.type === 'gpt-stream') {
+                    return {
+                      ...chat,
+                      suggestionPlaces: [
+                        ...(chat.suggestionPlaces || []),
+                        data,
+                      ],
+                    }
+                  }
+                  return chat
+                }),
+              )
+            }
+          }
+        } catch (err) {
+          console.log(err)
+        }
+      }
+
+      setChats((prev) =>
+        prev.map((chat, index) => {
+          if (isLastChat(index)) {
+            return {
+              ...chat,
+              suggestionKeywords: ['처음으로'],
+            }
+          }
+          return chat
+        }),
+      )
+
+      setIsFinish(true)
+      revalidate(['recommendation-usage'])
     } catch (error) {
     } finally {
-      setIsLoading(false)
+      setIsFetching(false)
     }
   }
 
@@ -109,10 +205,7 @@ const Recommendation = () => {
       return
     }
     if (allow) {
-      // TODO: 백엔드에게 현재 위치 어떻게 보낼지 논의
-      setIsLoading(true)
       await askToAI()
-      setIsLoading(false)
       return
     }
     setChats((prev) => [...prev, noInfoLocationChat])
@@ -121,10 +214,7 @@ const Recommendation = () => {
   const handleLocationPermission = () => {
     navigator.geolocation.getCurrentPosition(
       async () => {
-        // TODO: 위치
-        setIsLoading(true)
         await askToAI()
-        setIsLoading(false)
       },
       () => {
         notify.error('현재 위치를 찾을 수 없습니다.')
@@ -159,90 +249,107 @@ const Recommendation = () => {
         break
 
       case '처음으로':
+        const chatGpt = availableCount
+          ? initialRecommendChat
+          : usageCapReachedChat
         setChats((prev) => [
           ...prev,
           { type: 'user', value: suggestion },
-          { ...initialRecommendChat, suggestionKeywords: [] },
+          { ...chatGpt, suggestionKeywords: [] },
         ])
+        setIsFinish(false)
         break
 
       default:
         setChats((prev) => [...prev, { type: 'user', value: suggestion }])
-        askToAI()
+        askToAI(suggestion)
         break
     }
   }
 
   useEffect(() => {
     bottomChat.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [chats, isLoading])
+  }, [chats, isFetching])
 
   return (
-    <>
-      <div className="flex min-h-dvh flex-col bg-neutral-700">
-        <header className="fixed w-full h-[80px] px-[10px] header-gradient z-[100]">
-          <div className='w-full relative h-[80px] flex justify-between items-center'>
-            <AccessibleIconButton
-              icon={{ type: 'caretLeft', size: 'xl' }}
-              label="이전 페이지"
-              onClick={() => router.safeBack()}
-            />
-            <Typography
-              className="absolute left-1/2 translate-x-[-50%]"
-              as="h1"
-              size="body0"
-            >
-              AI 맛집 추천받기
-            </Typography>
-            <AccessibleIconButton
-              icon={{ type: 'info', size: 'xl' }}
-              label="사용 정보 확인하기"
-              onClick={() => setIsOpenShowModal(true)}
-            />
-          </div>
-        </header>
-
-        <section className="no-scrollbar max-h-[calc(100vh-156px)] flex-1 overflow-y-scroll mt-[80px]">
-          <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
-            <img
-              src="/images/ai.png"
-              className="absolute left-5 top-0 h-[36px] w-[36px]"
-            />
-            <img
-              src="/images/ai-recommend.png"
-              className="h-[112px] w-[213px]"
-            />
-            <Typography
-              size="h4"
-              color="neutral-000"
-              className="whitespace-pre text-center"
-            >{`${user?.nickname ?? ''}님, 반가워요.\nAI 맛집 추천 봇이에요!`}</Typography>
-          </div>
-
-          <ChatBox
-            chats={chats}
-            isLoading={isLoading}
-            isFinish={isFinish}
-            className="flex-1 px-5"
-            onClickSuggestion={handleClickSuggestion}
+    <div className="flex min-h-dvh flex-col bg-neutral-700">
+      <header className="header-gradient fixed left-1/2 top-0 z-[100] flex h-[90px] w-full max-w-[420px] -translate-x-1/2 px-[10px]">
+        <div className="relative flex h-[80px] w-full items-center justify-between">
+          <AccessibleIconButton
+            icon={{ type: 'caretLeft', size: 'xl' }}
+            label="이전 페이지"
+            onClick={() => router.safeBack()}
           />
+          <Typography
+            className="absolute left-1/2 translate-x-[-50%]"
+            as="h1"
+            size="body0"
+          >
+            AI 맛집 추천받기
+          </Typography>
+          <button
+            type="button"
+            className="flex items-center rounded-full bg-neutral-500 px-2.5 py-1"
+            onClick={() => setIsOpenModal(true)}
+          >
+            <VisuallyHidden>
+              <div role="text">사용 정보 확인하기</div>
+            </VisuallyHidden>
+            <Icon type="ticket" size="md" aria-hidden />
+            <Typography size="h7" color="neutral-000" className="ml-1">
+              {availableCount}
+            </Typography>
+          </button>
+        </div>
+      </header>
 
-          <div ref={bottomChat} />
-        </section>
+      <section className="no-scrollbar max-h-[calc(100vh-96px)] flex-1 overflow-y-scroll pt-[80px]">
+        <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
+          <img
+            src="/images/ai.png"
+            className="absolute left-5 top-0 h-[36px] w-[36px]"
+          />
+          <img src="/images/ai-recommend.png" className="h-[112px] w-[213px]" />
+          <Typography
+            size="h4"
+            color="neutral-000"
+            className="whitespace-pre text-center"
+          >{`${user?.nickname ?? ''}님, 반가워요.\nAI 맛집 추천 봇이에요!`}</Typography>
+        </div>
 
+        <ChatBox
+          chats={chats}
+          isFetching={isFetching || status === 'pending'}
+          className="flex-1 px-5"
+          onClickSuggestion={handleClickSuggestion}
+        />
+
+        <div ref={bottomChat} />
+      </section>
+
+      <footer className="invitation-gradient h-[96px] px-5 pb-5 pt-7">
         <ChatInput
           value={input}
-          isLoading={isLoading}
+          isFetching={isFetching || status === 'pending'}
+          isLimitReached={chats.length > 1 && availableCount === 0}
           isFinish={isFinish}
-          className="h-[96px] px-5 py-[28px] pb-5"
           onChange={(value) => setInput(value)}
           sendChat={() => {
-            if (isLoading || isFinish) return
+            if (isFetching || isFinish) return
             sendChat()
           }}
         />
-      </div>
-    </>
+      </footer>
+
+      {isOpenModal && (
+        <GptIntroModal
+          isOpen={isOpenModal}
+          confirmText="확인"
+          onConfirm={() => setIsOpenModal(false)}
+          onClose={() => setIsOpenModal(false)}
+        />
+      )}
+    </div>
   )
 }
 
