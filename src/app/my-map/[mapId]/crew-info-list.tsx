@@ -5,6 +5,8 @@ import type { User } from '@/models/user'
 import cn from '@/utils/cn'
 import CrewInfoReadOnlyItem from './crew-info-read-only-item'
 import CrewInfoEditableItem from './crew-info-editable-item'
+import { useEffect } from 'react'
+import { updateMapIdCookie } from '@/services/map-id'
 
 interface CrewInfoListProps extends ClassName {
   user: User
@@ -44,6 +46,10 @@ const CrewInfoList = ({
 }: CrewInfoListProps) => {
   const isMyMap = mapInfo.createBy.id === user.id
   const members = mapInfo.users
+
+  useEffect(() => {
+    updateMapIdCookie(mapInfo.id)
+  }, [])
 
   return (
     <section className={cn('', className)}>
