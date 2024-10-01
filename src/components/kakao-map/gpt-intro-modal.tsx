@@ -10,15 +10,23 @@ const TOTAL_COUNT = 10
 
 interface GptIntroModalProps {
   isOpen: boolean
+  confirmText: string
+  onConfirm: VoidFunction
   onClose: VoidFunction
 }
 
-const GptIntroModal = ({ isOpen, onClose }: GptIntroModalProps) => {
-  const { data } = useFetch(() => api.gpt.usage.get())
+const GptIntroModal = ({
+  isOpen,
+  confirmText,
+  onConfirm,
+  onClose,
+}: GptIntroModalProps) => {
+  const { data } = useFetch(api.gpt.usage.get, {
+    key: ['recommendation-usage'],
+  })
 
   const questionCount = TOTAL_COUNT - (data?.usageCount ?? 10)
 
-  const router = useSafeRouter()
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="rounded-4xl flex w-[330px] flex-col items-center gap-[30px] bg-neutral-600 p-[30px] pb-5">
@@ -48,9 +56,9 @@ const GptIntroModal = ({ isOpen, onClose }: GptIntroModalProps) => {
           fullWidth
           disabled={questionCount <= 0}
           colorScheme="orange"
-          onClick={() => router.push('/recommendation')}
+          onClick={onConfirm}
         >
-          AI 맛집 추천받기
+          {confirmText}
         </Button>
       </div>
     </Modal>
