@@ -37,7 +37,11 @@ const TagList = ({
       {tagNames.map((tag) => (
         <Chip
           id={`hashtag-${placeId}-${changeSpaceToHyphen(tag)}`}
-          className="whitespace-nowrap"
+          className={
+            tagColorScheme
+              ? 'whitespace-nowrap text-neutral-100'
+              : 'whitespace-nowrap'
+          }
           colorScheme={tagColorScheme ? tagColorScheme : 'neutral-600'}
           key={`${placeId}-${tag}`}
         >{`#${tag}`}</Chip>

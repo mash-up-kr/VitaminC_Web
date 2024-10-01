@@ -74,7 +74,11 @@ const Profile = ({ params: { id } }: { params: { id: User['id'] } }) => {
             <Typography size="body1">좋아요</Typography>
           </button>
         </div>
-        {type === 'liked' ? <LikedPlacePanel /> : <RegisterededPlacePanel />}
+        {type === 'liked' ? (
+          <LikedPlacePanel userId={id} />
+        ) : (
+          <RegisterededPlacePanel userId={id} />
+        )}
       </section>
     </div>
   )
