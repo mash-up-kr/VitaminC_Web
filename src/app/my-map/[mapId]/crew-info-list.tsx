@@ -49,7 +49,7 @@ const CrewInfoList = ({
 
   useEffect(() => {
     updateMapIdCookie(mapInfo.id)
-  }, [])
+  }, [mapInfo.id])
 
   return (
     <section className={cn('', className)}>
