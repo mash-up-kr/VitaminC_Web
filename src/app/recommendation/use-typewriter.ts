@@ -22,7 +22,7 @@ const useTypewriter = (text: string, speed = 100, enabled = true) => {
     return () => {
       clearInterval(typingInterval)
     }
-  }, [text, speed])
+  }, [enabled, speed, text])
 
   return { typingText, typingStart, typingComplete }
 }

@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import dynamic from 'next/dynamic'
 
 import type { LottieOptions } from 'lottie-react'
