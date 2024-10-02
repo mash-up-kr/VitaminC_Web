@@ -5,6 +5,7 @@ import cn from '@/utils/cn'
 import type { AISuggestionPlace } from './type'
 import ProxyImage from '@/components/common/proxy-image'
 import Icon from '@/components/common/icon'
+import { roundToNthDecimal } from '@/utils/number'
 
 interface AIRecommendPlaceBoxProps extends ClassName {
   place: AISuggestionPlace
@@ -45,13 +46,15 @@ const AIRecommendPlaceBox = ({
           <div className="flex items-center gap-2">
             <Icon type="starFilled" size="md" fill="neutral-200" />
             <Typography size="body3" color="neutral-000">
-              {place.score}
+              {place.score
+                ? roundToNthDecimal(place.score, 2)
+                : '별점 정보 없음'}
             </Typography>
           </div>
           <div className="flex items-center gap-2">
             <Icon type="locationPin" size="md" fill="neutral-200" />
             <Typography size="body3" color="neutral-000">
-              {place.address}
+              {place.address || '주소 정보 없음'}
             </Typography>
           </div>
           <div className="flex items-center gap-2">
