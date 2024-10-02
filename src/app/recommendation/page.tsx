@@ -69,7 +69,7 @@ const Recommendation = () => {
   }
 
   const askToAI = async (suggestion?: string) => {
-    if (availableCount === 0) {
+    if (availableCount <= 0) {
       setChats((prev) => [
         ...prev,
         { ...usageCapReachedChat, suggestionKeywords: [] },
@@ -249,9 +249,8 @@ const Recommendation = () => {
         break
 
       case '처음으로':
-        const chatGpt = availableCount
-          ? initialRecommendChat
-          : usageCapReachedChat
+        const chatGpt =
+          availableCount > 0 ? initialRecommendChat : usageCapReachedChat
         setChats((prev) => [
           ...prev,
           { type: 'user', value: suggestion },
@@ -331,7 +330,7 @@ const Recommendation = () => {
         <ChatInput
           value={input}
           isFetching={isFetching || status === 'pending'}
-          isLimitReached={chats.length > 1 && availableCount === 0}
+          isLimitReached={status === 'success' && availableCount <= 0}
           isFinish={isFinish}
           onChange={(value) => setInput(value)}
           sendChat={() => {

@@ -2,11 +2,8 @@ import Modal from '../common/modal'
 import Typography from '../common/typography'
 import ProxyImage from '../common/proxy-image'
 import Button from '../common/button'
-import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
-
-const TOTAL_COUNT = 10
 
 interface GptIntroModalProps {
   isOpen: boolean
@@ -21,11 +18,11 @@ const GptIntroModal = ({
   onConfirm,
   onClose,
 }: GptIntroModalProps) => {
-  const { data } = useFetch(api.gpt.usage.get, {
+  const { data, status } = useFetch(api.gpt.usage.get, {
     key: ['recommendation-usage'],
   })
 
-  const questionCount = TOTAL_COUNT - (data?.usageCount ?? 10)
+  const availableCount = data ? data.maxLimit - data.usageCount : 0
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -49,12 +46,14 @@ const GptIntroModal = ({
           <Typography
             size="body1"
             className="text-center"
-          >{`AI 추천은 매달 10회까지 가능해요.\n추천 횟수는 매달 1일 초기화 돼요.`}</Typography>
-          <Typography size="h5">이번 달 남은 횟수 {questionCount}회</Typography>
+          >{`AI 추천은 매달 ${data?.maxLimit}회까지 가능해요.\n추천 횟수는 매달 1일 초기화 돼요.`}</Typography>
+          <Typography size="h5">
+            이번 달 남은 횟수 {availableCount}회
+          </Typography>
         </div>
         <Button
           fullWidth
-          disabled={questionCount <= 0}
+          disabled={status === 'pending' || availableCount <= 0}
           colorScheme="orange"
           onClick={onConfirm}
         >
