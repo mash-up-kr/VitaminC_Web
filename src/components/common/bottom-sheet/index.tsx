@@ -99,9 +99,14 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     }
 
     const getNextBottomSheetState = (info: PanInfo) => {
-      const offsetY = info.offset.y < 0 ? -1 : 1
+      const offsetY = info.offset.y
+
+      const LARGE_ENOUGH_VALUE = 200
+      const step = Math.abs(offsetY) > LARGE_ENOUGH_VALUE ? 2 : 1
+      const direction = offsetY < 0 ? -1 : 1
+
       const nextBottomSheetState =
-        offsetY + BOTTOM_SHEET_STATE_MAP[bottomSheetState]
+        BOTTOM_SHEET_STATE_MAP[bottomSheetState] + step * direction
 
       const isExpandable = contentHeight > DEFAULT_HEIGHT
       const maxBottomSheetState = isExpandable
