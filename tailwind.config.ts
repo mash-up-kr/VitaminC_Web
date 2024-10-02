@@ -215,12 +215,23 @@ const config: Config = {
           '93.3824%': { width: '160px' },
           '100%': { width: '44px' },
         },
+        fadein: {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(20px)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
       },
       animation: {
         enter: 'enter 300ms ease-out',
         leave: 'leave 300ms ease-in forwards',
         wave: 'wave 1.3s ease infinite',
         expand: 'expandContract 5.8s ease-in-out 2s forwards',
+        fadein: 'fadein 300ms ease-in-out',
       },
     },
   },

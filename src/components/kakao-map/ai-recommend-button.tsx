@@ -2,9 +2,12 @@ import { useState } from 'react'
 import Icon from '../common/icon'
 import Typography from '../common/typography'
 import GptIntroModal from './gpt-intro-modal'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const AIRecommendButton = () => {
+  const router = useSafeRouter()
   const [isOpenGptIntro, setIsOpenGptIntro] = useState(false)
+
   return (
     <>
       <button
@@ -24,6 +27,8 @@ const AIRecommendButton = () => {
       {isOpenGptIntro && (
         <GptIntroModal
           isOpen={isOpenGptIntro}
+          confirmText="AI 맛집 추천받기"
+          onConfirm={() => router.push('/recommendation')}
           onClose={() => setIsOpenGptIntro(false)}
         />
       )}
