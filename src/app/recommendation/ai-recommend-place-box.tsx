@@ -43,7 +43,7 @@ const AIRecommendPlaceBox = ({
 
         <div className="my-3 h-[1px] w-full bg-neutral-500" />
 
-        <div className="flex flex-col gap-1 px-5">
+        {/* <div className="flex flex-col gap-1 px-5">
           <Typography
             size="h6"
             className="inline-block w-fit bg-gradient-to-r from-orange-400 to-purple-300 bg-clip-text text-transparent"
@@ -57,7 +57,7 @@ const AIRecommendPlaceBox = ({
           >
             {place.reason}
           </Typography>
-        </div>
+        </div> */}
       </div>
       <div>
         <div className="px-5">

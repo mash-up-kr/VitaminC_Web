@@ -82,7 +82,7 @@ export const AISuggestion = ({
               <AIRecommendPlaceBox
                 key={place.id}
                 place={place}
-                className="h-[330px] min-h-[330px] w-[260px] min-w-[260px]"
+                className="h-[232px] min-h-[232px] w-[260px] min-w-[260px]"
               />
             )
           })}
