@@ -206,6 +206,10 @@ const gpt = {
   },
   restaurants: {
     recommend: {
+      get: (question: string, x: string, y: string): Promise<any> =>
+        client.secure.get(
+          `/gpt/restaurants/recommend?question=${question}&x=${x}&y=${y}`,
+        ),
       test: {
         get: (question: string, x: string, y: string): Promise<any> =>
           client.secure.get(

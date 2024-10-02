@@ -1,15 +1,23 @@
 import type { PlaceDetail } from '@/models/api/place'
 
-export type Chat =
-  | {
-      type: 'gpt'
-      value: string
-      suggestionPlaces?: {
-        name: PlaceDetail['name']
-        address: PlaceDetail['address']
-        reason: string
-        placeId: PlaceDetail['id']
-      }[]
-      suggestionKeywords: string[]
-    }
-  | { type: 'user'; value: string }
+export interface AISuggestionPlace {
+  name: PlaceDetail['name']
+  score: PlaceDetail['score']
+  address: PlaceDetail['address']
+  openTimeList: { timeSE: string; timeName: string; dayOfWeek: string }[]
+  id: PlaceDetail['id']
+  photoList: PlaceDetail['photoList']
+}
+interface ChatGPT {
+  type: 'gpt-typing' | 'gpt-stream'
+  value: string
+  suggestionPlaces?: AISuggestionPlace[]
+  suggestionKeywords: string[]
+}
+
+interface ChatUser {
+  type: 'user'
+  value: string
+}
+
+export type Chat = ChatGPT | ChatUser
