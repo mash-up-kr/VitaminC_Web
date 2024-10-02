@@ -2,11 +2,11 @@
 
 import { cookies } from 'next/headers'
 
-const setCookie = (name: string, value: string) => {
+const setCookie = async (name: string, value: string) => {
   cookies().set(name, value)
 }
 
-const deleteCookie = (name: string) => {
+const deleteCookie = async (name: string) => {
   cookies().delete(name)
 }
 
