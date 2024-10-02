@@ -90,7 +90,7 @@ export const AISuggestion = ({
       {typingComplete && (
         <ul
           className={cn(
-            'animate-fadein ml-[44px] flex gap-[6px] transition-all',
+            'ml-[44px] flex animate-fadein gap-[6px] transition-all',
             chat.suggestionKeywords[0] === '강남에 맛있는 돈까스 식당 추천해줘'
               ? 'flex-col'
               : '',
