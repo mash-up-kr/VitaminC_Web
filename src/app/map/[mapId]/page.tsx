@@ -25,6 +25,7 @@ import type { PlaceType } from '@/models/api/place'
 import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 import { api } from '@/utils/api'
 import { onboardingStorage, visitedMapIdsStorage } from '@/utils/storage'
+import Loading from '@/app/loading'
 
 export interface FilterIdsType {
   category: CategoryType
@@ -65,6 +66,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
   const [filteredPlace, setFilteredPlace] = useState<PlaceType[] | null>(null)
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
+
+  const [mapIdFromCookie, setMapIdFromCookie] = useState('')
 
   const [bottomRef, bottomBounds] = useMeasure()
 
@@ -141,14 +144,19 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     if (onboardingStorage.getValueOrNull()) {
       onboardingStorage.remove()
     }
+    setMapIdFromCookie(getMapIdFromCookie() || '')
   }, [])
 
   useEffect(() => {
-    const mapIdFromCookie = getMapIdFromCookie()
+    if (!mapId || !mapIdFromCookie) return
+
     if (mapId !== mapIdFromCookie) {
-      updateMapIdCookie(mapId)
+      ;(async () => {
+        const updatedMapIdCookie = await updateMapIdCookie(mapId)
+        setMapIdFromCookie(updatedMapIdCookie || '')
+      })()
     }
-  }, [mapId])
+  }, [mapId, mapIdFromCookie])
 
   useEffect(() => {
     if (!userData || !places) return
@@ -202,6 +210,10 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
       setIsTooltipOpen(true)
     }
   }, [visitedMapIds, mapId])
+
+  if (mapId !== mapIdFromCookie) {
+    return <Loading />
+  }
 
   return (
     <div className="h-dvh">
