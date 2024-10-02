@@ -49,7 +49,8 @@ const Recommendation = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const bottomChat = useRef<HTMLDivElement>(null)
   const router = useSafeRouter()
-  const { userLocation, allowLocation } = useUserGeoLocation()
+  const { userLocation, allowLocation, handleUserLocation } =
+    useUserGeoLocation()
 
   const handleQuestionCurrentLocation = (userInput: string) => {
     const locationKeywords = [
@@ -105,15 +106,13 @@ const Recommendation = () => {
     setChats((prev) => [...prev, noInfoLocationChat])
   }
 
-  const handleLocationPermission = () => {
-    navigator.geolocation.getCurrentPosition(
-      async () => {
-        await askToAI()
-      },
-      () => {
-        notify.error('현재 위치를 찾을 수 없습니다.')
-      },
-    )
+  const handleLocationPermission = async () => {
+    const isAllow = handleUserLocation()
+    if (isAllow) {
+      await askToAI()
+    } else {
+      notify.error('브라우저에서 위치 액세스를 허용해주세요')
+    }
   }
 
   const handleMapNavigation = async () => {

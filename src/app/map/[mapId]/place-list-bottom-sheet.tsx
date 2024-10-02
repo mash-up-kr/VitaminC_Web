@@ -108,14 +108,17 @@ const PlaceListBottomSheet = forwardRef<
     }
 
     return (
-      <div className="flex h-full flex-col">
+      <div
+        ref={listRef}
+        className="no-scrollbar flex h-full flex-col overflow-y-scroll overscroll-contain"
+      >
         <div
           ref={(element) => {
             if (typeof ref !== 'function' && ref?.current) {
               ref.current[0] = element as HTMLDivElement
             }
           }}
-          className="z-10 h-[38px] bg-[#212124] px-5 shadow-[rgba(33,33,36,1)_0px_4px_2px_-2px]"
+          className="z-10 bg-[#212124] px-5"
         >
           <FilterButton
             numOfSelectedFilter={numOfSelectedFilter}
@@ -126,10 +129,7 @@ const PlaceListBottomSheet = forwardRef<
           </FilterButton>
         </div>
         {placeList.length > 0 ? (
-          <div
-            ref={listRef}
-            className="no-scrollbar flex-1 overflow-y-scroll overscroll-contain px-5"
-          >
+          <div className="flex-1 px-5">
             <ul
               ref={(element) => {
                 if (typeof ref !== 'function' && ref?.current) {
@@ -159,7 +159,6 @@ const PlaceListBottomSheet = forwardRef<
                         handleLike(place)
                       },
                     }}
-                    className="first:pt-1"
                   />
                   <hr className="my-[2px] h-[1px] border-0 bg-neutral-600 last:hidden" />
                 </li>

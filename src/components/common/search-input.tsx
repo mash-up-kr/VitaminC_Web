@@ -57,8 +57,8 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ref,
   ) => {
     const isShowIcon =
-      rightIcon.icon.type !== 'delete' ||
-      (rightIcon.icon.type === 'delete' && props.value)
+      (rightIcon && rightIcon.icon.type !== 'delete') ||
+      (rightIcon?.icon.type === 'delete' && props.value)
 
     return (
       <div className="relative flex w-full items-center">
