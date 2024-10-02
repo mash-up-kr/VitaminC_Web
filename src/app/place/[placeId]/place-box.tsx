@@ -174,11 +174,12 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
                 type: 'photoList',
               },
             }}
+            className="h-full w-full"
           >
             <ProxyImage
               src={src}
               alt={`슬라이드 ${index + 1}`}
-              className="object-cover"
+              className="h-full w-full object-cover"
               draggable="false"
             />
           </Link>

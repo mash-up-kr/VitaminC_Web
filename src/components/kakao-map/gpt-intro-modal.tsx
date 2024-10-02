@@ -2,23 +2,28 @@ import Modal from '../common/modal'
 import Typography from '../common/typography'
 import ProxyImage from '../common/proxy-image'
 import Button from '../common/button'
-import useSafeRouter from '@/hooks/use-safe-router'
 import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
 
-const TOTAL_COUNT = 10
-
 interface GptIntroModalProps {
   isOpen: boolean
+  confirmText: string
+  onConfirm: VoidFunction
   onClose: VoidFunction
 }
 
-const GptIntroModal = ({ isOpen, onClose }: GptIntroModalProps) => {
-  const { data } = useFetch(() => api.gpt.usage.get())
+const GptIntroModal = ({
+  isOpen,
+  confirmText,
+  onConfirm,
+  onClose,
+}: GptIntroModalProps) => {
+  const { data, status } = useFetch(api.gpt.usage.get, {
+    key: ['recommendation-usage'],
+  })
 
-  const questionCount = TOTAL_COUNT - (data?.usageCount ?? 10)
+  const availableCount = data ? data.maxLimit - data.usageCount : 0
 
-  const router = useSafeRouter()
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="rounded-4xl flex w-[330px] flex-col items-center gap-[30px] bg-neutral-600 p-[30px] pb-5">
@@ -41,16 +46,18 @@ const GptIntroModal = ({ isOpen, onClose }: GptIntroModalProps) => {
           <Typography
             size="body1"
             className="text-center"
-          >{`AI 추천은 매달 10회까지 가능해요.\n추천 횟수는 매달 1일 초기화 돼요.`}</Typography>
-          <Typography size="h5">이번 달 남은 횟수 {questionCount}회</Typography>
+          >{`AI 추천은 매달 ${data?.maxLimit}회까지 가능해요.\n추천 횟수는 매달 1일 초기화 돼요.`}</Typography>
+          <Typography size="h5">
+            이번 달 남은 횟수 {availableCount}회
+          </Typography>
         </div>
         <Button
           fullWidth
-          disabled={questionCount <= 0}
+          disabled={status === 'pending' || availableCount <= 0}
           colorScheme="orange"
-          onClick={() => router.push('/recommendation')}
+          onClick={onConfirm}
         >
-          AI 맛집 추천받기
+          {confirmText}
         </Button>
       </div>
     </Modal>

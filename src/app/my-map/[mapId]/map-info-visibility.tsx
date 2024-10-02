@@ -17,7 +17,6 @@ const MapInfoVisibility = ({
   handleChangeMapInfo,
 }: MapInfoVisibilityProps) => {
   const handleClickMapReveal = () => {
-    console.log(isPublic)
     if (!isPublic) {
       // 비공개 => 공개
       handleOpenModal('visibility')
