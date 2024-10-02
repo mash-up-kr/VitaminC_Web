@@ -44,8 +44,10 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     const { height: windowHeight } = useWindowSize()
 
     const HEADER_HEIGHT = 46
+    const CONTAINER_HEADER_HEIGHT = 60
     const DEFAULT_HEIGHT = windowHeight / 2 || HEADER_HEIGHT
-    const EXPANDED_HEIGHT = (windowHeight * 3) / 4 || HEADER_HEIGHT
+    const EXPANDED_HEIGHT =
+      windowHeight - CONTAINER_HEADER_HEIGHT || HEADER_HEIGHT
 
     const contentHeight =
       contentRef?.current.reduce((acc, cur) => acc + cur?.scrollHeight, 0) ||
@@ -129,7 +131,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
         <motion.div
           id={bottomSheetId}
           ref={mergeRefs([bottomSheetRef, ref])}
-          className="fixed z-10 w-full max-w-[420px] rounded-t-[14px] bg-neutral-700 pb-[24px] text-white will-change-transform"
+          className="fixed z-50 w-full max-w-[420px] rounded-t-[14px] bg-neutral-700 pb-[24px] text-white will-change-transform"
           initial="default"
           animate={bottomSheetState}
           variants={{
@@ -142,7 +144,7 @@ const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
         >
           {/* header */}
           <motion.div
-            className="cursor-grab pb-[24px] pt-[16px]"
+            className="z-[999] cursor-grab pb-[24px] pt-[16px]"
             onPointerDown={(e) => dragControls.start(e)}
             drag="y"
             dragControls={dragControls}
