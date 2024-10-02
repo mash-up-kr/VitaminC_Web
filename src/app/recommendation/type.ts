@@ -2,8 +2,9 @@ import type { PlaceDetail } from '@/models/api/place'
 
 export interface AISuggestionPlace {
   name: PlaceDetail['name']
+  score: PlaceDetail['score']
   address: PlaceDetail['address']
-  reason: string
+  openTimeList: { timeSE: string; timeName: string; dayOfWeek: string }[]
   id: PlaceDetail['id']
   photoList: PlaceDetail['photoList']
 }

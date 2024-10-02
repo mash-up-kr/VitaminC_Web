@@ -46,6 +46,7 @@ import Subtract from './Subtract.svg'
 import Sushi from './Sushi.svg'
 import Hyperlink from './Hyperlink.svg'
 import Ticket from './Ticket.svg'
+import LocationPin from './LocationPin.svg'
 import U1F4B0 from './U+1F4B0-💰.svg'
 import U1F6BB from './U+1F6BB-🚻.svg'
 import U1F35A from './U+1F35A-🍚.svg'
@@ -103,6 +104,7 @@ export const icons = {
   location: Location,
   locationOff: LocationOff,
   locationOn: LocationOn,
+  locationPin: LocationPin,
   listView: ListView,
   mapView: MapView,
   paperPlaneTilt: PaperPlaneTilt,
