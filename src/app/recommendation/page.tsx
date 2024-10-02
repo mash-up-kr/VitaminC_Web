@@ -93,11 +93,11 @@ const Recommendation = () => {
     try {
       const x = String(userLocation?.longitude || '')
       const y = String(userLocation?.latitude || '')
-      const response = await api.gpt.restaurants.recommend.test.get(
-        suggestion || input,
-        x,
-        y,
-      )
+      const recommendationApi =
+        process.env.NODE_ENV === 'production'
+          ? api.gpt.restaurants.recommend
+          : api.gpt.restaurants.recommend.test
+      const response = await recommendationApi.get(suggestion || input, x, y)
 
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
