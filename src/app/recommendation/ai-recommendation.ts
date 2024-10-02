@@ -96,8 +96,6 @@ export const handleAIRecommendation = async ({
 
         const jsonArr = parseTextData(decodedChunk)
 
-        setIsFetching(false)
-
         for (const { data, type } of jsonArr) {
           if (type === 'text') {
             const character = data
@@ -127,7 +125,7 @@ export const handleAIRecommendation = async ({
           }
         }
       } catch (err) {
-        console.log(err)
+        console.error(err)
       }
     }
 

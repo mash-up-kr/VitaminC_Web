@@ -5,16 +5,10 @@ import { AISuggestion, UserChat } from './chat-item'
 
 interface ChatBoxProps extends ClassName {
   chats: Chat[]
-  isFetching: boolean
   onClickSuggestion: (suggestion: string) => void
 }
 
-const ChatBox = ({
-  chats,
-  isFetching,
-  className,
-  onClickSuggestion,
-}: ChatBoxProps) => {
+const ChatBox = ({ chats, className, onClickSuggestion }: ChatBoxProps) => {
   return (
     <section className={cn('h-full w-full', className)}>
       <ul className="flex flex-col gap-6">
@@ -26,7 +20,6 @@ const ChatBox = ({
                 chat={chat}
                 type={chat.type}
                 isFirst={index === 0}
-                isFetching={isFetching}
                 onClickSuggestion={(suggestion) => {
                   onClickSuggestion(suggestion)
                 }}

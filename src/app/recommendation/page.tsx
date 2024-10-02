@@ -209,7 +209,6 @@ const Recommendation = () => {
 
         <ChatBox
           chats={chats}
-          isFetching={isFetching || status === 'pending'}
           className="flex-1 px-5"
           onClickSuggestion={handleClickSuggestion}
         />

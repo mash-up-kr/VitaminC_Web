@@ -16,13 +16,11 @@ interface ChatItemProps extends ClassName {
 export const AISuggestion = ({
   chat,
   isFirst,
-  isFetching,
   type,
   className,
   onClickSuggestion,
 }: ChatItemProps & {
   isFirst: boolean
-  isFetching: boolean
   type: 'gpt-typing' | 'gpt-stream'
   onClickSuggestion: (suggestion: string) => void
 }) => {
@@ -36,7 +34,7 @@ export const AISuggestion = ({
 
   const isLoading =
     (type === 'gpt-typing' && !typingStart) ||
-    (type === 'gpt-stream' && isFetching)
+    (type === 'gpt-stream' && !chat.value)
 
   return (
     <motion.li

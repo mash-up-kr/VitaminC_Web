@@ -30,7 +30,7 @@ const AIRecommendPlaceBox = ({
           </Typography>
         </div>
 
-        <ul className="flex w-full gap-2 px-4 pt-3.5">
+        <ul className="flex min-h-[84px] w-full gap-2 px-4 pt-3.5">
           {place.photoList.slice(0, 3).map((src, index) => (
             <li key={index}>
               <ProxyImage
