@@ -195,7 +195,7 @@ const Recommendation = () => {
         </div>
       </header>
 
-      <section className="no-scrollbar max-h-[calc(100vh-96px)] flex-1 overflow-y-scroll pt-[80px]">
+      <section className="no-scrollbar max-h-[calc(100vh-70px)] flex-1 overflow-y-scroll pb-7 pt-[80px]">
         <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
           <img
             src="/images/ai.png"
@@ -227,8 +227,9 @@ const Recommendation = () => {
         <div ref={bottomChat} />
       </section>
 
-      <footer className="invitation-gradient h-[96px] px-5 pb-5 pt-7">
+      <footer className="invitation-gradient fixed bottom-0 left-1/2 flex h-[96px] w-full -translate-x-1/2 content-center items-center px-5">
         <ChatInput
+          className="pb-5 pt-7"
           value={input}
           isFetching={isFetching || status === 'pending'}
           isLimitReached={status === 'success' && availableCount <= 0}
