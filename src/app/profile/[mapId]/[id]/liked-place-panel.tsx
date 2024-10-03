@@ -8,7 +8,6 @@ import { APIError } from '@/models/api'
 import { notify } from '@/components/common/custom-toast'
 import EmptyPlaceList from '@/components/place/empty-place-list'
 import PlacePopupSkeleton from '@/components/place/place-popup-skeleton'
-import ChipButton from '@/components/common/chip-button'
 import Icon from '@/components/common/icon'
 import Typography from '@/components/common/typography'
 
