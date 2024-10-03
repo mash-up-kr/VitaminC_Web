@@ -130,7 +130,7 @@ const CrewInfoEditableItem = ({
   return (
     <>
       <Link
-        href={`/profile/${member.id}`}
+        href={`/profile/${mapId}/${member.id}`}
         className="flex h-[52px] items-center justify-between"
       >
         <div className="flex items-center gap-2">

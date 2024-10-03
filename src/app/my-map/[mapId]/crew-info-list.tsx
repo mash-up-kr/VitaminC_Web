@@ -5,9 +5,6 @@ import type { User } from '@/models/user'
 import cn from '@/utils/cn'
 import CrewInfoReadOnlyItem from './crew-info-read-only-item'
 import CrewInfoEditableItem from './crew-info-editable-item'
-import { useEffect } from 'react'
-import { updateMapIdCookie } from '@/services/map-id'
-
 interface CrewInfoListProps extends ClassName {
   user: User
   mapInfo: MapInfo
@@ -47,10 +44,6 @@ const CrewInfoList = ({
   const isMyMap = mapInfo.createBy.id === user.id
   const members = mapInfo.users
 
-  useEffect(() => {
-    updateMapIdCookie(mapInfo.id)
-  }, [mapInfo.id])
-
   return (
     <section className={cn('', className)}>
       <div className="flex gap-1">
@@ -77,6 +70,7 @@ const CrewInfoList = ({
             <CrewInfoReadOnlyItem
               key={member.id}
               member={member}
+              mapId={mapInfo.id}
               avatarColor={getColorForName(member.nickname)}
               isMe={member.id === user.id}
             />

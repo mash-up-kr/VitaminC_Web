@@ -1,7 +1,7 @@
 import Avatar from '@/components/common/avatar'
 import Chip from '@/components/common/chip'
 import Typography from '@/components/common/typography'
-import type { MapMemberData } from '@/models/map'
+import type { MapInfo, MapMemberData } from '@/models/map'
 import { korRole } from './constant'
 import Link from 'next/link'
 
@@ -9,7 +9,9 @@ const CrewInfoReadOnlyItem = ({
   member,
   isMe,
   avatarColor,
+  mapId,
 }: {
+  mapId: MapInfo['id']
   member: MapMemberData
   avatarColor: Parameters<typeof Avatar>[0]['colorScheme']
   isMe: boolean
@@ -17,7 +19,7 @@ const CrewInfoReadOnlyItem = ({
   return (
     <Link
       role="listitem"
-      href={`/profile/${member.id}`}
+      href={`/profile/${mapId}/${member.id}`}
       className="flex h-[52px] items-center justify-between"
     >
       <div className="flex items-center gap-2">

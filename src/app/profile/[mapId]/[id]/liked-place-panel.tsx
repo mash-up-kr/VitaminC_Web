@@ -10,8 +10,13 @@ import { notify } from '@/components/common/custom-toast'
 import EmptyPlaceList from '@/components/place/empty-place-list'
 import PlacePopupSkeleton from '@/components/place/place-popup-skeleton'
 
-const LikedPlacePanel = ({ userId }: { userId: User['id'] }) => {
-  const [mapId, setMapId] = useState<MapInfo['id']>('')
+const LikedPlacePanel = ({
+  userId,
+  mapId,
+}: {
+  userId: User['id']
+  mapId: MapInfo['id']
+}) => {
   const [places, setPlaces] = useState<PlaceType[]>()
 
   const renderPlaces = () => {
@@ -50,13 +55,8 @@ const LikedPlacePanel = ({ userId }: { userId: User['id'] }) => {
   useEffect(() => {
     const getLikedPlace = async () => {
       try {
-        const currentMapId = await getMapId()
-        if (!currentMapId) {
-          throw new Error('잘못된 접근입니다.')
-        }
-        setMapId(currentMapId)
         const { data } = await api.place.like.mapId.userId.get({
-          mapId: currentMapId,
+          mapId,
           userId,
         })
         setPlaces(data)
@@ -70,7 +70,7 @@ const LikedPlacePanel = ({ userId }: { userId: User['id'] }) => {
     }
 
     getLikedPlace()
-  }, [userId])
+  }, [userId, mapId])
 
   return (
     <div role="tabpanel" id="tappanel-liked" aria-labelledby="tap-liked">

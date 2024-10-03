@@ -80,9 +80,9 @@ const Profile = ({
           </button>
         </div>
         {type === 'liked' ? (
-          <LikedPlacePanel userId={id} />
+          <LikedPlacePanel userId={id} mapId={mapId} />
         ) : (
-          <RegisterededPlacePanel userId={id} />
+          <RegisterededPlacePanel userId={id} mapId={mapId} />
         )}
       </section>
     </div>
