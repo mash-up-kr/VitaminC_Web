@@ -32,3 +32,6 @@ export type ColorKey =
   | 'profile-sky-blue'
   | 'profile-violet'
   | 'profile-green'
+  | 'blue-100'
+  | 'blue-200'
+  | 'blue-300'
