@@ -9,6 +9,8 @@ import { notify } from '@/components/common/custom-toast'
 import EmptyPlaceList from '@/components/place/empty-place-list'
 import PlacePopupSkeleton from '@/components/place/place-popup-skeleton'
 import ChipButton from '@/components/common/chip-button'
+import Icon from '@/components/common/icon'
+import Typography from '@/components/common/typography'
 
 export const INITIAL_VISIBLE_PLACE_LENGTH = 1
 
@@ -42,8 +44,8 @@ const LikedPlacePanel = ({
     }
 
     return (
-      <>
-        <div className="flex flex-col gap-2.5 py-[18px]">
+      <div className="flex flex-col gap-[30px] py-[18px]">
+        <div className="flex flex-col gap-2.5">
           {places
             .slice(
               0,
@@ -59,23 +61,17 @@ const LikedPlacePanel = ({
             ))}
         </div>
         {!showMorePlace && places.length > INITIAL_VISIBLE_PLACE_LENGTH && (
-          <div className="flex h-[71px] w-full items-center justify-center">
-            <ChipButton
-              fontSize="body3"
-              rightIcon={{
-                type: 'caretDown',
-                size: 'sm',
-                stroke: 'neutral-000',
-              }}
-              onClick={() => {
-                setShowMorePlace(true)
-              }}
+          <div className="flex w-full items-center justify-center">
+            <button
+              className="flex items-center justify-center gap-2 rounded-full border-[1px] border-neutral-500 px-6 py-3"
+              onClick={() => setShowMorePlace(true)}
             >
-              더보기
-            </ChipButton>
+              <Icon type="plus" />
+              <Typography size="body1">더보기</Typography>
+            </button>
           </div>
         )}
-      </>
+      </div>
     )
   }
 
