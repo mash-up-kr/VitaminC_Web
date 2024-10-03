@@ -27,10 +27,7 @@ export const handleAIRecommendation = async ({
   refetchUsage,
 }: AIRecommendationProps) => {
   if (availableCount <= 0) {
-    setChats((prev) => [
-      ...prev,
-      { ...usageCapReachedChat, suggestionKeywords: [] },
-    ])
+    setChats((prev) => [...prev, usageCapReachedChat])
     return
   }
 

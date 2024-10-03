@@ -143,11 +143,13 @@ const Recommendation = () => {
 
       case '처음으로':
         const chatGpt =
-          availableCount > 0 ? initialRecommendChat : usageCapReachedChat
+          availableCount > 0
+            ? { ...initialRecommendChat, suggestionKeywords: [] }
+            : usageCapReachedChat
         setChats((prev) => [
           ...prev,
           { type: 'user', value: suggestion },
-          { ...chatGpt, suggestionKeywords: [] },
+          chatGpt,
         ])
         setIsFinish(false)
         break
