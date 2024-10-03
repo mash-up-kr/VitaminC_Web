@@ -87,7 +87,7 @@ export const AISuggestion = ({
         </ul>
       )}
 
-      {typingComplete && (
+      {typingComplete && chat.suggestionKeywords.length > 0 && (
         <ul
           className={cn(
             'ml-[44px] flex animate-fadein gap-[6px] transition-all',
