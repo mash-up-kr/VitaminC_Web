@@ -19,7 +19,7 @@ export const lastChat: Chat = {
 export const usageCapReachedChat: Chat = {
   type: 'gpt-typing',
   value:
-    '앗.. 월 추천 횟수를 넘었어요.\n다음 달이 되면 다시 추천받을 수 있어요.',
+    '앗.. 하루 추천 횟수를 넘었어요.\n내일이 되면 다시 추천받을 수 있어요.',
   suggestionKeywords: ['지도 홈으로'],
 }
 
