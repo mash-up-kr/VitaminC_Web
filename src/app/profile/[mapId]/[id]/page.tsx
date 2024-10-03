@@ -11,10 +11,15 @@ import TasteRate from './taste-rate'
 import { useState } from 'react'
 import LikedPlacePanel from './liked-place-panel'
 import RegisterededPlacePanel from './registered-place-panel'
+import type { MapInfo } from '@/models/map'
 
 type PlaceFilter = 'register' | 'liked'
 
-const Profile = ({ params: { id } }: { params: { id: User['id'] } }) => {
+const Profile = ({
+  params: { id, mapId },
+}: {
+  params: { id: User['id']; mapId: MapInfo['id'] }
+}) => {
   const router = useSafeRouter()
   const { data: userData } = useFetch(() => api.users.id.get(id))
   const [type, setType] = useState<PlaceFilter>('register')
