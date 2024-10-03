@@ -231,9 +231,8 @@ const Recommendation = () => {
         <div ref={bottomChat} />
       </section>
 
-      <footer className="invitation-gradient fixed bottom-0 left-1/2 flex h-[96px] w-full -translate-x-1/2 content-center items-center px-5">
+      <footer className="invitation-gradient fixed bottom-0 left-1/2 flex h-[96px] w-full max-w-[420px] -translate-x-1/2 content-center items-center px-5 pb-5 pt-7">
         <ChatInput
-          className="pb-5 pt-7"
           value={input}
           isFetching={isFetching || status === 'pending'}
           isLimitReached={status === 'success' && availableCount <= 0}
