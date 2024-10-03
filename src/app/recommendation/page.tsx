@@ -80,6 +80,7 @@ const Recommendation = () => {
 
   const askToAI = async (suggestion?: string) => {
     handleAIRecommendation({
+      authorization: !!user,
       userLocation,
       question: suggestion || input,
       availableCount,
@@ -143,11 +144,13 @@ const Recommendation = () => {
 
       case '처음으로':
         const chatGpt =
-          availableCount > 0 ? initialRecommendChat : usageCapReachedChat
+          availableCount > 0
+            ? { ...initialRecommendChat, suggestionKeywords: [] }
+            : usageCapReachedChat
         setChats((prev) => [
           ...prev,
           { type: 'user', value: suggestion },
-          { ...chatGpt, suggestionKeywords: [] },
+          chatGpt,
         ])
         setIsFinish(false)
         break
@@ -195,7 +198,7 @@ const Recommendation = () => {
         </div>
       </header>
 
-      <section className="no-scrollbar max-h-[calc(100vh-96px)] flex-1 overflow-y-scroll pt-[80px]">
+      <section className="no-scrollbar max-h-[calc(100vh-70px)] flex-1 overflow-y-scroll pb-7 pt-[80px]">
         <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
           <img
             src="/images/ai.png"
@@ -209,6 +212,7 @@ const Recommendation = () => {
                 className="h-[112px] w-[213px]"
               />
             }
+            loop={false}
             className="h-[112px] w-[213px]"
           />
           <Typography
@@ -227,7 +231,7 @@ const Recommendation = () => {
         <div ref={bottomChat} />
       </section>
 
-      <footer className="invitation-gradient h-[96px] px-5 pb-5 pt-7">
+      <footer className="invitation-gradient fixed bottom-0 left-1/2 flex h-[96px] w-full max-w-[420px] -translate-x-1/2 content-center items-center px-5 pb-5 pt-7">
         <ChatInput
           value={input}
           isFetching={isFetching || status === 'pending'}
