@@ -1,11 +1,16 @@
 import type { Dispatch, SetStateAction } from 'react'
 
 import type { Chat } from './type'
-import { confusingInputChat, usageCapReachedChat } from './guide'
+import {
+  confusingInputChat,
+  noAuthorizationChat,
+  usageCapReachedChat,
+} from './guide'
 import { api } from '@/utils/api'
 import type { LocationType } from '@/models/kakao-map'
 
 interface AIRecommendationProps {
+  authorization: boolean
   userLocation: LocationType
   question: string
   availableCount: number
@@ -17,6 +22,7 @@ interface AIRecommendationProps {
 }
 
 export const handleAIRecommendation = async ({
+  authorization,
   userLocation,
   question,
   availableCount,
@@ -26,6 +32,11 @@ export const handleAIRecommendation = async ({
   setIsFinish,
   refetchUsage,
 }: AIRecommendationProps) => {
+  if (!authorization) {
+    setChats((prev) => [...prev, noAuthorizationChat])
+    return
+  }
+
   if (availableCount <= 0) {
     setChats((prev) => [...prev, usageCapReachedChat])
     return

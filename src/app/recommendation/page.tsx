@@ -80,6 +80,7 @@ const Recommendation = () => {
 
   const askToAI = async (suggestion?: string) => {
     handleAIRecommendation({
+      authorization: !!user,
       userLocation,
       question: suggestion || input,
       availableCount,

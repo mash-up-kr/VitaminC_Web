@@ -35,3 +35,9 @@ export const noInfoLocationChat: Chat = {
   value: '현재위치 파악을 위해 위치권한이 필요해요.',
   suggestionKeywords: ['위치권한 허용하기'],
 }
+
+export const noAuthorizationChat: Chat = {
+  type: 'gpt-typing',
+  value: '로그인 후 사용할 수 있는 기능입니다.',
+  suggestionKeywords: ['로그인하기'],
+}
