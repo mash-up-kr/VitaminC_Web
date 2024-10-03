@@ -212,6 +212,7 @@ const Recommendation = () => {
                 className="h-[112px] w-[213px]"
               />
             }
+            loop={false}
             className="h-[112px] w-[213px]"
           />
           <Typography
