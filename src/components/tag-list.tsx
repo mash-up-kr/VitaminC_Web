@@ -10,9 +10,21 @@ import { changeSpaceToHyphen } from '@/utils/tags'
 interface TagListProps extends ClassName {
   placeId: PlaceType['place']['id']
   tags: TagItem[] | string[]
+  tagColorScheme?:
+    | 'neutral-400'
+    | 'neutral-500'
+    | 'neutral-600'
+    | 'neutral-800'
+    | 'orange'
+    | 'purple'
 }
 
-const TagList = ({ placeId, tags, className }: TagListProps) => {
+const TagList = ({
+  placeId,
+  tags,
+  className,
+  tagColorScheme,
+}: TagListProps) => {
   const tagNames = tags.map((tag) => (typeof tag === 'string' ? tag : tag.name))
 
   return (
@@ -25,8 +37,12 @@ const TagList = ({ placeId, tags, className }: TagListProps) => {
       {tagNames.map((tag) => (
         <Chip
           id={`hashtag-${placeId}-${changeSpaceToHyphen(tag)}`}
-          className="whitespace-nowrap"
-          colorScheme="neutral-600"
+          className={
+            tagColorScheme
+              ? 'whitespace-nowrap text-neutral-100'
+              : 'whitespace-nowrap'
+          }
+          colorScheme={tagColorScheme ? tagColorScheme : 'neutral-600'}
           key={`${placeId}-${tag}`}
         >{`#${tag}`}</Chip>
       ))}

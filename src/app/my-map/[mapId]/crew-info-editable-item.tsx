@@ -11,6 +11,7 @@ import BottomModal from '@/components/common/bottom-modal'
 import { api } from '@/utils/api'
 import { notify } from '@/components/common/custom-toast'
 import useFetch from '@/hooks/use-fetch'
+import Link from 'next/link'
 
 const RoleButton = ({
   role,
@@ -128,7 +129,10 @@ const CrewInfoEditableItem = ({
 
   return (
     <>
-      <li className="flex h-[52px] items-center justify-between">
+      <Link
+        href={`/profile/${mapId}/${member.id}`}
+        className="flex h-[52px] items-center justify-between"
+      >
         <div className="flex items-center gap-2">
           <Avatar
             value={member.nickname}
@@ -153,8 +157,9 @@ const CrewInfoEditableItem = ({
         ) : (
           <button
             type="button"
-            className="flex items-center gap-[2px]"
-            onClick={() => {
+            className="flex h-full items-center gap-[2px]"
+            onClick={(e) => {
+              e.preventDefault()
               setIsOpenRoleModal(true)
             }}
           >
@@ -164,7 +169,7 @@ const CrewInfoEditableItem = ({
             <Icon type="caretDown" size="md" stroke="neutral-200" />
           </button>
         )}
-      </li>
+      </Link>
 
       <BottomModal
         layout="none"

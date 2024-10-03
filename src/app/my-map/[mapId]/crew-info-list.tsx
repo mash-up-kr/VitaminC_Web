@@ -5,7 +5,6 @@ import type { User } from '@/models/user'
 import cn from '@/utils/cn'
 import CrewInfoReadOnlyItem from './crew-info-read-only-item'
 import CrewInfoEditableItem from './crew-info-editable-item'
-
 interface CrewInfoListProps extends ClassName {
   user: User
   mapInfo: MapInfo
@@ -71,6 +70,7 @@ const CrewInfoList = ({
             <CrewInfoReadOnlyItem
               key={member.id}
               member={member}
+              mapId={mapInfo.id}
               avatarColor={getColorForName(member.nickname)}
               isMe={member.id === user.id}
             />

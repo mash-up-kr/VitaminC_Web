@@ -149,6 +149,16 @@ const place = {
   mapId: {
     get: (mapId: MapInfo['id']): Promise<ResponseWithMessage<PlaceType[]>> =>
       client.secure.get(`/place/${mapId}`),
+    userId: {
+      get: ({
+        mapId,
+        userId,
+      }: {
+        mapId: MapInfo['id']
+        userId: User['id']
+      }): Promise<ResponseWithMessage<PlaceType[]>> =>
+        client.secure.get(`/place/${mapId}/${userId}`),
+    },
 
     placeId: {
       delete: ({ placeId, mapId }: PlaceIdWithMapId) =>
@@ -192,6 +202,34 @@ const place = {
   placeId: {
     get: (placeId: string): Promise<ResponseWithMessage<PlaceType>> =>
       client.secure.get(`place/${placeId}`),
+  },
+  differ: {
+    mapId: {
+      userId: {
+        get: ({
+          mapId,
+          userId,
+        }: {
+          mapId: MapInfo['id']
+          userId: User['id']
+        }): Promise<ResponseWithMessage<number>> =>
+          client.secure.get(`/place/differ/${mapId}/${userId}`),
+      },
+    },
+  },
+  like: {
+    mapId: {
+      userId: {
+        get: ({
+          userId,
+          mapId,
+        }: {
+          userId: User['id']
+          mapId: MapInfo['id']
+        }): Promise<ResponseWithMessage<PlaceType[]>> =>
+          client.secure.get(`/place/like/${mapId}/${userId}`),
+      },
+    },
   },
 }
 

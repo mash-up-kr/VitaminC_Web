@@ -79,6 +79,9 @@ export const TypographyVariants = cva<{
       'profile-sky-blue': 'text-profile-sky-blue',
       'profile-violet': 'text-profile-violet',
       'profile-green': 'text-profile-green',
+      'blue-100': 'text-blue-100',
+      'blue-200': 'text-blue-200',
+      'blue-300': 'text-blue-300',
     },
   },
   defaultVariants: {
