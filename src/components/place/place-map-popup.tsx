@@ -20,6 +20,7 @@ import cn from '@/utils/cn'
 import { roundOnePoint } from '@/utils/number'
 import { getStarByScore } from '@/utils/score'
 import PlacePopupSkeleton from '@/components/place/place-popup-skeleton'
+import { revalidatePlaces } from '@/app/actions'
 
 interface PlaceMapPopupProps extends ClassName {
   selectedPlace: PlaceType
@@ -30,7 +31,7 @@ interface PlaceMapPopupProps extends ClassName {
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
   ({ selectedPlace, className, mapId, onRefreshOldPlace }, ref) => {
     const [isLikePlace, setIsLikePlace] = useState(false)
-    const { data: user, revalidate } = useFetch(api.users.me.get, {
+    const { data: user } = useFetch(api.users.me.get, {
       key: ['user'],
     })
 
@@ -59,7 +60,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           placeId: place.id,
           mapId,
         })
-        revalidate(['places', mapId])
+        revalidatePlaces(mapId)
       } catch (error) {
         setIsLikePlace(false)
         if (error instanceof APIError || error instanceof Error) {
@@ -81,7 +82,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           placeId: place.id,
           mapId,
         })
-        revalidate(['places', mapId])
+        revalidatePlaces(mapId)
       } catch (error) {
         setIsLikePlace(true)
         if (error instanceof APIError || error instanceof Error) {

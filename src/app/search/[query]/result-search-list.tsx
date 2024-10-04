@@ -15,6 +15,7 @@ import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 import { formatDistance, getDistance } from '@/utils/location'
 import { allowUserPositionStorage } from '@/utils/storage'
+import { revalidatePlaces } from '@/app/actions'
 
 interface ResultSearchListBoxProps extends ClassName {
   places: SearchPlace[]
@@ -26,7 +27,7 @@ const ResultSearchListBox = ({
   places,
   mapId,
 }: ResultSearchListBoxProps) => {
-  const { data: user, revalidate } = useFetch(api.users.me.get, {
+  const { data: user } = useFetch(api.users.me.get, {
     key: ['user'],
   })
   const { userLocation } = useUserGeoLocation()
@@ -87,7 +88,7 @@ const ResultSearchListBox = ({
       if (!mapId) return
       optimisticUpdateLikeOrUnLike(placeId)
       await api.place.mapId.placeId.like.put({ placeId, mapId })
-      revalidate(['places', mapId])
+      revalidatePlaces(mapId)
     } catch (error) {}
   }
 
@@ -96,7 +97,7 @@ const ResultSearchListBox = ({
       if (!mapId) return
       optimisticUpdateLikeOrUnLike(placeId)
       await api.place.mapId.placeId.like.delete({ placeId, mapId })
-      revalidate(['places', mapId])
+      revalidatePlaces(mapId)
     } catch (error) {}
   }
 

@@ -136,7 +136,10 @@ const search = {
       mapId,
     }: QueryParams & { mapId: MapInfo['id'] }): Promise<
       ResponseWithMessage<SearchPlace[]>
-    > => client.public.get(`/search/places?q=${q}&rect=${rect}&mapId=${mapId}`),
+    > =>
+      client.public.get(`/search/places?q=${q}&rect=${rect}&mapId=${mapId}`, {
+        tags: ['places', mapId],
+      }),
   },
 }
 

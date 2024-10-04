@@ -13,6 +13,7 @@ import { APIError } from '@/models/api/index'
 import type { PlaceType } from '@/models/api/place'
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll'
 import { api } from '@/utils/api'
+import { revalidatePlaces } from '@/app/actions'
 
 interface PlaceListBottomSheetProps {
   places: PlaceType[] | null
@@ -36,10 +37,11 @@ const PlaceListBottomSheet = forwardRef<
       itemsPerPage: 10,
     })
 
-    const { data: user, revalidate } = useFetch(api.users.me.get, {
+    const { data: user } = useFetch(api.users.me.get, {
       key: ['user'],
     })
     const userId = user?.id
+
     const numOfSelectedFilter =
       (selectedFilter?.category !== 'all' ? 1 : 0) +
       (selectedFilter?.tags.length ?? 0)
@@ -77,7 +79,7 @@ const PlaceListBottomSheet = forwardRef<
             placeId: place.place.id,
           })
         }
-        revalidate(['places', mapId])
+        revalidatePlaces(mapId)
       } catch (error) {
         if (error instanceof APIError) {
           notify.error(error.message)
