@@ -6,6 +6,7 @@ import type { Token } from '@/models/user'
 import isServer from '@/utils/is-server'
 import getCookie from '@/utils/storage/cookie'
 import { AUTHORIZATION } from '@/constants/cookie'
+import { APIError } from '@/models/api'
 
 const injectAuthTokenToConfig = async (config: RequestConfig) => {
   config.headers = config.headers || {}
@@ -22,15 +23,16 @@ const injectAuthTokenToConfig = async (config: RequestConfig) => {
     const response = await fetchData<Token>('/api/token', {
       key: ['token'],
     })
-    const token = response.data.token
+    const token = response.data?.token
     if (token) {
       config.headers.Authorization = token
     }
   } catch (error) {
-    if (error instanceof Error) {
-      throw error
-    }
-    throw new Error('토큰이 유효하지 않습니다')
+    throw new APIError({
+      status: 401,
+      message: '토큰이 유효하지 않습니다',
+      name: 'token',
+    })
   }
   return config
 }

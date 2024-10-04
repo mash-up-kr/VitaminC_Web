@@ -217,6 +217,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
 
   return (
     <div className="h-dvh">
+      <div className="map-header-gradient absolute top-0 z-[40] h-[117px] w-full" />
       <header className="absolute inset-x-5 top-4 z-50 flex flex-col gap-2">
         <div className="flex w-full justify-between">
           <Link
@@ -279,7 +280,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           />
           <BottomModal
             title="보고 싶은 맛집을 선택해주세요"
-            layoutClassName="max-h-[70dvh]"
+            layoutClassName="max-h-[70dvh] pb-[20px]"
             body={
               <FilterModalBody
                 mapId={mapId}

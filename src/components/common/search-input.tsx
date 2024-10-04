@@ -74,6 +74,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             SearchInputVariants({ variant, size }),
             className,
             leftIcon?.icon.type && 'pl-[50px]',
+            isShowIcon && 'pr-[50px]',
           )}
           ref={ref}
           placeholder={placeholder}

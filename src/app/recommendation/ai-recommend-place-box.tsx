@@ -18,6 +18,14 @@ const AIRecommendPlaceBox = ({
   const openingHours = place.openTimeList?.find(
     (openTime) => openTime.timeName === '영업시간',
   )
+  const photoList =
+    place.photoList.length > 0
+      ? place.photoList
+      : [
+          '/images/placeholder-food.png',
+          '/images/placeholder-food.png',
+          '/images/placeholder-food.png',
+        ]
 
   return (
     <section className={cn('rounded-[20px] bg-neutral-600 py-5', className)}>
@@ -26,7 +34,7 @@ const AIRecommendPlaceBox = ({
       </Typography>
 
       <ul className="flex min-h-[84px] w-full gap-2 px-4 pt-3.5">
-        {place.photoList.slice(0, 3).map((src, index) => (
+        {photoList.slice(0, 3).map((src, index) => (
           <li key={index}>
             <ProxyImage
               src={src}
