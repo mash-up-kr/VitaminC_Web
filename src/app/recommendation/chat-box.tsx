@@ -20,6 +20,7 @@ const ChatBox = ({ chats, className, onClickSuggestion }: ChatBoxProps) => {
                 chat={chat}
                 type={chat.type}
                 isFirst={index === 0}
+                isLast={index === chats.length - 1}
                 onClickSuggestion={(suggestion) => {
                   onClickSuggestion(suggestion)
                 }}

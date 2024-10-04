@@ -16,18 +16,20 @@ interface ChatItemProps extends ClassName {
 export const AISuggestion = ({
   chat,
   isFirst,
+  isLast,
   type,
   className,
   onClickSuggestion,
 }: ChatItemProps & {
   isFirst: boolean
+  isLast: boolean
   type: 'gpt-typing' | 'gpt-stream'
   onClickSuggestion: (suggestion: string) => void
 }) => {
   const { typingText, typingStart, typingComplete } = useTypewriter(
     chat.value,
     100,
-    type === 'gpt-typing',
+    type === 'gpt-typing' && isLast,
   )
 
   if (chat.type === 'user') return null
@@ -67,8 +69,7 @@ export const AISuggestion = ({
             color="neutral-000"
             className="whitespace-pre-line"
           >
-            {chat.type === 'gpt-stream' && chat.value}
-            {chat.type === 'gpt-typing' && typingText}
+            {chat.type === 'gpt-typing' && isLast ? typingText : chat.value}
           </Typography>
         )}
       </div>
@@ -90,11 +91,13 @@ export const AISuggestion = ({
       {typingComplete && chat.suggestionKeywords.length > 0 && (
         <ul
           className={cn(
-            'ml-[44px] flex animate-fadein gap-[6px] transition-all',
+            'ml-[44px] flex gap-[6px]',
+            isLast && 'animate-fadein transition-all',
             chat.suggestionKeywords[0] === '강남에 맛있는 돈까스 식당 추천해줘'
               ? 'flex-col'
               : '',
           )}
+          style={{ minHeight: chat.suggestionKeywords.length * 35 }}
         >
           {chat.suggestionKeywords.map((suggestion) => {
             if (

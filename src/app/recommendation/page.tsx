@@ -24,9 +24,10 @@ import VisuallyHidden from '@/components/common/visually-hidden'
 import Icon from '@/components/common/icon'
 import { handleAIRecommendation } from './ai-recommendation'
 import AiRecommendLottie from './ai-recommend-lottie'
+import { recommendationChatsStorage } from '@/utils/storage'
 
 const Recommendation = () => {
-  const { data: user } = useFetch(api.users.me.get, {
+  const { data: user, status: userStatus } = useFetch(api.users.me.get, {
     key: ['user'],
   })
   const {
@@ -40,8 +41,8 @@ const Recommendation = () => {
   const availableCount = recommendationUsage
     ? recommendationUsage.maxLimit - recommendationUsage.usageCount
     : 0
+  const [chats, setChats] = useState<Chat[]>([])
   const [input, setInput] = useState('')
-  const [chats, setChats] = useState<Chat[]>([initialRecommendChat])
   const [isFinish, setIsFinish] = useState(false)
   const [isFetching, setIsFetching] = useState(false)
   const [isOpenModal, setIsOpenModal] = useState(false)
@@ -159,6 +160,18 @@ const Recommendation = () => {
         break
     }
   }
+
+  useEffect(() => {
+    if (userStatus === 'pending') return
+
+    const savedChats = recommendationChatsStorage.getValueOrNull()
+    if (user && savedChats) {
+      setChats(savedChats)
+    }
+
+    bottomChat.current?.scrollIntoView({ behavior: 'smooth' })
+    setChats((prev) => [...prev, initialRecommendChat])
+  }, [user, userStatus])
 
   useEffect(() => {
     bottomChat.current?.scrollIntoView({ behavior: 'smooth' })

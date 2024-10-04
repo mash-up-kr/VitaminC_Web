@@ -8,6 +8,7 @@ import {
 } from './guide'
 import { api } from '@/utils/api'
 import type { LocationType } from '@/models/kakao-map'
+import { recommendationChatsStorage } from '@/utils/storage'
 
 interface AIRecommendationProps {
   authorization: boolean
@@ -140,6 +141,8 @@ export const handleAIRecommendation = async ({
     setChats((prev) =>
       prev.map((chat, index) => {
         if (isLastChat(index)) {
+          recommendationChatsStorage.set(prev)
+
           return {
             ...chat,
             suggestionKeywords: ['처음으로'],

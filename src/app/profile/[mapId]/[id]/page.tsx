@@ -12,6 +12,7 @@ import { useState } from 'react'
 import LikedPlacePanel from './liked-place-panel'
 import RegisterededPlacePanel from './registered-place-panel'
 import type { MapInfo } from '@/models/map'
+import { getColorForName } from '@/utils/avatar-color'
 
 type PlaceFilter = 'register' | 'liked'
 
@@ -49,6 +50,7 @@ const Profile = ({
           <Avatar
             value={userData?.nickname}
             imageUrl={userData?.profileImage}
+            colorScheme={getColorForName(userData?.nickname || '')}
             className={`h-20 w-20 text-[40px] ${!userData?.profileImage && 'border-2 border-[#17171A] border-opacity-20'}`}
           />
           <Typography size="h3">{userData?.nickname}</Typography>

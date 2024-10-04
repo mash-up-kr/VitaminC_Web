@@ -23,6 +23,7 @@ const GptIntroModal = ({
   })
 
   const availableCount = data ? data.maxLimit - data.usageCount : 0
+  const maxLimit = data?.maxLimit || 3
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -46,7 +47,7 @@ const GptIntroModal = ({
           <Typography
             size="body1"
             className="text-center"
-          >{`AI 추천은 매일 ${data?.maxLimit}회까지 가능해요.\n추천 횟수는 매일 초기화 돼요.`}</Typography>
+          >{`AI 추천은 매일 ${maxLimit}회까지 가능해요.\n추천 횟수는 자정에 초기화 돼요.`}</Typography>
           <Typography size="h5">오늘 남은 횟수 {availableCount}회</Typography>
         </div>
         <Button
