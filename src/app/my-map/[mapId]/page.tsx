@@ -39,6 +39,7 @@ const MyMap = ({ params: { mapId } }: { params: { mapId: string } }) => {
               refetchMapInfo={refetch}
             />
             <CrewInfoList
+              className="pb-[102px]"
               mapInfo={mapInfo}
               user={user}
               refetchMapInfo={refetch}
