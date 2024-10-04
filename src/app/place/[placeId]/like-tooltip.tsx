@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import cn from '@/utils/cn'
 import type { ClassName } from '@/models/common'
 import Avatar from '@/components/common/avatar'
+import { getColorForName } from '@/utils/avatar-color'
 
 interface LikeToolTipProps extends ClassName {
   likeMembers: string[]
@@ -70,6 +71,7 @@ const LikeToolTip = ({ likeMembers, className, onClick }: LikeToolTipProps) => {
               <LikeAvatarMotion
                 key={`${avatar}-${index}`}
                 value={avatar}
+                colorScheme={getColorForName(avatar)}
                 size="sm"
                 className="p-0 transition-all"
                 {...(index === 0

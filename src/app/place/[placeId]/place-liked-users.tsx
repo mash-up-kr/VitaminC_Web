@@ -4,6 +4,7 @@ import type { LikeUser } from '@/components/place/types'
 import type { ClassName } from '@/models/common'
 import type { User } from '@/models/user'
 import { getMapId } from '@/services/map-id'
+import { getColorForName } from '@/utils/avatar-color'
 import cn from '@/utils/cn'
 import { useRouter } from 'next/navigation'
 
@@ -32,6 +33,7 @@ const PlaceLikedUser = ({ likedUser, className, me }: PlaceLikedUserProps) => {
           <Avatar
             value={user.nickname}
             imageUrl={user.profileImage}
+            colorScheme={getColorForName(user.nickname)}
             me={me ? me.id === user.id : false}
           />
           <Typography size="body1" color="neutral-100">
