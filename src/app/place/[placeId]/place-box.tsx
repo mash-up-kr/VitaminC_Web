@@ -25,6 +25,7 @@ import { roundToNthDecimal } from '@/utils/number'
 import { allowUserPositionStorage } from '@/utils/storage'
 import cn from '@/utils/cn'
 import { sendGAEvent } from '@next/third-parties/google'
+import { revalidatePlaces } from '@/app/actions'
 
 interface PlaceBoxProps {
   place: PlaceDetail
@@ -40,7 +41,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isRecentlyLike, setIsRecentlyLike] = useState<boolean | null>(null)
   const router = useSafeRouter()
-  const [isAlreadyPick, setIsAlreadyPick] = useState(place.isRegisteredPlace)
+  const isAlreadyPick = place.isRegisteredPlace
   const { userLocation } = useUserGeoLocation()
   const isAllowPosition = allowUserPositionStorage.getValueOrNull()
   const diffDistance = getDistance(
@@ -50,10 +51,9 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
     place.x,
   )
 
-  const { data: user, revalidate } = useFetch(api.users.me.get, {
+  const { data: user } = useFetch(api.users.me.get, {
     key: ['user'],
   })
-
   const { data: mapInfo, isFetching } = useFetch(() => api.maps.id.get(mapId), {
     enabled: !!mapId,
   })
@@ -77,6 +77,10 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   })()
 
   useEffect(() => {
+    router.refresh()
+  }, [router])
+
+  useEffect(() => {
     if (!place || !user) return
     setIsLikePlace(
       !!place.likedUser?.find((liked) => liked.id === user.id) ?? false,
@@ -93,7 +97,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         placeId: place.id,
         mapId,
       })
-      revalidate(['places', mapId])
+      revalidatePlaces(mapId)
     } catch (error) {
       setIsLikePlace(false)
       setIsRecentlyLike(
@@ -115,7 +119,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         placeId: place.id,
         mapId,
       })
-      revalidate(['places', mapId])
+      revalidatePlaces(mapId)
     } catch (error) {
       setIsLikePlace(true)
       setIsRecentlyLike(
@@ -136,9 +140,8 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         mapId,
       })
 
-      setIsAlreadyPick(false)
+      revalidatePlaces(mapId)
       setIsDeleteModalOpen(false)
-      window.location.reload()
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)
@@ -154,7 +157,6 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
         label: 'register',
       })
       router.push(`/place/${place.kakaoId}/register`)
-      revalidate(['places', mapId])
     } catch (error) {
       if (error instanceof APIError || error instanceof Error) {
         notify.error(error.message)

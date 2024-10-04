@@ -22,6 +22,7 @@ import { api } from '@/utils/api'
 import cn from '@/utils/cn'
 import { roundOnePoint } from '@/utils/number'
 import { getStarByScore } from '@/utils/score'
+import { revalidatePlaces } from '@/app/actions'
 
 interface ResultPlaceMapPopupProps extends ClassName {
   mapId: MapInfo['id']
@@ -35,7 +36,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
 
     const [isLoading, setIsLoading] = useState(false)
     const [place, setPlace] = useState<PlaceDetail | null>(null)
-    const { data: user, revalidate } = useFetch(api.users.me.get, {
+    const { data: user } = useFetch(api.users.me.get, {
       onLoadEnd: (userData) => {
         setIsLikePlace(
           !!place?.likedUser?.find((liked) => liked.id === userData.id),
@@ -92,7 +93,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
           placeId: place.id,
           mapId,
         })
-        revalidate(['places', mapId])
+        revalidatePlaces(mapId)
       } catch (error) {
         setIsLikePlace(false)
         setIsRecentlyLike(
@@ -112,7 +113,7 @@ const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
           placeId: place.id,
           mapId,
         })
-        revalidate(['places', mapId])
+        revalidatePlaces(mapId)
       } catch (error) {
         setIsLikePlace(true)
         setIsRecentlyLike(

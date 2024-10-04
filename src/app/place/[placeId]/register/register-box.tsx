@@ -15,7 +15,7 @@ import type { TagItem } from '@/models/api/maps'
 import type { PlaceDetail } from '@/models/api/place'
 import { api } from '@/utils/api'
 import get조사 from '@/utils/조사'
-import useFetch from '@/hooks/use-fetch'
+import { revalidatePlaces } from '@/app/actions'
 
 const toTagNames = (tags: TagItem[]): TagItem['name'][] =>
   tags.map((tag) => tag.name)
@@ -29,7 +29,6 @@ const RegisterBox = ({
   tags: TagItem[]
   mapId: string
 }) => {
-  const { revalidate } = useFetch()
   const router = useSafeRouter()
   const [selectedTags, setSelectedTags] = useState<TagItem[]>([])
   const [isOpenBackModal, setIsOpenBackModal] = useState(false)
@@ -46,7 +45,8 @@ const RegisterBox = ({
         tagNames: toTagNames(selectedTags),
       })
 
-      revalidate(['map-list'])
+      revalidatePlaces(mapId)
+
       notify.success('맛집 등록이 완료되었습니다.')
       router.safeBack({ defaultHref: `/place/${place.kakaoId}` })
     } catch (error) {
