@@ -8,6 +8,7 @@ import { allowUserPositionStorage } from '@/utils/storage'
 import Icon from '@/components/common/icon'
 import useTypewriter from './use-typewriter'
 import ChatLoadingDot from './chat-loading-dot'
+import { useEffect, useRef } from 'react'
 
 interface ChatItemProps extends ClassName {
   chat: Chat
@@ -31,6 +32,11 @@ export const AISuggestion = ({
     100,
     type === 'gpt-typing' && isLast,
   )
+
+  const bottomChat = useRef<HTMLSpanElement>(null)
+  useEffect(() => {
+    bottomChat.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [typingStart, typingComplete])
 
   if (chat.type === 'user') return null
 
@@ -69,7 +75,11 @@ export const AISuggestion = ({
             color="neutral-000"
             className="whitespace-pre-line"
           >
-            {chat.type === 'gpt-typing' && isLast ? typingText : chat.value}
+            {chat.type === 'gpt-typing' && isLast ? (
+              <span ref={bottomChat}>{typingText}</span>
+            ) : (
+              <span>{chat.value}</span>
+            )}
           </Typography>
         )}
       </div>
