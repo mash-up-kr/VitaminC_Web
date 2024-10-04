@@ -220,7 +220,7 @@ const Recommendation = () => {
         </div>
       </header>
 
-      <section className="no-scrollbar max-h-[calc(100vh-70px)] flex-1 overflow-y-scroll pb-7 pt-[80px]">
+      <section className="no-scrollbar h-dvh flex-1 overflow-y-scroll pb-[96px] pt-[80px]">
         <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
           <img
             src="/images/ai.png"
@@ -235,11 +235,7 @@ const Recommendation = () => {
           >{`${user?.nickname ?? ''}님, 반가워요.\nAI 맛집 추천 봇이에요!`}</Typography>
         </div>
 
-        <ChatBox
-          chats={chats}
-          className="flex-1"
-          onClickSuggestion={handleClickSuggestion}
-        />
+        <ChatBox chats={chats} onClickSuggestion={handleClickSuggestion} />
 
         <div ref={bottomChat} />
       </section>
