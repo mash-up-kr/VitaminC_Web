@@ -279,7 +279,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           />
           <BottomModal
             title="보고 싶은 맛집을 선택해주세요"
-            layoutClassName="max-h-[70dvh]"
+            layoutClassName="max-h-[70dvh] pb-[20px]"
             body={
               <FilterModalBody
                 mapId={mapId}
