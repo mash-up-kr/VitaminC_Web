@@ -31,7 +31,7 @@ const PlaceListBottomSheet = forwardRef<
     { places, mapId, selectedFilter, onClickFilterButton, onRefreshOldPlace },
     ref,
   ) => {
-    const [placeList, setPlaceList] = useState<PlaceType[]>(places || [])
+    const [placeList, setPlaceList] = useState<PlaceType[]>([])
     const { data: slicedPlaceList, listRef } = useInfiniteScroll<PlaceType>({
       totalData: places || [],
       itemsPerPage: 10,
