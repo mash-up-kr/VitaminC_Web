@@ -189,7 +189,7 @@ const Recommendation = () => {
   }, [chats, isFetching])
 
   return (
-    <div className="flex min-h-dvh flex-col bg-neutral-700">
+    <div className="flex min-h-dvh bg-neutral-700">
       <header className="header-gradient fixed left-1/2 top-0 z-[100] flex h-[90px] w-full max-w-[420px] -translate-x-1/2 px-[10px]">
         <div className="relative flex h-[80px] w-full items-center justify-between">
           <AccessibleIconButton
@@ -220,7 +220,7 @@ const Recommendation = () => {
         </div>
       </header>
 
-      <section className="no-scrollbar h-dvh flex-1 overflow-y-scroll pb-[96px] pt-[80px]">
+      <section className="no-scrollbar h-full overflow-y-scroll pb-[116px] pt-[80px]">
         <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
           <img
             src="/images/ai.png"
