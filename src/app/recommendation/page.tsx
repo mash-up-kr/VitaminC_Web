@@ -22,10 +22,8 @@ import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import GptIntroModal from '@/components/kakao-map/gpt-intro-modal'
 import VisuallyHidden from '@/components/common/visually-hidden'
 import Icon from '@/components/common/icon'
-import Lottie from '@/components/common/lottie'
 import { handleAIRecommendation } from './ai-recommendation'
-
-import AIRecommendLottie from '../../../public/lotties/ai-recommend.json'
+import AiRecommendLottie from './ai-recommend-lottie'
 
 const Recommendation = () => {
   const { data: user } = useFetch(api.users.me.get, {
@@ -204,17 +202,8 @@ const Recommendation = () => {
             src="/images/ai.png"
             className="absolute left-5 top-0 h-[36px] w-[36px]"
           />
-          <Lottie
-            animationData={AIRecommendLottie}
-            loading={
-              <img
-                src="/images/ai-recommend.png"
-                className="h-[112px] w-[213px]"
-              />
-            }
-            loop={false}
-            className="h-[112px] w-[213px]"
-          />
+
+          <AiRecommendLottie />
           <Typography
             size="h4"
             color="neutral-000"
