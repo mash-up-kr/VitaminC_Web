@@ -2,7 +2,7 @@ import type { Chat } from './type'
 
 export const initialRecommendChat: Chat = {
   type: 'gpt-typing',
-  value: `어떤 맛집을 찾고 계시나요?`,
+  value: `어떤 맛집을 찾고 계신가요?`,
   suggestionKeywords: [
     '강남에 맛있는 돈까스 식당 추천해줘',
     '성수에 인기있는 양식 식당 추천해줘',

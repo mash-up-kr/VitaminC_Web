@@ -59,10 +59,7 @@ export const handleAIRecommendation = async ({
   try {
     const x = String(userLocation?.longitude || '')
     const y = String(userLocation?.latitude || '')
-    const recommendationApi =
-      process.env.NODE_ENV === 'production'
-        ? api.gpt.restaurants.recommend
-        : api.gpt.restaurants.recommend.test
+    const recommendationApi = api.gpt.restaurants.recommend
     const response = await recommendationApi.get(question, x, y)
 
     const reader = response.body.getReader()
