@@ -63,6 +63,7 @@ import U1F924 from './U+1F924-🤤.svg'
 import U2728 from './U+2728-✨.svg'
 import UFamily from './U+Family-👨‍👩‍👦‍👦.svg'
 import UParking from './U+Parking-🅿️.svg'
+import UChef from './U+Chef-🧑‍🍳.svg'
 import UploadSimple from './UploadSimple.svg'
 import 고기 from './고기.svg'
 import 기타 from './기타.svg'
@@ -145,6 +146,7 @@ export const icons = {
   U2728,
   UFamily,
   UParking,
+  UChef,
   uploadSimple: UploadSimple,
   고기,
   기타,
