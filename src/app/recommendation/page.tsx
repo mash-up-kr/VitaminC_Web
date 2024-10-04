@@ -12,6 +12,7 @@ import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import {
+  culinaryClassWarsChat,
   initialRecommendChat,
   lastChat,
   noInfoLocationChat,
@@ -72,6 +73,17 @@ const Recommendation = () => {
     return { location: true, allow: allowLocation }
   }
 
+  const handleCulinaryClassWars = (userInput: string) => {
+    const stopWords = ['흑백 요리사', '흑백요리사']
+    const trimmedInput = userInput.trim()
+    const containsStopWord = stopWords.some((stopWord) =>
+      trimmedInput.includes(stopWord),
+    )
+
+    if (!containsStopWord) return false
+    return true
+  }
+
   const refetchUsage = () => {
     revalidate(['recommendation-usage'])
     refetch()
@@ -95,15 +107,14 @@ const Recommendation = () => {
     setChats((prev) => [...prev, { type: 'user', value: input }])
     setInput('')
     const { location, allow } = handleQuestionCurrentLocation(input)
-    if (!location) {
-      askToAI()
-      return
-    }
-    if (allow) {
+    const hasCulinaryClassWars = handleCulinaryClassWars(input)
+    if (location && !allow) {
+      setChats((prev) => [...prev, noInfoLocationChat])
+    } else if (hasCulinaryClassWars) {
+      setChats((prev) => [...prev, culinaryClassWarsChat])
+    } else {
       await askToAI()
-      return
     }
-    setChats((prev) => [...prev, noInfoLocationChat])
   }
 
   const handleLocationPermission = async () => {
