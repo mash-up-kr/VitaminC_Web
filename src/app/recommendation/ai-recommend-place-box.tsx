@@ -22,9 +22,9 @@ const AIRecommendPlaceBox = ({
     place.photoList.length > 0
       ? place.photoList
       : [
-          '/images/food-placeholder.png',
-          '/images/food-placeholder.png',
-          '/images/food-placeholder.png',
+          '/images/placeholder-food.png',
+          '/images/placeholder-food.png',
+          '/images/placeholder-food.png',
         ]
 
   return (

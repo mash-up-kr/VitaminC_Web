@@ -166,29 +166,36 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
 
   return (
     <>
-      <Carousel
-        items={place.photoList.slice(0, 3).map((src, index) => (
-          <Link
-            key={src}
-            href={{
-              pathname: `/place/${place.kakaoId}/image`,
-              query: {
-                type: 'photoList',
-              },
-            }}
-            className="h-full w-full"
-          >
-            <ProxyImage
-              src={src}
-              alt={`슬라이드 ${index + 1}`}
-              className="h-full w-full object-cover"
-              draggable="false"
-            />
-          </Link>
-        ))}
-        className="h-[200px] min-h-[200px] w-full"
-        indicatorPosition="inside"
-      />
+      {place.photoList.length > 0 ? (
+        <Carousel
+          items={place.photoList.slice(0, 3).map((src, index) => (
+            <Link
+              key={src}
+              href={{
+                pathname: `/place/${place.kakaoId}/image`,
+                query: {
+                  type: 'photoList',
+                },
+              }}
+              className="h-full w-full"
+            >
+              <ProxyImage
+                src={src}
+                alt={`슬라이드 ${index + 1}`}
+                className="h-full w-full object-cover"
+                draggable="false"
+              />
+            </Link>
+          ))}
+          className="h-[200px] min-h-[200px] w-full"
+          indicatorPosition="inside"
+        />
+      ) : (
+        <img
+          src="/images/placeholder-photolist.png"
+          className="h-[200px] min-h-[200px] w-full object-cover"
+        />
+      )}
 
       <PlaceTopInformation
         user={user}
