@@ -1,6 +1,8 @@
 import { LocalStorageManager } from './local-storage'
 import { SessionStorageManager } from './session-storage'
 
+import type { Chat } from '@/app/recommendation/type'
+
 export const AUTH_KEY = '@@auth-token'
 export const authTokenStorage = new LocalStorageManager<string>(AUTH_KEY)
 
@@ -45,3 +47,8 @@ export const sendedInviteCodesStorage = new SessionStorageManager<
     expiredTime: Date
   }[]
 >(SENDED_INVITE_CODES)
+
+export const RECOMMENDATION_CHATS = '@@recommendation_chats'
+export const recommendationChatsStorage = new LocalStorageManager<Chat[]>(
+  RECOMMENDATION_CHATS,
+)
