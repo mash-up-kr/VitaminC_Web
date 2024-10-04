@@ -41,7 +41,7 @@ export const AISuggestion = ({
   return (
     <motion.li
       className={cn(
-        'no-scrollbar flex max-w-[calc(100%+20px)] flex-col gap-4 overflow-x-scroll',
+        'no-scrollbar ml-5 flex max-w-[calc(100%+20px)] flex-col gap-4 overflow-x-scroll',
         className,
       )}
       initial={{ bottom: -5, opacity: 0.8 }}
@@ -81,7 +81,7 @@ export const AISuggestion = ({
               <AIRecommendPlaceBox
                 key={place.id}
                 place={place}
-                className="h-fit w-[260px] min-w-[260px]"
+                className="h-fit w-[260px] min-w-[260px] last:mr-5"
               />
             )
           })}
@@ -146,7 +146,7 @@ export const UserChat = ({ chat, className }: ChatItemProps) => {
   return (
     <motion.li
       className={cn(
-        'relative flex max-w-[calc(100%-20px)] items-center justify-center self-end rounded-[24px] rounded-tr-[0] bg-orange-400 px-5 py-3',
+        'relative mr-5 flex max-w-[calc(100%-20px)] items-center justify-center self-end rounded-[24px] rounded-tr-[0] bg-orange-400 px-5 py-3',
         className,
       )}
       initial={{ bottom: -5, opacity: 0.8 }}

@@ -226,7 +226,7 @@ const Recommendation = () => {
 
         <ChatBox
           chats={chats}
-          className="flex-1 px-5"
+          className="flex-1"
           onClickSuggestion={handleClickSuggestion}
         />
 
