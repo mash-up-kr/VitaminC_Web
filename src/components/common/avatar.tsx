@@ -5,7 +5,7 @@ import Typography from './typography'
 import { cva } from 'class-variance-authority'
 
 import cn from '@/utils/cn'
-import Image from 'next/image'
+import ProxyImage from '@/components/common/proxy-image'
 
 const AvatarVariants = cva<{
   colorScheme: Record<
@@ -63,13 +63,15 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
         return <Spinner />
       }
       if (imageUrl) {
-        ;<Image
-          src={imageUrl}
-          alt="프로필 이미지"
-          width={36}
-          height={36}
-          className="h-full w-full rounded-full"
-        />
+        return (
+          <ProxyImage
+            src={imageUrl}
+            alt="프로필 이미지"
+            width={36}
+            height={36}
+            className="h-full w-full rounded-full"
+          />
+        )
       }
       return <span>{initial}</span>
     }

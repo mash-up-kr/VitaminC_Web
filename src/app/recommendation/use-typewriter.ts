@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const useTypewriter = (text: string, speed = 100, enabled = true) => {
+const useTypewriter = (text: string, speed = 50, enabled = true) => {
   const [typingText, setTypingText] = useState('')
   const [typingStart, setTypingStart] = useState(false)
   const [typingComplete, setTypingComplete] = useState(false)

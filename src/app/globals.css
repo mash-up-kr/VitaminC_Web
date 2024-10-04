@@ -70,4 +70,8 @@ body {
   .header-gradient {
     background: linear-gradient(180deg, #212124 70%, rgba(33, 33, 36, 0%) 100%);
   }
+
+  .map-header-gradient {
+    background: linear-gradient(180deg, rgba(33, 33, 36, 70%) 100%, #212124 0%);
+  }
 }

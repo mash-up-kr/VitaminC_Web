@@ -12,6 +12,7 @@ import useFetch from '@/hooks/use-fetch'
 import { api } from '@/utils/api'
 import { getMapId } from '@/services/map-id'
 import {
+  culinaryClassWarsChat,
   initialRecommendChat,
   lastChat,
   noInfoLocationChat,
@@ -72,6 +73,17 @@ const Recommendation = () => {
     return { location: true, allow: allowLocation }
   }
 
+  const handleCulinaryClassWars = (userInput: string) => {
+    const stopWords = ['흑백 요리사', '흑백요리사']
+    const trimmedInput = userInput.trim()
+    const containsStopWord = stopWords.some((stopWord) =>
+      trimmedInput.includes(stopWord),
+    )
+
+    if (!containsStopWord) return false
+    return true
+  }
+
   const refetchUsage = () => {
     revalidate(['recommendation-usage'])
     refetch()
@@ -95,15 +107,14 @@ const Recommendation = () => {
     setChats((prev) => [...prev, { type: 'user', value: input }])
     setInput('')
     const { location, allow } = handleQuestionCurrentLocation(input)
-    if (!location) {
-      askToAI()
-      return
-    }
-    if (allow) {
+    const hasCulinaryClassWars = handleCulinaryClassWars(input)
+    if (location && !allow) {
+      setChats((prev) => [...prev, noInfoLocationChat])
+    } else if (hasCulinaryClassWars) {
+      setChats((prev) => [...prev, culinaryClassWarsChat])
+    } else {
       await askToAI()
-      return
     }
-    setChats((prev) => [...prev, noInfoLocationChat])
   }
 
   const handleLocationPermission = async () => {
@@ -209,7 +220,7 @@ const Recommendation = () => {
         </div>
       </header>
 
-      <section className="no-scrollbar max-h-[calc(100vh-70px)] flex-1 overflow-y-scroll pb-7 pt-[80px]">
+      <section className="no-scrollbar h-dvh flex-1 overflow-y-scroll pb-[96px] pt-[80px]">
         <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
           <img
             src="/images/ai.png"
@@ -224,11 +235,7 @@ const Recommendation = () => {
           >{`${user?.nickname ?? ''}님, 반가워요.\nAI 맛집 추천 봇이에요!`}</Typography>
         </div>
 
-        <ChatBox
-          chats={chats}
-          className="flex-1 px-5"
-          onClickSuggestion={handleClickSuggestion}
-        />
+        <ChatBox chats={chats} onClickSuggestion={handleClickSuggestion} />
 
         <div ref={bottomChat} />
       </section>

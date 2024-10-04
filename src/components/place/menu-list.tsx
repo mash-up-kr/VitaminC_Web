@@ -39,7 +39,7 @@ const MenuList = ({
         </Typography>
       </div>
 
-      {mainPhotoUrl && (
+      {mainPhotoUrl ? (
         <Link
           href={{
             pathname: `/place/${placeId}/image`,
@@ -54,6 +54,11 @@ const MenuList = ({
             className="mt-[10px] h-[148px] w-full max-w-full rounded-[6px] object-cover"
           />
         </Link>
+      ) : (
+        <img
+          src="/images/placeholder-mainphoto.png"
+          className="h-[148px] w-full object-cover"
+        />
       )}
 
       <ul className="flex flex-col divide-y divide-neutral-600">

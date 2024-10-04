@@ -8,6 +8,7 @@ import { allowUserPositionStorage } from '@/utils/storage'
 import Icon from '@/components/common/icon'
 import useTypewriter from './use-typewriter'
 import ChatLoadingDot from './chat-loading-dot'
+import { useEffect, useRef } from 'react'
 
 interface ChatItemProps extends ClassName {
   chat: Chat
@@ -32,6 +33,11 @@ export const AISuggestion = ({
     type === 'gpt-typing' && isLast,
   )
 
+  const bottomChat = useRef<HTMLSpanElement>(null)
+  useEffect(() => {
+    bottomChat.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [typingStart, typingComplete])
+
   if (chat.type === 'user') return null
 
   const isLoading =
@@ -41,7 +47,7 @@ export const AISuggestion = ({
   return (
     <motion.li
       className={cn(
-        'no-scrollbar flex max-w-[calc(100%+20px)] flex-col gap-4 overflow-x-scroll',
+        'no-scrollbar ml-5 flex max-w-[calc(100%+20px)] flex-col gap-4 overflow-x-scroll',
         className,
       )}
       initial={{ bottom: -5, opacity: 0.8 }}
@@ -69,7 +75,11 @@ export const AISuggestion = ({
             color="neutral-000"
             className="whitespace-pre-line"
           >
-            {chat.type === 'gpt-typing' && isLast ? typingText : chat.value}
+            {chat.type === 'gpt-typing' && isLast ? (
+              <span ref={bottomChat}>{typingText}</span>
+            ) : (
+              <span>{chat.value}</span>
+            )}
           </Typography>
         )}
       </div>
@@ -81,7 +91,7 @@ export const AISuggestion = ({
               <AIRecommendPlaceBox
                 key={place.id}
                 place={place}
-                className="h-fit w-[260px] min-w-[260px]"
+                className="h-fit w-[260px] min-w-[260px] last:mr-5"
               />
             )
           })}
@@ -146,7 +156,7 @@ export const UserChat = ({ chat, className }: ChatItemProps) => {
   return (
     <motion.li
       className={cn(
-        'relative flex max-w-[calc(100%-20px)] items-center justify-center self-end rounded-[24px] rounded-tr-[0] bg-orange-400 px-5 py-3',
+        'relative mr-5 flex max-w-[calc(100%-20px)] items-center justify-center self-end rounded-[24px] rounded-tr-[0] bg-orange-400 px-5 py-3',
         className,
       )}
       initial={{ bottom: -5, opacity: 0.8 }}

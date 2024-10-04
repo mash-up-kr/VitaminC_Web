@@ -36,6 +36,13 @@ export const noInfoLocationChat: Chat = {
   suggestionKeywords: ['위치권한 허용하기'],
 }
 
+export const culinaryClassWarsChat: Chat = {
+  type: 'gpt-typing',
+  value:
+    '준비됐어유?\n지도 홈으로 가서 필터에 있는 “🧑‍🍳흑백요리사” 태그를 눌러보셔유~\n꼬르륵_오피셜 지도에 흑백요리사 맛집이 잘 준비되어있어유!',
+  suggestionKeywords: ['지도 홈으로'],
+}
+
 export const noAuthorizationChat: Chat = {
   type: 'gpt-typing',
   value: '로그인 후 사용할 수 있는 기능입니다.',
