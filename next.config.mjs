@@ -13,7 +13,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'korrk-image.kr.object.ncloudstorage.com',
+        hostname: 'keywordupcomma.s3.ap-northeast-2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'keywordupcomma.s3.amazonaws.com',
       },
     ],
   },
