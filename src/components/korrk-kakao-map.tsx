@@ -1,4 +1,4 @@
-import type { IconKey } from './common/icon'
+import { getMarkerType } from '@/services/marker'
 import CurrentPositionSearchButton from './kakao-map/current-position-search-button'
 import FloatingButtonBox from './kakao-map/floating-button-box'
 import KakaoMap from './kakao-map/kakao-map'
@@ -11,7 +11,6 @@ import {
   isSearchPlace,
 } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
-import { removeAllSpaces } from '@/utils/category'
 import cn from '@/utils/cn'
 
 interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
@@ -26,27 +25,6 @@ interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
   onDragMap?: Parameters<typeof KakaoMap>[0]['onDrag']
   onCenterChangeMap?: Parameters<typeof KakaoMap>[0]['onCenterChanged']
   onClickPlace: (place: T) => void
-}
-
-const getMarkerType = (
-  category: string,
-  isPick: boolean,
-): Extract<
-  IconKey,
-  | 'cafe'
-  | 'restaurant'
-  | 'bar'
-  | 'selectedCafe'
-  | 'selectedRestaurant'
-  | 'selectedBar'
-> => {
-  const trimmedCategory = removeAllSpaces(category)
-
-  if (['호프', '요리주점'].includes(trimmedCategory))
-    return isPick ? 'selectedBar' : 'bar'
-  if (['카페', '디저트'].includes(trimmedCategory))
-    return isPick ? 'selectedCafe' : 'cafe'
-  return isPick ? 'selectedRestaurant' : 'restaurant'
 }
 
 const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
