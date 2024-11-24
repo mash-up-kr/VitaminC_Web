@@ -12,9 +12,9 @@ import TagList from '@/components/tag-list'
 import useFetch from '@/hooks/use-fetch'
 import { APIError } from '@/models/api'
 import {
-  isPlaceType,
+  isKorrkPlace,
   type PlaceDetail,
-  type PlaceType,
+  type KorrkPlace,
 } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
 import { api } from '@/utils/api'
@@ -25,7 +25,7 @@ import PlacePopupSkeleton from '@/components/place/place-popup-skeleton'
 import { revalidatePlaces } from '@/app/actions'
 
 interface PlaceMapPopupProps extends ClassName {
-  selectedPlace: PlaceType | PlaceDetail
+  selectedPlace: KorrkPlace | PlaceDetail
   mapId: string
 }
 
@@ -42,10 +42,12 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
     const isLoading = !selectedPlace || !user
 
-    const isPlace = isPlaceType(selectedPlace)
-    const place = isPlace ? selectedPlace.place : selectedPlace
-    const kakaoPlace = isPlace ? selectedPlace.place.kakaoPlace : selectedPlace
-    const isRegisteredPlace = place.id
+    const isKorrkPlaceType = isKorrkPlace(selectedPlace)
+    const place = isKorrkPlaceType ? selectedPlace.place : selectedPlace
+    const kakaoPlace = isKorrkPlaceType
+      ? selectedPlace.place.kakaoPlace
+      : selectedPlace
+    const isRegisteredPlace = !!place.id
 
     const getNumOfLike = () => {
       const initialNumOfLike = selectedPlace.likedUser?.length || 0

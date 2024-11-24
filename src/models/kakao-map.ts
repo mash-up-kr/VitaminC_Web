@@ -34,5 +34,5 @@ export interface KakaoPlaceDetail {
   createdAt: Date // '2024-06-29T18:08:11.692Z'
   updatedAt: Date // '2024-06-29T18:11:05.368Z'
   mainPhotoUrl: string
-  score?: number
+  score: number
 }

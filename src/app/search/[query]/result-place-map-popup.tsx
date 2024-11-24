@@ -15,7 +15,7 @@ import PickChip from '@/components/pick-chip'
 import TagList from '@/components/tag-list'
 import useFetch from '@/hooks/use-fetch'
 import { APIError } from '@/models/api'
-import type { PlaceDetail, SearchPlace } from '@/models/api/place'
+import type { PlaceDetail, PlaceItem } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
 import type { MapInfo } from '@/models/map'
 import { api } from '@/utils/api'
@@ -26,7 +26,7 @@ import { revalidatePlaces } from '@/app/actions'
 
 interface ResultPlaceMapPopupProps extends ClassName {
   mapId: MapInfo['id']
-  kakaoId: SearchPlace['kakaoId']
+  kakaoId: PlaceItem['kakaoId']
 }
 
 const ResultPlaceMapPopup = forwardRef<HTMLElement, ResultPlaceMapPopupProps>(
