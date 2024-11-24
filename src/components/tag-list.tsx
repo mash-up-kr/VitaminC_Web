@@ -2,13 +2,13 @@
 
 import Chip from '@/components/common/chip'
 import type { TagItem } from '@/models/api/maps'
-import type { PlaceType } from '@/models/api/place'
+import type { KorrkPlace } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 import { changeSpaceToHyphen } from '@/utils/tags'
 
 interface TagListProps extends ClassName {
-  placeId: PlaceType['place']['id']
+  placeId: KorrkPlace['place']['id']
   tags: TagItem[] | string[]
   tagColorScheme?:
     | 'neutral-400'

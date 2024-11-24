@@ -4,13 +4,13 @@ import Link from 'next/link'
 
 import Icon from '@/components/common/icon'
 import Typography from '@/components/common/typography'
-import type { SearchPlace } from '@/models/api/place'
+import type { PlaceItem } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
 import cn from '@/utils/cn'
 import { recentSearchStorage } from '@/utils/storage'
 
 interface PlaceAutoSearchItemProps extends ClassName {
-  place: SearchPlace
+  place: PlaceItem
   query: string
   distance: string | null
 }

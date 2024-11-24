@@ -13,7 +13,7 @@ import PickChip from '@/components/pick-chip'
 import TagList from '@/components/tag-list'
 import useFetch from '@/hooks/use-fetch'
 import { APIError } from '@/models/api'
-import type { PlaceType } from '@/models/api/place'
+import type { KorrkPlace } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
@@ -22,7 +22,7 @@ import { getStarByScore } from '@/utils/score'
 import { revalidatePlaces } from '@/app/actions'
 
 interface PlaceItemProps extends ClassName {
-  selectedPlace: PlaceType
+  selectedPlace: KorrkPlace
   mapId: string
   onRefreshOldPlace?: VoidFunction
 }

@@ -8,7 +8,7 @@ import PlaceListItem from '@/components/place/place-list-item'
 import useFetch from '@/hooks/use-fetch'
 import { useIsomorphicLayoutEffect } from '@/hooks/use-isomorphic-layout-effect'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import type { SearchPlace } from '@/models/api/place'
+import type { PlaceItem } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
 import type { MapInfo } from '@/models/map'
 import { api } from '@/utils/api'
@@ -18,7 +18,7 @@ import { allowUserPositionStorage } from '@/utils/storage'
 import { revalidatePlaces } from '@/app/actions'
 
 interface ResultSearchListBoxProps extends ClassName {
-  places: SearchPlace[]
+  places: PlaceItem[]
   mapId: MapInfo['id']
 }
 
@@ -52,7 +52,7 @@ const ResultSearchListBox = ({
     }
   }, [likeInfoPlaces.length, places, user?.id])
 
-  const calculateNumOfLike = (place: SearchPlace, isLikePlace: boolean) => {
+  const calculateNumOfLike = (place: PlaceItem, isLikePlace: boolean) => {
     const initialNumOfLike = place.likedUser?.length || 0
 
     if (!user?.id) return initialNumOfLike
@@ -64,7 +64,7 @@ const ResultSearchListBox = ({
     return initialNumOfLike
   }
 
-  const optimisticUpdateLikeOrUnLike = (placeId: SearchPlace['placeId']) => {
+  const optimisticUpdateLikeOrUnLike = (placeId: PlaceItem['placeId']) => {
     const willUpdateIndex = places.findIndex(
       (place) => place.placeId === placeId,
     )
@@ -83,7 +83,7 @@ const ResultSearchListBox = ({
     }
   }
 
-  const handleLikePlace = async (placeId: SearchPlace['placeId']) => {
+  const handleLikePlace = async (placeId: PlaceItem['placeId']) => {
     try {
       if (!mapId) return
       optimisticUpdateLikeOrUnLike(placeId)
@@ -92,7 +92,7 @@ const ResultSearchListBox = ({
     } catch (error) {}
   }
 
-  const handleUnLikePlace = async (placeId: SearchPlace['placeId']) => {
+  const handleUnLikePlace = async (placeId: PlaceItem['placeId']) => {
     try {
       if (!mapId) return
       optimisticUpdateLikeOrUnLike(placeId)

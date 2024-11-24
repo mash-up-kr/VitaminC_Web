@@ -13,7 +13,7 @@ import debounce from 'lodash.debounce'
 import { notify } from '@/components/common/custom-toast'
 import Typography from '@/components/common/typography'
 import useSafeRouter from '@/hooks/use-safe-router'
-import type { SearchPlace } from '@/models/api/place'
+import type { PlaceItem } from '@/models/api/place'
 import type { MapInfo } from '@/models/map'
 import { getMapId } from '@/services/map-id'
 import { api } from '@/utils/api'
@@ -34,7 +34,7 @@ const SearchBox = () => {
   const [query, setQuery] = useState(search)
   // TODO: useFetch에 status 추가 및 useFetch로 데이터 관리
   const [status, setStatus] = useState('pending') // 'pending' | 'fetching' | 'success' | 'error'
-  const [suggestedPlaces, setSuggestedPlaces] = useState<SearchPlace[]>([])
+  const [suggestedPlaces, setSuggestedPlaces] = useState<PlaceItem[]>([])
   const isShowRecentKeywords =
     query === '' &&
     !!recentKeywords.length &&

@@ -2,7 +2,7 @@ import Icon from '@/components/common/icon'
 import Skeleton from '@/components/common/skeleton'
 import PlaceDivider from '@/components/place/place-divider'
 
-const PlaceBoxSkeleton = () => {
+const PlaceDetailSkeleton = () => {
   return (
     <div className="relative flex min-h-dvh flex-col bg-neutral-700">
       <Skeleton className="h-[200px] w-full" />
@@ -77,4 +77,4 @@ const PlaceBoxSkeleton = () => {
   )
 }
 
-export default PlaceBoxSkeleton
+export default PlaceDetailSkeleton
