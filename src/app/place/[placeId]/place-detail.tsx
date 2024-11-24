@@ -34,7 +34,6 @@ interface PlaceDetailProps {
 }
 
 const PlaceDetail = ({ place, mapId }: PlaceDetailProps) => {
-  console.log('place>>>', place)
   let createdById = place.createdBy?.id ?? -1
   const { data: createdUser } = useFetch(() => api.users.id.get(createdById), {
     enabled: createdById !== -1,
