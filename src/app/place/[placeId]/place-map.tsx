@@ -1,5 +1,6 @@
 'use client'
 
+import GPSButton from '@/components/kakao-map/gps-button'
 import KakaoMap from '@/components/kakao-map/kakao-map'
 import Marker from '@/components/kakao-map/marker'
 import PlaceMapPopup from '@/components/place/place-map-popup'
@@ -37,14 +38,19 @@ const PlaceMap = ({ className, place, mapId }: PlaceMapProps) => {
           isSaved={place.isRegisteredPlace}
           type={type}
         />
-      </KakaoMap>
 
-      <button
-        onClick={() => router.safeBack()}
-        className="absolute bottom-5 w-full px-5"
-      >
-        <PlaceMapPopup mapId={mapId} selectedPlace={place} />
-      </button>
+        <div
+          className={
+            'absolute bottom-5 z-10 flex w-full flex-col items-end gap-4 px-5'
+          }
+        >
+          <GPSButton />
+
+          <button onClick={() => router.safeBack()} className="w-full">
+            <PlaceMapPopup mapId={mapId} selectedPlace={place} />
+          </button>
+        </div>
+      </KakaoMap>
     </div>
   )
 }
