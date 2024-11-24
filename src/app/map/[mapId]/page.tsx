@@ -297,13 +297,16 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           />
         </>
       ) : (
-        <PlaceMapPopup
+        <Link
+          href={`/place/${selectedPlace.place.kakaoPlace.id}`}
           ref={bottomRef}
-          mapId={mapId}
-          className="absolute bottom-5 px-5"
-          selectedPlace={selectedPlace}
-          onRefreshOldPlace={clearOldPlacedata}
-        />
+        >
+          <PlaceMapPopup
+            mapId={mapId}
+            className="absolute bottom-5 px-5"
+            selectedPlace={selectedPlace}
+          />
+        </Link>
       )}
     </div>
   )

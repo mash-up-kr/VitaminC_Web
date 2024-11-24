@@ -47,7 +47,7 @@ export const isSearchPlace = (
 }
 
 export const isPlaceType = (
-  place: PlaceType | SearchPlace | null | undefined,
+  place: PlaceType | SearchPlace | PlaceDetail | null | undefined,
 ): place is PlaceType => {
   if (!place) return false
   return 'place' in place
