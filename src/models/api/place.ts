@@ -2,55 +2,64 @@ import type { LikeUser } from '@/components/place/types'
 import type { TagItem } from './maps'
 
 import type { KakaoPlaceDetail } from '@/models/kakao-map'
-import type { CategoryIcon, MapInfo } from '@/models/map'
+import type { MapInfo } from '@/models/map'
 import type { Creator } from '@/models/user'
 
-export interface PlaceType {
+interface Coordinates {
+  x: KakaoPlaceDetail['x']
+  y: KakaoPlaceDetail['y']
+}
+
+interface BaseKakaoPlace {
+  kakaoId: KakaoPlaceDetail['id']
+  category: KakaoPlaceDetail['category']
+  categoryIconCode: KakaoPlaceDetail['categoryIconCode']
+  address: KakaoPlaceDetail['address']
+  score: KakaoPlaceDetail['score']
+}
+
+// 등록된 곳
+export interface KorrkPlace {
   place: {
     id: number
     kakaoPlace: KakaoPlaceDetail
-    x: number
-    y: number
-  }
+  } & Coordinates
   tags: TagItem[]
   comments: unknown[]
   likedUser: Pick<LikeUser, 'id'>[]
   createdBy: {
-    id: number
-    nickname: string
+    id: Creator['id']
+    nickname: Creator['nickname']
   }
   createdAt: string
   updatedAt: string
 }
 
-export interface SearchPlace {
+// 검색할 수 있는 모든 장소
+export interface PlaceItem extends BaseKakaoPlace, Coordinates {
+  placeName: KakaoPlaceDetail['name']
+
   isRegisteredPlace: boolean
-  kakaoId: PlaceType['place']['kakaoPlace']['id']
-  category: string
-  categoryIconCode: CategoryIcon
-  x: number
-  y: number
-  placeName: string
-  address: string
-  placeId: PlaceType['place']['id']
-  tags: string[]
-  createdBy?: Creator
-  score: number
-  likedUser: Pick<LikeUser, 'id'>[]
+
+  placeId: KorrkPlace['place']['id']
+  createdBy?: KorrkPlace['createdBy']
+  likedUser: KorrkPlace['likedUser']
+
+  tags: TagItem['name'][]
 }
 
-export const isSearchPlace = (
-  place: PlaceType | SearchPlace | null | undefined,
-): place is SearchPlace => {
-  if (!place) return false
-  return 'isRegisteredPlace' in place
-}
-
-export const isPlaceType = (
-  place: PlaceType | SearchPlace | null | undefined,
-): place is PlaceType => {
+export const isKorrkPlace = (
+  place: KorrkPlace | PlaceItem | PlaceDetail | null | undefined,
+): place is KorrkPlace => {
   if (!place) return false
   return 'place' in place
+}
+
+export const isPlaceItem = (
+  place: KorrkPlace | PlaceItem | null | undefined,
+): place is PlaceItem => {
+  if (!place) return false
+  return 'isRegisteredPlace' in place
 }
 
 export interface PlaceMenuItem {
@@ -58,36 +67,39 @@ export interface PlaceMenuItem {
   price: string
   photo: string
 }
-export interface PlaceDetail {
-  id: PlaceType['place']['id']
-  kakaoId: PlaceType['place']['kakaoPlace']['id']
-  mapId: MapInfo['id']
-  isRegisteredPlace: boolean
-  likedUser?: LikeUser[]
-  tags: TagItem[]
-  createdBy?: PlaceType['createdBy']
-  name: string
-  category: string
-  categoryIconCode: CategoryIcon
-  address: string
-  x: number
-  y: number
-  menuList: PlaceMenuItem[]
-  mainPhotoUrl: string
-  photoList: string[]
-  score: number
+
+interface OpenTime {
+  dayOfWeek: string
+  timeName: string
+  timeSE: string
+}
+
+interface OffDay {
+  holidayName: string
+  weekAndDay: string
+  temporaryHolidays: string
+}
+
+// 검색할 수 있는 모든 곳의 상세 정보
+export interface PlaceDetail extends BaseKakaoPlace, Coordinates {
+  name: KakaoPlaceDetail['name']
+  menuList: KakaoPlaceDetail['menuList']
+  mainPhotoUrl: KakaoPlaceDetail['mainPhotoUrl']
+  photoList: KakaoPlaceDetail['photoList']
+  createdAt: KakaoPlaceDetail['createdAt']
+  updatedAt: KakaoPlaceDetail['updatedAt']
+
   commentCnt: number
   blogReviewCnt: number
-  openTimeList: {
-    dayOfWeek: string
-    timeName: string
-    timeSE: string
-  }[]
-  offDayList: {
-    holidayName: string
-    weekAndDay: string
-    temporaryHolidays: string
-  }[]
-  createdAt: string
-  updatedAt: string
+  openTimeList: OpenTime[]
+  offDayList: OffDay[]
+
+  isRegisteredPlace: PlaceItem['isRegisteredPlace']
+
+  id: KorrkPlace['place']['id']
+  tags: KorrkPlace['tags']
+  createdBy?: KorrkPlace['createdBy']
+
+  mapId: MapInfo['id']
+  likedUser?: LikeUser[]
 }

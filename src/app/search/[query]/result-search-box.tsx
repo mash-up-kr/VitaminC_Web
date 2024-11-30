@@ -9,7 +9,7 @@ import ResultSearchListBox from './result-search-list'
 import { notify } from '@/components/common/custom-toast'
 import KorrkKakaoMap from '@/components/korrk-kakao-map'
 import useMeasure from '@/hooks/use-measure'
-import { type SearchPlace } from '@/models/api/place'
+import { type PlaceItem } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
 import type { MapInfo } from '@/models/map'
 import { getMapId } from '@/services/map-id'
@@ -29,8 +29,8 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   const [mapId, setMapId] = useState('')
   // TODO: useFetch에 status 추가 및 useFetch로 데이터 관리
   const [status, setStatus] = useState('pending') // 'pending' | 'fetching' | 'success' | 'error'
-  const [places, setPlaces] = useState<SearchPlace[]>([])
-  const [selectedPlace, setSelectedPlace] = useState<SearchPlace | null>(null)
+  const [places, setPlaces] = useState<PlaceItem[]>([])
+  const [selectedPlace, setSelectedPlace] = useState<PlaceItem | null>(null)
   const [center, setCenter] = useState<{ lat: number; lng: number } | null>(
     null,
   )
@@ -85,7 +85,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
   }
 
   useEffect(() => {
-    const moveCenterToFirstPlace = (searchResultPlaces: SearchPlace[]) => {
+    const moveCenterToFirstPlace = (searchResultPlaces: PlaceItem[]) => {
       if (searchResultPlaces.length === 0) return
       setCenter({ lat: searchResultPlaces[0].y, lng: searchResultPlaces[0].x })
     }
@@ -152,7 +152,7 @@ const ResultSearchBox = ({ query, className }: ResultSearchBoxProps) => {
 
       {isMapView ? (
         <>
-          <KorrkKakaoMap<SearchPlace>
+          <KorrkKakaoMap<PlaceItem>
             places={places}
             selectedPlace={selectedPlace}
             topOfBottomBounds={bottomBounds.top}

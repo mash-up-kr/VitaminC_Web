@@ -1,17 +1,12 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
 
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import useSafeRouter from '@/hooks/use-safe-router'
 
-const PlaceDetailLayout = ({ children }: { children: ReactNode }) => {
-  const router = useRouter()
-  const pathname = usePathname()
-
-  if (pathname.includes('register')) {
-    return <>{children}</>
-  }
+const PlaceMapLayout = ({ children }: { children: ReactNode }) => {
+  const router = useSafeRouter()
 
   return (
     <div className="relative flex min-h-dvh flex-col bg-neutral-700">
@@ -28,4 +23,4 @@ const PlaceDetailLayout = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export default PlaceDetailLayout
+export default PlaceMapLayout

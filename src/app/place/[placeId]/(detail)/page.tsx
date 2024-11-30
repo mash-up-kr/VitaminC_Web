@@ -3,9 +3,9 @@ import dynamic from 'next/dynamic'
 import { getMapId } from '@/services/map-id'
 import { api } from '@/utils/api'
 
-const PlaceBox = dynamic(() => import('./place-box'), { ssr: false })
+const PlaceDetail = dynamic(() => import('./place-detail'), { ssr: false })
 
-const PlaceDetail = async ({ params }: { params?: { placeId?: number } }) => {
+const Place = async ({ params }: { params?: { placeId?: number } }) => {
   const mapId = (await getMapId()) || ''
   const response =
     !!mapId && !!params?.placeId
@@ -16,7 +16,7 @@ const PlaceDetail = async ({ params }: { params?: { placeId?: number } }) => {
       : null
   const place = response?.data
 
-  return place && <PlaceBox place={place} mapId={mapId} />
+  return place && <PlaceDetail place={place} mapId={mapId} />
 }
 
-export default PlaceDetail
+export default Place

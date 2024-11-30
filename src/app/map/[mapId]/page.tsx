@@ -21,7 +21,7 @@ import PlaceMapPopup from '@/components/place/place-map-popup'
 import useFetch from '@/hooks/use-fetch'
 import useMeasure from '@/hooks/use-measure'
 import type { TagItem } from '@/models/api/maps'
-import type { PlaceType } from '@/models/api/place'
+import type { KorrkPlace } from '@/models/api/place'
 import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 import { api } from '@/utils/api'
 import { onboardingStorage, visitedMapIdsStorage } from '@/utils/storage'
@@ -64,8 +64,8 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
   const [selectedFilterNames, setSelectedFilterNames] =
     useState<FilterIdsType>(INITIAL_FILTER_IDS)
 
-  const [filteredPlace, setFilteredPlace] = useState<PlaceType[] | null>(null)
-  const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null)
+  const [filteredPlace, setFilteredPlace] = useState<KorrkPlace[] | null>(null)
+  const [selectedPlace, setSelectedPlace] = useState<KorrkPlace | null>(null)
 
   const [mapIdFromCookie, setMapIdFromCookie] = useState('')
 
@@ -83,7 +83,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     notify.error(error.message)
   }
 
-  const handleClickPlace = (place: PlaceType) => {
+  const handleClickPlace = (place: KorrkPlace) => {
     if (selectedPlace?.place.id === place.place.id) {
       setSelectedPlace(null)
       return
@@ -251,7 +251,7 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
         </Tooltip>
       </header>
 
-      <KorrkKakaoMap<PlaceType>
+      <KorrkKakaoMap<KorrkPlace>
         places={filteredPlace}
         selectedPlace={selectedPlace}
         onClickMap={() => setSelectedPlace(null)}
@@ -297,13 +297,16 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
           />
         </>
       ) : (
-        <PlaceMapPopup
+        <Link
+          href={`/place/${selectedPlace.place.kakaoPlace.id}`}
           ref={bottomRef}
-          mapId={mapId}
-          className="absolute bottom-5 px-5"
-          selectedPlace={selectedPlace}
-          onRefreshOldPlace={clearOldPlacedata}
-        />
+        >
+          <PlaceMapPopup
+            mapId={mapId}
+            className="absolute bottom-5 px-5"
+            selectedPlace={selectedPlace}
+          />
+        </Link>
       )}
     </div>
   )

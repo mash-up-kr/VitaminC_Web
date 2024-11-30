@@ -1,5 +1,5 @@
 import type { TagItem } from '@/models/api/maps'
-import type { PlaceType } from '@/models/api/place'
+import type { KorrkPlace } from '@/models/api/place'
 
 const changeSpaceToHyphen = (name: string) => {
   if (typeof name !== 'string' || name === '') return
@@ -8,7 +8,7 @@ const changeSpaceToHyphen = (name: string) => {
 }
 
 const getFitContainerWidthTags = (
-  placeId: PlaceType['place']['id'],
+  placeId: KorrkPlace['place']['id'],
   currentTags: TagItem[],
   containerWidth: number,
 ) => {

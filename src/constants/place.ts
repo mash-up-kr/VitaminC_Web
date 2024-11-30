@@ -1,10 +1,11 @@
-import type { PlaceType } from '@/models/api/place'
+import type { KorrkPlace } from '@/models/api/place'
 
-export const PLACE_LIST_DATA: PlaceType[] = [
+export const PLACE_LIST_DATA: KorrkPlace[] = [
   {
     place: {
       id: 1,
       kakaoPlace: {
+        score: 4,
         mainPhotoUrl: '1',
         id: 1,
         name: 'Sarang Restaurant',
@@ -56,6 +57,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     place: {
       id: 2,
       kakaoPlace: {
+        score: 2,
         mainPhotoUrl: '1',
         id: 2,
         name: 'Han River Sushi',
@@ -104,6 +106,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     place: {
       id: 3,
       kakaoPlace: {
+        score: 0,
         mainPhotoUrl: '1',
         id: 3,
         name: 'Gyeongbok Palace BBQ',
@@ -152,6 +155,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     place: {
       id: 4,
       kakaoPlace: {
+        score: 1,
         mainPhotoUrl: '1',
         id: 4,
         name: 'Namdaemun Noodles',
@@ -200,6 +204,7 @@ export const PLACE_LIST_DATA: PlaceType[] = [
     place: {
       id: 5,
       kakaoPlace: {
+        score: 4.3,
         mainPhotoUrl: '1',
         id: 5,
         name: 'Insadong Cafe',
