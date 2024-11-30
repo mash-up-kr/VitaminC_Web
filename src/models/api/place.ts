@@ -5,14 +5,25 @@ import type { KakaoPlaceDetail } from '@/models/kakao-map'
 import type { MapInfo } from '@/models/map'
 import type { Creator } from '@/models/user'
 
+interface Coordinates {
+  x: KakaoPlaceDetail['x']
+  y: KakaoPlaceDetail['y']
+}
+
+interface BaseKakaoPlace {
+  kakaoId: KakaoPlaceDetail['id']
+  category: KakaoPlaceDetail['category']
+  categoryIconCode: KakaoPlaceDetail['categoryIconCode']
+  address: KakaoPlaceDetail['address']
+  score: KakaoPlaceDetail['score']
+}
+
 // 등록된 곳
 export interface KorrkPlace {
   place: {
     id: number
     kakaoPlace: KakaoPlaceDetail
-    x: KakaoPlaceDetail['x']
-    y: KakaoPlaceDetail['y']
-  }
+  } & Coordinates
   tags: TagItem[]
   comments: unknown[]
   likedUser: Pick<LikeUser, 'id'>[]
@@ -24,22 +35,17 @@ export interface KorrkPlace {
   updatedAt: string
 }
 
-// 검색할 수 있는 모든 곳
-export interface PlaceItem {
+// 검색할 수 있는 모든 장소
+export interface PlaceItem extends BaseKakaoPlace, Coordinates {
+  placeName: KakaoPlaceDetail['name']
+
   isRegisteredPlace: boolean
+
   placeId: KorrkPlace['place']['id']
   createdBy?: KorrkPlace['createdBy']
   likedUser: KorrkPlace['likedUser']
-  tags: TagItem['name'][]
 
-  kakaoId: KakaoPlaceDetail['id']
-  x: KakaoPlaceDetail['x']
-  y: KakaoPlaceDetail['y']
-  placeName: KakaoPlaceDetail['name']
-  category: KakaoPlaceDetail['category']
-  categoryIconCode: KakaoPlaceDetail['categoryIconCode']
-  address: KakaoPlaceDetail['address']
-  score: KakaoPlaceDetail['score']
+  tags: TagItem['name'][]
 }
 
 export const isKorrkPlace = (
@@ -62,20 +68,31 @@ export interface PlaceMenuItem {
   photo: string
 }
 
+interface OpenTime {
+  dayOfWeek: string
+  timeName: string
+  timeSE: string
+}
+
+interface OffDay {
+  holidayName: string
+  weekAndDay: string
+  temporaryHolidays: string
+}
+
 // 검색할 수 있는 모든 곳의 상세 정보
-export interface PlaceDetail {
+export interface PlaceDetail extends BaseKakaoPlace, Coordinates {
+  name: KakaoPlaceDetail['name']
+  menuList: KakaoPlaceDetail['menuList']
+  mainPhotoUrl: KakaoPlaceDetail['mainPhotoUrl']
+  photoList: KakaoPlaceDetail['photoList']
+  createdAt: KakaoPlaceDetail['createdAt']
+  updatedAt: KakaoPlaceDetail['updatedAt']
+
   commentCnt: number
   blogReviewCnt: number
-  openTimeList: {
-    dayOfWeek: string
-    timeName: string
-    timeSE: string
-  }[]
-  offDayList: {
-    holidayName: string
-    weekAndDay: string
-    temporaryHolidays: string
-  }[]
+  openTimeList: OpenTime[]
+  offDayList: OffDay[]
 
   isRegisteredPlace: PlaceItem['isRegisteredPlace']
 
@@ -85,18 +102,4 @@ export interface PlaceDetail {
 
   mapId: MapInfo['id']
   likedUser?: LikeUser[]
-
-  kakaoId: KakaoPlaceDetail['id']
-  name: KakaoPlaceDetail['name']
-  x: KakaoPlaceDetail['x']
-  y: KakaoPlaceDetail['y']
-  category: KakaoPlaceDetail['category']
-  categoryIconCode: KakaoPlaceDetail['categoryIconCode']
-  address: KakaoPlaceDetail['address']
-  score: KakaoPlaceDetail['score']
-  menuList: KakaoPlaceDetail['menuList']
-  mainPhotoUrl: KakaoPlaceDetail['mainPhotoUrl']
-  photoList: KakaoPlaceDetail['photoList']
-  createdAt: KakaoPlaceDetail['createdAt']
-  updatedAt: KakaoPlaceDetail['updatedAt']
 }
