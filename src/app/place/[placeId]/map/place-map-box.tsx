@@ -11,12 +11,12 @@ import type { MapInfo } from '@/models/map'
 import { getMarkerType } from '@/services/marker'
 import cn from '@/utils/cn'
 
-interface PlaceMapProps extends ClassName {
+interface PlaceMapBoxProps extends ClassName {
   place: PlaceDetail
   mapId: MapInfo['id']
 }
 
-const PlaceMap = ({ className, place, mapId }: PlaceMapProps) => {
+const PlaceMapBox = ({ className, place, mapId }: PlaceMapBoxProps) => {
   const type = getMarkerType(place.category, true)
   const router = useSafeRouter()
 
@@ -55,4 +55,4 @@ const PlaceMap = ({ className, place, mapId }: PlaceMapProps) => {
   )
 }
 
-export default PlaceMap
+export default PlaceMapBox

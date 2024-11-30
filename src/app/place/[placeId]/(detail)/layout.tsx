@@ -1,21 +1,14 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 import AccessibleIconButton from '@/components/common/accessible-icon-button'
+import useSafeRouter from '@/hooks/use-safe-router'
 
 const PlaceDetailLayout = ({ children }: { children: ReactNode }) => {
-  const router = useRouter()
+  const router = useSafeRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
-
-  const isRegisterPage = pathname.includes('register')
-  const isMapView = searchParams.get('view') === 'map'
-
-  if (isRegisterPage) {
-    return <>{children}</>
-  }
 
   return (
     <div className="relative flex min-h-dvh flex-col bg-neutral-700">
@@ -27,17 +20,16 @@ const PlaceDetailLayout = ({ children }: { children: ReactNode }) => {
           onClick={() => router.back()}
         />
 
-        {!isMapView && (
-          <AccessibleIconButton
-            icon={{ type: 'mapView', size: 'xl', fill: 'neutral-000' }}
-            label="지도"
-            className="absolute right-[10px] top-[26px] z-[120]"
-            onClick={() => {
-              router.push(`${pathname}?view=map`)
-            }}
-          />
-        )}
+        <AccessibleIconButton
+          icon={{ type: 'mapView', size: 'xl', fill: 'neutral-000' }}
+          label="지도"
+          className="absolute right-[10px] top-[26px] z-[120]"
+          onClick={() => {
+            router.push(`${pathname}/map`)
+          }}
+        />
       </header>
+
       {children}
     </div>
   )
