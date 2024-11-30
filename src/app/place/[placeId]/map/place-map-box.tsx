@@ -39,11 +39,7 @@ const PlaceMapBox = ({ className, place, mapId }: PlaceMapBoxProps) => {
           type={type}
         />
 
-        <div
-          className={
-            'absolute bottom-5 z-10 flex w-full flex-col items-end gap-4 px-5'
-          }
-        >
+        <div className="absolute bottom-5 z-10 flex w-full flex-col items-end gap-4 px-5">
           <GPSButton />
 
           <button onClick={() => router.safeBack()} className="w-full">
