@@ -1,20 +1,19 @@
-import type { IconKey } from './common/icon'
+import { getMarkerType } from '@/services/marker'
 import CurrentPositionSearchButton from './kakao-map/current-position-search-button'
 import FloatingButtonBox from './kakao-map/floating-button-box'
 import KakaoMap from './kakao-map/kakao-map'
 import Marker from './kakao-map/marker'
 
 import {
-  type PlaceType,
-  type SearchPlace,
-  isPlaceType,
-  isSearchPlace,
+  type KorrkPlace,
+  type PlaceItem,
+  isKorrkPlace,
+  isPlaceItem,
 } from '@/models/api/place'
 import type { ClassName } from '@/models/common'
-import { removeAllSpaces } from '@/utils/category'
 import cn from '@/utils/cn'
 
-interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
+interface KorrkKakaoMapProps<T extends KorrkPlace | PlaceItem>
   extends ClassName {
   places?: T[] | null
   center?: Parameters<typeof KakaoMap>[0]['center']
@@ -28,28 +27,7 @@ interface KorrkKakaoMapProps<T extends PlaceType | SearchPlace>
   onClickPlace: (place: T) => void
 }
 
-const getMarkerType = (
-  category: string,
-  isPick: boolean,
-): Extract<
-  IconKey,
-  | 'cafe'
-  | 'restaurant'
-  | 'bar'
-  | 'selectedCafe'
-  | 'selectedRestaurant'
-  | 'selectedBar'
-> => {
-  const trimmedCategory = removeAllSpaces(category)
-
-  if (['호프', '요리주점'].includes(trimmedCategory))
-    return isPick ? 'selectedBar' : 'bar'
-  if (['카페', '디저트'].includes(trimmedCategory))
-    return isPick ? 'selectedCafe' : 'cafe'
-  return isPick ? 'selectedRestaurant' : 'restaurant'
-}
-
-const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
+const KorrkKakaoMap = <T extends KorrkPlace | PlaceItem>({
   className,
   selectedPlace,
   center,
@@ -78,34 +56,32 @@ const KorrkKakaoMap = <T extends PlaceType | SearchPlace>({
           onCenterChanged={onCenterChangeMap}
         >
           {places?.map((place) => {
-            const isPlace = isPlaceType(place)
-            const isSearchPlaceType = isSearchPlace(place)
+            const isKorrkPlaceType = isKorrkPlace(place)
+            const isPlaceItemType = isPlaceItem(place)
 
             const isSelected = (() => {
-              if (isPlace && isPlaceType(selectedPlace)) {
+              if (isKorrkPlaceType && isKorrkPlace(selectedPlace)) {
                 return selectedPlace.place.id === place.place.id
               }
-              if (isSearchPlaceType && isSearchPlace(selectedPlace)) {
+              if (isPlaceItemType && isPlaceItem(selectedPlace)) {
                 return selectedPlace.kakaoId === place.kakaoId
               }
               return false
             })()
 
             const type = getMarkerType(
-              isSearchPlaceType
+              isPlaceItemType
                 ? place.category
                 : place.place.kakaoPlace.category,
               isSelected,
             )
             return (
               <Marker
-                key={isSearchPlaceType ? place.kakaoId : place.place.id}
-                latitude={isSearchPlaceType ? place.y : place.place.y}
-                longitude={isSearchPlaceType ? place.x : place.place.x}
+                key={isPlaceItemType ? place.kakaoId : place.place.id}
+                latitude={isPlaceItemType ? place.y : place.place.y}
+                longitude={isPlaceItemType ? place.x : place.place.x}
                 isSaved={
-                  isSearchPlaceType
-                    ? place.isRegisteredPlace
-                    : !!place.createdBy
+                  isPlaceItemType ? place.isRegisteredPlace : !!place.createdBy
                 }
                 type={type}
                 onClick={() => onClickPlace(place)}

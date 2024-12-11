@@ -1,4 +1,4 @@
-import type { PlaceType } from '@/models/api/place'
+import type { KorrkPlace } from '@/models/api/place'
 import type { MapInfo } from '@/models/map'
 import type { User } from '@/models/user'
 import { api } from '@/utils/api'
@@ -20,7 +20,7 @@ const LikedPlacePanel = ({
   userId: User['id']
   mapId: MapInfo['id']
 }) => {
-  const [places, setPlaces] = useState<PlaceType[]>()
+  const [places, setPlaces] = useState<KorrkPlace[]>()
   const [showMorePlace, setShowMorePlace] = useState(false)
 
   const renderPlaces = () => {

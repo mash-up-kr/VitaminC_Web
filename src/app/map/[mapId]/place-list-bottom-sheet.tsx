@@ -10,13 +10,13 @@ import EmptyPlaceList from '@/components/place/empty-place-list'
 import PlaceListItem from '@/components/place/place-list-item'
 import useFetch from '@/hooks/use-fetch'
 import { APIError } from '@/models/api/index'
-import type { PlaceType } from '@/models/api/place'
+import type { KorrkPlace } from '@/models/api/place'
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll'
 import { api } from '@/utils/api'
 import { revalidatePlaces } from '@/app/actions'
 
 interface PlaceListBottomSheetProps {
-  places: PlaceType[] | null
+  places: KorrkPlace[] | null
   mapId: string
   selectedFilter?: FilterIdsType
   onClickFilterButton: VoidFunction
@@ -31,8 +31,8 @@ const PlaceListBottomSheet = forwardRef<
     { places, mapId, selectedFilter, onClickFilterButton, onRefreshOldPlace },
     ref,
   ) => {
-    const [placeList, setPlaceList] = useState<PlaceType[]>([])
-    const { data: slicedPlaceList, listRef } = useInfiniteScroll<PlaceType>({
+    const [placeList, setPlaceList] = useState<KorrkPlace[]>([])
+    const { data: slicedPlaceList, listRef } = useInfiniteScroll<KorrkPlace>({
       totalData: places || [],
       itemsPerPage: 10,
     })
@@ -46,14 +46,14 @@ const PlaceListBottomSheet = forwardRef<
       (selectedFilter?.category !== 'all' ? 1 : 0) +
       (selectedFilter?.tags.length ?? 0)
 
-    const getIsLike = (place: PlaceType): boolean => {
+    const getIsLike = (place: KorrkPlace): boolean => {
       if (typeof userId === 'undefined') return false
 
       if (place.likedUser?.some((liked) => liked.id === userId)) return true
 
       return false
     }
-    const handleLike = async (place: PlaceType) => {
+    const handleLike = async (place: KorrkPlace) => {
       if (!userId) return
       try {
         setPlaceList((prevPlaces) =>

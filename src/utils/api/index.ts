@@ -2,7 +2,7 @@ import { apiClientFactory } from './api-client-factory'
 
 import type { ResponseWithMessage } from '@/models/api'
 import type { TagItem } from '@/models/api/maps'
-import type { PlaceDetail, PlaceType, SearchPlace } from '@/models/api/place'
+import type { PlaceDetail, KorrkPlace, PlaceItem } from '@/models/api/place'
 import type { QueryParams } from '@/models/api/search'
 import type {
   InviteLink,
@@ -135,7 +135,7 @@ const search = {
       rect,
       mapId,
     }: QueryParams & { mapId: MapInfo['id'] }): Promise<
-      ResponseWithMessage<SearchPlace[]>
+      ResponseWithMessage<PlaceItem[]>
     > =>
       client.public.get(`/search/places?q=${q}&rect=${rect}&mapId=${mapId}`, {
         tags: ['places', mapId],
@@ -144,13 +144,13 @@ const search = {
 }
 
 interface PlaceIdWithMapId {
-  placeId: PlaceType['place']['id']
+  placeId: KorrkPlace['place']['id']
   mapId: MapInfo['id']
 }
 
 const place = {
   mapId: {
-    get: (mapId: MapInfo['id']): Promise<ResponseWithMessage<PlaceType[]>> =>
+    get: (mapId: MapInfo['id']): Promise<ResponseWithMessage<KorrkPlace[]>> =>
       client.secure.get(`/place/${mapId}`),
     userId: {
       get: ({
@@ -159,7 +159,7 @@ const place = {
       }: {
         mapId: MapInfo['id']
         userId: User['id']
-      }): Promise<ResponseWithMessage<PlaceType[]>> =>
+      }): Promise<ResponseWithMessage<KorrkPlace[]>> =>
         client.secure.get(`/place/${mapId}/${userId}`),
     },
 
@@ -183,7 +183,7 @@ const place = {
           kakaoPlaceId,
         }: {
           mapId: MapInfo['id']
-          kakaoPlaceId: PlaceType['place']['kakaoPlace']['id']
+          kakaoPlaceId: KorrkPlace['place']['kakaoPlace']['id']
         }): Promise<ResponseWithMessage<PlaceDetail>> =>
           client.secure.get(`/place/${mapId}/kakao/${kakaoPlaceId}`),
 
@@ -193,9 +193,9 @@ const place = {
           tagNames,
         }: {
           mapId: MapInfo['id']
-          kakaoPlaceId: PlaceType['place']['kakaoPlace']['id']
+          kakaoPlaceId: KorrkPlace['place']['kakaoPlace']['id']
           tagNames: TagItem['name'][]
-        }): Promise<ResponseWithMessage<PlaceType>> =>
+        }): Promise<ResponseWithMessage<KorrkPlace>> =>
           client.secure.post(`/place/${mapId}/kakao/${kakaoPlaceId}`, {
             tagNames,
           }),
@@ -203,7 +203,7 @@ const place = {
     },
   },
   placeId: {
-    get: (placeId: string): Promise<ResponseWithMessage<PlaceType>> =>
+    get: (placeId: string): Promise<ResponseWithMessage<KorrkPlace>> =>
       client.secure.get(`place/${placeId}`),
   },
   differ: {
@@ -229,7 +229,7 @@ const place = {
         }: {
           userId: User['id']
           mapId: MapInfo['id']
-        }): Promise<ResponseWithMessage<PlaceType[]>> =>
+        }): Promise<ResponseWithMessage<KorrkPlace[]>> =>
           client.secure.get(`/place/like/${mapId}/${userId}`),
       },
     },

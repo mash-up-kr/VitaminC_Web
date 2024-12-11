@@ -2,8 +2,6 @@
 
 import { type ForwardedRef, forwardRef, useEffect, useState } from 'react'
 
-import Link from 'next/link'
-
 import { notify } from '@/components/common/custom-toast'
 import Icon from '@/components/common/icon'
 import ProxyImage from '@/components/common/proxy-image'
@@ -13,7 +11,11 @@ import PickChip from '@/components/pick-chip'
 import TagList from '@/components/tag-list'
 import useFetch from '@/hooks/use-fetch'
 import { APIError } from '@/models/api'
-import type { PlaceType } from '@/models/api/place'
+import {
+  isKorrkPlace,
+  type PlaceDetail,
+  type KorrkPlace,
+} from '@/models/api/place'
 import type { ClassName } from '@/models/common'
 import { api } from '@/utils/api'
 import cn from '@/utils/cn'
@@ -23,27 +25,35 @@ import PlacePopupSkeleton from '@/components/place/place-popup-skeleton'
 import { revalidatePlaces } from '@/app/actions'
 
 interface PlaceMapPopupProps extends ClassName {
-  selectedPlace: PlaceType
+  selectedPlace: KorrkPlace | PlaceDetail
   mapId: string
-  onRefreshOldPlace?: VoidFunction
 }
 
 const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
-  ({ selectedPlace, className, mapId, onRefreshOldPlace }, ref) => {
+  ({ selectedPlace, className, mapId }, ref) => {
     const [isLikePlace, setIsLikePlace] = useState(false)
     const { data: user } = useFetch(api.users.me.get, {
       key: ['user'],
     })
+    const { refetch } = useFetch(() => api.place.mapId.get(mapId), {
+      key: ['places', mapId],
+      enabled: !!mapId,
+    })
 
     const isLoading = !selectedPlace || !user
 
-    const place = selectedPlace.place
+    const isKorrkPlaceType = isKorrkPlace(selectedPlace)
+    const place = isKorrkPlaceType ? selectedPlace.place : selectedPlace
+    const kakaoPlace = isKorrkPlaceType
+      ? selectedPlace.place.kakaoPlace
+      : selectedPlace
+    const isRegisteredPlace = !!place.id
 
     const getNumOfLike = () => {
       const initialNumOfLike = selectedPlace.likedUser?.length || 0
 
       if (!user?.id) return initialNumOfLike
-      if (selectedPlace.likedUser.some((liked) => liked.id === user.id)) {
+      if (selectedPlace.likedUser?.some((liked) => liked.id === user.id)) {
         if (isLikePlace) return initialNumOfLike
         return initialNumOfLike - 1
       }
@@ -67,9 +77,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           notify.error(error.message)
         }
       } finally {
-        if (onRefreshOldPlace) {
-          onRefreshOldPlace()
-        }
+        refetch()
       }
     }
 
@@ -89,13 +97,10 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
           notify.error(error.message)
         }
       } finally {
-        if (onRefreshOldPlace) {
-          onRefreshOldPlace()
-        }
+        refetch()
       }
     }
 
-    const kakaoPlace = place.kakaoPlace
     const tags = selectedPlace.tags
     const pick = {
       isLiked: isLikePlace,
@@ -108,9 +113,11 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
 
     useEffect(() => {
       if (!user) return
-      setIsLikePlace(
-        selectedPlace.likedUser.some((liked) => liked.id === user.id),
-      )
+      if (selectedPlace.likedUser) {
+        setIsLikePlace(
+          selectedPlace.likedUser.some((liked) => liked.id === user.id),
+        )
+      }
     }, [user, selectedPlace])
 
     return (
@@ -121,11 +128,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
         {isLoading ? (
           <PlacePopupSkeleton ref={ref as ForwardedRef<HTMLDivElement>} />
         ) : (
-          <Link
-            href={`/place/${place.kakaoPlace.id}`}
-            ref={ref}
-            className="z-10 flex w-full flex-col gap-4 rounded-[10px] bg-neutral-700 p-5"
-          >
+          <div className="z-10 flex w-full flex-col gap-4 rounded-[10px] bg-neutral-700 p-5">
             <div className="flex justify-between gap-2">
               <div className="flex flex-col justify-between gap-2 overflow-hidden">
                 <div className="space-y-1">
@@ -167,7 +170,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
                   </div>
                 </div>
 
-                {pick && (
+                {isRegisteredPlace && pick && (
                   <div className="flex items-center gap-2">
                     <PickChip isMyPick={pick.isMyPick} />
                     <LikeButton
@@ -193,7 +196,7 @@ const PlaceMapPopup = forwardRef<HTMLAnchorElement, PlaceMapPopupProps>(
             </div>
 
             {!!tags?.length && <TagList placeId={kakaoPlace.id} tags={tags} />}
-          </Link>
+          </div>
         )}
       </div>
     )

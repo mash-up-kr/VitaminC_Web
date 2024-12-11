@@ -18,7 +18,7 @@ import useFetch from '@/hooks/use-fetch'
 import useSafeRouter from '@/hooks/use-safe-router'
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import { APIError } from '@/models/api/index'
-import type { PlaceDetail } from '@/models/api/place'
+import type { PlaceDetail as PlaceDetailType } from '@/models/api/place'
 import { api } from '@/utils/api'
 import { formatDistance, getDistance } from '@/utils/location'
 import { roundToNthDecimal } from '@/utils/number'
@@ -26,13 +26,14 @@ import { allowUserPositionStorage } from '@/utils/storage'
 import cn from '@/utils/cn'
 import { sendGAEvent } from '@next/third-parties/google'
 import { revalidatePlaces } from '@/app/actions'
+import type { MapInfo } from '@/models/map'
 
-interface PlaceBoxProps {
-  place: PlaceDetail
-  mapId: string
+interface PlaceDetailProps {
+  place: PlaceDetailType
+  mapId: MapInfo['id']
 }
 
-const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
+const PlaceDetail = ({ place, mapId }: PlaceDetailProps) => {
   let createdById = place.createdBy?.id ?? -1
   const { data: createdUser } = useFetch(() => api.users.id.get(createdById), {
     enabled: createdById !== -1,
@@ -40,6 +41,7 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   const [isLikePlace, setIsLikePlace] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isRecentlyLike, setIsRecentlyLike] = useState<boolean | null>(null)
+
   const router = useSafeRouter()
   const isAlreadyPick = place.isRegisteredPlace
   const { userLocation } = useUserGeoLocation()
@@ -270,4 +272,4 @@ const PlaceBox = ({ place, mapId }: PlaceBoxProps) => {
   )
 }
 
-export default PlaceBox
+export default PlaceDetail

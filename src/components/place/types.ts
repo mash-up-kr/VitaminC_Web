@@ -1,7 +1,7 @@
 import type { MouseEventHandler } from 'react'
 
 import type { TagItem } from '@/models/api/maps'
-import type { PlaceType } from '@/models/api/place'
+import type { KorrkPlace } from '@/models/api/place'
 import type { CategoryIcon } from '@/models/map'
 import type { User } from '@/models/user'
 
@@ -12,7 +12,7 @@ export interface LikeUser {
 }
 
 export interface PlaceProps {
-  placeId: PlaceType['place']['id']
+  placeId: KorrkPlace['place']['id']
   name: string
   address: string
   distance?: string
