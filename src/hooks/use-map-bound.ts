@@ -19,6 +19,9 @@ const useMapBound = (map: kakao.maps.Map | null, saveBoundInSession = true) => {
         mapBoundSessionStorage.set(newBounds)
       }
       setBounds(newBounds)
+
+      const event = new CustomEvent('boundsUpdated', { detail: newBounds })
+      window.dispatchEvent(event)
     }
   }, [map, saveBoundInSession])
 
