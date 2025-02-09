@@ -152,6 +152,22 @@ const place = {
   mapId: {
     get: (mapId: MapInfo['id']): Promise<ResponseWithMessage<KorrkPlace[]>> =>
       client.secure.get(`/place/${mapId}`),
+    nearby: {
+      get: ({
+        mapId,
+        lat,
+        lng,
+        radius,
+      }: {
+        mapId: MapInfo['id']
+        lat: number
+        lng: number
+        radius: number
+      }): Promise<ResponseWithMessage<KorrkPlace[]>> =>
+        client.secure.get(
+          `/place/${mapId}/nearby?lat=${lat}&lng=${lng}&radius=${radius}`,
+        ),
+    },
     userId: {
       get: ({
         mapId,

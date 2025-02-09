@@ -6,9 +6,9 @@ import useKakaoMapInstance from './use-kakao-map-instance'
 
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
 import cn from '@/utils/cn'
-import { getCorners } from '@/utils/map'
 import { mergeRefs } from '@/utils/merge-refs'
 import { mapBoundSessionStorage } from '@/utils/storage'
+import useMapBound from '@/hooks/use-map-bound'
 
 type TargetEventListener = (target: kakao.maps.Map) => void
 type MouseEventListener = (mouseEvent: kakao.maps.event.MouseEvent) => void
@@ -71,36 +71,24 @@ const KakaoMap = forwardRef<HTMLElement, KakaoMapProps>(
       maxLevel,
       minLevel,
     })
-
-    const saveMapBound = useCallback(() => {
-      if (saveBoundInSession && map?.getBounds()) {
-        const { southEast, northWest } = getCorners(map.getBounds())
-
-        mapBoundSessionStorage.set({
-          latitude1: northWest.latitude,
-          longitude1: northWest.longitude,
-          latitude2: southEast.latitude,
-          longitude2: southEast.longitude,
-        })
-      }
-    }, [map, saveBoundInSession])
+    const { updateMapBound } = useMapBound(map, saveBoundInSession)
 
     const saveMapBoundWithEvent = useCallback(
       (callback?: VoidFunction) => {
-        saveMapBound()
+        updateMapBound()
         callback?.()
       },
-      [saveMapBound],
+      [updateMapBound],
     )
 
     const saveMapBoundWithTargetEvent = useCallback(
       (callback?: TargetEventListener) => {
         if (!map) return
 
-        saveMapBound()
+        updateMapBound()
         callback?.(map)
       },
-      [map, saveMapBound],
+      [map, updateMapBound],
     )
 
     useKakaoEvent(map, 'click', onClick)

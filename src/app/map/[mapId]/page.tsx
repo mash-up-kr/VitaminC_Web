@@ -26,6 +26,7 @@ import { getMapIdFromCookie, updateMapIdCookie } from '@/services/map-id'
 import { api } from '@/utils/api'
 import { onboardingStorage, visitedMapIdsStorage } from '@/utils/storage'
 import Loading from '@/app/loading'
+import useMapCircle from '@/hooks/use-map-circle'
 
 export interface FilterIdsType {
   category: CategoryType
@@ -47,15 +48,26 @@ const MapMain = ({ params: { mapId } }: { params: { mapId: string } }) => {
     () => api.maps.id.get(mapId),
     { key: ['map', mapId], enabled: !!mapId },
   )
+
+  const { center, radius } = useMapCircle()
   const {
     data: places,
     error: placesError,
     status: placesStatus,
     refetch: clearOldPlacedata,
-  } = useFetch(() => api.place.mapId.get(mapId), {
-    key: ['places', mapId],
-    enabled: !!mapId,
-  })
+  } = useFetch(
+    () =>
+      api.place.mapId.nearby.get({
+        mapId,
+        lat: center.lat,
+        lng: center.lng,
+        radius,
+      }),
+    {
+      key: ['places', [mapId, center, radius].join('')],
+      enabled: !!mapId && !!center,
+    },
+  )
 
   const [status, setStatus] = useState('pending')
 
