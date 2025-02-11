@@ -4,16 +4,16 @@ import { useKakaoMap } from './context'
 import GPSMarker from './gps-marker'
 
 import useUserGeoLocation from '@/hooks/use-user-geo-location'
-import { getCorners } from '@/utils/map'
-import { mapBoundSessionStorage } from '@/utils/storage'
 import { notify } from '../common/custom-toast'
 import Icon from '../common/icon'
+import useMapBound from '@/hooks/use-map-bound'
 
 const GPSButton = () => {
   const { userLocation, allowLocation, handleUserLocation } =
     useUserGeoLocation()
   const [gpsMode, setGpsMode] = useState(false)
   const { map } = useKakaoMap()
+  const { updateMapBound } = useMapBound(map)
 
   const handleGpsClick = () => {
     if (!map) return
@@ -33,16 +33,7 @@ const GPSButton = () => {
         userLocation.longitude,
       )
       map.setCenter(location)
-      if (map.getBounds()) {
-        const { southEast, northWest } = getCorners(map.getBounds())
-
-        mapBoundSessionStorage.set({
-          latitude1: northWest.latitude,
-          longitude1: northWest.longitude,
-          latitude2: southEast.latitude,
-          longitude2: southEast.longitude,
-        })
-      }
+      updateMapBound()
     }
 
     setGpsMode((prev) => !prev)
