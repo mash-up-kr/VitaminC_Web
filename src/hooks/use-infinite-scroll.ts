@@ -55,7 +55,7 @@ export const useInfiniteScroll = <T extends any>({
 
   useEffect(() => {
     setData(totalData.slice(0, itemsPerPage))
-  }, [totalData])
+  }, [itemsPerPage, totalData])
 
   useEffect(() => {
     const ref = listRef.current

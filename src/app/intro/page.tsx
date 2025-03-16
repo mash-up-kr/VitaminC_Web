@@ -22,6 +22,7 @@ import { api } from '@/utils/api'
 import { fetchData } from '@/utils/api/route'
 import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
 import { getMapId } from '@/services/map-id'
+import { APIError } from '@/models/api'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -94,8 +95,11 @@ const Intro = () => {
         notify.success(`${info.mapName} 지도에 오신 걸 환영합니다!`)
       }
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof APIError) {
         notify.error(error.message)
+        if (error.status === 410) {
+          inviteCodeStorage.remove()
+        }
       }
 
       setLoading(false)
@@ -117,9 +121,6 @@ const Intro = () => {
     if (isLoading) {
       return IntroStep.LOADING
     } else if (!user || error) {
-      if (error) {
-        notify.error(error.message)
-      }
       return IntroStep.LOGIN
     } else if (!nickname && !userError) {
       return IntroStep.NICKNAME
