@@ -22,6 +22,7 @@ import { api } from '@/utils/api'
 import { fetchData } from '@/utils/api/route'
 import { inviteCodeStorage, onboardingStorage } from '@/utils/storage'
 import { getMapId } from '@/services/map-id'
+import { APIError } from '@/models/api'
 
 export interface IntroActionDispatch {
   goNextStep: VoidFunction
@@ -117,9 +118,6 @@ const Intro = () => {
     if (isLoading) {
       return IntroStep.LOADING
     } else if (!user || error) {
-      if (error) {
-        notify.error(error.message)
-      }
       return IntroStep.LOGIN
     } else if (!nickname && !userError) {
       return IntroStep.NICKNAME
