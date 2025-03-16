@@ -1,4 +1,4 @@
-![outdated_thumbnail](https://github.com/user-attachments/assets/93f7caf7-64ad-439a-a6f0-dabb9be5ba8d)
+![outdated-thumbnail](https://github.com/user-attachments/assets/93f7caf7-64ad-439a-a6f0-dabb9be5ba8d)
 
 # [Korrk](https://www.korrk.kr/)
 
