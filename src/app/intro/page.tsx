@@ -95,8 +95,11 @@ const Intro = () => {
         notify.success(`${info.mapName} 지도에 오신 걸 환영합니다!`)
       }
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof APIError) {
         notify.error(error.message)
+        if (error.status === 410) {
+          inviteCodeStorage.remove()
+        }
       }
 
       setLoading(false)
