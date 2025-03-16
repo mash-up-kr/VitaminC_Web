@@ -220,7 +220,7 @@ const Recommendation = () => {
         </div>
       </header>
 
-      <section className="no-scrollbar h-full overflow-y-scroll pb-[116px] pt-[80px]">
+      <section className="no-scrollbar h-full w-full overflow-y-scroll pb-[116px] pt-[80px]">
         <div className="relative flex flex-col items-center justify-center gap-4 pb-6">
           <img
             src="/images/ai.png"
